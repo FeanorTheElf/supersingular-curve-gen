@@ -4,9 +4,12 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "preparse main.sage",
-            "type": "shell",
-            "command": "~/sage-9.4/sage --preparse main.sage"
+            "label": "preparse current file",
+            "command": "/home/feanor/sage-9.4/sage",
+            "args": [
+                "--preparse",
+                "${fileBasenameNoExtension}.sage"
+            ]
         }
     ]
 }

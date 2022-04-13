@@ -5,14 +5,14 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "main.sage",
+            "name": "current file",
             "type": "python",
-            "python": "python3",
+            "python": "/home/feanor/sage-9.4/src/bin/sage-python",
             "request": "launch",
-            "program": "main.sage.py",
+            "program": "${fileBasenameNoExtension}.sage.py",
             "console": "integratedTerminal",
             "envFile": "${workspaceFolder}/.env",
-            "preLaunchTask": "preparse main.sage"
+            "preLaunchTask": "preparse current file"
         }
     ]
 }
