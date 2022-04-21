@@ -69,9 +69,9 @@ def extract_path(E, path_mapping):
 
     In this case, the function traces the path given by path mapping and starting
     at E backwards and gives a sequence of isogenies corresponding to this path."""
-    result = []
     f = path_mapping[E.j_invariant()]
     f = f.domain().isogeny(f.kernel_polynomial(), degree = f.degree(), codomain = E)
+    result = [f]
     current = f.domain().j_invariant()
     while path_mapping[current] != None:
         result.append(path_mapping[current])
@@ -111,8 +111,9 @@ def isogeny_graph_bfs(E, isogeny_degree = None, find_cycle = False, target = Non
 p = 37
 F = GF(p**2)
 z = F.gen()
-E = EllipticCurve(F, j = 1 + 2*z)
-E2 = EllipticCurve(F, j = (1 + 2*z)**p)
+j = 1 + 2*z
+E = EllipticCurve(F, j = j)
+E2 = EllipticCurve(F, j = j**p)
 path = isogeny_graph_bfs(E, target = E2)
 for f in reversed(path):
     print(str(f.domain().j_invariant()) + " -> " + str(f.codomain().j_invariant()) + "; degree " + str(f.degree()))
