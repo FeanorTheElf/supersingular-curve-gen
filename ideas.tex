@@ -35,7 +35,13 @@
 \newcommand{\Quot}{\mathrm{Quot}}
 \newcommand{\Half}{\mathcal{H}}
 \newcommand{\Lattice}{\mathcal{L}}
-\renewcommand{\O}{O}
+\newcommand{\divides}{\ \mid \ }
+\newcommand{\notdivides}{\ \nmid \ }
+\newcommand{\Cl}{\mathrm{Cl}}
+\renewcommand{\a}{\mathfrak{a}}
+\renewcommand{\b}{\mathfrak{b}}
+\renewcommand{\O}{\mathcal{O}}
+\renewcommand{\N}{\mathfrak{N}}
 
 \newcommand\restr[2]{{
     \left.\kern-\nulldelimiterspace
@@ -116,47 +122,42 @@ This shows that if we have a $(d, \epsilon)$-structure $(E, \psi)$ then
 \end{equation*}
 as there is the $d$-isogeny $\psi: E \to E^{(p)}$.
 
-\subsection{Supersingularity Polynomials}
-Let $p$ be prime and consider
-\begin{equation*}
-    K = \F_p(A, B) \quad \text{and} \quad E: z = w^3 + Awz^2 + Bz^3
-\end{equation*}
-Now consider the local ring $R = K\llbracket t \rrbracket$ and the subring (in fact ideal) $R_t := tR$.
-Have
-\begin{equation*}
-    E(R_t) := E(R) \cap \mathbb{P}_{R_t}^2 = \{ (t, \omega(t)) \ | \ t \in R \}
-\end{equation*}
-where $\omega \in R_t$.
+\section{My first idea}
+As usual, let $p$ be a (big) prime and consider $q := p^2$.
+Consider a (small) prime $l$.
+Then every supersingular Elliptic Curve $E/\F_q$ satisfies $\Phi_n(j(E), j(E)^p) = 0$ with $n = l^{O(\log(p))}$, as the supersingular $l$-isogeny graph is an expander with mixing length $O(\log(p))$, hence there is a path from $E$ to $E^{(p)}$ of length $O(\log(p))$.
 
-Now we analyse the group law $*$ on $E(R_t)$ given by
-\begin{equation*}
-    (u * v, \_) := (u, \omega(u)) +_E (v, \omega(v))
-\end{equation*}
-As e.g. discussed in Silverman, have
-\begin{equation*}
-    u * v = F(u, v)
-\end{equation*}
-where
-\begin{align*}
-    F &:= -T - S - \frac {2A \lambda(T, S) \nu(T, S) + 3B \lambda(T, S)^2 \nu(T, S)} {1 + A \lambda(T, S)^2 + B \lambda(T, S)^3} \in K\llbracket T, S \rrbracket, \\
-    \lambda &:= \frac {\omega(T) - \omega(S)} {T - S} \in K\llbracket T, S \rrbracket, \\
-    \nu &:= \omega(T) - \lambda(T, S)T \in K\llbracket T, S \rrbracket
-\end{align*}
-Note that $F$ is a power series in $T, S$ and so we can evaluate $F(u, v)$ in $R_t$ as for $u, v \in R_t$ have that $|u|_t, |v|_t < 1$ have small $t$-adic valuation, so $F(u, v)$ converges.
+Now we analyze when $\Phi_n(j(E), j(E)^p) = 0$ for an ordinary Elliptic Curve $E/\F_q$.
 
-\subsection*{Slightly different approach}
-Assume $x_1 = x, x_2 = ...$ and
+\subsection*{Using the isogeny graph}
+Since the connected component of $E$ in the $l$-isogeny graph is a vulcano, we can find a path (of length $O(\log(p))$) to an Elliptic Curve in the crater, say $E_0$.
+Hence there are ascending $l$-isogenies
 \begin{equation*}
-    x_{n + 1} = -x_n - x + \frac {q(x_n) + q(x) + 2yy_n} {(x_n - x)^2}
+    E \to ... \to E_0
 \end{equation*}
-Polynomial division yields
-\begin{align*}
-    x_{n + 1} =& -x_n - x + x_n + 2x + \frac {(A + x^2)x_n - x^3 + Ax + 2B + 2yy_n} {(x_n - x)^2} \\
-    =& x + \frac {(A + x^2)x_n - x^3 + Ax + 2B + 2yy_n} {(x_n - x)^2}
-\end{align*}
-Substituting $w_n = x_n - x$ yields
-\begin{align*}
-    w_{n + 1} = \frac {(A + x^2)w_n + 2Ax + 2B + 2yy_n} {w_n^2} = \frac {A + x^2} {w_n} + \frac {2Ax + 2B} {w_n^2} + \frac {2yy_n} {w_n^2}
-\end{align*}
+Let $K := \End^0(E_0)$ and consider the maximal order $\O_K \subseteq K$, $\O_0 := \End(E_0)$ and $\O := \End(E)$.
+Then have that $\O \subseteq \O_0 \subseteq \O_K$ with $[\O_0 : \O] = l^{O(\log(p))}$ and $l \notdivides [\O_K : \O_0]$.
 
+Now we are in one of the following cases:
+\begin{description}
+    \item[(I)] $E_0$ is defined over $\F_p$, i.e. $E_0^{(p)} = E_0$; Then $\Phi_n(j(E), j(E)^p) = 0$
+    \item[(II)] $E_0^{(p)}$ is (nontrivially) $l$-isogeneous to $E_0$, i.e. they are two distinct vertices on the crater; Then it is likely that $\Phi_n(j(E), j(E)^p) \neq 0$, but that depends on the distance in the crater
+    \item[(III)] $E_0^{(p)}$ is not $l$-isogeneous to $E_0$; Then $\Phi_n(j(E), j(E)^p) \neq 0$ 
+\end{description}
+
+\subsection*{Analyzing (III)}
+Now consider only $E_0$ and denote $\O := \O_0$ and $E := E_0$.
+
+Let $[\a] \in \Cl(\O)$ such that $[\a].E = E^{(p)}$.
+We have (III) if and only if $[\a]$ contains no integral ideal of index $l^r$, for any $r \in \N$.
+Assume it does, say $\b$.
+Then $\b = \alpha\a$ for some $\alpha \in \a^{-1}$ with
+\begin{equation*}
+    \N(\alpha) = \frac {\N(\b)} {\N(\a)} = \frac {l^r} {\N(\a)}
+\end{equation*}
+Since we do not require $\alpha$ to be integral, we can substitute $\alpha$ by $\alpha/l$ and so find that
+\begin{equation*}
+    \N(\alpha) = \N(\a)^{-1} \quad \text{or} \quad \N(\alpha) = l\N(\a)^{-1}
+\end{equation*}
+This leads us to the interesting (slightly weaker) question: When does there exist some $\alpha \in K$ with $\N(\alpha) = N$ for some (square-free) $N$?
 \end{document}

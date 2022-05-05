@@ -1,0 +1,87 @@
+\documentclass{scrartcl}
+
+\usepackage{graphicx}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[english]{babel}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{mathtools}
+\usepackage{amssymb}
+\usepackage{listings}
+\usepackage{xparse}
+\usepackage{geometry}
+\usepackage{enumerate}
+\usepackage{tikz}
+\usepackage{stmaryrd}
+\usepackage[style=english]{csquotes}
+\usepackage[language=english, backend=biber, style=alphabetic, sorting=nyt]{biblatex}
+
+\usetikzlibrary{babel, positioning, shapes.geometric, arrows, arrows.meta}
+\addbibresource{bibliography.bib}
+
+\title{Dissertation Proposal:\\Generating random supersingular Elliptic Curves using modular polynomials}
+\author{Simon Pohmann\\Supervisor: Cristophe Petit}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\I}{\mathbb{I}}
+\newcommand{\V}{\mathbb{V}}
+\newcommand{\End}{\mathrm{End}}
+\newcommand{\proj}{\mathrm{proj}}
+\newcommand{\Quot}{\mathrm{Quot}}
+\newcommand{\Half}{\mathcal{H}}
+\newcommand{\Lattice}{\mathcal{L}}
+\newcommand{\divides}{\ \mid \ }
+\newcommand{\notdivides}{\ \nmid \ }
+\newcommand{\Cl}{\mathrm{Cl}}
+\renewcommand{\a}{\mathfrak{a}}
+\renewcommand{\b}{\mathfrak{b}}
+\renewcommand{\O}{\mathcal{O}}
+\renewcommand{\N}{\mathfrak{N}}
+
+\newcommand\restr[2]{{
+    \left.\kern-\nulldelimiterspace
+    #1
+    \vphantom{\big|}
+    \right|_{#2}
+}}
+
+\newtheorem{prop}{Proposition}[section]
+\newtheorem{theorem}[prop]{Theorem}
+\newtheorem{lemma}[prop]{Lemma}
+\newtheorem{corollary}[prop]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{problem}[prop]{Problem}
+\newtheorem{alg}[prop]{Algorithm}
+\newtheorem{definition}[prop]{Definition}
+\newtheorem{example}[prop]{Example}
+\newtheorem{remark}[prop]{Remark}
+
+\begin{document}
+
+\maketitle
+
+The motivation of my thesis is an open problem in isogeny-based cryptography, namely to find an algorithm that finds a random supersingular Elliptic Curve without revealing a $l$-isogeny path to that curve (starting from a canonical supersingular Elliptic Curve).
+Different approaches to solve this problem where explored in \cite{base_paper}.
+The focus of my dissertation should be to further study the idea presented in section 3, which is based on experimental evidence that there is a connection between an Elliptic Curve $E/\F_{p^2}$ being supersingular and having a fixed-degree isogeny to its conjugate $E^{(p)}$.
+In other words, an algorithm tries to find a random curve with isogenies of different fixed degrees\footnote{Currently, the main focus is on the situation that there are two isogenies of degrees $n_1 \neq n_2$}, and hopes that this is then supersingular.
+Curves with the first property, i.e. having an $n$-isogeny $E \to E^{(p)}$ have previously been studies in e.g. \cite{chenu_smith}.
+
+The first main obstacle is that finding such a curve $E/\F_{p^2}$ with $n_i$-isogenies to $E^{(p)}$ is not easy if $n_1, ..., n_k$ are exponentially large (which they have to be in order to be secure).
+The current idea is to find a root of the greatest common divisor of $\Phi_{n_1}(x, x^p), ..., \Phi_{n_k}(x, x^p)$, but the normal methods to compute this run in time polynomial in the $n_i$.
+
+The second obstacle is that it is not clear how the correlation between an $n$-isogeny $E \to E^{(p)}$ and $E$ being supersingular behaves.
+Apart from experimental evidence, not much is known so far.
+Studying this part is not only important for making the above method work well, but also interesting from a pure math perspective.
+
+Since this is a current research problem, it is not clear how much new progress I can make on the problems, but both my supervisor and myself believe that it will be possible to find something new and interesting.
+Especially the second part looks really promising to me.
+
+\printbibliography
+
+\end{document}
