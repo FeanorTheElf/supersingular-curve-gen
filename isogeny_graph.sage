@@ -19,6 +19,8 @@ def neighbors(E):
             yield f
 
 def is_dual(f, g):
+    """A primitive probabilistic duality check, since computing the dual
+    of an isogeny is complicated and expensive."""
     if f.degree() != g.degree():
         return False
     if f.domain() != g.codomain():
@@ -34,7 +36,7 @@ def is_dual(f, g):
     return True
 
 
-def extract_cycle(bridge, path_mapping):
+def extract_cycle(bridge, path_mapping, start_E):
     """Assumes that path_mapping is a dictionary mapping j-invariants to isogenies
     whose codomain has this j-invariant. Furthermore, assumes that bridge is an
     isogeny such that both domain and codomain have entries in path_mapping, but
@@ -45,15 +47,18 @@ def extract_cycle(bridge, path_mapping):
     a cycle in the isogeny graph (this assumes that tracing those paths backwards
     eventually stops at the same vertex). The returned isogenies are ordered such that
     the last isogeny in the list is the first edge of the cycle."""
+    f = bridge
     E = f.domain()
-    E2 = f.codomain()
+    if path_mapping[f.codomain().j_invariant()] is not None:
+        E2 = path_mapping[f.codomain().j_invariant()].codomain()
+    else:
+        E2 = start_E
     # first, we add isogenies E2 -> E -> ... -> start, using bridge as first isogeny
-    f = E.isogeny(bridge.kernel_polynomial(), degree = bridge.degree(), codomain = path_mapping[E2.j_invariant()].codomain())
+    f = E.isogeny(bridge.kernel_polynomial(), degree = bridge.degree(), codomain = E2)
     result = [f.dual()]
     current = E.j_invariant()
     while path_mapping[current] != None:
         result.append(path_mapping[current].dual())
-        circle_len += 1
         current = path_mapping[current].domain().j_invariant()
     result.reverse()
     # now add isogenies start -> ... -> E2, without using bridge 
@@ -81,9 +86,9 @@ def extract_path(E, path_mapping):
 def isogeny_graph_bfs(E, isogeny_degree = None, find_cycle = False, target = None):
     if find_cycle == (target is not None):
         raise ValueError()
-    if not is_EllipticCurve(target):
+    if target is not None and not is_EllipticCurve(target):
         target = EllipticCurve(target.parent(), j = target)
-    neighbor_iter = lambda E: neighbors(E) if isogeny_degree is None else E.isogenies_prime_degree(isogeny_degree)
+    neighbor_iter = lambda E: neighbors(E) if isogeny_degree is None else iter(E.isogenies_prime_degree(isogeny_degree))
     open = PriorityQueue()
     found = {}
     # add a random number as second parameter to break order ties in the first number;
@@ -100,21 +105,21 @@ def isogeny_graph_bfs(E, isogeny_degree = None, find_cycle = False, target = Non
             if found[current_E.j_invariant()] is not None and is_dual(f, found[current_E.j_invariant()]):
                 continue
             if find_cycle:
-                return extract_cycle(f, found)
-        elif next_E.j_invariant() == target.j_invariant():
+                yield extract_cycle(f, found, E)
+        elif target is not None and next_E.j_invariant() == target.j_invariant():
             found[next_E.j_invariant()] = f
-            return extract_path(target, found)
+            yield extract_path(target, found)
         else:
             found[next_E.j_invariant()] = f
             open.put((prio + 1, uniform(0, 1), (next_E, neighbor_iter(next_E))))
 
-p = 37
-F = GF(p**2)
-z = F.gen()
-j = 1 + 2*z
-E = EllipticCurve(F, j = j)
-E2 = EllipticCurve(F, j = j**p)
-path = isogeny_graph_bfs(E, target = E2)
-for f in reversed(path):
-    print(str(f.domain().j_invariant()) + " -> " + str(f.codomain().j_invariant()) + "; degree " + str(f.degree()))
+# p = 37
+# F = GF(p**2)
+# z = F.gen()
+# j = 1 + 2*z
+# E = EllipticCurve(F, j = j)
+# E2 = EllipticCurve(F, j = j**p)
+# path = isogeny_graph_bfs(E, target = E2)
+# for f in reversed(path):
+#     print(str(f.domain().j_invariant()) + " -> " + str(f.codomain().j_invariant()) + "; degree " + str(f.degree()))
 

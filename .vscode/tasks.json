@@ -5,10 +5,21 @@
     "tasks": [
         {
             "label": "preparse current file",
+            "dependsOn": [
+                "run preparser"
+            ],
+            "command": "mv",
+            "args": [
+                "${fileBasenameNoExtension}.sage.py",
+                "${fileBasenameNoExtension}_sage.py"
+            ]
+        },
+        {
+            "label": "run preparser",
             "command": "/home/feanor/sage-9.4/sage",
             "args": [
                 "--preparse",
-                "${fileBasenameNoExtension}.sage"
+                "${fileBasenameNoExtension}.sage",
             ]
         }
     ]

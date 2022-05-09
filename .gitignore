@@ -8,6 +8,7 @@
 *.run.xml
 *.synctex.gz
 *.sage.py
+*_sage.py
 
 # Added by cargo
 

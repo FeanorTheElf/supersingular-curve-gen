@@ -9,7 +9,7 @@
             "type": "python",
             "python": "/home/feanor/sage-9.4/src/bin/sage-python",
             "request": "launch",
-            "program": "${fileBasenameNoExtension}.sage.py",
+            "program": "${fileBasenameNoExtension}_sage.py",
             "console": "integratedTerminal",
             "envFile": "${workspaceFolder}/.env",
             "preLaunchTask": "preparse current file"
