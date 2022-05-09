@@ -68,9 +68,9 @@
 
 The motivation of my thesis is an open problem in isogeny-based cryptography, namely to find an algorithm that finds a random supersingular Elliptic Curve without revealing a $l$-isogeny path to that curve (starting from a canonical supersingular Elliptic Curve).
 Different approaches to solve this problem where explored in \cite{base_paper}.
-The focus of my dissertation should be to further study the idea presented in section 3, which is based on experimental evidence that there is a connection between an Elliptic Curve $E/\F_{p^2}$ being supersingular and having a fixed-degree isogeny to its conjugate $E^{(p)}$.
+The focus of my dissertation should be to further study the idea presented in section 3, which is based on experimental evidence that there is a connection between an Elliptic Curve $E/\F_{p^2}$ being supersingular and having (multiple) fixed-degree isogenies to its conjugate $E^{(p)}$.
 In other words, an algorithm tries to find a random curve with isogenies of different fixed degrees\footnote{Currently, the main focus is on the situation that there are two isogenies of degrees $n_1 \neq n_2$}, and hopes that this is then supersingular.
-Curves with the first property, i.e. having an $n$-isogeny $E \to E^{(p)}$ have previously been studies in e.g. \cite{chenu_smith}.
+Curves with the first property, i.e. having an $n$-isogeny $E \to E^{(p)}$ have previously been studied in e.g. \cite{chenu_smith}.
 
 The first main obstacle is that finding such a curve $E/\F_{p^2}$ with $n_i$-isogenies to $E^{(p)}$ is not easy if $n_1, ..., n_k$ are exponentially large (which they have to be in order to be secure).
 The current idea is to find a root of the greatest common divisor of $\Phi_{n_1}(x, x^p), ..., \Phi_{n_k}(x, x^p)$, but the normal methods to compute this run in time polynomial in the $n_i$.
