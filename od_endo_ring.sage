@@ -2,38 +2,7 @@ from re import X
 from sage.groups.generic import discrete_log
 from sage.arith.misc import CRT
 from discrete_log_sage import two_dim_discrete_log
-
-def division_polynomials(E, n):
-    P.<x> = E.base_field()[]
-    if n == 1:
-        return (x, f(x), 1)
-
-    assert E.a1() == 0
-    assert E.a3() == 0
-    assert E.a2() == 0
-    A = E.a4()
-    B = E.a6()
-    x = x
-    f = x**3 + A * x + B
-
-    x1 = 18*x**4 - 16*x*f(x) + 12*x**2*A + 2*A**2
-    y1_y = -27*x**6 - 27*A*x**4 + 28*x**3*f(x) - 9*A**2*x**2 + 4*A*x*f(x) - A**3 - 8*B*f(x)
-    z1 = 8*f(x)
-    assert f(x1/z1) - y1_y**2/f(x)/z1**2 == 0
-
-    for _ in range(n - 2):
-        y1_squared = P(f(x1/z1)*z1**3)
-        x3 = (y1_squared - 2 * y1_y * z1**2 + z1**3 * f(x)) - (x1 - z1 * x)**2 * (z1 * x + x1)
-        z3 = (x1 - z1 * x)**2 * z1
-        (x1, y1_y, z1) = (
-            x3 * (x1 - z1 * x),
-            ((z1 * f(x) - y1_y) * x3) + (z3 * (y1_y * x - f(x) * x1)),
-            z3 * (x1 - z1 * x)
-        )
-        assert x1 in P and y1_y in P and z1 in P
-        assert f(x1/z1) - y1_y**2/f(x)/z1**2 == 0
-    d = gcd(x1, gcd(y1_y, z1))
-    return (P(x1/d), P(y1_y/d), P(z1/d))
+from division_polynomial_sage import division_polynomials
 
 def highest_power_dividing(l, N):
     result = 0
@@ -54,37 +23,40 @@ def torsion_group_gens(E, l, e):
 
     assert l.is_prime()
     q = E.base_field().order()
-    O = E(0, 1, 0)
-    gens = E.gens()
-    if len(gens) == 2:
-        P, Q = gens
-    else:
-        P = gens[0]
-        Q = O
-    N = E.cardinality()
-    n = max(i for i in range(highest_power_dividing(l, N) + 1) if Integer(N/l**i) * P == O)
-    m = max(i for i in range(highest_power_dividing(l, N) + 1) if Integer(N/l**i) * Q == O)
-    assert n + m == highest_power_dividing(l, N)
-    existing_l_e_torsion_points = l**(min(n, e) + min(m, e))
-    # I strongly suspect that this degree is enough, even though I have not proven it yet
-    degree = l**(2 * e) - existing_l_e_torsion_points
+    
+    f, _, h = division_polynomials(E, l**e)
+    P = PolynomialRing(E.base_field(), ['x', 'z'])
+    x, z = P.gens()
+    h = P(h / gcd(h, f))
+    h = P(P(h)(x = x/z) * z**h.degree()) * z
+    degree = 1
+    for (c, _) in factor(h):
+        degree = lcm(degree, c.degree())
+    # we need to take the root of x^3 + Ax + B
+    degree = degree * 2
 
-    Eext = E.base_extend(GF(q**degree))
+    F = GF(q**degree)
+    Eext = E.base_extend(F)
     O = Eext(0, 1, 0)
-    N = E.cardinality(extension_degree = degree)
 
-    def random_order_le_point():
-        n = coprime_part(l, N)
-        P = Eext.random_point() * n
-        while P * l**(e - 1) == O:
-            P = Eext.random_point() * n
-        while P * l**e != O:
-            P = P * l
-        return P
-
+    def points():
+        for (u, _) in factor(h):
+            if u == z:
+                yield O
+                continue
+            for (v, _) in factor(u.change_ring(F)):
+                t, _ = v.coefficients()
+                t = -1/t
+                r = sqrt(t**3 + E.a4()*t + E.a6())
+                yield Eext(t, r)
+    
+    point_iter = points()
+    P = next(point_iter)
+    if P == O:
+        P = next(point_iter)
+    assert P != O and P * l**e == O
     while True:
-        P = random_order_le_point()
-        Q = random_order_le_point()
+        Q = next(point_iter)
         try:
             discrete_log(P * l**(e - 1), Q, ord = l**e, operation = '+')
         except ValueError:
@@ -103,18 +75,12 @@ def endo_ring(E):
     frob = lambda P: P.curve()(P[0]**q, P[1]**q, P[2]**q)
 
     trace = E.trace_of_frobenius()
-    # the discriminant of the frobenius order
-    D = trace**2 - 4 * q
-    # the discriminant of the maximal order
-    d = D.squarefree_part()
-    if (d - 1) % 4 != 0:
-        d *= 4
-    frobenius_order_conductor = sqrt(D/d)
+    K = E.frobenius_order().number_field()
+    # it is easier to work with phi := (2*frob - trace) than with frob or frob - trace/2
+    phi_order_conductor = K.order(E.frobenius() * 2 - trace).index_in(K.maximal_order())
 
     conductor = 1
-    # it is easier to work with (2*frob - trace) than with (frob - trace/2),
-    # so have an additional factor of 2
-    for (p, power) in factor(frobenius_order_conductor * 2):
+    for (p, power) in factor(phi_order_conductor):
         P, Q = torsion_group_gens(E, p, power)
         for i in range(1, power + 1):
             if 2 * frob(P) == trace * P and 2 * frob(Q) == trace * Q:
@@ -122,7 +88,6 @@ def endo_ring(E):
             conductor *= p
             P = P * p
             Q = Q * p
-    K = E.frobenius_order().number_field()
     alpha, = K.maximal_order().ring_generators()
     return K.order(alpha * conductor)
 
@@ -194,5 +159,4 @@ class Endo:
         
 F = GF(37**2)
 E = EllipticCurve(F, j = 3 * F.gen())
-print(division_polynomials(E, 3))
 print(endo_ring(E).gens())
