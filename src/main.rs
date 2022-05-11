@@ -28,10 +28,5 @@ fn main() {
     let P1 = EllipticCurvePoint::<&WrappingRing<_>>::Affine(x1/&z1, y1/z1);
     let P2 = EllipticCurvePoint::<&WrappingRing<_>>::Affine(x2/&z2, y2/z2);
     println!("{:?}", E.point_add(P1, P2));
-<<<<<<< Updated upstream
-    // ((y2^2z1^5z2^3 + -2 * y1y2z1^4z2^4 + y1^2z1^3z2^5 + -1 * x2^3z1^5z2^2 + x1x2^2z1^4z2^3 + x1^2x2z1^3z2^4 + -1 * x1^3z1^2z2^5) / (x2^2z1^5z2^3 + -2 * x1x2z1^4z2^4 + x1^2z1^3z2^5), 
-    // (y2^3z1^9z2^4 + -3 * y1y2^2z1^8z2^5 + 3 * y1^2y2z1^7z2^6 + -1 * y1^3z1^6z2^7 + -1 * x2^3y2z1^9z2^3 + 2 * x2^3y1z1^8z2^4 + -3 * x1x2^2y1z1^7z2^5 + 3 * x1^2x2y2z1^7z2^5 + -2 * x1^3y2z1^6z2^6 + x1^3y1z1^5z2^7) / (-1 * x2^3z1^9z2^4 + 3 * x1x2^2z1^8z2^5 + -3 * x1^2x2z1^7z2^6 + x1^3z1^6z2^7))
-=======
     // ((y2^2z1^5z2^3 + -2 * y1y2z1^4z2^4 + y1^2z1^3z2^5 + -1 * x2^3z1^5z2^2 + x1x2^2z1^4z2^3 + x1^2x2z1^3z2^4 + -1 * x1^3z1^2z2^5) / (x2^2z1^5z2^3 + -2 * x1x2z1^4z2^4 + x1^2z1^3z2^5), (y2^3z1^9z2^4 + -3 * y1y2^2z1^8z2^5 + 3 * y1^2y2z1^7z2^6 + -1 * y1^3z1^6z2^7 + -1 * x2^3y2z1^9z2^3 + 2 * x2^3y1z1^8z2^4 + -3 * x1x2^2y1z1^7z2^5 + 3 * x1^2x2y2z1^7z2^5 + -2 * x1^3y2z1^6z2^6 + x1^3y1z1^5z2^7) / (-1 * x2^3z1^9z2^4 + 3 * x1x2^2z1^8z2^5 + -3 * x1^2x2z1^7z2^6 + x1^3z1^6z2^7))
->>>>>>> Stashed changes
 }
