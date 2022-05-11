@@ -9,6 +9,7 @@
 *.synctex.gz
 *.sage.py
 *_sage.py
+*.toc
 
 # Added by cargo
 

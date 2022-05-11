@@ -52,7 +52,7 @@ def torsion_group_gens(E, l, e):
     
     point_iter = points()
     P = next(point_iter)
-    if P == O:
+    while P * l**(e - 1) == O:
         P = next(point_iter)
     assert P != O and P * l**e == O
     while True:
@@ -78,6 +78,7 @@ def endo_ring(E):
     K = E.frobenius_order().number_field()
     # it is easier to work with phi := (2*frob - trace) than with frob or frob - trace/2
     phi_order_conductor = K.order(E.frobenius() * 2 - trace).index_in(K.maximal_order())
+    assert phi_order_conductor % 2 == 0
 
     conductor = 1
     for (p, power) in factor(phi_order_conductor):
@@ -88,8 +89,11 @@ def endo_ring(E):
             conductor *= p
             P = P * p
             Q = Q * p
-    alpha, = K.maximal_order().ring_generators()
-    return K.order(alpha * conductor)
+
+    if highest_power_dividing(2, conductor) == highest_power_dividing(2, phi_order_conductor):
+        conductor = Integer(conductor/2)
+    d = K.maximal_order().discriminant() # Z[this] is the maximal order
+    return K.order((sqrt(K(d)) + d)/2 * conductor)
 
 def kernel(A):
     """Computes the kernel of a matrix A defined over Z/mZ"""
@@ -101,7 +105,10 @@ def kernel(A):
     result = Matrix.identity(R, n)
     for i in range(n):
         d = B[i, i]
-        result[i] = V * result[i] * Integer(lcm(m, d)/d)
+        if d != 0:
+            result[i] = V * result[i] * Integer(lcm(m, d)/d)
+        else:
+            result[i] = V * result[i]
     result = result.transpose()
     return result
 
@@ -117,15 +124,19 @@ class Endo:
     def __init__(self, j, a, b):
         """The endomorphism a + bf where f is the q-th power frobenius endomorphism"""
         self.p = j.parent().characteristic()
-        self.q = p**j.minpoly().degree()
+        self.q = self.p**j.minpoly().degree()
         self.F = GF(self.q)
         self.E = EllipticCurve(self.F, j = j)
         self.a = a
         self.b = b
+        self.transforms = {}
 
     def deg(self):
         # this follows from the fact that #E(Fq) = deg(1 - pi)
         return self.a**2 + self.b**2 * self.q + 2 * self.a * self.b * (self.q + 1 - self.E.cardinality())
+
+    def eval(self, P):
+        return P * self.a + P.curve()(P[0]**self.q, P[1]**self.q, P[2]**self.q) * self.b
 
     def get_prime_power_transform(self, l, e):
         if l**e in self.transforms:
@@ -143,20 +154,24 @@ class Endo:
         N = 1
         for (l, e) in factor(self.deg()):
             P, Q = torsion_group_gens(self.E, l, e)
-            transform = self.get_prime_power_transform(l, e) + rhs.get_prime_power_transform(l, e)
-            A = kernel(transform)
+            A = kernel(self.get_prime_power_transform(l, e))
             P1 = ZZ(A[0, 0]) * P + ZZ(A[0, 1]) * Q
             Q1 = ZZ(A[1, 0]) * P + ZZ(A[1, 1]) * Q
             n1 = gcd(ZZ(A[0, 0]), ZZ(A[0, 1]))
             m1 = gcd(ZZ(A[1, 0]), ZZ(A[1, 1]))
             n0, s, t = xgcd(n0 * l**e, n1 * N)
-            P0 = s * P0 + t * P1
+            F = GF(self.p**lcm(P0.curve().base_field().degree(), P1.curve().base_field().degree()))
+            E = self.E.base_extend(F)
+            P0 = s * E(P0) + t * E(P1)
             m0, s, t = xgcd(m0 * l**e, m1 * N)
-            Q0 = s * Q0 + t * Q1
+            Q0 = s * E(Q0) + t * E(Q1)
             N = N * l**e
-        return (P0, Q0)
+        return (P0, Q0, Integer(N**2/n0/n1))
 
+    def quotient(self, n):
+        pass
         
 F = GF(37**2)
-E = EllipticCurve(F, j = 3 * F.gen())
-print(endo_ring(E).gens())
+E = EllipticCurve(F, j = 5 * F.gen())
+f = Endo(E.j_invariant(), 1, -1)
+print(f.kernel())

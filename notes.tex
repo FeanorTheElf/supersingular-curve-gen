@@ -136,10 +136,66 @@ By the above, it follows that $\frac s t = 1$, i.e. $s = t$.
 
 \subsection*{The index $[\O : \Z[\phi]]$}
 From the consideration of the torsion points, we see that $\O \cap \Z[\sqrt{D}] = \Z[\phi]$.
-However, since $[\O_\K : \Z[\sqrt{D}]] \leq 2$, we deduce that $[\O : \Z[\phi]] \leq 2$ and so either
+However, since $[\O_\K : \Z[\sqrt{D}]] \leq 2$, we deduce that $[\O : \Z[\phi]] \leq 2$ and so
 \begin{equation*}
-    \O = \Z[\phi] \quad \text{or} \quad \O = \Z\Bigl[\frac \phi 2\Bigr] = \Z\Bigl[\pi - \frac {\operatorname{Tr}(\pi)} 2\Bigr]
+    \O = \Z[\pi]
 \end{equation*}
+
+\section{$(d, \epsilon)$-structures}
+
+Let $p$ be a prime.
+Consider the category $\mathrm{EC}$ defined by
+\begin{align*}
+    \mathrm{Ob}(\mathrm{EC}) &:= \{ \text{$E$ elliptic curve over $\F_{p^2}$} \} \\
+    \mathrm{Hom}_{\mathrm{EC}}(E, E') &:= \{ \text{$\psi: E \to E'$ isogeny} \}
+\end{align*}
+Have a functor
+\begin{align*}
+    \cdot^{(p)}: \mathrm{EC} \ &\to \ \mathrm{EC} \\
+    \text{$E$ defined by $y^2 = x^3 + Ax + B$} \ &\mapsto \ \text{$E'$ defined by $y^2 = x^3 + A^p x + B^p$} \\
+    \left[ \sum_{i, j} a_{ij} x^i y^j : \sum_{i, j} b_{ij} x^i y^j : \sum_{i, j} c_{ij} x^i y^j \right] \ &\mapsto \ \left[ \sum_{i, j} a_{ij}^p x^i y^j : \sum_{i, j} b_{ij}^p x^i y^j : \sum_{i, j} c_{ij}^p x^i y^j \right]
+\end{align*}
+and a functor
+\begin{align*}
+    \hat{\cdot}: \mathrm{EC} \ \to \ \mathrm{EC}^{\mathrm{op}}, \quad E \ \mapsto \ E, \quad \phi \ \mapsto \ \hat{\phi}
+\end{align*}
+$(d, \epsilon)$-structures and their isogenies are given by the category $\mathrm{ES}_{d, \epsilon}$ defined by
+\begin{align*}
+    \mathrm{Ob}(\mathrm{ES}) &:= \{ (E, \psi) \ | \ E \in \mathrm{EC}, \ \psi: E \to E^{(p)}, \ \hat{\psi} = \epsilon\psi^{(p)} \} \\
+    \mathrm{Hom}_{\mathrm{ES}}((E, \psi), (E', \psi')) &:= \{ \phi: E \to E' \ | \ \psi' \circ \phi = \phi^{(p)} \circ \psi \}
+\end{align*}
+
+\section{$j$-invariant and modular polynomials}
+
+Consider the $j$-invariant
+\begin{equation*}
+    j: \Half \to \C
+\end{equation*}
+that assigns to a complex elliptic curve given by a lattice $\Lattice\{\tau, 1\}$ its j-invariant $j(\tau)$.
+Then it is a fact that for $N \in \N$ the map
+\begin{equation*}
+    j_N: \Half \to \C, \quad \tau \mapsto j(N\tau)
+\end{equation*}
+is algebraic over $\C(j)$ and its minimal polynomial is $\Phi_N(X, j)$.
+This $\Phi_N$ is called modular polynomial, and we have $\Phi_N \in \mathbb{Q}[X, Y]$ and furthermore $\Phi_N(X, Y) = \Phi_N(Y, X)$.
+
+Furthermore, it holds that
+\begin{equation*}
+    \Phi_N(j(E), j(E')) = 0
+\end{equation*}
+for any $E'$ such that there is an $N$-isogeny $E \to E'$ (No idea how to prove that).
+
+We see then that for all primes $p$, have
+\begin{equation*}
+    \Phi_N(j(E), j(E')) = 0
+\end{equation*}
+for elliptic curves $E, E'$ defined over $\bar{\F}_p$ such that there is an $N$-isogeny $E \to E'$.
+
+This shows that if we have a $(d, \epsilon)$-structure $(E, \psi)$ then
+\begin{equation*}
+    \Phi_d(j(E), j(E^{(p)})) = \Phi_d(j(E), j(E)^p) = 0
+\end{equation*}
+as there is the $d$-isogeny $\psi: E \to E^{(p)}$.
 
 \section{$P_3$ and $Q_3$}
 \label{sec:numerical_values}

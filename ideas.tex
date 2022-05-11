@@ -38,6 +38,7 @@
 \newcommand{\divides}{\ \mid \ }
 \newcommand{\notdivides}{\ \nmid \ }
 \newcommand{\Cl}{\mathrm{Cl}}
+\newcommand{\K}{\mathcal{K}}
 \renewcommand{\a}{\mathfrak{a}}
 \renewcommand{\b}{\mathfrak{b}}
 \renewcommand{\O}{\mathcal{O}}
@@ -65,62 +66,7 @@
 \begin{document}
 
 \maketitle
-
-\section{$(d, \epsilon)$-structures}
-
-Let $p$ be a prime.
-Consider the category $\mathrm{EC}$ defined by
-\begin{align*}
-    \mathrm{Ob}(\mathrm{EC}) &:= \{ \text{$E$ elliptic curve over $\F_{p^2}$} \} \\
-    \mathrm{Hom}_{\mathrm{EC}}(E, E') &:= \{ \text{$\psi: E \to E'$ isogeny} \}
-\end{align*}
-Have a functor
-\begin{align*}
-    \cdot^{(p)}: \mathrm{EC} \ &\to \ \mathrm{EC} \\
-    \text{$E$ defined by $y^2 = x^3 + Ax + B$} \ &\mapsto \ \text{$E'$ defined by $y^2 = x^3 + A^p x + B^p$} \\
-    \left[ \sum_{i, j} a_{ij} x^i y^j : \sum_{i, j} b_{ij} x^i y^j : \sum_{i, j} c_{ij} x^i y^j \right] \ &\mapsto \ \left[ \sum_{i, j} a_{ij}^p x^i y^j : \sum_{i, j} b_{ij}^p x^i y^j : \sum_{i, j} c_{ij}^p x^i y^j \right]
-\end{align*}
-and a functor
-\begin{align*}
-    \hat{\cdot}: \mathrm{EC} \ \to \ \mathrm{EC}^{\mathrm{op}}, \quad E \ \mapsto \ E, \quad \phi \ \mapsto \ \hat{\phi}
-\end{align*}
-$(d, \epsilon)$-structures and their isogenies are given by the category $\mathrm{ES}_{d, \epsilon}$ defined by
-\begin{align*}
-    \mathrm{Ob}(\mathrm{ES}) &:= \{ (E, \psi) \ | \ E \in \mathrm{EC}, \ \psi: E \to E^{(p)}, \ \hat{\psi} = \epsilon\psi^{(p)} \} \\
-    \mathrm{Hom}_{\mathrm{ES}}((E, \psi), (E', \psi')) &:= \{ \phi: E \to E' \ | \ \psi' \circ \phi = \phi^{(p)} \circ \psi \}
-\end{align*}
-
-\section{$j$-invariant and modular polynomials}
-
-Consider the $j$-invariant
-\begin{equation*}
-    j: \Half \to \C
-\end{equation*}
-that assigns to a complex elliptic curve given by a lattice $\Lattice\{\tau, 1\}$ its j-invariant $j(\tau)$.
-Then it is a fact that for $N \in \N$ the map
-\begin{equation*}
-    j_N: \Half \to \C, \quad \tau \mapsto j(N\tau)
-\end{equation*}
-is algebraic over $\C(j)$ and its minimal polynomial is $\Phi_N(X, j)$.
-This $\Phi_N$ is called modular polynomial, and we have $\Phi_N \in \mathbb{Q}[X, Y]$ and furthermore $\Phi_N(X, Y) = \Phi_N(Y, X)$.
-
-Furthermore, it holds that
-\begin{equation*}
-    \Phi_N(j(E), j(E')) = 0
-\end{equation*}
-for any $E'$ such that there is an $N$-isogeny $E \to E'$ (No idea how to prove that).
-
-We see then that for all primes $p$, have
-\begin{equation*}
-    \Phi_N(j(E), j(E')) = 0
-\end{equation*}
-for elliptic curves $E, E'$ defined over $\bar{\F}_p$ such that there is an $N$-isogeny $E \to E'$.
-
-This shows that if we have a $(d, \epsilon)$-structure $(E, \psi)$ then
-\begin{equation*}
-    \Phi_d(j(E), j(E^{(p)})) = \Phi_d(j(E), j(E)^p) = 0
-\end{equation*}
-as there is the $d$-isogeny $\psi: E \to E^{(p)}$.
+\tableofcontents
 
 \section{My first idea}
 As usual, let $p$ be a (big) prime and consider $q := p^2$.
@@ -140,12 +86,12 @@ Then have that $\O \subseteq \O_0 \subseteq \O_K$ with $[\O_0 : \O] = l^{O(\log(
 
 Now we are in one of the following cases:
 \begin{description}
-    \item[(I)] $E_0$ is defined over $\F_p$, i.e. $E_0^{(p)} = E_0$; Then $\Phi_n(j(E), j(E)^p) = 0$
-    \item[(II)] $E_0^{(p)}$ is (nontrivially) $l$-isogeneous to $E_0$, i.e. they are two distinct vertices on the crater; Then it is likely that $\Phi_n(j(E), j(E)^p) \neq 0$, but that depends on the distance in the crater
-    \item[(III)] $E_0^{(p)}$ is not $l$-isogeneous to $E_0$; Then $\Phi_n(j(E), j(E)^p) \neq 0$ 
+    \item[(I) - ``bad''] $E_0$ is defined over $\F_p$, i.e. $E_0^{(p)} = E_0$; Then $\Phi_n(j(E), j(E)^p) = 0$
+    \item[(II) - ``probably good''] $E_0^{(p)}$ is (nontrivially) $l$-isogeneous to $E_0$, i.e. they are two distinct vertices on the crater; Then it is likely that $\Phi_n(j(E), j(E)^p) \neq 0$, but that depends on the distance in the crater
+    \item[(III) - ``good''] $E_0^{(p)}$ is not $l$-isogeneous to $E_0$; Then $\Phi_n(j(E), j(E)^p) \neq 0$ 
 \end{description}
 
-\subsection*{Analyzing (III)}
+\subsection{Analyzing (III)}
 Now consider only $E_0$ and denote $\O := \O_0$ and $E := E_0$.
 
 Let $[\a] \in \Cl(\O)$ such that $[\a].E = E^{(p)}$.
@@ -160,4 +106,52 @@ Since we do not require $\alpha$ to be integral, we can substitute $\alpha$ by $
     \N(\alpha) = \N(\a)^{-1} \quad \text{or} \quad \N(\alpha) = l\N(\a)^{-1}
 \end{equation*}
 This leads us to the interesting (slightly weaker) question: When does there exist some $\alpha \in K$ with $\N(\alpha) = N$ for some (square-free) $N$?
+
+\subsection{Preventing (I)}
+Consider an ordinary Elliptic Curve $E/\F_{p^2}$ and let $\pi$ be the $q = p^2$-th power Frobenius.
+Then $\pi$ satisfies $\pi^2 - t\pi + q = 0$ where $t = q + 1 - \#E(\F_q)$ is the trace of Frobenius.
+By the Hasse bound, we derive the standard bound
+\begin{equation*}
+    |t| \leq 2\sqrt{q} = 2p
+\end{equation*}
+Now consider the Endomorphism ring $\O = \End(E)$ in the number field $\K := \O \otimes \mathbb{Q}$.
+We have that $\Z[\pi] \subseteq \O$ and so $[\O_\K : \O] \leq [\O_\K : \Z[\pi]]$.
+Now note that the discriminant of $\Z[\pi]$ is
+\begin{equation*}
+    D := d(\Z[\pi]) = t^2 - 4q
+\end{equation*}
+and so $-4q \leq D \leq 0$\footnote{In fact, since $E$ is ordinary, we have $D \not\equiv 0 \mod p$, but that does not matter here.}.
+Now we use the standard fact on modules
+\begin{equation*}
+    d(\O_\K) [\O_\K : \Z[\pi]]^2 = d(\Z[\pi])
+\end{equation*}
+and find that $[\O_\K : \Z[\pi]] \leq \sqrt{|d(\Z[\pi])|} = 2p$.
+After these preliminaries, we can consider the approach itself.
+
+\subsection{Choosing parameters}
+Let $l$ be a prime $> 2p$ and $e = O(\log(p))$.
+Now consider a root $j \in \F_{p^2} \setminus \F_p$ of $\Phi_{l^e}(X, X^p)$ and an Elliptic Curve $E$ with j-invariant $j$.
+We claim that case I cannot occur.
+
+Suppose $E$ is ordinary.
+Then there is the standard ascending chain of $l$-isogenies
+\begin{equation*}
+    E \to ... \to E_0
+\end{equation*}
+such that $E_0$ lies on the crater, i.e. $l \notdivides [\O_\K : \End(E_0)]$ where $\K = \End^0(E) = \End^0(E_0)$.
+However, since $[\O_\K : \End(E)] \leq [\O_\K : \Z[\pi]] \leq 2p$ where $\pi$ is the $q$-th power Frobenius of $E$, we see that $l \notdivides [\O_\K : \End(E)]$.
+Thus $E = E_0$.
+
+However, we chose $j \notin \F_p$ and so $E = E_0$ is not defined over $\F_p$.
+Thus $E_0^{(p)} \neq E_0$, which excludes case I.
+
+\section*{Current idea}
+I still have to make (much) more experiments, but somehow, case II seems strange - possibly it does not even occur (I have not encountered it so far).
+If this is really the case (or if it is really rare), then we can just choose $l > 2p$ prime and $e = O(\log(p))$ and find a root $j \in \F_{p^2} \setminus \F_p$ of $\Phi_{l^e}(X, X^p)$.
+
+In other words, compute $F := \Phi_{l^e}(X, X^p) \mod X^q - X$ and then find a root of
+\begin{equation*}
+    \frac {F} {\gcd(F, X^p - X)}
+\end{equation*}
+Of course, $\deg(F) = \Theta(\log(p))$ is still exponential, so it will not work out easily...
 \end{document}
