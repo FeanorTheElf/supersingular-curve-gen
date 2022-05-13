@@ -83,12 +83,11 @@ def extract_path(E, path_mapping):
         current = path_mapping[current].domain().j_invariant()
     return result
 
-def isogeny_graph_bfs(E, isogeny_degree = None, find_cycle = False, target = None):
+def isogeny_graph_bfs(E, neighbor_iter = neighbors, find_cycle = False, target = None):
     if find_cycle == (target is not None):
         raise ValueError()
     if target is not None and not is_EllipticCurve(target):
         target = EllipticCurve(target.parent(), j = target)
-    neighbor_iter = lambda E: neighbors(E) if isogeny_degree is None else iter(E.isogenies_prime_degree(isogeny_degree))
     open = PriorityQueue()
     found = {}
     # add a random number as second parameter to break order ties in the first number;
