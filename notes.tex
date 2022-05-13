@@ -67,7 +67,53 @@
 
 \maketitle
 
+\section{Example - The cases I, II and III}
+Consider the prime $p = 101$ and $\F_q$ where $q = p^2$.
+Let $\alpha \in \F_q$ with minimal polynomial $x^2 + 97 x + 2$.
+
+\subsection{Case I}
+Finding examples of case I is trivial - just take a curve $E$ with $j(E) \in \F_p$.
+Then clearly $E^{(p)} = E$ and so also $E_0^{(p)} = E_0$ (since $\cdot^{(p)}$ maps the path $E \to E_0$ to $E = E^{(p)} \to E_0^{(p)}$).
+
+Furthermore, it is easy to see that there are a lot of curve $E$ such that the associated $E_0$ is defined over $\F_p$ (and we are again in case I).
+
+\subsection{Case II}
+Here I was not quite sure if it even occurs. As it turns out, it does.
+Consider $E$ with $j(E) = 17\alpha + 45$.
+Then $[\O_\K : \Z[\pi]] = 2^3$ so $E$ lies on the crater of the 3-isogeny graph.
+However there is a 3-isogeny $E \to E^{(p)}$ since $j(E^{(p)}) = j(E)^p = 84 \alpha + 12$.
+In fact, in this case, the crater consists only of $E$ and $E^{(p)}$.
+
+\subsection{Case III}
+Consider $E$ with $j(E) = 64\alpha + 5$.
+Then $j(E^{(p)}) = j(E)^p = 37\alpha + 59$.
+However, we have that $E$ lies on the crater, together with curve of j-invariants
+\begin{equation*}
+    88\alpha + 70, \ 54\alpha + 52, \ 95\alpha + 11
+\end{equation*}
+Hence there is no 3-isogeny path from $E$ to $E^{(p)}$.
+Note that $[\O_\K : \Z[\pi]] = 2^2 \cdot 3^2$ but $[\O_\K : \End(E)] = 2^2$, which shows that $E$ lies on the crater.
+
+Now we want to have a closer look onto the class group action in this case.
+Have $d(\End(E)) = -320$, so $\K = \mathbb{Q}(\sqrt{-5})$ and $d(\O_\K) = -5$.
+Hence, we have $\End(E) \cong \Z[4\sqrt{-5}]$ and $\O_\K \cong \Z[\sqrt{-5}]$.
+
+Sage tells us that $h(\O_\K) = 2$ and $h(\End(E)) = 8$.
+With this, we can already see that
+\begin{equation*}
+    64\alpha + 5, \ 88\alpha + 70, \ 54\alpha + 52, \ 95\alpha + 11
+\end{equation*}
+and
+\begin{equation*}
+    (64\alpha + 5)^p, \ (88\alpha + 70)^p, \ (54\alpha + 52)^p, \ (95\alpha + 11)^p
+\end{equation*}
+is the set of j-invariants of all Elliptic Curves with endomorphism ring $\cong \End(E)$.
+On this set, $\Cl(\Z[4\sqrt{-5}])$ then acts freely and transitively.
+Now it would be of course interesting to find out how $\Cl(\Z[4\sqrt{-5}])$ really looks like.
+
 \section{Example - The ordinary endomorphism ring}
+The information in this section is all known material - I just wanted to understand properly how one can compute the endomorphism ring, and what problems occur.
+
 Consider the finite field
 \begin{equation*}
     \F_q = \F_{37^2} = \F_{37} + \alpha \F_{37}
@@ -140,62 +186,6 @@ However, since $[\O_\K : \Z[\sqrt{D}]] \leq 2$, we deduce that $[\O : \Z[\phi]] 
 \begin{equation*}
     \O = \Z[\pi]
 \end{equation*}
-
-\section{$(d, \epsilon)$-structures}
-
-Let $p$ be a prime.
-Consider the category $\mathrm{EC}$ defined by
-\begin{align*}
-    \mathrm{Ob}(\mathrm{EC}) &:= \{ \text{$E$ elliptic curve over $\F_{p^2}$} \} \\
-    \mathrm{Hom}_{\mathrm{EC}}(E, E') &:= \{ \text{$\psi: E \to E'$ isogeny} \}
-\end{align*}
-Have a functor
-\begin{align*}
-    \cdot^{(p)}: \mathrm{EC} \ &\to \ \mathrm{EC} \\
-    \text{$E$ defined by $y^2 = x^3 + Ax + B$} \ &\mapsto \ \text{$E'$ defined by $y^2 = x^3 + A^p x + B^p$} \\
-    \left[ \sum_{i, j} a_{ij} x^i y^j : \sum_{i, j} b_{ij} x^i y^j : \sum_{i, j} c_{ij} x^i y^j \right] \ &\mapsto \ \left[ \sum_{i, j} a_{ij}^p x^i y^j : \sum_{i, j} b_{ij}^p x^i y^j : \sum_{i, j} c_{ij}^p x^i y^j \right]
-\end{align*}
-and a functor
-\begin{align*}
-    \hat{\cdot}: \mathrm{EC} \ \to \ \mathrm{EC}^{\mathrm{op}}, \quad E \ \mapsto \ E, \quad \phi \ \mapsto \ \hat{\phi}
-\end{align*}
-$(d, \epsilon)$-structures and their isogenies are given by the category $\mathrm{ES}_{d, \epsilon}$ defined by
-\begin{align*}
-    \mathrm{Ob}(\mathrm{ES}) &:= \{ (E, \psi) \ | \ E \in \mathrm{EC}, \ \psi: E \to E^{(p)}, \ \hat{\psi} = \epsilon\psi^{(p)} \} \\
-    \mathrm{Hom}_{\mathrm{ES}}((E, \psi), (E', \psi')) &:= \{ \phi: E \to E' \ | \ \psi' \circ \phi = \phi^{(p)} \circ \psi \}
-\end{align*}
-
-\section{$j$-invariant and modular polynomials}
-
-Consider the $j$-invariant
-\begin{equation*}
-    j: \Half \to \C
-\end{equation*}
-that assigns to a complex elliptic curve given by a lattice $\Lattice\{\tau, 1\}$ its j-invariant $j(\tau)$.
-Then it is a fact that for $N \in \N$ the map
-\begin{equation*}
-    j_N: \Half \to \C, \quad \tau \mapsto j(N\tau)
-\end{equation*}
-is algebraic over $\C(j)$ and its minimal polynomial is $\Phi_N(X, j)$.
-This $\Phi_N$ is called modular polynomial, and we have $\Phi_N \in \mathbb{Q}[X, Y]$ and furthermore $\Phi_N(X, Y) = \Phi_N(Y, X)$.
-
-Furthermore, it holds that
-\begin{equation*}
-    \Phi_N(j(E), j(E')) = 0
-\end{equation*}
-for any $E'$ such that there is an $N$-isogeny $E \to E'$ (No idea how to prove that).
-
-We see then that for all primes $p$, have
-\begin{equation*}
-    \Phi_N(j(E), j(E')) = 0
-\end{equation*}
-for elliptic curves $E, E'$ defined over $\bar{\F}_p$ such that there is an $N$-isogeny $E \to E'$.
-
-This shows that if we have a $(d, \epsilon)$-structure $(E, \psi)$ then
-\begin{equation*}
-    \Phi_d(j(E), j(E^{(p)})) = \Phi_d(j(E), j(E)^p) = 0
-\end{equation*}
-as there is the $d$-isogeny $\psi: E \to E^{(p)}$.
 
 \section{$P_3$ and $Q_3$}
 \label{sec:numerical_values}

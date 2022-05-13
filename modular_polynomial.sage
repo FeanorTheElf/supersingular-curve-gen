@@ -1,8 +1,20 @@
 from cmath import exp
 from functools import reduce
 
+def highest_power_dividing(l, N):
+    result = 0
+    while N % l == 0:
+        result += 1
+        N = N / l
+    return result
+
 def prime_modular_poly_mod_p(l, p):
-    """Computes Phi_l in Fp, where l and p are different primes"""
+    """Computes Phi_l in Fp, where l and p are different primes;
+    
+    If we assume that the order of a random elliptic curve defined over Fp is
+    uniformly distributed in the Hasse interval and that the created samples are
+    mostly linearly independent, we get that the complexity of the used algorithm
+    is O(l^3 T) where T is the complexity of `EllipticCurve.cardinality()`."""
     assert l != p
     assert l.is_prime()
     assert p.is_prime()
@@ -18,13 +30,17 @@ def prime_modular_poly_mod_p(l, p):
             if j1.minpoly().degree() != ext_deg:
                 continue
             E = EllipticCurve(F, j = j1)
-            n = E.cardinality()
-            if n % l == 0:
+            N = E.cardinality()
+            if N % l == 0:
                 O = E(0, 1, 0)
                 P = E.random_point()
-                while P * ZZ(n/l) == O:
+                n = ZZ(N / l**highest_power_dividing(l, N))
+                while P * n == O:
                     P = E.random_point()
-                f = E.isogeny(P * ZZ(P.order()/l))
+                P = P * n
+                while P * l != O:
+                    P = P * l
+                f = E.isogeny(P)
                 j2 = f.codomain().j_invariant()
 
                 sample = vector(F, ZZ(freedom))
@@ -36,7 +52,7 @@ def prime_modular_poly_mod_p(l, p):
                         else:
                             sample[i] = j1**e * j2**f + j1**f * j2**e
                         i += 1
-
+                print("found samples: " + str(len(samples)))
                 samples.append(sample)
 
             if len(samples) >= target_sample_count:
@@ -52,16 +68,10 @@ def prime_modular_poly_mod_p(l, p):
                     for e in range(degree + 1):
                         for f in range(e + 1):
                             if e == f:
-                                result += x**e * y**f * ker_gen[i]
+                                result += x**e * y**f * P(ker_gen[i])
                             else:
-                                result += x**e * y**f * ker_gen[i] + y**e * x**f * ker_gen[i]
+                                result += x**e * y**f * P(ker_gen[i]) + y**e * x**f * P(ker_gen[i])
                             i += 1
                     return result / result.coefficient({ x: degree, y: 0 })
                 else:
                     target_sample_count = Integer((target_sample_count * 3/2).floor())
-
-p = 37
-l = 7
-x, y = PolynomialRing(GF(p), ['x', 'y']).gens()
-actual = prime_modular_poly_mod_p(l, p)
-print(actual == ClassicalModularPolynomialDatabase()[l](x, y))

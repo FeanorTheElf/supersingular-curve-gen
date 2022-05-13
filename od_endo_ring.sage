@@ -191,7 +191,10 @@ class EndoRing:
             N = N * l**e
         return (P0, Q0, N/n0, N/m0)
         
-F = GF(37**2)
-E = EllipticCurve(F, j = F.gen())
+F = GF(101**2)
+z = F.gen()
+E = EllipticCurve(F, j = 64 * z + 5)
+R = endo_ring(E)
+print(R.discriminant())
 R = EndoRing(E.j_invariant())
 print(R._generator_isogeny())

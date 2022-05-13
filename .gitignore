@@ -8,13 +8,10 @@
 *.run.xml
 *.synctex.gz
 *.sage.py
-<<<<<<< Updated upstream
 *_sage.py
 *.toc
+__pycache__
 
 # Added by cargo
 
 /target
-=======
-target
->>>>>>> Stashed changes
