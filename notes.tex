@@ -83,8 +83,45 @@ Consider $E$ with $j(E) = 17\alpha + 45$.
 Then $[\O_\K : \Z[\pi]] = 2^3$ so $E$ lies on the crater of the 3-isogeny graph.
 However there is a 3-isogeny $E \to E^{(p)}$ since $j(E^{(p)}) = j(E)^p = 84 \alpha + 12$.
 In fact, in this case, the crater consists only of $E$ and $E^{(p)}$.
+For a more interesting example, see Figure~\ref{fig:example_II}.
+\begin{figure}
+    \includegraphics{./example_II.png}
+    \caption{\label{fig:example_II} A 3-isogeny vulcano over $\F_{101^2} = \F_{101}[\alpha]$ that satisfies case II (in the plot have $z = \alpha$). Note that e.g. $(39\alpha + 77)^{101} = 62\alpha + 31$.}
+\end{figure}
+
+Further, when we consider the path $E = E_0 \to ... \to E_n = E^{(p)}$ on the crater, there are more or less two possibilities for the $\cdot^{(p)}$ conjugate path\footnote{Remember that $\cdot^{(p)}$ is functorial, hence we can also apply to isogenies $E_i \to E_{i + 1}$}.
+\begin{itemize}
+    \item It could be that the conjugate of $E_i \to E_{i + 1}$ is the dual of $E_{n - i - 1} \to E_{n - i}$, hence we just go the path $E \to ... \to E^{(p)}$ backwards.
+    \item It could be that the conjugate of $E_i \to E_{i + 1}$ is $E_{n + i} \to E_{n + i + 1}$, where
+    \begin{equation*}
+        E_0, ..., E_n, E_{n + 1}, ..., E_{n + m} = E_0
+    \end{equation*}
+    is the cycle along the whole crater.
+\end{itemize}
+Both cases have interesting consequences:
+
+\paragraph*{First case} The fact that the conjugate of $E_i \to E_{i + 1}$ is the dual of $E_{n - i - 1} \to E_{n - i}$ implies that $E_i^{(p)} = E_{n - i}$.
+In particular, if $n$ is even, we find that $E_{n/2}$ is defined over $\F_p$.
+
+So far, experiments show that either all vertices or none of the crater are defined over $\F_p$.
+If this is really true, the case could only occur if the crater has an odd number of vertices.
+However, it looks like this might never happens\footnote{Well, it certainly happens if $E^{(p)}$ and $E$ are not in the same vulcano, i.e. we are in case III (see also Figure~\ref{fig:example_odd_crater}).}.
+\begin{figure}
+    \includegraphics{./example_odd_crater.png}
+    \caption{\label{fig:example_odd_crater} A 3-isogeny vulcano over $\F_{97^2} = \F_{97}[z]$ where the crater has an odd vertex count. Here $\mathrm{MiPo}(z) = x^2 - x + 5$. Note that this satisfies case III, as e.g. $(43z + 61)^{97} = 54z + 7$ is not in this vulcano.}
+\end{figure}
+
+\paragraph*{Second case} Since $\cdot^{(p)}$ is functorial, both paths $E_0 \to ... \to E_n$ and $E_n \to ... \to E_{n + m} = E_0$ must have same length, hence $n = m$.
+This shows that the crater has an even amount of vertices, and $E$ resp. $E^{(p)}$ are on opposite sites of the crater.
+In particular, the path between them has lengh $\omega(\log(p))$.
+This is the case in e.g. Figure~\ref{fig:example_II}.
 
 \subsection{Case III}
+\begin{figure}
+    \includegraphics{./example_III.png}
+    \caption{\label{fig:example_III} A 3-isogeny vulcano over $\F_{101^2} = \F_{101}[\alpha]$ that satisfies case III (in the plot have $z = \alpha$).}
+\end{figure}
+We give the example displayed in Figure~\ref{fig:example_III}.
 Consider $E$ with $j(E) = 64\alpha + 5$.
 Then $j(E^{(p)}) = j(E)^p = 37\alpha + 59$.
 However, we have that $E$ lies on the crater, together with curve of j-invariants
