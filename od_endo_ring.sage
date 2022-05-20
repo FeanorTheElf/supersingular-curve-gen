@@ -22,34 +22,46 @@ def torsion_group_gens(E, l, e):
     elif l**e in E.torsion_group_gens_cache:
         return E.torsion_group_gens_cache[l**e]
 
+    print("Finding " + str(l**e) + "-torsion generators")
+
     assert l.is_prime()
-    q = E.base_field().order()
+
+    def extension_field(d):
+        F = E.base_field()
+        P = PolynomialRing(F, ['t'])
+        t = P.gen(0)
+        poly = t**d
+        while not poly.is_prime():
+            for i in range(min(d - 1, 10)):
+                poly += F.random_element() * t**i
+        return F.extension(poly)
+
+    def extension_field_sqrt(f):
+        P = PolynomialRing(f.parent(), ['T'])
+        T = P.gen(0)
+        roots = (T**2 - f).roots()
+        assert len(roots) == 2 or roots[0][1] == 2
+        return roots[0][0]
     
     f, _, h = division_polynomials(E, l**e)
-    P = PolynomialRing(E.base_field(), ['x', 'z'])
-    x, z = P.gens()
+    P = PolynomialRing(E.base_field(), ['x'])
     h = P(h / gcd(h, f))
-    h = P(P(h)(x = x/z) * z**h.degree()) * z
     degree = 1
     for (c, _) in factor(h):
         degree = lcm(degree, c.degree())
-    # we need to take the root of x^3 + Ax + B
-    degree = degree * 2
 
-    F = GF(q**degree)
+    degree = degree * 2
+    print("Extension degree is " + str(degree))
+    F = extension_field(degree)
     Eext = E.base_extend(F)
     O = Eext(0, 1, 0)
 
     def points():
         for (u, _) in factor(h):
-            if u == z:
-                yield O
-                continue
-            for (v, _) in factor(u.change_ring(F)):
-                t, _ = v.coefficients()
-                t = -1/t
-                r = sqrt(t**3 + E.a4()*t + E.a6())
-                yield Eext(t, r)
+            print("Factoring " + str(u.change_ring(F)))
+            for (x, _) in u.change_ring(F).roots():
+                y = extension_field_sqrt(x**3 + E.a4()*x + E.a6())
+                yield Eext(x, y)
     
     point_iter = points()
     P = next(point_iter)
@@ -193,8 +205,21 @@ class EndoRing:
         
 F = GF(101**2)
 z = F.gen()
-E = EllipticCurve(F, j = 64 * z + 5)
-R = endo_ring(E)
-print(R.discriminant())
-R = EndoRing(E.j_invariant())
-print(R._generator_isogeny())
+for j in F:
+    E = EllipticCurve(F, j = j)
+    if E.is_supersingular():
+        continue
+
+    K = E.frobenius_order().number_field()
+    phi_order_conductor = K.order(E.frobenius() * 2 - E.trace_of_frobenius()).index_in(K.maximal_order())
+    skip = False
+    for (l, e) in factor(phi_order_conductor):
+        if l**e > 20:
+            print("Skipping j = " + str(j) + " because [O_K : Z[phi]] has large prime power factor " + str(l**e))
+            skip = True
+            break
+    if skip:
+        continue
+
+    R = endo_ring(E)
+    print(j, R.class_number())
