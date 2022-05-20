@@ -5,5 +5,9 @@ edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
+[profile.perf]
+inherits = "release"
+debug = true
+
 [dependencies]
 feanor_la = { git = "https://www.github.com/FeanorTheElf/FeanorLA.git" }

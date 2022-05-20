@@ -31,7 +31,6 @@
 \newcommand{\I}{\mathbb{I}}
 \newcommand{\V}{\mathbb{V}}
 \newcommand{\End}{\mathrm{End}}
-\newcommand{\proj}{\mathrm{proj}}
 \newcommand{\Quot}{\mathrm{Quot}}
 \newcommand{\Half}{\mathcal{H}}
 \newcommand{\Lattice}{\mathcal{L}}
@@ -69,6 +68,20 @@
 
 \maketitle
 
+\subsection*{Notation}
+If $E$ is an Elliptic Curve defined over a finite field of characteristic $p$, we write $E^{(p)}$ for the curve defined by the equations of $E$ after replacing all coefficients by their $p$-th power.
+Similarly, for an isogeny $\phi: E \to E'$, write $\phi^{(p)}: E^{(p)} \to E'^{(p)}$ for the isogeny defined by the polynomials of $\phi$ after replacing all coefficients by their $p$-th power.
+Furthermore, for a point $P = (x : y : z) \in \mathbb{P}^2$ write $P^{(p)} := (x^p : y^p : z^p)$.
+Finally, for a set of points or endomorphisms $S$ write $S^{(p)} := \{ s^{(p)} \ | \ s \in S \}$.
+Note that
+\begin{align*}
+    \cdot^{(p)}: \mathrm{\textbf{Ell}} \to \mathrm{\textbf{Ell}}, \quad &E \mapsto E^{(p)} \\
+    \mathrm{Hom}_{\mathrm{\textbf{Ell}}}(E, E') \ni &\phi \to \phi^{(p)}
+\end{align*}
+is a covariant endofunctor on the category $\mathrm{\textbf{Ell}}$ of Elliptic Curves defined over $\bar{\F}_p$ and their isogenies.
+
+Sometimes, we abuse terminology and speak of Elliptic Curves when we mean isomorphism classes of Elliptic Curves.
+
 Many examples will be over $\F_{101^2}$.
 Let $p = 101$ and $q = p^2$.
 We usually use the generator $\alpha \in \F_q$ with minimal polynomial $x^2 + 97 x + 2$.
@@ -92,89 +105,63 @@ For a more interesting example, see Figure~\ref{fig:example_II}.
     \caption{\label{fig:example_II} A 3-isogeny vulcano over $\F_{101^2} = \F_{101}[\alpha]$ that satisfies case II (in the plot have $z = \alpha$). Note that e.g. $(39\alpha + 77)^{101} = 62\alpha + 31$.}
 \end{figure}
 
-Further, when we consider the path $E = E_0 \to ... \to E_n = E^{(p)}$ on the crater, there are more or less two possibilities for the $\cdot^{(p)}$ conjugate path\footnote{Remember that $\cdot^{(p)}$ is functorial, hence we can also apply to isogenies $E_i \to E_{i + 1}$}.
-\begin{itemize}
-    \item It could be that the conjugate of $E_i \to E_{i + 1}$ is the dual of $E_{n - i - 1} \to E_{n - i}$, hence we just go the path $E \to ... \to E^{(p)}$ backwards.
-    \item It could be that the conjugate of $E_i \to E_{i + 1}$ is $E_{n + i} \to E_{n + i + 1}$, where
-    \begin{equation*}
-        E_0, ..., E_n, E_{n + 1}, ..., E_{n + m} = E_0
-    \end{equation*}
-    is the cycle along the whole crater.
-\end{itemize}
-Both cases have interesting consequences:
-
-\paragraph*{First case} The fact that the conjugate of $E_i \to E_{i + 1}$ is the dual of $E_{n - i - 1} \to E_{n - i}$ implies that $E_i^{(p)} = E_{n - i}$.
-In particular, if $n$ is even, we find that $E_{n/2}$ is defined over $\F_p$.
-
-Note that we have
-\begin{prop}
-    Let $E$ be an ordinary Elliptic Curve defined over a finite field of characteristic $p$.
-    Then $\End(E)$ has an element of norm $p$ if and only if $j(E) \in \F_p$.
-\end{prop}
-\begin{proof}
-    The direction $\Leftarrow$ is clear, as the norm of the $p$-th power Frobenius endomorphism is $p$.
-    For the direction $\Rightarrow$, assume there is an element $\alpha \in \End(E)$ with $N(\alpha) = p$.
-    If $\alpha$ is inseparable (as isogeny), then we have that it factors through the $p$-th power Frobenius endomorphism $\pi$, and thus $\alpha = \lambda \circ \pi$ for an isomorphism $\lambda: E^{(p)} \to E$.
-    Thus $j(E^{(p)}) = j(E)$.
-
-    On the other hand, if $\alpha$ is separable, it must have kernel of size $p$, so $\ker(\alpha) = E[p]$ since $\#E[p] = p$ ($E$ is ordinary).
-    Thus $\ker(\alpha) \subseteq \ker([p])$ and we see that $[p]$ factors through $\alpha$ as $[p] = \psi \circ \alpha$.
-    Now have that $\deg(\psi) = p = p^2/\deg(\alpha)$ and clearly $\psi$ is inseparable.
-    The claim follows as above.
-\end{proof}
-In particular, it follows that either all or none of the curves on the crater of the vulcano have $j(E) \in \F_p$. 
+To analyze further what happens in this case, consider the next proposition.
 \begin{prop}
     Let $[\b] \in \Cl(\O)$ where $\O = \End(E)$ for an ordinary Elliptic Curve $E/\F_{p^2}$ such that $[\b].E = E^{(p)}$.
     Then $[\b]^2 = [(1)]$.
 \end{prop}
 \begin{proof}
-    First, we have a short look on the Galois group action on $\Cl(\O)$.
-    Let $\sigma$ be the unique nontrivial ring automorphism of $\O$ (resp. $\K = \O \otimes_{\Z} \mathbb{Q}$).
-    Consider some invertible ideal $\a \leq \O$.
-    By \cite[I.12.4]{neukirch}, we know that $\a_\p := \a \O_\p$ is principal for every prime $\p \leq \O$.
-    Hence, we have that
+    We recall the definition of the class group action in the case $[\b].E^{(p)}$.
+    For an ideal $\b' \leq \End(E^{(p)})$, have by definition
     \begin{equation*}
-        (\a \sigma(\a))_\p = \a_\p \sigma(\a)_\p = \a_\p \sigma (\a_\p) = (a)(\sigma(a)) = (N(a))
+        [\b'].E^{(p)} = E^{(p)} / E^{(p)}[\b'] = E^{(p)} / \bigcap_{\beta \in \b'} \ker(\beta)
     \end{equation*}
-    where $\a_\p = (a)$, since $\sigma$ extends to the unique nontrivial field automorphism of $\K$, thus is compatible with localization.
-    Hence $[\sigma\a] = [\a]^{-1} \in \Cl(\O)$, thus the induced group homomorphism on $\Cl(\O)$ is
+    However, $\b$ is an ideal in $\End(E)$, which is only isomorphic to $\End(E^{(p)})$.
+    Since $\End^0(E)$ is a quadratic imaginary number field, it has one nontrivial field automorphism, and thus the isomorphism $\End(E) \cong \End(E^{(p)})$ is not unique.
+    But there is a unique canonical isomorphism, i.e. an isomorphism that is induced by an (equivalently any) isogeny $\phi: E \to E^{(p)}$ as
     \begin{equation*}
-        \Cl(\O) \to \Cl(\O), \quad [\a] \mapsto [\a]^{-1}
+        \Phi_*: \End(E) \to \End(E^{(p)}), \quad \alpha \mapsto \frac 1 {\deg(\phi)} \ \phi \circ \alpha \circ \hat{\phi}
     \end{equation*}
-
-    Now consider $\b \leq \O$ with $[\b].E = E^{(p)}$.
-    Let $\phi$ be the unique isogeny $\phi: E \to E/E[\b] = E^{(p)}$.
-    Then
+    This is the isomorphism we use, i.e. we say
     \begin{equation*}
-        \ker(\phi^{(p)}) = E[\b]^p = \bigcap_{b \in \b} \ker(b)^p = \bigcap_{b \in \b} \ker(b^{(p)}) = \bigcap_{b \in \b^{(p)}} \ker(b) = E^{(p)}[\b^{(p)}]
-    \end{equation*}
-    Recall that the action of $[\a] \in \Cl(\O)$ on $E^{(p)}$ is defined as $E^{(p)}/E^{(p)}[\phi(\a)]$ where $\phi: \O \to \End(E^{(p)})$ is an isomorphism.
-    Since $\O$ only has the nontrivial automorphism $\sigma$ and $\cdot^{(p)}: \O \to \End(E^{(p)})$ is an isomorphism, we have $\phi = \cdot^{(p)}$ or $\phi = \cdot^{(p)} \circ \sigma$.
-
-    If $\phi = \cdot^{(p)}$, have that
-    \begin{equation*}
-        E^{(p)}/E^{(p)}[\b^{(p)}] = E^{(p)}/E^{(p)}[\phi(\b)] = [\b].E^{(p)}
-    \end{equation*}
-    and so $[\b]^2.E = E^{(p)}/E^{(p)}[\b^{(p)}] = \mathrm{im}(\phi^{(p)}) = E^{(p^2)} = E$.
-    Since the action of $\Cl(\O)$ is free, it follows that $[\b]^2 = [(1)]$.
-
-    On the other hand, if $\phi = \cdot^{(p)} \circ \sigma$, by the preliminary analysis, find
-    \begin{equation*}
-        E^{(p)}/E^{(p)}[\b^{(p)}] = E^{(p)}/E^{(p)}[\phi(\sigma(\b))] = [\sigma(\b)].E^{(p)} = [\b]^{-1}.E^{(p)}
+        E^{(p)}[\b] = E^{(p)}[\Phi_*(\b)] \quad \text{and} \quad [\b].E^{(p)} = [\Phi_*(\b)].E^{(p)} = E^{(p)}/E^{(p)}[\b]
     \end{equation*}
 
+    Now let $\phi: E \to E/E[\b] = E^{(p)}$ be a separable isogeny with kernel $E[\b]$ (by choosing the representative $\b$ of $[\b] \in \Cl(\O)$ correspondingly, we can assume that).
+    We have
+    \begin{equation*}
+        \ker(\phi^{(p)}) = E[\b]^{(p)} = \bigcap_{\beta \in \b} \ker(\beta)^{(p)} = \bigcap_{\beta \in \b} \ker(\beta^{(p)}) = \bigcap_{\beta \in \b^{(p)}} \ker(\beta)
+    \end{equation*}
+    Now note that the Frobenius isogeny $\pi: E \to E^{(p)}, \ P \mapsto P^{(p)}$ induces the canonical isomorphism $\End(E) \to \End(E^{(p)})$ and so the image of $\b$ under that isomorphism is $\b' = \b^{(p)} \leq \End(E^{(p)})$.
+    Thus
+    \begin{equation*}
+        \bigcap_{\beta \in \b^{(p)}} \ker(\beta) = \bigcap_{\beta \in \b'} \ker(\beta) = E^{(p)}[\b'] = E^{(p)}[\b]
+    \end{equation*}
+    So by the uniqueness of the image curve for an isogeny with fixed kernel yields that $E = \mathrm{im}(\phi^{(p)}) = [\b].E^{(p)}$.
+    Thus $[\b]^2.E = [\b].E^{(p)} = E$ and since the class group action is free, we see that $[\b]^2 = [(1)]$.
 \end{proof}
-
-However, it looks like this might never happens\footnote{Well, it certainly happens if $E^{(p)}$ and $E$ are not in the same vulcano, i.e. we are in case III (see also Figure~\ref{fig:example_odd_crater}).}.
+From this we get the
 \begin{figure}
     \includegraphics{./example_odd_crater.png}
-    \caption{\label{fig:example_odd_crater} A 3-isogeny vulcano over $\F_{97^2} = \F_{97}[z]$ where the crater has an odd vertex count. Here $\mathrm{MiPo}(z) = x^2 - x + 5$. Note that this satisfies case III, as e.g. $(43z + 61)^{97} = 54z + 7$ is not in this vulcano.}
+    \caption{\label{fig:example_odd_crater} A 3-isogeny vulcano over $\F_{101^2} = \F_{101}[\alpha]$ that satisfies case III (in the plot have $z = \alpha$).}
 \end{figure}
+\begin{corollary}
+    Assume that $E = E_0 \to E_1 \to ... \to E_n = E$ is the cycle once around the crater (and $j(E) \in \F_{p^2} \setminus \F_p$).
+    If $E^{(p)} = E_i$ then $n$ is even and $i = n/2$, i.e. $E^{(p)}$ is on the other side of the crater\footnote{Note that this does not hold if $E, E^{(p)}$ are not in the same crater, see Figure~\ref{fig:example_odd_crater}.}.
+\end{corollary}
+\begin{proof}
+    If $l$ does not split in $\O_\K$, then the crater has at most two elements and this is trivial.
+    So assume $(l) = \l_1 \l_2$.
+    It is known that then the action of $[\l_1]$ resp. $[\l_2]$ corresponds to walking around the crater in one direction resp. the other.
+    So wlog $[\l_1].E_i = E_{i + 1}$.
 
-\paragraph*{Second case} Since $\cdot^{(p)}$ is functorial, both paths $E_0 \to ... \to E_n$ and $E_n \to ... \to E_{n + m} = E_0$ must have same length, hence $n = m$.
-This shows that the crater has an even amount of vertices, and $E$ resp. $E^{(p)}$ are on opposite sites of the crater.
-In particular, the path between them has lengh $\omega(\log(p))$.
-This is the case in e.g. Figure~\ref{fig:example_II}.
+    Now assume that $E^{(p)} = E_i$, so $[\b].E = E_i = [\l_1]^i.E$.
+    Since the action is free, it follows that $[\b] = [\l_1]^i$
+    By the previous theorem, we have now $[\l_1]^{2i} = [\b]^2 = [(1)]$ and so $[\l_1]^{2i}.E = E_{2i} = E$.
+    Thus $i = n/2$ and the claim follows.
+\end{proof}
+In particular, the path between $E$ and $E^{(p)}$ is likely to have length $\omega(\log(p))$, since the crater is usually large.
+This is displayed e.g. Figure~\ref{fig:example_II}.
 
 \subsection{Case III}
 \begin{figure}
