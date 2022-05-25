@@ -1,9 +1,7 @@
-from re import X
-from zipfile import ZIP_BZIP2
 from sage.groups.generic import discrete_log
-from sage.arith.misc import CRT
 from discrete_log_sage import two_dim_discrete_log
 from division_polynomial_sage import division_polynomials
+from finite_fields_sage import extension_field, joint_field, joint_fields_multiple
 
 def highest_power_dividing(l, N):
     result = 0
@@ -26,47 +24,53 @@ def torsion_group_gens(E, l, e):
 
     assert l.is_prime()
 
-    def extension_field(d):
-        F = E.base_field()
-        P = PolynomialRing(F, ['t'])
-        t = P.gen(0)
-        poly = t**d
-        while not poly.is_prime():
-            for i in range(min(d - 1, 10)):
-                poly += F.random_element() * t**i
-        return F.extension(poly)
-
     def extension_field_sqrt(f):
-        P = PolynomialRing(f.parent(), ['T'])
-        T = P.gen(0)
-        roots = (T**2 - f).roots()
-        assert len(roots) == 2 or roots[0][1] == 2
-        return roots[0][0]
+        F = f.parent()
+        if f**Integer((F.order() - 1)/2) != 1:
+            return None
+        P = PolynomialRing(F, ['X'])
+        X, = P.gens()
+        poly = X**2 - f
+        R = P.quotient(P.ideal([poly]))
+        mul_order = F.order() - 1
+        while True:
+            g = (R.random_element() ** Integer(mul_order/2)).lift()
+            g = gcd(g - 1, poly)
+            if g.degree() == 1:
+                return g[0]/g[1]
     
     f, _, h = division_polynomials(E, l**e)
     P = PolynomialRing(E.base_field(), ['x'])
     h = P(h / gcd(h, f))
-    degree = 1
-    for (c, _) in factor(h):
-        degree = lcm(degree, c.degree())
+    ext_deg = 1
+    for (u, _) in factor(h):
+        ext_deg = lcm(ext_deg, u.degree())
+    ext_deg = ext_deg * 2
 
-    degree = degree * 2
-    print("Extension degree is " + str(degree))
-    F = extension_field(degree)
+    print("Extension degree is " + str(ext_deg))
+    F = extension_field(E.base_field(), ext_deg)
     Eext = E.base_extend(F)
+    N = E.cardinality(extension_degree = ext_deg)
+    print("Cardinality over extension field is " + str(N))
+    n = Integer(N / l**highest_power_dividing(l, N))
     O = Eext(0, 1, 0)
 
     def points():
-        for (u, _) in factor(h):
-            print("Factoring " + str(u.change_ring(F)))
-            for (x, _) in u.change_ring(F).roots():
-                y = extension_field_sqrt(x**3 + E.a4()*x + E.a6())
-                yield Eext(x, y)
+        while True:
+            a = F.random_element()
+            b = extension_field_sqrt(a**3 + a * E.a4() + E.a6())
+            if b is None:
+                continue
+            P = Eext(a, b) * n
+            if P * l**(e - 1) == O:
+                continue
+            while P * l**e != O:
+                P = P * l
+            print("Found order " + str(l**e) + " point")
+            yield P
     
     point_iter = points()
     P = next(point_iter)
-    while P * l**(e - 1) == O:
-        P = next(point_iter)
     assert P != O and P * l**e == O
     while True:
         Q = next(point_iter)

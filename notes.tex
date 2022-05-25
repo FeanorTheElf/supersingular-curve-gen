@@ -105,7 +105,51 @@ For a more interesting example, see Figure~\ref{fig:example_II}.
     \caption{\label{fig:example_II} A 3-isogeny vulcano over $\F_{101^2} = \F_{101}[\alpha]$ that satisfies case II (in the plot have $z = \alpha$). Note that e.g. $(39\alpha + 77)^{101} = 62\alpha + 31$.}
 \end{figure}
 
-To analyze further what happens in this case, consider the next proposition.
+Further, when we consider the path $E = E_0 \to ... \to E_n = E^{(p)}$ on the crater, there are more or less two possibilities for the $\cdot^{(p)}$ conjugate path\footnote{Remember that $\cdot^{(p)}$ is functorial, hence we can also apply to isogenies $E_i \to E_{i + 1}$}.
+\begin{itemize}
+    \item It could be that the conjugate of $E_i \to E_{i + 1}$ is the dual of $E_{n - i - 1} \to E_{n - i}$, hence we just go the path $E \to ... \to E^{(p)}$ backwards.
+    \item It could be that the conjugate of $E_i \to E_{i + 1}$ is $E_{n + i} \to E_{n + i + 1}$, where
+    \begin{equation*}
+        E_0, ..., E_n, E_{n + 1}, ..., E_{n + m} = E_0
+    \end{equation*}
+    is the cycle along the whole crater.
+\end{itemize}
+Both cases have interesting consequences:
+
+\paragraph*{First case} The fact that the conjugate of $E_i \to E_{i + 1}$ is the dual of $E_{n - i - 1} \to E_{n - i}$ implies that $E_i^{(p)} = E_{n - i}$.
+In particular, if $n$ is even, we find that $E_{n/2}$ is defined over $\F_p$.
+
+Note that we have
+\begin{prop}
+    Let $E$ be an ordinary Elliptic Curve defined over a finite field of characteristic $p$.
+    \begin{itemize}
+        \item $\End(E)$ has an element of norm $p$ iff $j(E) \in \F_p$.
+        \item $\End(E)$ has a nontrivial element (i.e. $\neq \pm p$) of norm $p^2$ iff $j(E) \in \F_{p^2}$. 
+    \end{itemize}
+\end{prop}
+\begin{proof}
+    The directions $\Leftarrow$ is clear, as the norm of the $q$-th power Frobenius endomorphism is $q$.
+
+    For the direction $\Rightarrow$, assume there is an element $\alpha \in \End(E)$ with $N(\alpha) = p$.
+    If $\alpha$ is inseparable (as isogeny), then we have that it factors through the $p$-th power Frobenius endomorphism $\pi$, and thus $\alpha = \lambda \circ \pi$ for an isomorphism $\lambda: E^{(p)} \to E$.
+    Thus $j(E^{(p)}) = j(E)$.
+
+    On the other hand, if $\alpha$ is separable, it must have kernel of size $p$, so $\ker(\alpha) = E[p]$ since $\#E[p] = p$ ($E$ is ordinary).
+    Thus $\ker(\alpha) \subseteq \ker([p])$ and we see that $[p]$ factors through $\alpha$ as $[p] = \psi \circ \alpha$.
+    Now have that $\deg(\psi) = p = p^2/\deg(\alpha)$ and clearly $\psi$ is inseparable.
+    The claim follows as above.
+
+    For the second point, assume $\alpha \in \End(E)$ has norm $N(\alpha) = p^2$ and $\alpha \neq \pm p$.
+    If $\alpha$ is purely inseparable, we are done.
+    If $\alpha$ is separable, its kernel must be $E[p^2]$ and so it factors through $[p^2]$.
+    Since $[p^2]$ has inseparability degree $p^2$, we see that $[p^2] = \pi^2 \circ \alpha$ where $\pi$ is the $p$-th power Frobenius morphism.
+    Since $\alpha$ is an endomorphism of $E$, find $\pi^2: E \to E$, thus $j(E) \in \F_{p^2}$.
+
+    Finally, if $\alpha$ has inseparability degree $p$, then its kernel must be $E[p]$ and so $\alpha = \beta \circ \pi$ where $\beta: E^{(p)} \to E$ is separable with kernel $E^{(p)}[p]$.
+    However, by the uniqueness of the separable isogeny with kernel $E^{(p)}[p]$, we know that (up to isomorphism) also $[p]$ is $\beta \circ \pi$.
+    Thus $\alpha = \pm p$, a contradiction.
+\end{proof}
+In particular, it follows that either all or none of the curves on the crater of the vulcano have $j(E) \in \F_p$. 
 \begin{prop}
     Let $[\b] \in \Cl(\O)$ where $\O = \End(E)$ for an ordinary Elliptic Curve $E/\F_{p^2}$ such that $[\b].E = E^{(p)}$.
     Then $[\b]^2 = [(1)]$.
@@ -194,6 +238,25 @@ and
 is the set of j-invariants of all Elliptic Curves with endomorphism ring $\cong \End(E)$.
 On this set, $\Cl(\Z[4\sqrt{-5}])$ then acts freely and transitively.
 Now it would be of course interesting to find out how $\Cl(\Z[4\sqrt{-5}])$ really looks like.
+
+\section{Properties of the endomorphism ring vs the cases}
+Let $E/\F_{p^2}$ be an ordinary Elliptic Curve and write $\O := \End(E), \K := \End(E) \otimes \mathbb{Q}$.
+Let $\pi$ be the $q = p^2$-th power Frobenius endomorphism and let $t$ be the trace of Frobenius.
+Assume $p \neq 2$.
+\begin{lemma}
+    Have $(p) = (p, \pi)(p, \pi - t)$.
+\end{lemma}
+\begin{proof}
+    Have
+    \begin{equation*}
+        (p, \pi)(p, \pi - t) = (p^2, p\pi, p\pi - pt, \pi^2 - t\pi) = (p^2, pt, p\pi, -p^2) = (up^2 + vtp, ...) = (p)
+    \end{equation*}
+    where $up + vt = 1$ (note that $t \perp p$ since $E$ is ordinary).
+\end{proof}
+\begin{prop}
+    Let $E/\F_{p^2}$ be an ordinary Elliptic Curve.
+    Then $p = p_1 p_2$ in $\End(E)$.
+\end{prop}
 
 \section{Example - The ordinary endomorphism ring}
 \begin{table}
