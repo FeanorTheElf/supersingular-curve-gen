@@ -121,40 +121,14 @@ In particular, if $n$ is even, we find that $E_{n/2}$ is defined over $\F_p$.
 
 Note that we have
 \begin{prop}
-    Let $E$ be an ordinary Elliptic Curve defined over a finite field of characteristic $p$.
-    \begin{itemize}
-        \item $\End(E)$ has an element of norm $p$ iff $j(E) \in \F_p$.
-        \item $\End(E)$ has a nontrivial element (i.e. $\neq \pm p$) of norm $p^2$ iff $j(E) \in \F_{p^2}$. 
-    \end{itemize}
-\end{prop}
-\begin{proof}
-    The directions $\Leftarrow$ is clear, as the norm of the $q$-th power Frobenius endomorphism is $q$.
-
-    For the direction $\Rightarrow$, assume there is an element $\alpha \in \End(E)$ with $N(\alpha) = p$.
-    If $\alpha$ is inseparable (as isogeny), then we have that it factors through the $p$-th power Frobenius endomorphism $\pi$, and thus $\alpha = \lambda \circ \pi$ for an isomorphism $\lambda: E^{(p)} \to E$.
-    Thus $j(E^{(p)}) = j(E)$.
-
-    On the other hand, if $\alpha$ is separable, it must have kernel of size $p$, so $\ker(\alpha) = E[p]$ since $\#E[p] = p$ ($E$ is ordinary).
-    Thus $\ker(\alpha) \subseteq \ker([p])$ and we see that $[p]$ factors through $\alpha$ as $[p] = \psi \circ \alpha$.
-    Now have that $\deg(\psi) = p = p^2/\deg(\alpha)$ and clearly $\psi$ is inseparable.
-    The claim follows as above.
-
-    For the second point, assume $\alpha \in \End(E)$ has norm $N(\alpha) = p^2$ and $\alpha \neq \pm p$.
-    If $\alpha$ is purely inseparable, we are done.
-    If $\alpha$ is separable, its kernel must be $E[p^2]$ and so it factors through $[p^2]$.
-    Since $[p^2]$ has inseparability degree $p^2$, we see that $[p^2] = \pi^2 \circ \alpha$ where $\pi$ is the $p$-th power Frobenius morphism.
-    Since $\alpha$ is an endomorphism of $E$, find $\pi^2: E \to E$, thus $j(E) \in \F_{p^2}$.
-
-    Finally, if $\alpha$ has inseparability degree $p$, then its kernel must be $E[p]$ and so $\alpha = \beta \circ \pi$ where $\beta: E^{(p)} \to E$ is separable with kernel $E^{(p)}[p]$.
-    However, by the uniqueness of the separable isogeny with kernel $E^{(p)}[p]$, we know that (up to isomorphism) also $[p]$ is $\beta \circ \pi$.
-    Thus $\alpha = \pm p$, a contradiction.
-\end{proof}
-In particular, it follows that either all or none of the curves on the crater of the vulcano have $j(E) \in \F_p$. 
-\begin{prop}
     Let $[\b] \in \Cl(\O)$ where $\O = \End(E)$ for an ordinary Elliptic Curve $E/\F_{p^2}$ such that $[\b].E = E^{(p)}$.
     Then $[\b]^2 = [(1)]$.
 \end{prop}
 \begin{proof}
+    I think there is some mistake with my definition of the class group action, see also the next paragraph.
+    With the current (probably wrong) definition, the following works.
+    Otherwise, I suppose that anyway we have $[\b] = [(p, \pi)]$ and then the claim follows by Lemma~\ref{prop:p_split_order_2}.
+
     We recall the definition of the class group action in the case $[\b].E^{(p)}$.
     For an ideal $\b' \leq \End(E^{(p)})$, have by definition
     \begin{equation*}
@@ -240,11 +214,54 @@ On this set, $\Cl(\Z[4\sqrt{-5}])$ then acts freely and transitively.
 Now it would be of course interesting to find out how $\Cl(\Z[4\sqrt{-5}])$ really looks like.
 
 \section{Properties of the endomorphism ring vs the cases}
+
+\begin{prop}
+    Let $E$ be an ordinary Elliptic Curve defined over a finite field of characteristic $p$.
+    \begin{itemize}
+        \item $\End(E)$ has an element of norm $p$ iff $j(E) \in \F_p$.
+        \item $\End(E)$ has a nontrivial element (i.e. $\neq \epsilon p$ for a unit $\epsilon$) of norm $p^2$ iff $j(E) \in \F_{p^2}$. 
+    \end{itemize}
+\end{prop}
+\begin{proof}
+    The directions $\Leftarrow$ is clear, as the norm of the $q$-th power Frobenius endomorphism is $q$.
+
+    For the direction $\Rightarrow$, assume there is an element $\alpha \in \End(E)$ with $N(\alpha) = p$.
+    If $\alpha$ is inseparable (as isogeny), then we have that it factors through the $p$-th power Frobenius endomorphism $\pi$, and thus $\alpha = \lambda \circ \pi$ for an isomorphism $\lambda: E^{(p)} \to E$.
+    Thus $j(E^{(p)}) = j(E)$.
+
+    On the other hand, if $\alpha$ is separable, it must have kernel of size $p$, so $\ker(\alpha) = E[p]$ since $\#E[p] = p$ ($E$ is ordinary).
+    Thus $\ker(\alpha) \subseteq \ker([p])$ and we see that $[p]$ factors through $\alpha$ as $[p] = \psi \circ \alpha$.
+    Now have that $\deg(\psi) = p = p^2/\deg(\alpha)$ and clearly $\psi$ is inseparable.
+    The claim follows as above.
+
+    For the second point, assume $\alpha \in \End(E)$ has norm $N(\alpha) = p^2$ and $\alpha \neq \pm p$.
+    If $\alpha$ is purely inseparable, we are done.
+    If $\alpha$ is separable, its kernel must be $E[p^2]$ and so it factors through $[p^2]$.
+    Since $[p^2]$ has inseparability degree $p^2$, we see that $[p^2] = \pi^2 \circ \alpha$ where $\pi$ is the $p$-th power Frobenius morphism.
+    Since $\alpha$ is an endomorphism of $E$, find $\pi^2: E \to E$, thus $j(E) \in \F_{p^2}$.
+
+    Finally, if $\alpha$ has inseparability degree $p$, then its kernel must be $E[p]$ and so $\alpha = \beta \circ \pi$ where $\beta: E^{(p)} \to E$ is separable with kernel $E^{(p)}[p]$.
+    However, by the uniqueness of the separable isogeny with kernel $E^{(p)}[p]$, we know that (up to isomorphism) also $[p]$ is $\beta \circ \pi$.
+    This now implies that $\alpha = \epsilon p$ for some unit $\epsilon$.
+\end{proof}
+\begin{prop}
+    Let $D < 0$.
+    Then the curves $E$ with $\End(E) = \Z[\sqrt{D}]$ have $j(E) \in \F_{p^2} \setminus \F_p$ if and only if
+    \begin{equation*}
+        a^2 - b^2 D = p
+    \end{equation*}
+    has no solution $a, b \in \Z$ and
+    \begin{equation*}
+        a^2 - b^2 D = p
+    \end{equation*}
+    has a nontrivial solution $a, b \in \Z$.
+\end{prop}
+
 Let $E/\F_{p^2}$ be an ordinary Elliptic Curve and write $\O := \End(E), \K := \End(E) \otimes \mathbb{Q}$.
-Let $\pi$ be the $q = p^2$-th power Frobenius endomorphism and let $t$ be the trace of Frobenius.
+Let $\pi$ be the $q = p^2$-th power Frobenius endomorphism and let $t$ be its trace.
 Assume $p \neq 2$.
 \begin{lemma}
-    Have $(p) = (p, \pi)(p, \pi - t)$.
+    Have $(p) = (p, \pi)(p, \pi - t)$ in $\Z[\pi]$, $\O$ resp. $\O_\K$.
 \end{lemma}
 \begin{proof}
     Have
@@ -253,10 +270,28 @@ Assume $p \neq 2$.
     \end{equation*}
     where $up + vt = 1$ (note that $t \perp p$ since $E$ is ordinary).
 \end{proof}
-\begin{prop}
-    Let $E/\F_{p^2}$ be an ordinary Elliptic Curve.
-    Then $p = p_1 p_2$ in $\End(E)$.
-\end{prop}
+\begin{lemma}
+    $(p, \pi)$ is principal (in $\O$) if and only if $E/\F_p$.
+\end{lemma}
+\begin{proof}
+    If $(p, \pi)$ is principal, then its generator is an element of norm $p$, so $E/\F_p$.
+    On the other hand, if $E/\F_p$, then the $p$-th power Frobenius endomorphism $\pi_p$ satisfies $p = \pi_p(t_p - \pi_p)$, $\pi = \pi_p^2$ and $\pi_p = u(\pi + p) + v\pi_p p$, where $t_p$ is its trace and $u t + v p = 1$.
+\end{proof}
+There must be some problem in my definition of the class group action, as it can happen that $[(p, \pi)]$ is not $[(1)]$, but $E[(p, \pi)]$ is clearly trivial, so\footnote{We know that $(p, \pi)$ is invertible, as $\frac 1 p (p, \pi)(p, \pi - t) = (1)$.} $(p, \pi).E = E/E[(p, \pi)] = E$.
+However, this contradicts the freeness of the class group action.
+\begin{lemma}
+    \label{prop:p_split_order_2}
+    Assume $j \neq 0, 1728$.
+    $[(p, \pi)]$ has order $\leq 2$ in $\Cl(\O)$ resp. $\Cl(\O_\K)$.
+\end{lemma}
+\begin{proof}
+    Since $E/\F_{p^2}$, we know that there is a nontrivial element $\alpha$ of norm $p^2$.
+    Now have in $\O_\K$ that $(\alpha) | (p)^2$ and with $p = (p, \pi)(p, \pi - t)$ have thus $(\alpha) = (p)$ or $(\alpha) = (p, \pi)^2$ or $(\alpha) = (p, \pi - t)^2$.
+    However, by assumption we only have units $\pm 1$ in $\O_\K$ resp. $\O$, so the first case is impossible, as it implies $\alpha = \pm p$.
+
+    Note that $[(p, \pi)] = [(p, \pi - t)^{-1}]$, so wlog assume $(\alpha) = (p, \pi)^2$.
+    It follows that $(p, \pi)^2$ is principal, so $[(p, \pi)]^2 = [(1)]$.
+\end{proof}
 
 \section{Example - The ordinary endomorphism ring}
 \begin{table}
