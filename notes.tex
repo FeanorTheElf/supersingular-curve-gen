@@ -11,6 +11,7 @@
 \usepackage{amssymb}
 \usepackage{listings}
 \usepackage{xparse}
+\usepackage{stmaryrd}
 \usepackage{geometry}
 \usepackage{enumerate}
 \usepackage{tikz}
@@ -39,6 +40,7 @@
 \newcommand{\Cl}{\mathrm{Cl}}
 \newcommand{\K}{\mathcal{K}}
 \newcommand{\p}{\mathfrak{p}}
+\newcommand{\q}{\mathfrak{q}}
 \renewcommand{\l}{\mathfrak{l}}
 \renewcommand{\a}{\mathfrak{a}}
 \renewcommand{\b}{\mathfrak{b}}
@@ -291,6 +293,137 @@ However, this contradicts the freeness of the class group action.
 
     Note that $[(p, \pi)] = [(p, \pi - t)^{-1}]$, so wlog assume $(\alpha) = (p, \pi)^2$.
     It follows that $(p, \pi)^2$ is principal, so $[(p, \pi)]^2 = [(1)]$.
+\end{proof}
+
+\section{The local-to-global principle for the endomorphism ring}
+Consider an ordinary Elliptic Curve $E/\F_q$, $\O := \End(E)$, $\K := \O \otimes \mathbb{Q}$ and $\O_\K$ the ring of integers in $\K$.
+Assume that $j(E) \in \F_q$ is not contained in any proper subfield of $\F_q$ and let $\pi$ be the $q$-th power Frobenius endomorphism.
+Let $t$ be its trace.
+\begin{prop}
+    $p \notdivides d(\O)$
+\end{prop}
+\begin{proof}
+    Have that 
+    \begin{equation*}
+        d(\Z[\pi]) = t^2 - 4q \perp p
+    \end{equation*}
+    since $t \perp p$ as $E$ is ordinary.
+    The claim follows since $d(\O) \divides d(\O) [\O : \Z[\pi]]^2 = d(\Z[\pi])$.
+\end{proof}
+\begin{prop}
+    Let $\a \leq \O$. Then $\a \cap \Z = (a)$ with $a \divides [\O : \a] \divides a^2$.
+    Note that if $\a = \p$ is prime, then trivially $a$ must be prime.
+\end{prop}
+\begin{proof}
+    Clearly $[\O : \a] \in \a$ as $1 \in \O/\a$ has order dividing $\#(\O/\a) = [\O : \a]$, so $a \divides [\O : \a]$.
+    On the other hand, have $[\O : \a] \divides [\O : a\O] = a^2$.
+\end{proof}
+\begin{lemma}
+    \label{prop:prime_generators_in_order}
+    Let $\p \leq \O_\K$ be a prime with $\N(\p) \perp [\O_\K : \O]$.
+    Then $\p$ has a set of generators in $\O$.
+\end{lemma}
+\begin{proof}
+    Suppose $\p$ is a prime over $p$, and let $\O = \Z[\phi]$.
+    If $\mathrm{MiPo}(\phi) = f(X)g(X) \mod p$ splits, then have
+    \begin{equation*}
+        p\O_\K = (p, f(\phi))(p, g(\phi))
+    \end{equation*}
+    and so the prime ideals over $p$ are $(p, f(\phi))$ and $(p, g(\phi))$.
+    If $\mathrm{MiPo}(\phi) \mod p$ is irreducible, then have that $p\O_\K$ is prime and thus the only prime ideal over $p$.
+    Hence, all prime ideals over $p$ (including $\p$) have a set of generators in $\O$.
+\end{proof}
+\begin{lemma}
+    \label{prop:prime_splitting_order}
+    Let $p$ be a prime number that does not divide $[\O_\K : \O]$.
+    Assume $\O = \Z[\phi]$.
+    \begin{itemize}
+        \item Suppose that $p$ splits in $\O_\K$ as $p\O = \p_1 \p_2$ (this includes the case that $p$ is ramified, i.e. $\p_1 = \p_2$).
+        Then have in $\O$ that
+        \begin{equation*}
+            p\O = (\p_1 \cap \O)(\p_2 \cap \O)
+        \end{equation*}
+        These are all prime ideals over $p$, and so in particular the decomposition is unique.
+        \item Suppose that $p$ is inert (in $\O_\K$), i.e. $p\O_\K$ is prime. 
+        Then clearly also $p\O$ is prime, and it is the only prime ideal over $p$.
+    \end{itemize}
+    In particular, all primes over $p$ are invertible in $\O$.
+\end{lemma}
+\begin{proof}
+    We have that $\mathrm{MiPo}(\phi) = f_1(X) f_2(X) \mod (p)$, and so
+    \begin{equation*}
+        p\O_\K = \underbrace{(p, f_1(\phi))}_{= \p_1}\underbrace{(p, f_2(\phi))}_{= \p_2}
+    \end{equation*}
+    in $\O_\K$.
+    Since $p, f_1(\phi), f_2(\phi) \in \O$, we see that
+    \begin{equation*}
+        p \in (\p_1 \cap \O)(\p_2 \cap \O)
+    \end{equation*}
+    On the other hand, have $f_1(\phi)f_2(\phi) = 0 \mod (p)$, so also
+    \begin{equation*}
+        p\O \supseteq (\p_1 \cap \O)(\p_2 \cap \O)
+    \end{equation*}
+    Now assume we have a prime ideal $\q$ over $p$.
+    Then clearly $p \in \q$.
+    In particular, have also $f_1(\phi)f_2(\phi) \in \q$ since $p \divides f_1(\phi) f_2(\phi)$.
+    wlog $f_1(\phi) \in \q$. Thus $\p_1 \subseteq \q$.
+    Since $\O$ has Krull dimension 1 \Cite[I.12.2]{neukirch}, it follows that $\q = \p_1$.
+
+    It is clear that $p\O$ is prime.
+    Assume there is a prime ideal $\q \leq \O$ over $p$, i.e. $\q \cap \Z = (p)$.
+    So $p \in \q$ and thus $p\O \subseteq \q$.
+    Again, since $\O$ has Krull dimension 1, we see that $\q = p\O$.
+\end{proof}
+\begin{prop}
+    Let $\mathfrak{I}(\O)$ resp. $\mathfrak{I}(\O_\K)$ denote the set of invertible ideals of norm $\perp [\O_\K : \O]$.
+    Then
+    \begin{align*}
+        \mathfrak{I}(\O) &\to \mathfrak{I}(\O_\K) \\
+        \a &\mapsto \a\O_\K
+    \end{align*}
+    is a monoid isomorphism.
+\end{prop}
+\begin{proof}
+    Clearly, this is a well-defined monoid homomorphism.
+    Hence, we have to show that it is bijective.
+    Consider the map
+    \begin{align*}
+        \mathfrak{I}(\O_\K) \to \mathfrak{I}(\O), \quad \a \mapsto \a \cap \O
+    \end{align*}
+    First, we show that it is well-defined.
+    Assume $\a \leq \O_\K$ with $\a = \prod \p_i^{e_i}$ where $\p_i$ is a prime over $p_i$.
+    By Lemma~\ref{prop:prime_generators_in_order}, we see that
+    \begin{equation*}
+        (\a \cap \O) = \prod (\p_i \cap \O)
+    \end{equation*}
+    This shows that $\a \cap \O$ is invertible, as each $\p_i \cap \O$ is by Lemma~\ref{prop:prime_splitting_order}.
+    Furthermore, this shows that $\a$ has a set of generators in $\O$, and thus $(\a \cap \O)\O_\K = \a$.
+
+    Finally, consider an ideal $\a \leq \O$.
+    By ideal factorization, have again $\a\O_\K = \prod \p_i$.
+    As above, we find
+    \begin{equation*}
+        (\a\O_\K \cap \O) = \prod (\p_i \cap \O)
+    \end{equation*}
+    Since 
+\end{proof}
+\begin{prop}
+    Let $\a \leq R$ be a radical ideal in a commutative unital ring $R$.
+    If $\alpha \in \p$ for all primes $\p \supseteq \a$ then $\alpha \in \a$.
+\end{prop}
+\begin{proof}
+    We have that $\a_\alpha \neq (1)$ otherwise $\alpha^n \in \a$, so $\alpha \in \a$.
+    Thus $\a_\alpha \subseteq \mathfrak{m}$ for a maximal ideal $\mathfrak{m} \leq R_\alpha$.
+    A preimage under $R \to R_\alpha$ is now a prime $\p$ with $\a \subseteq \p$ and $\alpha \notin \p$.
+\end{proof}
+\begin{corollary}
+    If $q \perp d(\O)$ is an integer and $q \divides \alpha$ in $\O_\K$, then also $q \divides \alpha$ in $\O$.
+\end{corollary}
+\begin{proof}
+    It suffices to prove this for primes $q$.
+    Since $q \notdivides d(\O)$, we know that $(q)$ is unramified, hence radical.
+    Now observe that $\O_{\p} = (\O_\K)_\p$ for primes $\p$ over $q$ and so $\alpha \in \p$ for all primes $\p$ over $q$.
+    The previous proposition now shows that $\alpha \in (q)$.
 \end{proof}
 
 \section{Example - The ordinary endomorphism ring}
