@@ -116,10 +116,7 @@ Further, when we consider the path $E = E_0 \to ... \to E_n = E^{(p)}$ on the cr
     \end{equation*}
     is the cycle along the whole crater.
 \end{itemize}
-Both cases have interesting consequences:
-
-\paragraph*{First case} The fact that the conjugate of $E_i \to E_{i + 1}$ is the dual of $E_{n - i - 1} \to E_{n - i}$ implies that $E_i^{(p)} = E_{n - i}$.
-In particular, if $n$ is even, we find that $E_{n/2}$ is defined over $\F_p$.
+However, as we will see, the first case is impossible.
 
 Note that we have
 \begin{prop}
@@ -295,7 +292,7 @@ However, this contradicts the freeness of the class group action.
     It follows that $(p, \pi)^2$ is principal, so $[(p, \pi)]^2 = [(1)]$.
 \end{proof}
 
-\section{The local-to-global principle for the endomorphism ring}
+\section{Ideals in $\O$ resp. $\O_\K$}
 Consider an ordinary Elliptic Curve $E/\F_q$, $\O := \End(E)$, $\K := \O \otimes \mathbb{Q}$ and $\O_\K$ the ring of integers in $\K$.
 Assume that $j(E) \in \F_q$ is not contained in any proper subfield of $\F_q$ and let $\pi$ be the $q$-th power Frobenius endomorphism.
 Let $t$ be its trace.
@@ -319,7 +316,6 @@ Let $t$ be its trace.
     On the other hand, have $[\O : \a] \divides [\O : a\O] = a^2$.
 \end{proof}
 \begin{lemma}
-    \label{prop:prime_generators_in_order}
     Let $\p \leq \O_\K$ be a prime with $\N(\p) \perp [\O_\K : \O]$.
     Then $\p$ has a set of generators in $\O$.
 \end{lemma}
@@ -333,80 +329,56 @@ Let $t$ be its trace.
     If $\mathrm{MiPo}(\phi) \mod p$ is irreducible, then have that $p\O_\K$ is prime and thus the only prime ideal over $p$.
     Hence, all prime ideals over $p$ (including $\p$) have a set of generators in $\O$.
 \end{proof}
-\begin{lemma}
-    \label{prop:prime_splitting_order}
-    Let $p$ be a prime number that does not divide $[\O_\K : \O]$.
-    Assume $\O = \Z[\phi]$.
-    \begin{itemize}
-        \item Suppose that $p$ splits in $\O_\K$ as $p\O = \p_1 \p_2$ (this includes the case that $p$ is ramified, i.e. $\p_1 = \p_2$).
-        Then have in $\O$ that
-        \begin{equation*}
-            p\O = (\p_1 \cap \O)(\p_2 \cap \O)
-        \end{equation*}
-        These are all prime ideals over $p$, and so in particular the decomposition is unique.
-        \item Suppose that $p$ is inert (in $\O_\K$), i.e. $p\O_\K$ is prime. 
-        Then clearly also $p\O$ is prime, and it is the only prime ideal over $p$.
-    \end{itemize}
-    In particular, all primes over $p$ are invertible in $\O$.
-\end{lemma}
+\begin{corollary}
+    \label{prop:generators_in_order}
+    Let $\a \leq \O_\K$ be an ideal with $\N(\a) \perp [\O_\K : \O]$. Then $\a$ has a set of generators in $\O$.
+\end{corollary}
+\begin{prop}
+    Let $\p \leq \O$ be a prime and $\p' = \p\O_\K$.
+    Then $\O_\p = (\O_\K)_{\p'}$.
+\end{prop}
 \begin{proof}
-    We have that $\mathrm{MiPo}(\phi) = f_1(X) f_2(X) \mod (p)$, and so
-    \begin{equation*}
-        p\O_\K = \underbrace{(p, f_1(\phi))}_{= \p_1}\underbrace{(p, f_2(\phi))}_{= \p_2}
-    \end{equation*}
-    in $\O_\K$.
-    Since $p, f_1(\phi), f_2(\phi) \in \O$, we see that
-    \begin{equation*}
-        p \in (\p_1 \cap \O)(\p_2 \cap \O)
-    \end{equation*}
-    On the other hand, have $f_1(\phi)f_2(\phi) = 0 \mod (p)$, so also
-    \begin{equation*}
-        p\O \supseteq (\p_1 \cap \O)(\p_2 \cap \O)
-    \end{equation*}
-    Now assume we have a prime ideal $\q$ over $p$.
-    Then clearly $p \in \q$.
-    In particular, have also $f_1(\phi)f_2(\phi) \in \q$ since $p \divides f_1(\phi) f_2(\phi)$.
-    wlog $f_1(\phi) \in \q$. Thus $\p_1 \subseteq \q$.
-    Since $\O$ has Krull dimension 1 \Cite[I.12.2]{neukirch}, it follows that $\q = \p_1$.
-
-    It is clear that $p\O$ is prime.
-    Assume there is a prime ideal $\q \leq \O$ over $p$, i.e. $\q \cap \Z = (p)$.
-    So $p \in \q$ and thus $p\O \subseteq \q$.
-    Again, since $\O$ has Krull dimension 1, we see that $\q = p\O$.
+    We have $\O_\K = \Z[\alpha]$ and $\O = \Z[f\alpha]$ where $f = [\O_\K : \O]$.
+    Thus $f \notin \p$ and so $f \in \O_\p^*$.
+    Therefore $\O_\K \subseteq \O_\p$ and thus $(\O_\K)_{\p'} \subseteq \O_\p$.
 \end{proof}
 \begin{prop}
     Let $\mathfrak{I}(\O)$ resp. $\mathfrak{I}(\O_\K)$ denote the set of invertible ideals of norm $\perp [\O_\K : \O]$.
     Then
     \begin{align*}
-        \mathfrak{I}(\O) &\to \mathfrak{I}(\O_\K) \\
-        \a &\mapsto \a\O_\K
+        \mathfrak{I}(\O) \to \mathfrak{I}(\O_\K), \quad \a \mapsto \a\O_\K
     \end{align*}
-    is a monoid isomorphism.
+    is a monoid isomorphism with inverse
+    \begin{equation*}
+        \mathfrak{I}(\O_\K) \to \mathfrak{I}(\O), \quad \a \mapsto \a \cap \O
+    \end{equation*}
 \end{prop}
 \begin{proof}
     Clearly, this is a well-defined monoid homomorphism.
     Hence, we have to show that it is bijective.
-    Consider the map
-    \begin{align*}
-        \mathfrak{I}(\O_\K) \to \mathfrak{I}(\O), \quad \a \mapsto \a \cap \O
-    \end{align*}
-    First, we show that it is well-defined.
-    Assume $\a \leq \O_\K$ with $\a = \prod \p_i^{e_i}$ where $\p_i$ is a prime over $p_i$.
-    By Lemma~\ref{prop:prime_generators_in_order}, we see that
-    \begin{equation*}
-        (\a \cap \O) = \prod (\p_i \cap \O)
-    \end{equation*}
-    This shows that $\a \cap \O$ is invertible, as each $\p_i \cap \O$ is by Lemma~\ref{prop:prime_splitting_order}.
-    Furthermore, this shows that $\a$ has a set of generators in $\O$, and thus $(\a \cap \O)\O_\K = \a$.
 
-    Finally, consider an ideal $\a \leq \O$.
-    By ideal factorization, have again $\a\O_\K = \prod \p_i$.
-    As above, we find
+    By Corollary~\ref{prop:generators_in_order}, we know that any $\a \leq \O_\K$ with $\N(\a) \perp [\O_\K : \O]$ has generators in $\O$, thus $(\a \cap \O)\O_\K = \a$.
+    This shows that $\a \cap \O$ is a preimage of $\a$, and so the map is surjective. 
+
+    Assume now $\a, \b \leq \O$ with $\a\O_\K = \b\O_\K$ and $\N(\a), \N(\b) \perp [\O_\K : \O]$.
+    We show that $\a_\p = \b_\p$ for all primes $\p \leq \O$.
+    Note that if $\N(\p) \not\perp [\O_\K : \O]$, this holds trivially, as $\a_\p = \O_\p = \b_\p$.
+    Otherwise, note that
     \begin{equation*}
-        (\a\O_\K \cap \O) = \prod (\p_i \cap \O)
+        \a_\p = \a_\p \O_\p = \a (\O_\K)_\p = \a\O_\K(\O_\K)_\p = \b\O_\K(\O_\K)_\p = \b_\p (\O_\K)_\p = \b_\p
     \end{equation*}
-    Since 
+    as $\O_\p = (\O_\K)_\p$.
+    This shows that $\a_\p = \b_\p$ at all primes, so $\a = \b$ and our map is injective.
+    Furthermore, since $(\a \cap \O)\O_\K = \a$, we see that it has the inverse
+    \begin{equation*}
+        \mathfrak{I}(\O_\K) \to \mathfrak{I}(\O), \quad \a \mapsto \a \cap \O
+    \end{equation*}
+    which must then be well-defined.
 \end{proof}
+\begin{example}
+    Let $K = \mathbb{Q}(\sqrt{-3})$, then $\O_K = \Z[\frac {1 + \sqrt{-3}} 2]$ which is a PID.
+    Let further $\O = \Z[2\sqrt{-3}]$, so $f = [\O_K : \O] = 4$.
+\end{example}
 \begin{prop}
     Let $\a \leq R$ be a radical ideal in a commutative unital ring $R$.
     If $\alpha \in \p$ for all primes $\p \supseteq \a$ then $\alpha \in \a$.
@@ -425,18 +397,104 @@ Let $t$ be its trace.
     Now observe that $\O_{\p} = (\O_\K)_\p$ for primes $\p$ over $q$ and so $\alpha \in \p$ for all primes $\p$ over $q$.
     The previous proposition now shows that $\alpha \in (q)$.
 \end{proof}
+\section{Norm equations}
+\begin{lemma}
+    Let $D < 0$ and $\O$ be the imaginary quadratic order of discriminant $D$.
+    Then $1, \alpha$ with $\alpha = \frac {D + \sqrt{D}} 2$ is a $\Z$-basis of $\O$ and
+    \begin{equation*}
+        N(a + b\alpha) = \Bigl(a + \frac D 2 b\Bigr)^2 - \frac D 4 b^2
+    \end{equation*}
+\end{lemma}
+\begin{proof}
+    \begin{align*}
+        N(\alpha) =& a^2 + ab \frac {D + \sqrt{D}} 2 + ab \frac {D - \sqrt{D}} 2 + \frac {D^2 - D} 4 b^2 = a^2 + Dab + \frac {D^2 - D} 4 b^2 \\
+        =& \Bigl(a + \frac D 2 b\Bigr)^2 - \frac D 4 b^2
+    \end{align*}
+\end{proof}
+\begin{corollary}
+    Let $l$ be a prime and $D < 0$.
+    Let $\O$ be the quadratic imaginary order of discriminant $D$.
+    If there exists a nontrivial element $\alpha \in \O$ of norm $l^e$ (i.e. $\alpha \notin \Z$), then
+    \begin{equation*}
+        e \geq \log_l(-D) - \log_l(4)
+    \end{equation*} 
+\end{corollary}
+\begin{corollary}
+    Let $E/\bar{\F}_p$ be an ordinary Elliptic Curve such that $\End(E)$ has discriminant $D$.
+    Suppose that $j(E_0) \notin \F_p$.
+    Then the shortest $l$-isogeny path between $E$ and $E^{(p)}$ has length at least
+    \begin{equation*}
+        \frac 1 2 \log_l(-D) - \log_l(2)
+    \end{equation*}
+\end{corollary}
+\begin{proof}
+    First, define $E_0$ to be the corresponding curve on the crater of the $l$-isogeny vulcano.
+    Let $v \in \N$ be maximal with $l^v \divides [\End(E_0) : \End(E)]$, so $\End(E_0)$ has discriminant $D/l^v$.
+    Now we know that $E_0^{(p)}$ is at the opposite side of the crater, and the size of the crater is the order of $[\l_1]$ in $\Cl(\End(E_0))$ where $l = \l_1\l_2$.
+    If $e$ is this order, then we know that there must be a nontrivial element of order $l^e$ in $\End(E_0)$, so
+    \begin{equation*}
+        e \geq \log_l(-D/l^v) - \log_l(4)
+    \end{equation*}
+    Thus, the distance of $E_0$ and $E_0^{(p)}$ is at least
+    \begin{equation*}
+        \frac 1 2 e \geq \frac 1 2 \log_l(-D/l^v) - \frac 1 2 \log_l(4) = \frac 1 2 \log_l(-D) - \frac 1 2 v - \log_l(2)
+    \end{equation*}
+    However, the shortest path from $E$ to $E_0$ has length $v$, and similarly for the shortest path from $E^{(p)}$ to $E_0^{(p)}$.
+    Thus we find that the length of the shortest path from $E$ to $E^{(p)}$ is at least
+    \begin{equation*}
+        \frac 1 2 \log_l(-D) - \frac 1 2 v - \log_l(2) + 2v \geq \frac 1 2 \log_l(-D) - \log_l(2)
+    \end{equation*}
+\end{proof}
 
 \section{Example - The ordinary endomorphism ring}
 \begin{table}
     \begin{center}
-        \begin{tabular}{c c c}
-            $j(E)$ & $h(\End(E))$ & $[\O_\K : \Z[\phi]]$ \\
+        \begin{tabular}{c c c c c}
+            $j(E)$ & $h(\End(E))$ & $[\O_\K : \End(E)]$ & $d(\End(E))$ & $[\End(E) : \Z[\pi]]$ \\
             \hline
-            $\alpha$ & 36 & 6 \\
-            $4\alpha + 99$ & 64 & 2
+            $\alpha$ & 36 & 3 & -36315 & 1 \\
+            $4\alpha + 99$ & 64 & 1 & -40020 & 1 \\
+            $61\alpha + 16$ & 2 & 1 & -24 & 28 \\
+            $48\alpha + 73$ & 64 & ? & -37440 & ? \\
+            $12\alpha + 79$ & 12 & ? & -2548 & ? \\
+            $91\alpha + 34$ & 24 & ? & -16468 & ? \\
+            $95\alpha + 20$ & 64 & ? & -40548 & ? \\
+            $97\alpha + 12$ & 48 & ? & -35475 & ? \\
+            $97\alpha + 8$ & 48 & ? & -35620 & ? \\
+            $93\alpha + 8$ & 24 & ? & -23643 & ? \\
+            $77\alpha + 16$ & 16 & ? & -2340 & ? \\
+            $21\alpha + 48$ & 30 & ? & -35179 & ? \\
+            $31\alpha + 59$ & 48 & ? & -29355 & ? \\
+            $82\alpha + 39$ & 24 & ? & -18603 & ? \\
+            $64\alpha + 38$ & 36 & ? & -40075 & ? \\
+            $92\alpha + 74$ & 32 & ? & -30195 & ? \\
+            $38\alpha + 18$ & 16 & ? & -2340 & ? \\
+            $69\alpha + 25$ & 40 & ? & -31588 & ? \\
+            $99\alpha + 64$ & 32 & ? & -30195 & ? \\
+            $56\alpha + 4$ & 32 & ? & -30195 & ? \\
+            $26\alpha + 90$ & 12 & ? & -2548 & ? \\
+            $93\alpha + 49$ & 48 & ? & -36708 & ? \\
+            $17\alpha + 16$ & 32 & ? & -13908 & ? \\
+            $84\alpha + 67$ & 4 & ? & -180 & ? \\
+            $100\alpha + 34$ & 56 & ? & -40788 & ? \\
+            $30\alpha + 2$ & 16 & ? & -2244 & ? \\
+            $21\alpha + 41$ & 2 & ? & -52 & ? \\
+            $24\alpha + 59$ & 24 & ? & -26643 & ? \\
+            $67\alpha + 94$ & 64 & ? & -37204 & ? \\
+            $88\alpha + 99$ & 2 & ? & -88 & ? \\
+            $47\alpha + 26$ & 48 & ? & -24420 & ? \\
+            $12\alpha + 7$ & 16 & ? & -2520 & ? \\
+            $55\alpha + 77$ & 24 & ? & -17395 & ? \\
+            $95\alpha + 92$ & 8 & ? & -987 & ? \\
+            $68\alpha + 12$ & 12 & ? & -756 & ? \\
+            $82\alpha + 66$ & 28 & ? & -4532 & ? \\
+            $91\alpha + 38$ & 16 & ? & -6948 & ? \\
+            $99\alpha + 20$ & 24 & ? & -18603 & ? \\
+            $52\alpha + 77$ & 80 & ? & -40404 & ? 
         \end{tabular}
     \end{center}
-    \caption{\label{tab:class_numbers_of_endo_rings} Table of class numbers of $\End(E)$ for Elliptic Curves $E/\F_{101^2} = \F_{101}[\alpha]$.}
+    \caption{\label{tab:class_numbers_of_endo_rings} Table of class numbers of $\End(E)$ for Elliptic Curves $E/\F_{101^2} = \F_{101}[\alpha]$. 
+    Note that the j-values are not uniformly chosen, in particular, j-values that lead to a conductor $[\O_\K : \Z[\pi]]$ with ``big'' prime power divisors have been ignored, as the current implementation of computing the endomorphism ring would take ages for them.}
 \end{table}
 The information in this section is all known material - I just wanted to understand properly how one can compute the endomorphism ring, and what problems occur.
 
@@ -778,4 +836,6 @@ $Q_3$ is given by
     + z220^7 + 25*z220^6 + 8*z220^5 + 27*z220^4 + z220^3 
     + 29*z220^2 + 34*z220 + 29 : 1)
 \end{lstlisting}
+
+\printbibliography
 \end{document}

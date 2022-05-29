@@ -56,18 +56,10 @@ def torsion_group_gens(E, l, e):
     O = Eext(0, 1, 0)
 
     def points():
-        while True:
-            a = F.random_element()
-            b = extension_field_sqrt(a**3 + a * E.a4() + E.a6())
-            if b is None:
-                continue
-            P = Eext(a, b) * n
-            if P * l**(e - 1) == O:
-                continue
-            while P * l**e != O:
-                P = P * l
-            print("Found order " + str(l**e) + " point")
-            yield P
+        for (u, _) in factor(h):
+            for (a, _) in u.change_ring(F).roots():
+                b = extension_field_sqrt(a**3 + a * E.a4() + E.a6())
+                yield Eext(a, b)
     
     point_iter = points()
     P = next(point_iter)
@@ -218,7 +210,7 @@ for j in F:
     phi_order_conductor = K.order(E.frobenius() * 2 - E.trace_of_frobenius()).index_in(K.maximal_order())
     skip = False
     for (l, e) in factor(phi_order_conductor):
-        if l**e > 20:
+        if l**e > 10:
             print("Skipping j = " + str(j) + " because [O_K : Z[phi]] has large prime power factor " + str(l**e))
             skip = True
             break
@@ -226,4 +218,4 @@ for j in F:
         continue
 
     R = endo_ring(E)
-    print(j, R.class_number())
+    print(j, R.discriminant(), R.class_number())
