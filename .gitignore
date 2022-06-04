@@ -10,6 +10,9 @@
 *.sage.py
 *_sage.py
 *.toc
+*.nav
+*.out
+*.snm
 __pycache__
 
 # Added by cargo
