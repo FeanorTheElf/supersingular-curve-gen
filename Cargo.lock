@@ -22,7 +22,7 @@ dependencies = [
 [[package]]
 name = "feanor_la"
 version = "0.1.0"
-source = "git+https://www.github.com/FeanorTheElf/FeanorLA.git#6a09d68ef08297bc9298010d8bff49ce24ca1ec9"
+source = "git+https://www.github.com/FeanorTheElf/FeanorLA.git#778bb6bce95e82512c8093b442c6317cd7ce44b7"
 dependencies = [
  "oorandom",
  "vector-map",

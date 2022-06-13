@@ -446,7 +446,7 @@ Let $t$ be its trace.
     \end{equation*}
 \end{proof}
 
-\section{Example - The ordinary endomorphism ring}
+\section{Example - j-invariant $61\alpha + 16$}
 \begin{table}
     \begin{center}
         \begin{tabular}{c c c c c}
@@ -496,6 +496,60 @@ Let $t$ be its trace.
     \caption{\label{tab:class_numbers_of_endo_rings} Table of class numbers of $\End(E)$ for Elliptic Curves $E/\F_{101^2} = \F_{101}[\alpha]$. 
     Note that the j-values are not uniformly chosen, in particular, j-values that lead to a conductor $[\O_\K : \Z[\pi]]$ with ``big'' prime power divisors have been ignored, as the current implementation of computing the endomorphism ring would take ages for them.}
 \end{table}
+Let $E$ be an Elliptic Curve defined over $\F_{101^2}$ with j-invariant $61\alpha + 16$.
+Then the $q$-th power Frobenius $\pi$ has minimal polynomial
+\begin{equation*}
+    X^2 - 190 X + 10201
+\end{equation*}
+Furthermore, we find that $\End(E) = \O_\K$ for $\K = \mathbb{Q}(\sqrt{-6})$.
+So
+\begin{equation*}
+    \pi = \frac {190 + 28\sqrt{-6}} 2 = 95 + 14\sqrt{-6}
+\end{equation*}
+or
+\begin{equation*}
+    \sqrt{-6} = \frac {\pi - 95} {14}
+\end{equation*}
+Note that $\pi - 95$ has norm $2^3 \cdot 3 \cdot 7^2$.
+The class group of $\O$ has order 2, and a generator is e.g. the coset of $(2, \sqrt{-6})$.
+Hence, to find $E[(2, \sqrt{-6})]$ we need to find
+\begin{equation*}
+    \ker\left( \frac {\pi - 95} {14} \right) \cap E[2] = 14\ker(\pi - 95) \cap E[2] = 14 \bigl( \ker(\pi - 95) \cap E[28] \bigr)
+\end{equation*}
+Now choose a $\Z/4\Z$-basis $P_1$, $P_2$ of $E[4]$ and a $\Z/7\Z$-basis $Q_1$, $Q_2$ of $E[7]$.
+Have that w.r.t. these basis, $\pi$ is given by the matrices
+\begin{equation*}
+    \left(\begin{matrix*}
+        3 & 2 \\ 0 & 3
+    \end{matrix*}\right) \quad \text{resp.} \quad \left(\begin{matrix*}
+        4 & 0 \\ 0 & 4
+    \end{matrix*}\right)
+\end{equation*}
+Since $95 \equiv 3 \mod 4$ and $95 \equiv 4 \mod 7$, we see that $\ker(\pi - 95) \cap E[28]$ projects to
+\begin{equation*}
+    \langle P_1, 2P_2 \rangle \subseteq E[4] \quad \text{and} \quad E[7] \subseteq E[7]
+\end{equation*}
+and thus is $E[14] + \langle P_1 \rangle$.
+This implies that $E[(2, \sqrt{-6})] = \langle 2P_1 \rangle$.
+Note that we picked
+\begin{equation*}
+    P_1 = ((59 + 7\alpha), (48 + 75\alpha) + (73 + 3\alpha)t), \quad P_2 = ((7 + 17\alpha) + 100t, (71 + 72\alpha) + (31 + 88\alpha)t)
+\end{equation*}
+before, where $t$ has minimal polynomial $(24 + 51\alpha) + (94 + 84\alpha) T + T^2$
+
+To find the whole kernel, pick a $\Z/8\Z$-basis $P_1$, $P_2$ of $E[8]$, a $\Z/3\Z$-basis $Q_1$, $Q_2$ of $E[3]$ and a $\Z/49\Z$-basis $R_1$, $R_2$ of $E[49]$.
+Find then that modulo $8$, $3$ resp. $49$, $\pi$ is given by the matrix
+\begin{equation*}
+    \left(\begin{matrix*}
+        3 & 6 \\ 4 & 3
+    \end{matrix*}\right) \quad \text{resp.} \quad \left(\begin{matrix*}
+        2 & 1 \\ 0 & 2
+    \end{matrix*}\right) \quad \text{resp.} \quad \left(\begin{matrix*}
+        2 & 1 \\ 0 & 2
+    \end{matrix*}\right)
+\end{equation*}
+
+\section{Example - The ordinary endomorphism ring}
 The information in this section is all known material - I just wanted to understand properly how one can compute the endomorphism ring, and what problems occur.
 
 Consider the finite field
