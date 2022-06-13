@@ -1,4 +1,3 @@
-from cmath import exp
 from functools import reduce
 
 def highest_power_dividing(l, N):
@@ -7,6 +6,8 @@ def highest_power_dividing(l, N):
         result += 1
         N = N / l
     return result
+
+db = ClassicalModularPolynomialDatabase()
 
 def prime_modular_poly_mod_p(l, p):
     """Computes Phi_l in Fp, where l and p are different primes;
@@ -20,6 +21,18 @@ def prime_modular_poly_mod_p(l, p):
     assert p.is_prime()
     degree = l + 1
     F = GF(p)
+
+    phi = db[l].change_ring(F)
+    j1, j2 = phi.parent().gens()
+    phi_vec = vector(F, ZZ((degree + 1) * (degree + 2) / 2))
+    i = 0
+    for e in range(degree + 1):
+        for f in range(e + 1):
+            phi_vec[i] = phi.coefficient({ j1: e, j2: f })
+            i += 1
+    print(phi_vec)
+
+
     freedom = (degree + 1) * (degree + 2) / 2
     # we include symmetric samples
     target_sample_count = (degree + 1)**2

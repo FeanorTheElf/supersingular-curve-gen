@@ -198,24 +198,4 @@ class EndoRing:
             Q0 = s * E(Q0) + t * E(Q1)
             N = N * l**e
         return (P0, Q0, N/n0, N/m0)
-        
-F = GF(101**2)
-z = F.gen()
-for j in F:
-    E = EllipticCurve(F, j = j)
-    if E.is_supersingular():
-        continue
-
-    K = E.frobenius_order().number_field()
-    phi_order_conductor = K.order(E.frobenius() * 2 - E.trace_of_frobenius()).index_in(K.maximal_order())
-    skip = False
-    for (l, e) in factor(phi_order_conductor):
-        if l**e > 10:
-            print("Skipping j = " + str(j) + " because [O_K : Z[phi]] has large prime power factor " + str(l**e))
-            skip = True
-            break
-    if skip:
-        continue
-
-    R = endo_ring(E)
-    print(j, R.discriminant(), R.class_number())
+   

@@ -421,7 +421,7 @@ Let $t$ be its trace.
 \end{corollary}
 \begin{corollary}
     Let $E/\bar{\F}_p$ be an ordinary Elliptic Curve such that $\End(E)$ has discriminant $D$.
-    Suppose that $j(E_0) \notin \F_p$.
+    Suppose that $j(E_0) \notin \F_p$ and $l$ is not ramified in $\End(E) \otimes \mathbb{Q}$.
     Then the shortest $l$-isogeny path between $E$ and $E^{(p)}$ has length at least
     \begin{equation*}
         \frac 1 2 \log_l(-D) - \log_l(2)
@@ -431,7 +431,10 @@ Let $t$ be its trace.
     First, define $E_0$ to be the corresponding curve on the crater of the $l$-isogeny vulcano.
     Let $v \in \N$ be maximal with $l^v \divides [\End(E_0) : \End(E)]$, so $\End(E_0)$ has discriminant $D/l^v$.
     Now we know that $E_0^{(p)}$ is at the opposite side of the crater, and the size of the crater is the order of $[\l_1]$ in $\Cl(\End(E_0))$ where $l = \l_1\l_2$.
-    If $e$ is this order, then we know that there must be a nontrivial element of order $l^e$ in $\End(E_0)$, so
+    If $e$ is this order, then have that $\l^e = (\alpha)$ is principal.
+    Note that $\alpha \notin \Z$, otherwise we would have $\alpha = \pm l^{e/2}$, but since $(\alpha) = \l_1^e$, we know that $\l_2 \notdivides (\alpha)$ (here we use that $\l_1 \neq \l_2$, i.e. $l$ is unramified).
+
+    So
     \begin{equation*}
         e \geq \log_l(-D/l^v) - \log_l(4)
     \end{equation*}
@@ -532,10 +535,20 @@ Since $95 \equiv 3 \mod 4$ and $95 \equiv 4 \mod 7$, we see that $\ker(\pi - 95)
 and thus is $E[14] + \langle P_1 \rangle$.
 This implies that $E[(2, \sqrt{-6})] = \langle 2P_1 \rangle$.
 Note that we picked
+\begin{align*}
+    P_1 &= (59 + 7\alpha, \ 48 + 75\alpha + (73 + 3\alpha)t), \\
+    P_2 &= (7 + 17\alpha + 100t, \ 71 + 72\alpha + (31 + 88\alpha)t)
+\end{align*}
+before, where $t$ has minimal polynomial $(24 + 51\alpha) + (94 + 84\alpha) T + T^2$.
+Hence, $\overline{(2, \sqrt{-6})}.E$ is the (isomorphism class of the) image of the 2-isogeny $\phi: E \to E/\langle 2P_1 \rangle$, which is
 \begin{equation*}
-    P_1 = ((59 + 7\alpha), (48 + 75\alpha) + (73 + 3\alpha)t), \quad P_2 = ((7 + 17\alpha) + 100t, (71 + 72\alpha) + (31 + 88\alpha)t)
+    j(E/\langle 2P_1 \rangle) = 40\alpha + 58 = (61\alpha + 16)^{101}
 \end{equation*}
-before, where $t$ has minimal polynomial $(24 + 51\alpha) + (94 + 84\alpha) T + T^2$
+The 2-isogeny vulcano containing $61\alpha + 16$ is shown in 
+\begin{figure}
+    \includegraphics{./example_ramified.png}
+    \caption{\label{fig:example_61z_16} The $2$-isogeny vulcano containing $61\alpha + 16$. Note that $2$ is ramified in $\End(E) \otimes \mathbb{Q}$, thus the crater only has size 2.}
+\end{figure}
 
 To find the whole kernel, pick a $\Z/8\Z$-basis $P_1$, $P_2$ of $E[8]$, a $\Z/3\Z$-basis $Q_1$, $Q_2$ of $E[3]$ and a $\Z/49\Z$-basis $R_1$, $R_2$ of $E[49]$.
 Find then that modulo $8$, $3$ resp. $49$, $\pi$ is given by the matrix
@@ -545,7 +558,7 @@ Find then that modulo $8$, $3$ resp. $49$, $\pi$ is given by the matrix
     \end{matrix*}\right) \quad \text{resp.} \quad \left(\begin{matrix*}
         2 & 1 \\ 0 & 2
     \end{matrix*}\right) \quad \text{resp.} \quad \left(\begin{matrix*}
-        2 & 1 \\ 0 & 2
+        32 & 14 \\ 0 & 11
     \end{matrix*}\right)
 \end{equation*}
 
@@ -624,6 +637,27 @@ However, since $[\O_\K : \Z[\sqrt{D}]] \leq 2$, we deduce that $[\O : \Z[\phi]] 
 \begin{equation*}
     \O = \Z[\pi]
 \end{equation*}
+
+\section{More ideas on computing the endomorphism ring}
+Let $K = \Z[\pi] \otimes \mathbb{Q}$ be the number field, and suppose it has discriminant $D$.
+Then 1 and $\alpha := \frac {D + \sqrt{D}} 2$ form an integral basis of $\O_K$.
+Now note that
+\begin{equation*}
+    \beta := (a + \alpha)(b + c\alpha) = a b - c \underbrace{\frac {D^2 - D} 4}_{=: \delta} + (ac + b + cD)\alpha
+\end{equation*}
+If we want this to be a generator of $\Z[\pi]$, we set $ac + b + cD = f$ where $f = [\O_K : \Z[\pi]]$.
+In other words, have $b = f - c(a + D)$.
+Thus find
+\begin{equation*}
+    \beta = af - a^2c - acD - c\delta + f\alpha
+\end{equation*}
+To minimize $N(\beta)$, it thus suffices to minimize
+\begin{equation*}
+    | af - a^2c - acD - c\delta |, \quad a, c \in \Z
+\end{equation*}
+Note that once we found a suitable $\beta$, have that $\End(E) = \Z + [\O_K : \End(E)] \beta \Z$, so we just have to find the maximal $n$ such that $n \divides \beta$ in $\End(E)$.
+Note that $\beta = \pi + m$ for some integer $m$, and so we can do this by computing the kernel of that endomorphism.
+This is easier the smaller the prime powers dividing $N(\beta)$ are, so we want $N(\beta)$ to be as small as possible.
 
 \section{$P_3$ and $Q_3$}
 \label{sec:numerical_values}

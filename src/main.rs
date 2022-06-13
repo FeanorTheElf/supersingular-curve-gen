@@ -211,6 +211,7 @@ fn main() {
     let base_field: BaseField = F10201.bind_ring();
     let z2 = base_field.from(F10201.generator());
     let E = EllipticCurve::from_j_invariant(base_field, z2 * 61 + 16);
+    println!("{}", E);
 
     let p = 7;
     let e = 2;
