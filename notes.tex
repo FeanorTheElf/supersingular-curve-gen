@@ -89,13 +89,21 @@ Let $p = 101$ and $q = p^2$.
 We usually use the generator $\alpha \in \F_q$ with minimal polynomial $x^2 + 97 x + 2$.
 
 \section{Example - The cases I, II and III}
+For the analysis of these cases, we consider an ordinary Elliptic Curve $E/\F_{p^2}$, a prime $l$ and the curve $E_0$, defined as the curve on the crater of the $l$-isogeny vulcano that is the root of the subtree containing $E$.
+In other words, $E_0$ is the curve on the crater that is closest to $E$, and there is a path of ascending $l$-isogenies $E \to ... \to E_0$.
+Finally, if $E$ is already on the crater, then clearly $E = E_0$.
+
 \subsection{Case I}
+We say that we are in \emph{Case I}, if $E_0 = E_0^{(p)}$, i.e. $E_0$ is defined over $\F_p$.
+
 Finding examples of case I is trivial - just take a curve $E$ with $j(E) \in \F_p$.
 Then clearly $E^{(p)} = E$ and so also $E_0^{(p)} = E_0$ (since $\cdot^{(p)}$ maps the path $E \to E_0$ to $E = E^{(p)} \to E_0^{(p)}$).
 
 Furthermore, it is easy to see that there are a lot of curve $E$ such that the associated $E_0$ is defined over $\F_p$ (and we are again in case I).
 
 \subsection{Case II}
+We say that we are in \emph{Case II}, if $E_0$ and $E_0^{(p)}$ are in the same $l$-isogeny vulcano, i.e. are connected by an $l$-isogeny path.
+
 Here I was not quite sure if it even occurs. As it turns out, it does.
 Consider $E$ with $j(E) = 17\alpha + 45$.
 Then $[\O_\K : \Z[\pi]] = 2^3$ so $E$ lies on the crater of the 3-isogeny graph.
@@ -181,9 +189,11 @@ In particular, the path between $E$ and $E^{(p)}$ is likely to have length $\ome
 This is displayed e.g. Figure~\ref{fig:example_II}.
 
 \subsection{Case III}
+We say we are in \emph{Case III}, if $E_0$ and $E_0^{(p)}$ are in different $l$-isogeny volcanos, i.e. there is no $l$-isogeny path between them.
+
 \begin{figure}
     \includegraphics{./example_III.png}
-    \caption{\label{fig:example_III} A 3-isogeny vulcano over $\F_{101^2} = \F_{101}[\alpha]$ that satisfies case III (in the plot have $z = \alpha$).}
+    \caption{\label{fig:example_III} A 3-isogeny volcano over $\F_{101^2} = \F_{101}[\alpha]$ that satisfies case III (in the plot have $z = \alpha$).}
 \end{figure}
 We give the example displayed in Figure~\ref{fig:example_III}.
 Consider $E$ with $j(E) = 64\alpha + 5$.
@@ -243,7 +253,7 @@ Now it would be of course interesting to find out how $\Cl(\Z[4\sqrt{-5}])$ real
     However, by the uniqueness of the separable isogeny with kernel $E^{(p)}[p]$, we know that (up to isomorphism) also $[p]$ is $\beta \circ \pi$.
     This now implies that $\alpha = \epsilon p$ for some unit $\epsilon$.
 \end{proof}
-\begin{prop}
+\begin{corollary}
     Let $D < 0$.
     Then the curves $E$ with $\End(E) = \Z[\sqrt{D}]$ have $j(E) \in \F_{p^2} \setminus \F_p$ if and only if
     \begin{equation*}
@@ -251,10 +261,10 @@ Now it would be of course interesting to find out how $\Cl(\Z[4\sqrt{-5}])$ real
     \end{equation*}
     has no solution $a, b \in \Z$ and
     \begin{equation*}
-        a^2 - b^2 D = p
+        a^2 - b^2 D = p^2
     \end{equation*}
     has a nontrivial solution $a, b \in \Z$.
-\end{prop}
+\end{corollary}
 
 Let $E/\F_{p^2}$ be an ordinary Elliptic Curve and write $\O := \End(E), \K := \End(E) \otimes \mathbb{Q}$.
 Let $\pi$ be the $q = p^2$-th power Frobenius endomorphism and let $t$ be its trace.
@@ -280,7 +290,7 @@ There must be some problem in my definition of the class group action, as it can
 However, this contradicts the freeness of the class group action.
 \begin{lemma}
     \label{prop:p_split_order_2}
-    Assume $j \neq 0, 1728$.
+    Assume $j(E) \neq 0, 1728$ (and $E$ is defined over $\F_{p^2}$).
     $[(p, \pi)]$ has order $\leq 2$ in $\Cl(\O)$ resp. $\Cl(\O_\K)$.
 \end{lemma}
 \begin{proof}
@@ -293,6 +303,9 @@ However, this contradicts the freeness of the class group action.
 \end{proof}
 
 \section{Ideals in $\O$ resp. $\O_\K$}
+In this paragraph, I tried to improve my understanding of ideals, invertible ideals and the class group in a nonmaximal order in a quadratic imaginary number field.
+In particular, I was interested in which properties carry over from $\O_\K$ and which do not hold anymore.
+
 Consider an ordinary Elliptic Curve $E/\F_q$, $\O := \End(E)$, $\K := \O \otimes \mathbb{Q}$ and $\O_\K$ the ring of integers in $\K$.
 Assume that $j(E) \in \F_q$ is not contained in any proper subfield of $\F_q$ and let $\pi$ be the $q$-th power Frobenius endomorphism.
 Let $t$ be its trace.
@@ -321,6 +334,9 @@ Let $t$ be its trace.
 \end{lemma}
 \begin{proof}
     Suppose $\p$ is a prime over $p$, and let $\O = \Z[\phi]$.
+    We use the decomposition law in Dedekind ring extensions.
+    Since $\N(\p) \perp [\O_\K : \O]$ are coprime, we can apply it with generator $\phi$ of $\O$.
+
     If $\mathrm{MiPo}(\phi) = f(X)g(X) \mod p$ splits, then have
     \begin{equation*}
         p\O_\K = (p, f(\phi))(p, g(\phi))
@@ -334,7 +350,7 @@ Let $t$ be its trace.
     Let $\a \leq \O_\K$ be an ideal with $\N(\a) \perp [\O_\K : \O]$. Then $\a$ has a set of generators in $\O$.
 \end{corollary}
 \begin{prop}
-    Let $\p \leq \O$ be a prime and $\p' = \p\O_\K$.
+    Let $\p \leq \O$ be a prime ideal with $\N(\p) \perp [\O_\K : \O]$ and $\p' = \p\O_\K$.
     Then $\O_\p = (\O_\K)_{\p'}$.
 \end{prop}
 \begin{proof}
@@ -375,10 +391,6 @@ Let $t$ be its trace.
     \end{equation*}
     which must then be well-defined.
 \end{proof}
-\begin{example}
-    Let $K = \mathbb{Q}(\sqrt{-3})$, then $\O_K = \Z[\frac {1 + \sqrt{-3}} 2]$ which is a PID.
-    Let further $\O = \Z[2\sqrt{-3}]$, so $f = [\O_K : \O] = 4$.
-\end{example}
 \begin{prop}
     Let $\a \leq R$ be a radical ideal in a commutative unital ring $R$.
     If $\alpha \in \p$ for all primes $\p \supseteq \a$ then $\alpha \in \a$.
@@ -397,7 +409,7 @@ Let $t$ be its trace.
     Now observe that $\O_{\p} = (\O_\K)_\p$ for primes $\p$ over $q$ and so $\alpha \in \p$ for all primes $\p$ over $q$.
     The previous proposition now shows that $\alpha \in (q)$.
 \end{proof}
-\section{Norm equations}
+\section{More on the diophantine equations}
 \begin{lemma}
     Let $D < 0$ and $\O$ be the imaginary quadratic order of discriminant $D$.
     Then $1, \alpha$ with $\alpha = \frac {D + \sqrt{D}} 2$ is a $\Z$-basis of $\O$ and
@@ -638,26 +650,9 @@ However, since $[\O_\K : \Z[\sqrt{D}]] \leq 2$, we deduce that $[\O : \Z[\phi]] 
     \O = \Z[\pi]
 \end{equation*}
 
-\section{More ideas on computing the endomorphism ring}
-Let $K = \Z[\pi] \otimes \mathbb{Q}$ be the number field, and suppose it has discriminant $D$.
-Then 1 and $\alpha := \frac {D + \sqrt{D}} 2$ form an integral basis of $\O_K$.
-Now note that
-\begin{equation*}
-    \beta := (a + \alpha)(b + c\alpha) = a b - c \underbrace{\frac {D^2 - D} 4}_{=: \delta} + (ac + b + cD)\alpha
-\end{equation*}
-If we want this to be a generator of $\Z[\pi]$, we set $ac + b + cD = f$ where $f = [\O_K : \Z[\pi]]$.
-In other words, have $b = f - c(a + D)$.
-Thus find
-\begin{equation*}
-    \beta = af - a^2c - acD - c\delta + f\alpha
-\end{equation*}
-To minimize $N(\beta)$, it thus suffices to minimize
-\begin{equation*}
-    | af - a^2c - acD - c\delta |, \quad a, c \in \Z
-\end{equation*}
-Note that once we found a suitable $\beta$, have that $\End(E) = \Z + [\O_K : \End(E)] \beta \Z$, so we just have to find the maximal $n$ such that $n \divides \beta$ in $\End(E)$.
-Note that $\beta = \pi + m$ for some integer $m$, and so we can do this by computing the kernel of that endomorphism.
-This is easier the smaller the prime powers dividing $N(\beta)$ are, so we want $N(\beta)$ to be as small as possible.
+\subsection*{My implementation}
+I have implemented the above algorithm, with computing the torsion groups via division polynomials in Rust, as the SAGE functions for that are extremely slow (apparently, SAGE is not fast when working with polynomials over $\F_{p^2}$, I assume because elements of $\F_{p^2}$ are considered objects and require dynamic memory allocation etc.).
+The advantage is that this can be extended to compute kernels of all endomorphisms, and so be used to compute the class group action.
 
 \section{$P_3$ and $Q_3$}
 \label{sec:numerical_values}
