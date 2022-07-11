@@ -409,7 +409,8 @@ Let $t$ be its trace.
     Now observe that $\O_{\p} = (\O_\K)_\p$ for primes $\p$ over $q$ and so $\alpha \in \p$ for all primes $\p$ over $q$.
     The previous proposition now shows that $\alpha \in (q)$.
 \end{proof}
-\section{More on the diophantine equations}
+
+\section{Norm equations}
 \begin{lemma}
     Let $D < 0$ and $\O$ be the imaginary quadratic order of discriminant $D$.
     Then $1, \alpha$ with $\alpha = \frac {D + \sqrt{D}} 2$ is a $\Z$-basis of $\O$ and
@@ -460,6 +461,61 @@ Let $t$ be its trace.
         \frac 1 2 \log_l(-D) - \frac 1 2 v - \log_l(2) + 2v \geq \frac 1 2 \log_l(-D) - \log_l(2)
     \end{equation*}
 \end{proof}
+
+\subsection*{More sophisticated bounds}
+First of all, note that the supersingular $l$-isogeny graph is $(l + 1)$-regular and Ramajuan.
+Hence, the statistical $\ell_1$-distance of the random walk distribution after $t$ steps from the uniform distribution is
+\begin{equation*}
+    \leq \lambda^t \sqrt{n} = \left( \frac {d} {2\sqrt{d - 1}} \right)^t \sqrt{n} \approx \left( \frac {\sqrt{l}} 2 \right)^t \sqrt{n}
+\end{equation*}
+We look for the minimal number of steps $t$ such that every node has nonzero probability (i.e. there exists a length $\leq t$ path), this is then
+\begin{equation*}
+    \log_{\sqrt{l}/2} (n/\sqrt{n}) = \frac 1 2 \log_{\sqrt{l}/2}(n) = \frac {\ln(n)} {2\ln(\sqrt{l}/2)} = \frac {\ln(n)} {\ln(l) - 2\ln(2)} \approx \log_l(n)
+\end{equation*}
+Since $n \approx p/12$, assume for now that we consider paths of length $\log_l(p)$.
+
+Hence, we ask how many ordinary vulcanos have $l$-isogeny crater $\leq 2\log_l(n)$.
+This is then equivalent to
+\begin{equation*}
+    x^2 + D y^2 = \underbrace{l^{2\log_l(p)}}_{=: m} = \Theta(p^2) \ \text{is solvable with $x, y \in \Z$}
+\end{equation*}
+Now consider a fixed $0 \leq y \leq \sqrt{p}$.
+We have
+\begin{align*}
+    &|\{ p \leq D \leq p^2 \ | \ x^2 + D y^2 = m \ \text{solvable with $x \in \Z$} \}| \\
+    =& |\{ p \leq D \leq p^2 \ | \ m - Dy^2 \ \text{square} \}| \\
+    \leq& |\Bigl\{ p \leq D \leq p^2 \ | \ \left( \frac {m - Dy^2} {q_i} \right) = 1 \ \forall i \Bigr\}|
+\end{align*}
+where $q_i$ are primes $\perp y$.
+Now note that if $q := \prod q_i \leq p^2 - p$ and we assume $D$ to be uniformly distributed on $\Z/q\Z$, then also $Dy^2$ is uniformly distributed on $\Z/q\Z$ and so is $m - Dy^2$.
+Hence the events $(m - Dy^2/q_i) = 1$ are independent with probability $1/2$.
+
+To find out how many such primes we can choose, note that the product of the first $n$ primes is $\approx \prod_{i \leq n} n\ln(n) \approx \exp(n\ln(n) + n\ln\ln(n)) \approx n^n$.
+To invert the function $x \mapsto x^x$, we use the Lambert W function, and find that the inverse is $x \mapsto \exp(W(\ln(x)))$.
+There is the known bound
+\begin{equation*}
+    \ln(x) - \ln\ln(x) < W(x)
+\end{equation*}
+and so we see that the product of the first
+\begin{equation*}
+    \exp(\ln\ln(p^2) - \ln\ln\ln(p^2)) \approx 2\ln(p)/\ln\ln(p)
+\end{equation*}
+primes is $\leq p^2$.
+Hence we have the bound on the probability
+\begin{align*}
+    &\Pr\left[ \left(\frac {m - Dy^2} {q_i}\right) = 1 \ \forall i \right] \approx 2^{-\exp(\ln\ln(p^2) - \ln\ln\ln(p^2))} \\
+    =& \exp(-2\ln(2)\ln(p)/\ln\ln(p)) = p^{-\frac {2\ln(2)} {\ln\ln(p)}}
+\end{align*}
+where the $\ln(\sqrt{p})$ factor comes from excluding primes not coprime to $y$.
+Now summing over all $y \leq \sqrt{p}$ yields
+\begin{equation*}
+    \Pr[x^2 + Dy^2 = m \ \text{solvable}] \leq \sqrt{p} p^{-\frac {2\ln(2)} {\ln\ln(p)}} \sqrt{p} = p^{1/2 - \frac {2\ln(2)} {\ln\ln(p)}}
+\end{equation*}
+This results in a bound on the number of $D$ of
+\begin{equation*}
+    p^2 p^{1/2 - \frac {2\ln(2)} {\ln\ln(p)}} = p^{5/2 - \frac {2\ln(2)} {\ln\ln(p)}}
+\end{equation*}
+which is of course totally useless.
 
 \section{Example - j-invariant $61\alpha + 16$}
 \begin{table}

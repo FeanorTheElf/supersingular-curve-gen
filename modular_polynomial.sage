@@ -30,9 +30,7 @@ def prime_modular_poly_mod_p(l, p):
         for f in range(e + 1):
             phi_vec[i] = phi.coefficient({ j1: e, j2: f })
             i += 1
-    print(phi_vec)
-
-
+            
     freedom = (degree + 1) * (degree + 2) / 2
     # we include symmetric samples
     target_sample_count = (degree + 1)**2
