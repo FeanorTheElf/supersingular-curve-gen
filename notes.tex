@@ -88,7 +88,37 @@ Many examples will be over $\F_{101^2}$.
 Let $p = 101$ and $q = p^2$.
 We usually use the generator $\alpha \in \F_q$ with minimal polynomial $x^2 + 97 x + 2$.
 
-\section{Example - The cases I, II and III}
+\section{Current status}
+The main topic of this project is to further analyze and/or modify the method described in \cite[Chapter 3]{base_paper}.
+As presented there, there are still some open questions and obstacles to making the method practical.
+Here we list them and mention in what way we addressed those in this project so far.
+
+\subsection*{Can we find a root of $\gcd(\Phi_n(x, x^p), \Phi_m(x, x^p))$ if $n$ resp. $m$ are large?}
+We did not focus on this question and do not contribute new ideas, except for generalizations/modifications that might circumvent the problem completely.
+
+\subsection*{What proportion of the roots of $\gcd(\Phi_n(x, x^p), \Phi_m(x, x^p))$ give supersingular curves, or curves over $\F_{p^2}$?}
+Until now, we focus mainly on the case $n = l_1^e$ and $m = l_2^e$ for small primes $l_1, l_2$ and $e = O(\log(p))$.
+This case seems a natural candidate, for multiple reasons.
+\begin{itemize}
+    \item Since allowing isogenies of multiple fixed degrees makes the ordinary isogeny graph closed to an expander, taking $n$ resp. $m$ to have many prime factors might lead to more found ordinary curves, thus decreasing success.
+    \item If $n$, $m$ have large prime factors, it seems like it is extremely hard to work with $\Phi_n$ resp. $\Phi_m$. On the other hand if $n$ (resp. $m$) is smooth, the variety defined by $\Phi_n(x, y)$ is the projection of the variety defined by $\Phi_{n_1}(x_1, x_2), ..., \Phi_{n_r}(x_r, y)$ where $n = \prod n_i$. It seems at least possible to efficiently work with the latter, if the $n_i$ are polynomially large.
+    \item Since the supersingular $l$-isogeny graph is an expander, all supersingular j-invariants are roots of $\Phi_{l_1^e}(x, x^p)$ resp. $\Phi_{l_2^e}(x, x^p)$, thus answering one half of the question positively.
+\end{itemize}
+In this case, by the third point, the question is just how many ordinary curves satisfying these equations there are.
+Using the structure of the isogeny vulcanos and the class group action, we could already partly answer this question.
+The main goal which we think is reasonable is to prove the following theorem.
+\begin{theorem}
+    Let $l_1, l_2$ be small primes of size $O(\log(p))$ and $e = \Theta(\log(p))$.
+    Then the number of roots of $\gcd(\Phi_{l_1^e}(x, x^p), \Phi_{l_2^e}(x, x^p))$ that yield ordinary curves is $\O(p)$.
+
+    In particular, the fraction of supersingular roots is lower bounded by a positive constant.
+\end{theorem}
+
+\subsection*{Generalizations and modifications}
+We have some ideas how to modify the original method to prevent some of the difficulties mentioned above.
+However, all our current modifications have different, similarly serious problems and are not practical.
+
+\section{The cases I, II and III}
 For the analysis of these cases, we consider an ordinary Elliptic Curve $E/\F_{p^2}$, a prime $l$ and the curve $E_0$, defined as the curve on the crater of the $l$-isogeny vulcano that is the root of the subtree containing $E$.
 In other words, $E_0$ is the curve on the crater that is closest to $E$, and there is a path of ascending $l$-isogenies $E \to ... \to E_0$.
 Finally, if $E$ is already on the crater, then clearly $E = E_0$.

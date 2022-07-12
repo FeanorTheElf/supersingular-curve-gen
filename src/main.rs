@@ -207,13 +207,36 @@ fn load_torsion_basis() -> (
     );
 }
 
-fn main() {
-    let base_field: BaseField = F10201.bind_ring();
-    let z2 = base_field.from(F10201.generator());
-    let E = EllipticCurve::from_j_invariant(base_field, z2 * 61 + 16);
-    println!("{}", E);
+fn is_square(x: i64) -> bool {
+    let root = ((x as f64).sqrt() as i64);
+    return root * root == x || (root + 1) * (root + 1) == x;
+}
 
-    let p = 7;
-    let e = 2;
-    println!("{}", compute_frobenius_transform(&E, p, e).display(&Zn::new(BigInt::from(p.pow(e) as i64))));
+fn is_nontrivially_solvable(D: i64, m: i64) -> bool {
+    (0..=((m as f64).sqrt() as i64)).map(|x| m - x * x).filter(|Dy| *Dy != 0).any(|Dy| Dy % D == 0 && is_square(Dy / D))
+}
+
+fn has_small_l_vulcano(D: i64, n: i64, l: i64) -> bool {
+    let max_crater_size = (n as f64).ln() as i64 + 1;
+    for e in 3..max_crater_size {
+        if is_nontrivially_solvable(D, l.pow(e as u32)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+fn main() {
+    for n in (30..100000).step_by(100) {
+        let mut n = n;
+        while !i64::RING.is_prime(&(n as i64)) {
+            n += 1;
+        }
+            let mut l = (n as f64).ln() as i64;
+            while !i64::RING.is_prime(&l) {
+                l += 1;
+            }
+            let c = (1..=n.pow(2)).filter(|D| has_small_l_vulcano(*D, n, l)).count();
+            println!("{}, {}, {}", n, (c as f64) / (n as f64).sqrt(), c);
+    }
 }
