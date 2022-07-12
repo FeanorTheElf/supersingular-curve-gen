@@ -492,7 +492,7 @@ Let $t$ be its trace.
     \end{equation*}
 \end{proof}
 
-\subsection*{More sophisticated bounds}
+\subsection*{How big is $l^e$?}
 First of all, note that the supersingular $l$-isogeny graph is $(l + 1)$-regular and Ramajuan.
 Hence, the statistical $\ell_1$-distance of the random walk distribution after $t$ steps from the uniform distribution is
 \begin{equation*}
@@ -505,47 +505,74 @@ We look for the minimal number of steps $t$ such that every node has nonzero pro
 Since $n \approx p/12$, assume for now that we consider paths of length $\log_l(p)$.
 
 Hence, we ask how many ordinary vulcanos have $l$-isogeny crater $\leq 2\log_l(n)$.
-This is then equivalent to
-\begin{equation*}
-    x^2 + D y^2 = \underbrace{l^{2\log_l(p)}}_{=: m} = \Theta(p^2) \ \text{is solvable with $x, y \in \Z$}
-\end{equation*}
-Now consider a fixed $0 \leq y \leq \sqrt{p}$.
-We have
-\begin{align*}
-    &|\{ p \leq D \leq p^2 \ | \ x^2 + D y^2 = m \ \text{solvable with $x \in \Z$} \}| \\
-    =& |\{ p \leq D \leq p^2 \ | \ m - Dy^2 \ \text{square} \}| \\
-    \leq& |\Bigl\{ p \leq D \leq p^2 \ | \ \left( \frac {m - Dy^2} {q_i} \right) = 1 \ \forall i \Bigr\}|
-\end{align*}
-where $q_i$ are primes $\perp y$.
-Now note that if $q := \prod q_i \leq p^2 - p$ and we assume $D$ to be uniformly distributed on $\Z/q\Z$, then also $Dy^2$ is uniformly distributed on $\Z/q\Z$ and so is $m - Dy^2$.
-Hence the events $(m - Dy^2/q_i) = 1$ are independent with probability $1/2$.
 
-To find out how many such primes we can choose, note that the product of the first $n$ primes is $\approx \prod_{i \leq n} n\ln(n) \approx \exp(n\ln(n) + n\ln\ln(n)) \approx n^n$.
-To invert the function $x \mapsto x^x$, we use the Lambert W function, and find that the inverse is $x \mapsto \exp(W(\ln(x)))$.
-There is the known bound
+\subsection*{A proof boundary}
+By the Hasse-Minkowski principle, we know that
 \begin{equation*}
-    \ln(x) - \ln\ln(x) < W(x)
+    x^2 + D y^2 = l^e
 \end{equation*}
-and so we see that the product of the first
+is solvable \textbf{with $x, y \in \mathbb{Q}$} if and only if this is solvable in $\mathbb{R}$ and each $\mathbb{Q}_q$.
+Since $l^e = \Theta(p^2)$, we can assume that this is solvable in $\mathbb{R}$ if $p \leq D \leq p^2$, the ones we consider anyway.
+For $q > 2$, for this to be solvable, it suffices if it is solvable in $\F_q$.
+If $q \perp l, D$, then this is the case by some crazy deep theorem.
+So we are left with the conditions $(\frac D l) = 1$ and $(\frac l d) = 1$ for each prime divisor $d \divides D$.
+
+So assuming that $l_1$ and $l_2$ are not $\equiv 3 \mod 4$, we see that for all primes $D$ with $(\frac D {l_1}) = (\frac D {l_2}) = 1$, both
 \begin{equation*}
-    \exp(\ln\ln(p^2) - \ln\ln\ln(p^2)) \approx 2\ln(p)/\ln\ln(p)
+    x_1^2 + Dy_1^2 = l_1 \quad \text{and} \quad x_2^2 + Dy_2^2 = l_2
 \end{equation*}
-primes is $\leq p^2$.
-Hence we have the bound on the probability
-\begin{align*}
-    &\Pr\left[ \left(\frac {m - Dy^2} {q_i}\right) = 1 \ \forall i \right] \approx 2^{-\exp(\ln\ln(p^2) - \ln\ln\ln(p^2))} \\
-    =& \exp(-2\ln(2)\ln(p)/\ln\ln(p)) = p^{-\frac {2\ln(2)} {\ln\ln(p)}}
-\end{align*}
-where the $\ln(\sqrt{p})$ factor comes from excluding primes not coprime to $y$.
-Now summing over all $y \leq \sqrt{p}$ yields
-\begin{equation*}
-    \Pr[x^2 + Dy^2 = m \ \text{solvable}] \leq \sqrt{p} p^{-\frac {2\ln(2)} {\ln\ln(p)}} \sqrt{p} = p^{1/2 - \frac {2\ln(2)} {\ln\ln(p)}}
-\end{equation*}
-This results in a bound on the number of $D$ of
-\begin{equation*}
-    p^2 p^{1/2 - \frac {2\ln(2)} {\ln\ln(p)}} = p^{5/2 - \frac {2\ln(2)} {\ln\ln(p)}}
-\end{equation*}
-which is of course totally useless.
+are solvable in $\mathbb{Q}$, and thus this is also the case for $* = l_1^{e_i}$ resp. $* = l_2^{e_2}$.
+In particular, there are $\Theta(p^2/\log(p^2))$ such $D$.
+
+In particular, this shows that it is not enough to bound the number of possible integers $D$ just by considering things modulo $p$, as this will never be better than the above bound.
+
+\section{Generalizations and Modifications}
+
+\subsection*{The most successful idea so far}
+\begin{theorem}
+    Let $l = \Theta(\log(p))$ be a prime and $e = \lceil \log_l(p) \rceil$.
+    Then the number of $j \in \F_{p^2}$ with
+    \begin{equation*}
+        \Phi_{l^e}(j, j^p) = \Phi_{l^{e + 1}}(j, j^p) = 0
+    \end{equation*}
+    such that the Elliptic Curve $E$ with $j(E) = j$ is ordinary is $O(p^{7/6 + \epsilon})$ for any $\epsilon > 0$.
+\end{theorem}
+\begin{proof}
+    For the direction $\Rightarrow$, assume that $E$ is ordinary.
+    If we are in case III, then there is no power-of-$l$ isogeny $E \to E^{(p)}$, a contradiction.
+
+    Thus, we know that $E$ and $E^{(p)}$ are in the same $l$-isogeny vulcano.
+    Now let $E_0$ be the closest curve on the crater to $E$, i.e. $[\End(E_0) : \End(E)] = l^k$ for some $k \geq 0$ and $l \notdivides [\O_{\End(E) \otimes \mathbb{Q}} : \End(E_0)]$.
+    
+    \paragraph*{If $E_0 \neq E_0^{(p)}$} Note that $E_0$ and $E_0^{(p)}$ are on opposite sides of the crater, and assume the crater has size $c$.
+    The shortest path from $E$ to $E_0$ has length $k$, so the shortest path from $E$ to $E^{(p)}$ has length $2k + c$.
+    Furthermore, all paths from $E$ to $E^{(p)}$ are this path, plus any number of going around the crater, thus they have size $2k + c + 2ac \equiv 2k + c \equiv c \mod 2$.
+    In particular, all paths $E$ to $E^{(p)}$ have either odd or even length.
+    However, by assumption there is one path with odd and one path with even length, a contradiction.
+
+    \paragraph*{If $E_0 = E_0^{(p)}$} Assuming the GRH, the class number of $\mathbb{Q}(\sqrt{-d})$ for $d > 0$ is at least
+    \begin{equation*}
+        \frac {\sqrt{d}} {\log\log(d)} O(1)
+    \end{equation*}
+    Hence, we have
+    \begin{align*}
+        &\sum_d h(d) \\
+        \geq& \Theta(1) \sum_d \frac {\sqrt{d}} {\log\log(d)} \\
+        \geq& \Theta(1) \sum_{i \leq n} \frac {\sqrt{i}} {\log\log(i)} \\
+        =& \Theta(1) \int_e^n \frac {\sqrt{x}} {\ln\ln(x)} dx \\
+        =& \Theta(1) \Biggl( \frac {x^{3/2}} {\ln\ln(x)} - \underbrace{\int_e^n \frac {x^{3/2}} {\ln(x)\ln\ln(x)^2} dx}_{\geq 0} \Biggr) \\
+        \geq& \Theta(n^{3/2}/\ln\ln(n))
+    \end{align*}
+    where the sums over $d$ range over all fundamental discriminants $d < 0$ with $|d| \leq n$.
+
+    Hence, if there are $n$ different fundamental discriminants $d$ such that curves $E$ with $d(\End(E)) = d$ are defined over $\F_p$, that means there must be
+    \begin{equation*}
+        \sum_d h(d) = \Theta(n^{3/2}/\ln\ln(n))
+    \end{equation*}
+    (isomorphism classes of) curves defined over $\F_p$.
+    Clearly there are at most $p$ of them (since $j(E) \in \F_p$ for those), thus $n^{3/2}/\ln\ln(n) \leq \Theta(p)$.
+    It follows that $n \in O(p^{2/3 + \epsilon})$ for any $\epsilon > 0$.
+\end{proof}
 
 \section{Example - j-invariant $61\alpha + 16$}
 \begin{table}
