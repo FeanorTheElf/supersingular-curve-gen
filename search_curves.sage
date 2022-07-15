@@ -1,27 +1,31 @@
+from modular_polynomial_sage import prime_modular_poly_mod_p
 
-mod_polys = ClassicalModularPolynomialDatabase()
+p = next_prime(20)
+l = 2
+e = int(log(p, l)) + 1
+phi = prime_modular_poly_mod_p(l, p)
+F = GF(p**2)
+alpha = F.gen()
+print(phi)
+print(e)
 
-with open("output.log", "a") as file:
+P = PolynomialRing(F, [
+    *['x' + str(i) for i in range(e)],
+    *['z' + str(i) for i in range(e)], 
+    *['y' + str(i) for i in range(1, e + 1)],
+    *['w' + str(i) for i in range(1, e + 1)]
+])
+x = P.gens()[:e]
+z = P.gens()[e:2*e]
+y = [None, *P.gens()[2*e:3*e]]
+w = [None, *P.gens()[3*e:]]
 
-    d = 5
-    p = next_prime(10000)
-    file.write("d, p = %d, %d\n" % (d, p))
-    R = PolynomialRing(GF(p), "x")
-    x = R.gen()
-    f = mod_polys[d](x, x^p)
-    file.write(str(f) + "\n")
+I = P.ideal([
+    *[phi(x[i - 1] + z[i - 1] * alpha, x[i] + z[i] * alpha) for i in range(1, e)],
+    phi(x[e - 1] + z[e - 1] * alpha, x[0] - z[0] * alpha),
 
-    R2 = PolynomialRing(GF(p^2), "x")
-    f = R2(f)
-    roots = f.roots()
-    file.write(str(roots) + "\n")
-    file.write("Using modular polynomial roots:\n")
-    for (j, _) in roots:
-        try:
-            file.write(str(EllipticCurve(j = j).is_supersingular()) + "\n")
-        except Exception as e:
-            file.write(str(e) + "\n")
-
-    file.write("Using field elements\n")
-    for j in GF(p^2):
-        file.write(str(EllipticCurve(j = j).is_supersingular()) + "\n")
+    phi(x[0] + z[0] * alpha, y[1] + w[1] * alpha),
+    *[phi(y[i] + w[i] * alpha, y[i + 1] + w[i + 1] * alpha) for i in range(1, e)],
+    phi(y[e] + w[e] * alpha, x[0] - z[0] * alpha)
+])
+print(I.dimension())

@@ -86,3 +86,21 @@ def prime_modular_poly_mod_p(l, p):
                     return result / result.coefficient({ x: degree, y: 0 })
                 else:
                     target_sample_count = Integer((target_sample_count * 3/2).floor())
+
+def prime_power_modular_polynomial_mod_p(l, e, p):
+    phi = prime_modular_poly_mod_p(l, p)
+    P = phi.parent()
+    P2 = PolynomialRing(P.base_ring(), ['x', 'y', 'z'])
+    x, y, z = P2.gens()
+    current = P(x - y)
+    for i in reversed(range(0, int(log(e, 2)) + 1)):
+        print(P2.ideal([current(x, z), current(z, y)]).elimination_ideal(z).is_principal())
+        current, = P2.ideal([current(x, z), current(z, y)]).elimination_ideal(z).gens()
+        current = P(current)
+        if (e >> i) & 1 == 1:
+            current, = P2.ideal([current(x, z), phi(z, y)]).elimination_ideal(z).gens()
+            current = P(current)
+        print(current)
+    return current
+
+print(prime_power_modular_polynomial_mod_p(2, 2, 5))

@@ -528,7 +528,7 @@ In particular, this shows that it is not enough to bound the number of possible 
 
 \section{Generalizations and Modifications}
 
-\subsection*{The most successful idea so far}
+\subsection{Using divisibility constraints on the crater size}
 \begin{theorem}
     Let $l = \Theta(\log(p))$ be a prime and $e = \lceil \log_l(p) \rceil$.
     Then the number of $j \in \F_{p^2}$ with
@@ -613,6 +613,61 @@ By the above theorem, with constant, positive probability this root will define 
 However, the problem is that standard Gröbner-basis algorithms should be expected to have runtime at least $\exp(\Omega(\log(p)))$, which is exponential.
 This is also to be expected, as all supersingular j-invariants are roots of the above.
 Hence, we would require an algorithm that can compute a random root, without computing the whole variety. 
+
+\subsection{Based on Sutherland's supersingularity test}
+It is a theorem by Sutherland that in an $l$-isogeny vulcano, at most $O(\log_l(p))$ levels of j-invariants are defined over $\F_{p^2}$.
+Hence, if we look for subgraphs of the form
+\begin{center}
+    \begin{tikzpicture}
+        \node (center) at (0, 0) {$j_0$};
+        \node (t0) at (0, 1) {$j_1$};
+        \node (l0) at (0.866, -0.5) {$j'_1$};
+        \node (r0) at (-0.866, -0.5) {$j''_1$};
+
+        \node (t1) at (0, 2) {$...$};
+        \node (l1) at (1.73, -1) {$...$};
+        \node (r1) at (-1.73, -1) {$...$};
+
+        \node (t2) at (0, 3) {$j_n$};
+        \node (l2) at (2.60, -1.5) {$j'_n$};
+        \node (r2) at (-2.60, -1.5) {$j''_n$};
+
+        \draw[-] (center) -- (t0);
+        \draw[-] (center) -- (l0);
+        \draw[-] (center) -- (r0);
+
+        \draw[-] (t0) -- (t1);
+        \draw[-] (l0) -- (l1);
+        \draw[-] (r0) -- (r1);
+
+        \draw[-] (t1) -- (t2);
+        \draw[-] (l1) -- (l2);
+        \draw[-] (r1) -- (r2);
+    \end{tikzpicture}
+\end{center}
+where all j-invariants are defined over $\F_{p^2}$, then they will for sure define supersingular curves.
+
+However, it is not as easy as taking a root of the ideal
+\begin{equation*}
+    \langle \Phi_2(j_0, j_1), ..., \Phi_2(j_{n - 1}, j_n), ..., j_0^{p^2 - 1} - 1, ... \rangle
+\end{equation*}
+as this would allow e.g. $j_1 = j'_1 = j''_1$.
+
+However, we can use the fact that in general $\Phi_{2^e}(j, j) \neq 0$, even if $e$ is even.
+In other words, the modular polynomial does not consider trivial endomorphisms.
+Hence, taking a root of the ideal
+\begin{align*}
+    \langle \ &\Phi_2(j_0, j_1), \Phi_2(j_0, j'_1). \Phi_2(j_0, j''_1), \\ 
+    &\Phi_4(j_1, j'_1), \Phi_4(j_1, j''_1), \Phi_4(j'_1, j''_1), \\
+    &\Phi_2(j_1, j_2), \Phi_4(j_0, j_2), \ \Phi_2(j_2, j_3), \Phi_4(j_1, j_3), ..., \\
+    &..., \\
+    &j_0^{p^2 - 1} - 1, ... \ \rangle
+\end{align*}
+In other words, to require an edge defined by $\Phi_l(y, z)$ that is part of a path $x \to y \to z$ not to backtrack, add the additional constraint $\Phi_{l^2}(x, z)$.
+
+The only way the above can still yield ordinary curves is if a considered curve has a nontrivial endomorphism of degree $l^2$, as in this case, one can still have e.g. $j_1 = j'_1 = j''_1$.
+However, similar to the computation done before, there are only very few such curves, as they would have to have a small endomorphism ring.
+More concretely, there are at most $O(p)$ such curves, and since all supersingular j-invariants are roots of the above ideal, we have a constant nonzero success probability.
 
 \section{Example - j-invariant $61\alpha + 16$}
 \begin{table}
