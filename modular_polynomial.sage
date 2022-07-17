@@ -63,7 +63,6 @@ def prime_modular_poly_mod_p(l, p):
                         else:
                             sample[i] = j1**e * j2**f + j1**f * j2**e
                         i += 1
-                print("found samples: " + str(len(samples)))
                 samples.append(sample)
 
             if len(samples) >= target_sample_count:
@@ -92,15 +91,12 @@ def prime_power_modular_polynomial_mod_p(l, e, p):
     P = phi.parent()
     P2 = PolynomialRing(P.base_ring(), ['x', 'y', 'z'])
     x, y, z = P2.gens()
-    current = P(x - y)
-    for i in reversed(range(0, int(log(e, 2)) + 1)):
-        print(P2.ideal([current(x, z), current(z, y)]).elimination_ideal(z).is_principal())
-        current, = P2.ideal([current(x, z), current(z, y)]).elimination_ideal(z).gens()
-        current = P(current)
-        if (e >> i) & 1 == 1:
-            current, = P2.ideal([current(x, z), phi(z, y)]).elimination_ideal(z).gens()
-            current = P(current)
-        print(current)
-    return current
-
-print(prime_power_modular_polynomial_mod_p(2, 2, 5))
+    polys = [P(x - y)]
+    for i in range(1, e + 1):
+        f, = P2.ideal([polys[-1](x, z), phi(z, y)]).elimination_ideal(z).gens()
+        f = P(f)
+        if i >= 2:
+            f = P(f / polys[-2])
+        polys.append(f)
+    x, y = P.gens()
+    return polys[-1] / polys[-1].coefficient({ x: polys[-1](x, 0).degree(), y: 0 })
