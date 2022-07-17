@@ -14,6 +14,7 @@
 *.out
 *.snm
 __pycache__
+plot_*.png
 
 # Added by cargo
 

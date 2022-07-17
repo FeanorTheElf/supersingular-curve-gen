@@ -63,7 +63,9 @@ def torsion_group_gens(E, l, e):
     
     point_iter = points()
     P = next(point_iter)
-    assert P != O and P * l**e == O
+    while P * l**(e - 1) == O:
+        P = next(point_iter)
+    assert P * l**e == O
     while True:
         Q = next(point_iter)
         try:
@@ -199,3 +201,6 @@ class EndoRing:
             N = N * l**e
         return (P0, Q0, N/n0, N/m0)
    
+R = endo_ring(EllipticCurve(GF(23**2), j = 6))
+print(R)
+print(R.discriminant())

@@ -93,10 +93,11 @@ def prime_power_modular_polynomial_mod_p(l, e, p):
     x, y, z = P2.gens()
     polys = [P(x - y)]
     for i in range(1, e + 1):
-        f, = P2.ideal([polys[-1](x, z), phi(z, y)]).elimination_ideal(z).gens()
+        f = polys[-1](x, z).resultant(phi(z, y), z)
         f = P(f)
         if i >= 2:
-            f = P(f / polys[-2])
+            while f / polys[-2] in P:
+                f = P(f / polys[-2])
         polys.append(f)
     x, y = P.gens()
     return polys[-1] / polys[-1].coefficient({ x: polys[-1](x, 0).degree(), y: 0 })
