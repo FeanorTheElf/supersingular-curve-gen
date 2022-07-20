@@ -41,6 +41,7 @@
 \newcommand{\K}{\mathcal{K}}
 \newcommand{\p}{\mathfrak{p}}
 \newcommand{\q}{\mathfrak{q}}
+\newcommand{\val}{v}
 \renewcommand{\l}{\mathfrak{l}}
 \renewcommand{\a}{\mathfrak{a}}
 \renewcommand{\b}{\mathfrak{b}}
@@ -523,7 +524,7 @@ So assuming that $l_1$ and $l_2$ are not $\equiv 3 \mod 4$, we see that for all 
     x_1^2 + Dy_1^2 = l_1 \quad \text{and} \quad x_2^2 + Dy_2^2 = l_2
 \end{equation*}
 are solvable in $\mathbb{Q}$, and thus this is also the case for $* = l_1^{e_i}$ resp. $* = l_2^{e_2}$.
-In particular, there are $\Theta(p^2/\log(p^2))$ such $D$.
+In particular, there are $\Omega(p^2/\log(p^2))$ such $D$.
 
 In particular, this shows that it is not enough to bound the number of possible integers $D$ just by considering things modulo $p$, as this will never be better than the above bound.
 
@@ -574,46 +575,6 @@ In particular, this shows that it is not enough to bound the number of possible 
     Clearly there are at most $p$ of them (since $j(E) \in \F_p$ for those), thus $n^{3/2}/\ln\ln(n) \leq \Theta(p)$.
     It follows that $n \in O(p^{2/3 + \epsilon})$ for any $\epsilon > 0$.
 \end{proof}
-\begin{theorem}
-    Let $l = 2$ and $e = \lceil \log_2(p) \rceil$. Then the number of $j \in \bar{\F}_p$ with
-    \begin{equation*}
-        \Phi_{l^e}(j, j^p) = \Phi_{l^{e + 1}}(j, j^p) = 0
-    \end{equation*}
-    such that $j$ defines an ordinary curve is $O(p)$.
-\end{theorem}
-\begin{proof}
-    Assume there is some solution $j \in \bar{\F}_p$ of the above equations that defines an ordinary curve $E$.
-    Assume further that no curve in the $2$-isogeny vulcano crater of $E$ has a endomorphism of degree 2.
-    Note that if this is the case, then the equation $(x + \frac D 2 b)^2 - \frac D 4 y^2 = 2$ is solvable in $\End(E_0)$, where $D = d(\End(E_0))$ and $E_0$ is a curve in the crater.
-    Thus $-D/4 \leq 2$ and so $-D \leq 8$.
-    The only fundamental discriminants satisfying this are $D \in \{ -3, -4, -7, -8 \}$.
-    Hence, there are only
-    \begin{equation*}
-        h(\Z[\sqrt{-3}]) + h(\Z[\sqrt{-1}]) + h(\Z[\sqrt{-7}]) + h(\Z[\sqrt{-2}]) = 4
-    \end{equation*}
-    curves with a degree 2 endomorphism.
-    Since the $2$-isogeny graph is $3$-regular, there are at most $O(2^{\log_2(p)}) = O(p)$ curves reachable within $e$ steps from one of those curves above.
-    In other words, there are at most $O(p)$ different $j \in \bar{\F}_p$ with $\Phi_{l^e}(j, j^p) = 0$ that define ordinary curves for which the curves in the 2-isogeny vulcano crater have 2-endomorphisms. 
-
-    Now suppose that $E$ is not such a curve, i.e. the $2$-isogeny vulcano of $E$ has no loops.
-    Then there are paths from $E$ to $E^{(p)}$ of length $e$ and $e + 1$ in the $2$-isogeny vulcano of $E$.
-    However, since $l = 2$, we see that it is acyclic.
-    Therefore all paths from $E$ to $E^{(p)}$ are the same, up to backtracking.
-    Thus all such paths have either odd or even length, a contradiction to the assumption.
-\end{proof}
-Based on this theorem, we might take the following approach:
-Choose $l = 2$ and $e = \lceil \log_2(p) \rceil$, and find a random root of the ideal
-\begin{align*}
-    \langle \ &x_0 = y_0, \ x_e = x_0^p, \ y_{e + 1} = y_0^p, \\
-    &\Phi_2(x_0, x_1), \ ..., \ \Phi_2(x_{e - 1}, x_e), \\
-    &\Phi_2(y_0, y_1), \ ..., \ \Phi_2(y_e, y_{e + 1}) \ \rangle
-\end{align*}
-in the ring $\F_p[x_0, ..., x_e, y_0, ..., y_{e + 1}]$.
-By the above theorem, with constant, positive probability this root will define a random supersingular curve.
-
-However, the problem is that standard Gröbner-basis algorithms should be expected to have runtime at least $\exp(\Omega(\log(p)))$, which is exponential.
-This is also to be expected, as all supersingular j-invariants are roots of the above.
-Hence, we would require an algorithm that can compute a random root, without computing the whole variety. 
 
 \subsection{Based on Sutherland's supersingularity test}
 It is a theorem by Sutherland that in an $l$-isogeny vulcano, at most $O(\log_l(p))$ levels of j-invariants are defined over $\F_{p^2}$.
@@ -669,6 +630,37 @@ In other words, to require an edge defined by $\Phi_l(y, z)$ that is part of a p
 The only way the above can still yield ordinary curves is if a considered curve has a nontrivial endomorphism of degree $l^2$, as in this case, one can still have e.g. $j_1 = j'_1 = j''_1$.
 However, similar to the computation done before, there are only very few such curves, as they would have to have a small endomorphism ring.
 More concretely, there are at most $O(p)$ such curves, and since all supersingular j-invariants are roots of the above ideal, we have a constant nonzero success probability.
+
+\begin{theorem}
+    Let $l$ and $p$ be distinct primes, and assume $p \neq 2$.
+    Let $r = \lfloor \log_l(p) \rfloor$.
+    Then there are $l$-isogeny vulcanos with at least $\lfloor r/2 \rfloor + 1$ levels defined over $\F_{p^2}$.
+\end{theorem}
+\begin{proof}
+    Let $r = \rfloor \log_l(p) \rceil$.
+    Let $D = 4l^r(l^r - p)$.
+    Thus, $D \equiv 0 \mod 4$ and so $D$ is a fundamental discriminant.
+    Further, we have that
+    \begin{equation*}
+       (p - 2l^r)^2 - D \cdot 1^2 = p^2 - 4pl^r + 4l^{2r} - 4l^{2r} + 4pl^r = p^2
+    \end{equation*}
+    Thus, the quadratic imaginary order $\O$ with discriminant $D$ contains an element of norm $p^2$.
+    Let now $j \in \bar{\F}_p$ be a root of the Hilbert class polynomial $h_\O$, i.e. curves $E$ with $j(E) = j$ have endomorphism ring $\End(E) \cong \O$.
+    By Prop.~\ref{prop:defined_fp_endo_ring}, we now see that $j \in \F_{p^2}$.
+
+    Furthermore, since $l^r \divides d(\O)$, we see that $l^{\lfloor r/2 \rfloor} \divides [\O_K : \O]$ where $K = \O \otimes_\Z \mathbb{Q}$.
+    This shows that a path of at least $\lfloor r/2 \rfloor$ ascending $l$-isogenies is required to reach the crater from $j$, in other words, $j$ is on level $\lfloor r/2 \rfloor$ in the $l$-isogeny vulcano.
+    Clearly all j-invariants on higher levels are also defined over $\F_{p^2}$, and thus there are at least $\lfloor r/2 \rfloor + 1$ levels in the vulcano.
+\end{proof}
+
+\begin{theorem}
+    Let $l$ and $p$ be distinct primes, and assume $p \neq 2$.
+    Let $r = \lfloor \log_l(4p) \rfloor$.
+    Then each $l$-isogeny vulcano has at most $\lfloor r/2 \rfloor + 1$ levels defined over $\F_{p^2}$.
+\end{theorem}
+\begin{proof}
+    Let $r = \rfloor \log_l(4p) \rceil$.
+\end{proof}
 
 \subsection{Hashing into the supersingular $\F_p$-graph}
 \begin{prop}
