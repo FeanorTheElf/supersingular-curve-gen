@@ -575,6 +575,12 @@ In particular, this shows that it is not enough to bound the number of possible 
     Clearly there are at most $p$ of them (since $j(E) \in \F_p$ for those), thus $n^{3/2}/\ln\ln(n) \leq \Theta(p)$.
     It follows that $n \in O(p^{2/3 + \epsilon})$ for any $\epsilon > 0$.
 \end{proof}
+An example of ordinary curves that still yield joint roots of both polynomials above is displayed in Figure~\ref{fig:example_odd_crater_fp}
+
+\begin{figure}
+    \includegraphics{example_odd_crater_fp.png}
+    \caption{\label{fig:example_odd_crater_fp} A 2-isogeny vulcano over $\F_{101^2}$ that has an odd crater with curves defined over $\F_p$ (in the plot, have $\alpha = z$).}
+\end{figure}
 
 \subsection{Based on Sutherland's supersingularity test}
 It is a theorem by Sutherland that in an $l$-isogeny vulcano, at most $O(\log_l(p))$ levels of j-invariants are defined over $\F_{p^2}$.
@@ -631,55 +637,110 @@ The only way the above can still yield ordinary curves is if a considered curve 
 However, similar to the computation done before, there are only very few such curves, as they would have to have a small endomorphism ring.
 More concretely, there are at most $O(p)$ such curves, and since all supersingular j-invariants are roots of the above ideal, we have a constant nonzero success probability.
 
+Now to the question whether we really have to choose $n = \Theta(\log_l(p))$, resp. how many ordinary $l$-isogeny vulcanos have $n$ levels over $\F_{p^2}$ for $n < \log_l(p)$.
+This is answered by the next theorem.
 \begin{theorem}
-    Let $l$ and $p$ be distinct primes, and assume $p \neq 2$.
-    Let $r = \lfloor \log_l(p) \rfloor$.
-    Then there are $l$-isogeny vulcanos with at least $\lfloor r/2 \rfloor + 1$ levels defined over $\F_{p^2}$.
+    Let $l$ and $p$ be distinct primes with $p \neq 2$ and let $r \in \mathbb{N}$.
+    Consider the number $n$ of endomorphism rings $\O$ of ordinary curves defined over $\F_{p^2}$ with $\pi \in \Z + l^r\O$, where $\pi$ is the $p^2$-Frobenius endomorphism of $\O$.
+    Then
+    \begin{equation*}
+        \Bigl\lfloor \frac p {l^{2r}} \Bigr\rfloor \leq n \leq \Bigl\lfloor \frac {4p(p + 1)} {l^{3r}} \Bigr\rfloor
+    \end{equation*}
+    Furthermore, consider the number $N$ of ordinary j-invariants $j \in \F_{p^2}$ such that there are $r$ levels defined over $\F_{p^2}$ below $j$ in the $l$-isogeny vulcano of $j$ (excluding the level of $j$).
+    Under GRH, we then get for $p \geq l^{2r}$ that
+    \begin{equation*}
+        c_1\left( \frac {p^2} {l^{3r} \log\log(p)} \right) \leq N \leq c_2\left( \frac {p^2\log(p)^2} {l^{3r}} \right)
+    \end{equation*}
+    where $c_1, c_2 > 0$ are constants.
 \end{theorem}
 \begin{proof}
-    Let $r = \rfloor \log_l(p) \rceil$.
-    Let $D = 4l^r(l^r - p)$.
-    Thus, $D \equiv 0 \mod 4$ and so $D$ is a fundamental discriminant.
-    Further, we have that
+    First, we show the lower bounds.
+    Note that there are $\lfloor p/l^{2r} \rfloor$ different integers $a$ with $0 < al^{2r} < p$ (clearly $l^{2r} \notdivides p$).
+    For each of them, consider $D = 4al^{2r}(al^{2r} - p)$.
+    Clearly $D$ is a fundamental discriminant, as $D \equiv 0 \mod 4$.
+    We have
     \begin{equation*}
-       (p - 2l^r)^2 - D \cdot 1^2 = p^2 - 4pl^r + 4l^{2r} - 4l^{2r} + 4pl^r = p^2
+        (p - 2al^{2r})^2 - D \cdot 1^2 = p^2 - 4pal^{2r} + 4a^2l^{4r} - 4a^2l^{4r} + 4pal^{2r} = p^2
     \end{equation*}
-    Thus, the quadratic imaginary order $\O$ with discriminant $D$ contains an element of norm $p^2$.
-    Let now $j \in \bar{\F}_p$ be a root of the Hilbert class polynomial $h_\O$, i.e. curves $E$ with $j(E) = j$ have endomorphism ring $\End(E) \cong \O$.
-    By Prop.~\ref{prop:defined_fp_endo_ring}, we now see that $j \in \F_{p^2}$.
+    Thus the imaginary quadratic order $\O$ with discriminant $D$ contains a nontrivial element of norm $p^2$, which must be $\pi$.
+    In particular, the imaginary quadratic order $\O_0$ with discriminant $d := D/l^{2r}$ satisfies $\O = \Z + l^r\O_0$ as $[\O_0 : \O]^2 = d(\O)/d(\O_0) = l^r$
+    Therefore we see that $\pi \in \Z + l^r\O_0$.
+    Note that each $a$ gives rise to a distinct $\O_0$, and the first lower bound follows.
 
-    Furthermore, since $l^r \divides d(\O)$, we see that $l^{\lfloor r/2 \rfloor} \divides [\O_K : \O]$ where $K = \O \otimes_\Z \mathbb{Q}$.
-    This shows that a path of at least $\lfloor r/2 \rfloor$ ascending $l$-isogenies is required to reach the crater from $j$, in other words, $j$ is on level $\lfloor r/2 \rfloor$ in the $l$-isogeny vulcano.
-    Clearly all j-invariants on higher levels are also defined over $\F_{p^2}$, and thus there are at least $\lfloor r/2 \rfloor + 1$ levels in the vulcano.
+    To get a lower bound for the number of curves, note that for each $\O_0$, by the class group action, there are exactly $\#\Cl(\O_0)$ such curves.
+    Under GRH, the class number of an imaginary quadratic number field is lower bounded by
+    \begin{equation*}
+        h(d) \geq \frac {\sqrt{|d|}} {\log\log|d|} \Theta(1)
+    \end{equation*}
+    Hence, the total number of curves is lower bounded by
+    \begin{align*}
+        &\Theta(1) \sum_{1 \leq a \leq \lfloor p/l^{2r} \rfloor} h(4a(al^{2r} - p)) \geq \Theta(1) \sum_{1 \leq a \leq \lfloor p/l^{2r} \rceil} \frac {\sqrt{4a|al^{2r} - p|}} {\log\log|4a(al^{2r} - p)|} \\
+        =& \Theta(1) l^r \sum_{1 \leq a \leq \lfloor p/l^{2r} \rfloor} \frac {\sqrt{a} \sqrt{p/l^{2r} - a}} {\log(\log(4) + \log(al^{2r}) + \log(p - al^{2r}))} \\
+        \geq& \Theta(1) \frac {l^r} {\log(\log(4) + 2\log(p/2))} \sum_{1 \leq a \leq \lfloor p/l^{2r} \rfloor} \sqrt{a} \sqrt{p/l^{2r} - a} \\
+        =& \Theta(1) \frac {l^r} {\log\log(p)} \int_0^{p/l^{2r}} \sqrt{a} \sqrt{p/l^{2r} - a} \ da \\
+        =& \Theta(1) \frac {p^2} {l^{2r} \log\log(p)} \int_0^1 \sqrt{x(1 - x)} dx - \Theta(1) = \Theta\left( \frac {p^2} {l^{3r} \log\log(p)} \right)
+    \end{align*}
+    We assume that $p \geq l^{2r}$ when estimating the sum by the integral.
+
+    Now to the upper bounds.
+    Consider an endomorphism ring $\O_0$ such that $\O := \Z + l^r\O_0$ contains the $p^2$-Frobenius $\pi$.
+    Then
+    \begin{equation*}
+        \Z[\pi] \subseteq \O \subseteq \O_0
+    \end{equation*}
+    and so $D := d(\Z[\pi]) = a^2l^{2r}d(\O_0)$.
+    Furthermore, if $t$ is the trace of $\pi$, we find $D = t^2 - 4p^2 = (t - 2p)(t + 2p)$.
+    Hence
+    \begin{equation*}
+        a^2l^{2r}d(\O_0) = (t - 2p)(t + 2p)
+    \end{equation*}
+    Unless $l = 2$, $l$ cannot divide both $t - 2p$ and $t + 2p$.
+
+    If $l^{2r} \divides t + 2p$, then $t \in \{ l^{2r} - 2p, 2l^{2r} - 2p, ..., kl^{2r} - 2p \}$ where $k = \lfloor 2p/l^{2r} \rfloor$.
+
+    If $l^{2r} \divides t - 2p$, then $t \in \{ 2p - (k + 1)l^{2r}, 2p - (k + 2)l^{2r}, ..., 2p - (2k + 1)l^{2r} \}$.
+    \\
+    In particular, there are at most $2k + 1$ different choices for $t$.
+    For a given $t$, there are now at most
+    \begin{equation*}
+        \sqrt{\frac {|t^2 - 4p^2|} {l^{2r}}} \leq \sqrt{\frac {4p^2} {l^{2r}}} = \frac {2p} {l^r}
+    \end{equation*}
+    choices for $a$, which then uniquely determines $d(\O_0)$.
+    The total number of possibilities for $d(\O_0)$ is thus
+    \begin{equation*}
+        (2k + 1) \frac {2p} {l^r} \leq \frac {4p(p + 1)} {l^{3r}}
+    \end{equation*}
+    To bound the number of curves, we again use the class group action and the following bound on the class number of a quadratic imaginary number field.
+    Namely, if the discriminant is $d$, have
+    \begin{equation*}
+        h(d) \leq \sqrt{|d|}\log(|d|) O(1)
+    \end{equation*}
+    This now gives us the following upper bound on the number of curves
+    \begin{align*}
+        &\sum_{1 \leq i \leq k} \quad \sum_{a^2 \divides ((il^{2r} - 2p)^2 - 4p^2)/l^{2r}} h\Biggl( \frac {(il^{2r} - 2p)^2 - 4p^2} {a^2l^{2r}} \Biggr) \\
+        &+ \sum_{k + 1 \leq i \leq 2k + 1} \quad \sum_{a^2 \divides ((2p - il^{2r})^2 - 4p^2)/l^{2r}} h\Biggl( \frac {(2p - il^{2r})^2 - 4p^2} {a^2l^{2r}} \Biggr) \\
+        \leq& O(\log(4p^2/l^{2r})) \Biggl( \sum_{1 \leq i \leq k} \sqrt{\frac {4p^2 - (il^{2r} - 2p)^2} {l^{2r}}} \sum_{a^2 \divides ((il^{2r} - 2p)^2 - 4p^2)/l^{2r}} \frac 1 a \\
+        &+ \sum_{k + 1 \leq i \leq 2k + 1} \sqrt{\frac {4p^2 - (2p - il^{2r})^2} {l^{2r}}} \sum_{a^2 \divides ((2p - il^{2r})^2 - 4p^2)/l^{2r}} \frac 1 a \Biggr)
+    \end{align*}
+    Note that
+    \begin{align*}
+        \sum_{a^2 \divides x} \frac 1 a \leq \sum_{a \leq \sqrt{x}} \frac 1 a = O(\log(x))
+    \end{align*}
+    Thus we can upper bound the previous sum by
+    \begin{align*}
+        &O(\log(4p^2/l^{2r})) \Biggl( \sum_{1 \leq i \leq k} \sqrt{ \frac {4p^2 - (il^{2r} - 2p)^2} {l^{2r}}} \quad \log\left( \frac {4p^2 - (il^{2r} - 2p)^2} {l^{2r}} \right) \\
+        &+ \sum_{k + 1 \leq i \leq 2k + 1} \sqrt{ \frac {4p^2 - (2p - il^{2r})^2} {l^{2r}}} \quad \log\left( \frac {4p^2 - (2p - il^{2r})^2} {l^{2r}} \right) \Biggr) \\
+        \leq& \frac {O(\log(p/l^r)^2)} {l^r} \Biggl( \sum_{1 \leq i \leq k} \sqrt{4p^2 - (il^{2r} - 2p)^2} + \sum_{k + 1 \leq i \leq 2k + 1} \sqrt{4p^2 - (2p - il^{2r})^2} \Biggr) \\
+        =& \frac {O(\log(p/l^r)^2)} {l^r} \Biggl( \int_0^k \sqrt{4p^2 - (xl^{2r} - 2p)^2} dx + \int_{k + 1}^{2k + 2} \sqrt{4p^2 - (xl^{2r} - 2p)^2} dx \Biggr) \\
+        \leq& \frac {O(\log(p/l^r)^2)} {l^r} \Biggl( \int_0^k \sqrt{4p^2 - (xl^{2r} - 2p)^2} dx + \int_{k}^{2k} \sqrt{4p^2 - (xl^{2r} - 2p)^2} dx + O(p) \Biggr) \\
+        =& \frac {O(\log(p/l^r)^2)} {l^r} \Biggl( \frac 1 {l^{2r}} \int_0^{2p} \sqrt{4p^2 - (x - 2p)^2} dx + \frac 1 {l^{2r}} \int_{2p}^{4p } \sqrt{4p^2 - (2p - x)^2} dx + O(p)\Biggr) \\
+        =& \frac {O(\log(p/l^r)^2)} {l^r} \Biggl( \frac 1 {l^{2r}} \int_{-2p}^0 \sqrt{4p^2 - x^2} dx + O(p) \Biggr) \\
+        =& \frac {O(\log(p/l^r)^2)} {l^r} \Biggl( \frac {4p^2} {l^{2r}} \int_{-1^0} \sqrt{1 - x^2} \Biggr) = O\left( \frac {p^2\log(p/l^r)^2} {l^{3r}} \right)
+    \end{align*}
+    This shows the claim.
 \end{proof}
 
-\begin{theorem}
-    Let $l$ and $p$ be distinct odd primes.
-    Let $r = \lfloor \log_l(4p) \rfloor$.
-    Then each $l$-isogeny vulcano has at most $\lfloor r/2 \rfloor + 1$ levels defined over $\F_{p^2}$.
-\end{theorem}
-\begin{proof}
-    Let $k = \lfloor r/2 \rfloor + 1$.
-    Assume there is an $l$-isogeny vulcano with more than $k$ levels.
-    Let $\O$ be the endomorphism ring of the bottom level, and set $D = d(\O)$.
-    Then $l^{2k} \divides D$.
-    Now note that $D = t^2 - 4p^2$ where $t$ is the trace of the $p^2$-Frobenius.
-    Thus
-    \begin{equation*}
-        D = t^2 - 4p^2 = (t - 2p)(t + 2p)
-    \end{equation*}
-    Since $l \neq 2$, we know that $l \notdivides 4p$ and so $l^{2k}$ divides either $t - 2p$ or $t + 2p$.
-    We have $|t| \leq 2p$ and so $l^{2k} \leq 4p$.
-    Thus $2k \leq \log_l(4p)$.
-    However
-    \begin{equation*}
-        2k = 2\lfloor r/2 \rfloor + 2 \geq r + 1 = \log_l(4p) + 1 > \log_l(4p)
-    \end{equation*}
-    which is a contradiction.
-\end{proof}
-Note that if $l \gg 4$, then it is likely that $\lfloor \log_l(p) \rfloor = \lfloor \log_l(4p) \rfloor$, and so both theorems together give the exact maximum number of levels in $l$-isogeny vulcanos over $\F_{p^2}$. 
-
-Further, note that this bound is better than the one used by Sutherland in his paper, and this should improve the running time of his algorithm by a factor of $\sqrt{n}$.
+Further, note that the bound $\log_l(p)/2$ for the maximum number of levels over $\F_{p^2}$ is better than the one used by Sutherland in his paper\footnote{However, I have later found the improved bound here \cite{fp_supersingularity_tests}.}.
 
 \subsection{Hashing into the supersingular $\F_p$-graph}
 \begin{prop}

@@ -66,7 +66,10 @@ def vulcano_positions(G):
             if (positions[current][1], positions[current][0]) == (0., 0.):
                 angle = 2*pi * (j - len(children)) / len(children)
             else:
-                angle = atan2(positions[current][1], positions[current][0]) + split_angle * (j - len(children)/2 + 1/2) / (len(children) - 1)
+                angle_fraction = 0
+                if len(children) > 1:
+                    angle_fraction = (j - len(children)/2 + 1/2) / (len(children) - 1)
+                angle = atan2(positions[current][1], positions[current][0]) + split_angle * angle_fraction
             pos = (positions[current][0] + cos(angle), positions[current][1] + sin(angle))
             positions[child] = pos
         open += children
@@ -74,7 +77,7 @@ def vulcano_positions(G):
     return positions
 
 p = 101
-l = 3
+l = 2
 F = GF(p**2, "z")
 z = F.gen()
 graph = Graph(loops = True)
