@@ -654,13 +654,32 @@ More concretely, there are at most $O(p)$ such curves, and since all supersingul
 \end{proof}
 
 \begin{theorem}
-    Let $l$ and $p$ be distinct primes, and assume $p \neq 2$.
+    Let $l$ and $p$ be distinct odd primes.
     Let $r = \lfloor \log_l(4p) \rfloor$.
     Then each $l$-isogeny vulcano has at most $\lfloor r/2 \rfloor + 1$ levels defined over $\F_{p^2}$.
 \end{theorem}
 \begin{proof}
-    Let $r = \rfloor \log_l(4p) \rceil$.
+    Let $k = \lfloor r/2 \rfloor + 1$.
+    Assume there is an $l$-isogeny vulcano with more than $k$ levels.
+    Let $\O$ be the endomorphism ring of the bottom level, and set $D = d(\O)$.
+    Then $l^{2k} \divides D$.
+    Now note that $D = t^2 - 4p^2$ where $t$ is the trace of the $p^2$-Frobenius.
+    Thus
+    \begin{equation*}
+        D = t^2 - 4p^2 = (t - 2p)(t + 2p)
+    \end{equation*}
+    Since $l \neq 2$, we know that $l \notdivides 4p$ and so $l^{2k}$ divides either $t - 2p$ or $t + 2p$.
+    We have $|t| \leq 2p$ and so $l^{2k} \leq 4p$.
+    Thus $2k \leq \log_l(4p)$.
+    However
+    \begin{equation*}
+        2k = 2\lfloor r/2 \rfloor + 2 \geq r + 1 = \log_l(4p) + 1 > \log_l(4p)
+    \end{equation*}
+    which is a contradiction.
 \end{proof}
+Note that if $l \gg 4$, then it is likely that $\lfloor \log_l(p) \rfloor = \lfloor \log_l(4p) \rfloor$, and so both theorems together give the exact maximum number of levels in $l$-isogeny vulcanos over $\F_{p^2}$. 
+
+Further, note that this bound is better than the one used by Sutherland in his paper, and this should improve the running time of his algorithm by a factor of $\sqrt{n}$.
 
 \subsection{Hashing into the supersingular $\F_p$-graph}
 \begin{prop}
