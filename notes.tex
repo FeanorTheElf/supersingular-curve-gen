@@ -775,7 +775,29 @@ Here we look for solutions $x_1, x_3 \in \F_p$ and $x_2 \in \F_{p^2} \setminus \
 
 However, I have not yet analyzed how often this occurs.
 
+Here is an idea how to compute this in special cases.
+Make the following assumptions:
+\begin{itemize}
+    \item Assume that $p^2 - 1$ has a divisor $n$ of size approximately $p^{3/2}$ such that $n \mod p$ is small.
+    \item Assume that the j-invariants $j \in \F_{p^2} \setminus \F_p$ with two distinct $\F_p$-neighbors are equally distributed in the cosets of $\F_{p^2}^*$ modulo the subgroup of order $\frac {p^2 - 1} n$.
+\end{itemize}
+Now choose a random $h \in \F_{p^2}^*$ and consider a random root in $\F_p$ of the ideal
+\begin{equation*}
+    \langle \Phi_2(u, x + \delta y), \Phi_2(w, x + \delta y), \Phi_4(u, w), (x + \delta y)^n = h^n \rangle
+\end{equation*}
+If $x, y$ are assumed to be in $\F_p$, then we can also simplify the equation, as
+\begin{align*}
+    &(x + \delta y)^n = \sum_{i = 0}^n \binom{n}{i} x^i (\delta y)^{n - i} \\
+    =& \sum_{i = 0}^{\text{$n$ mod $p$}} \sum_{j = 0}^{\lfloor n/p \rfloor} \binom{n}{i + jp} x^{i + jp} y^{n - i - jp} \delta^{n - i - jp} \\
+    =&\sum_{i = 0}^{\text{$n$ mod $p$}} x^i y^{(\text{$n$ mod $p$}) - i} \sum_{j = 0}^{\lfloor n/p \rfloor} \binom{n}{i + jp} \delta^{n - i - jp}
+\end{align*}
+Note that by our assumptions above, this is a polynomial-sized polynomial.
+
+In other words, we need to find a random $\F_p$-root of a 1-dimensional variety defined over $\F_{p^2}$.
+Since we have a small constant number of variables, Groebner basis techniques and the like should be available.
+
 \section{Example - j-invariant $61\alpha + 16$}
+
 \begin{table}
     \begin{center}
         \begin{tabular}{c c c c c}
