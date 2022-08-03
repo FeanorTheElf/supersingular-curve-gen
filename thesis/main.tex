@@ -69,6 +69,8 @@
 
 \maketitle
 
+\tableofcontents
+
 \section{Introduction}
 
 \section{Ordinary isogeny graphs}
@@ -240,6 +242,8 @@ As it turns out, the endomorphism rings we consider are all isomorphic, and so t
     \end{align*}
     since $\tau \circ \alpha = \alpha \circ \tau$ ($\End(E)$ is commutative).
 \end{proof}
+Next, we prove that ideal multiplication is compatible with chaining of isogenies.
+Note that the condition $p \notdivides [\O_K : \O]$ is just equivalent to all curves $E$ with $\End(E) \cong \O$ being ordinary.
 \begin{lemma}
     Let $\O$ be a quadratic imaginary order with $p \notdivides d(\O)$ with two integral, invertible ideals $\a, \b \leq \O$.
     Let further $E$ be an Elliptic Curve with $\End(E) \cong \O$.
@@ -300,6 +304,7 @@ As it turns out, the endomorphism rings we consider are all isomorphic, and so t
         i'(\tau) = (\Phi_* \circ i)(\tau) = \frac 1 {\deg(\phi)} \phi \circ i(\tau) \circ \hat{\phi} \qedhere
     \end{equation*}
 \end{proof}
+The whole reason why the ideal $(p, \pi)$ plays such a special role is that it consists of exactly the inseparable endomorphisms.
 \begin{lemma}
     \label{prop:inseparable_iff_frobenius_ideal}
     Let $E$ be an ordinary curve and $\alpha \in \End(E)$.
@@ -329,6 +334,7 @@ As it turns out, the endomorphism rings we consider are all isomorphic, and so t
     Note that in the imaginary quadratic order $\End(E)$, every prime ideal is maximal.
     Since $\Norm((p, \pi)) = p \perp d(\End(E))$, Prop.~\ref{prop:coprime_ideals_order} shows that $(p, \pi)$ is prime, and thus $(p, \pi) = \b$ (clearly, $\b \neq \End(E)$).
 \end{proof}
+
 \begin{lemma}
     Let $E$ be an ordinary curve and $\a, \b \leq \End(E)$ two integral, invertible ideals.
     Then $E_\a \cong E_\b$ if and only if $[\a] = [\b] \in \Cl(\End(E))$ are in the same ideal class.
@@ -390,7 +396,18 @@ As it turns out, the endomorphism rings we consider are all isomorphic, and so t
     \end{equation*}
     and the claim follows.
 \end{proof}
+Now we have proven almost everything we need.
+The final ingredient, from which it will then follow that the class group action is transitive, is a theorem of Tate.
+Since it uses much of the theory on general abelian varieties, we will present it without proof here.
+For a proof, the reader is referred to the work of Tate \cite{tate}.
+\begin{theorem}[Isogeny theorem]
+    \label{prop:isogeny_theorem}
+    Let $E$, $E'$ be Elliptic Curves defined over $\F_q$.
+    Then there is a separable isogeny $E \to E'$ if and only if $\#E(\F_q) = \#E'(\F_q)$.
+\end{theorem}
+Note that this condition is also equivalent to $\End(E) \otimes \Q \cong \End(E') \otimes \Q$ or that the $q$-th power Frobenius endomorphisms have the same trace. 
 \begin{theorem}
+    \label{prop:class_group_action}
     Let $\O$ be an imaginary quadratic order with $p \notdivides d(\O)$ and denote by $\Ell(\O)$ the set of isomorphism classes of all Elliptic Curves $E$ over $\bar{\F}_p$ with $\End(E) \cong \O$.
     Then there is a free and transitive group action
     \begin{equation*}
@@ -400,6 +417,12 @@ As it turns out, the endomorphism rings we consider are all isomorphic, and so t
 \end{theorem}
 \begin{proof}
     Well-definedness and freeness follow from all the previous lemmas.
+    So it is left to derive the transitivity from Thm~\ref{prop:isogeny_theorem}.
+    Let $E$ and $E'$ be curves in $\Ell(\O)$.
+    Clearly, we then have $\#E(\F_q) = \#E'(\F_q)$ and so there is a separable isogeny $\phi: E \to E'$.
+    Everything we have to show is that $\phi = \phi_{E, \a}$ for some ideal $\a \leq \O$.
+
+    
 \end{proof}
 A similar class group action exists in many other cases, since it is really founded in the theory of abelian varieties, see \cite{class_group_action_waterhouse}.
 Notable examples are the CSIDH class group action for supersingular curves defined over $\F_p$ (see \cite{csidh}), its generalization to so-called oriented curves (see \cite{osidh}), and the very classical class group action of Elliptic Curves with complex multiplication (over $\C$).
@@ -420,9 +443,129 @@ Clearly, every ideal class has such a representative, since we can multiply with
 However, some sources do not explicitly mention that $\a$ must be chosen coprime to $(p, \pi)$, which caused me some confusion.
 
 \subsection{Vulcanoes}
+Once we have the class group action, we can derive a lot of information about the structure of the ordinary part of an isogeny graph.
+\begin{definition}
+    Denote by $\Gamma_l(\F_q)$ the graph whose vertices are isomorphism classes of Elliptic Curves over $\F_q$, and the edges are the degree $l$ isogenies between them (with multiplicity).
+\end{definition}
+Since there is never an isogeny between ordinary and supersingular curves, we will continue to talk of ordinary and supersingular connected components of $\Gamma_l(\F_q)$.
+Note that by the j-invariant, an isomorphism class of an Elliptic Curve $E$ is in 1-to-1 correspondence with the j-invariant $j(E)$, and so we could also say that the vertices of $\Gamma_l(\F_q)$ are just the elements of $\F_q$.
+Furthermore that the existence of the dual isogeny implies that $\Gamma_l(\F_q)$ is undirected.
+\begin{definition}
+    For $l > 0, d \geq 0$, a graph $G$ is called \emph{$l$-vulcano of depth $d$}, if its vertices can be partitioned into a set $C$ (the ``crater'') and a set $L$ (the ``lava flows'') such that
+    \begin{itemize}
+        \item $G[C]$ is either a single vertex (possibly with one or two loops), two connected vertices or a cycle
+        \item $G[V]$ is a forest of complete $l$-ary trees with depth $d$
+        \item Every vertex $v \in C$ is connected to the roots of $l + 1 - \deg_{G[C]}(v)$ trees in $G[V]$
+    \end{itemize}
+    In particular, every vertex in $G$ except the leaves of the trees has degree $l + 1$.
+\end{definition}
+The term ``vulcano'' was introduced by \cite{isogeny_vulcano}, after Kohel had mostly determined the structure of ordinary connected components in his PhD thesis.
+Most of this follows from the above class group action, and for the remaining details we refer the reader to Kohel's thesis \cite[Prop.~23]{kohel}.
+\begin{theorem}
+    \label{prop:isogeny_vulcano}
+    Let $G$ be a connected component of $\Gamma_l(\F_q)$.
+    Suppose that $G$ is ordinary, i.e. its vertices are (isomorphism classes of) ordinary curves.
+    Then $G$ is an $l$-vulcano.
+    Further, we have
+    \begin{itemize}
+        \item All curves on the crater have the same endomorphism ring $\O$ with $l \notdivides [\O_{\O \otimes \Q} : \O]$.
+        \item All curves on the $i$-th tree level of a lava flow have the endomorphism ring $\Z + l^i\O$.
+        \item The size of the crater is the order of $\l_1$ in $\Cl(\O)$, where $(l) = \l_1\l_2$ in $\O$, or 1 if $l$ is inert in $\O$.
+    \end{itemize} 
+\end{theorem}
 
 \section{Supersingular isogeny graphs}
+After studying the ordinary connected components of the $l$-isogeny graph $\Gamma_l(\F_q)$, we now come to the supersingular component(s).
+First, note that all supersingular j-invariants are defined over $\F_{p^2}$, and so we will assume $q = p^2$ for this section.
+
+In the supersingular setting, the endomorphism ring is now non-commutative.
+There still exists a non-commutative analogue of the class group action, but using that structure is significantly harder.
+Mainly, because the theory of quaternion algebras is more complicated, and its class group structure is less studied.
+
+Instead, there is the famous result of Pizer, which states that supersingular isogeny graphs (i.e. the supersingular part of $\Gamma_l(\F_q)$) are so called Ramajuan graphs, that is have excellent expander properties.
+We will introduce this result in this section, but without proof.
+\begin{definition}
+    \label{def:expander}
+    A $d$-regular graph $G$ is called $\epsilon$-expander, if the eigenvalues $\lambda_1 > ... > \lambda_n$ of its adjacency matrix satisfy
+    \begin{equation*}
+        |\lambda_2|, |\lambda_n| \leq (1 - \epsilon) d
+    \end{equation*}
+\end{definition}
+In the literature, expander graphs are often defined by the use of the expansion ration
+\begin{equation*}
+    h(G) := \min_{S \subseteq V, \ \#S \leq \frac n 2} \frac {\#\partial S} {\# S}
+\end{equation*}
+of a graph $G = (V, E)$.
+Here $\partial S$ is the edge boundary, i.e. the set of edges between a point in $S$ and a point in $V \setminus S$.
+
+The connection between those two definitions is then given by the Cheeger-inequality
+\begin{prop}
+    Let $G$ be a $d$-regular graph such that its adjacency matrix has eigenvalues $\lambda_1 > ... > \lambda_n$.
+    Then
+    \begin{equation*}
+        \frac {d - \lambda_2} 2 \leq h(G) \leq \sqrt{2d(d - \lambda_2)}
+    \end{equation*}
+\end{prop}
+\begin{proof}
+    See e.g. \cite{cheeger_inequality}.
+\end{proof}
+This inequality only correlates the so-called spectral gap $d - \lambda_2$ with $h(G)$, and does not bound $|\lambda_2|$.
+In many cases, bounds on the spectral gap or expansion ration already suffice to show properties of expanders.
+Because of this, expanders are usually defined as graphs for which $\lambda_2$ or $h(G)$ are bounded.
+Our definition~\ref{def:expander} is then sometimes called ``two-sided expander''.
+However, we will never use one-sided expanders in this work, hence the above definition shall be sufficient.
+
+The nice thing about the expansion ratio is, that it gives more intuition on what the expander property means.
+In particular, an expander graph is densely connected, i.e. by deleting a small number of edges, it is impossible to make the graph split into two (or more) connected components of relatively large size.
+\begin{definition}
+    A connected $d$-regular graph is called Ramajuan, if
+    \begin{equation*}
+        |\lambda_2|, |\lambda_n| \leq 2\sqrt{d - 1}
+    \end{equation*}
+    where $\lambda_1 > ... > \lambda_n$ are again the eigenvalues of the adjacency matrix.
+\end{definition}
+It is known that the bound $2\sqrt{d - 1}$ is asymptotically optimal, i.e. for sufficiently large $n$, all $d$-regular graphs of $n$ vertices have $\lambda_2 \geq 2\sqrt{d - 1} - \epsilon$.
+In that sense, we can say Ramajuan graphs are graphs with asymptotically optimal expansion properties.
+
+One of the main properties of expander graphs is random walks on them mix rapidly.
+That is, the final vertex of relatively short random walks is distributed almost uniformly among all vertices.
+\begin{theorem}
+    Let $G = (V, E)$ be a $d$-regular $\epsilon$-expander graph and $v \in V$ a vertex.
+    Then the distribution of the final vertex of a random walk starting from $v$ of length $t$ is close to uniform, in particular, the $\ell_2$-statistical distance is bounded by $(1 - \epsilon)^t$.
+\end{theorem}
+For a proof of this theorem, see e.g. Thm~3.3 in this excellent survey on expander graphs \cite{expander_survey}.
+Note that expander graphs used in cryptography are usually of exponential size, so this theorem says that a random walk of polynomial length already reaches all vertices of the graph.
+
+Now we come to the anticipated result, that supersingular isogeny graphs are expander graphs.
+\begin{definition}
+    The \emph{supersingular $l$-isogeny graph over $\F_{p^2}$} is the subgraph of $\Gamma_l(\F_{p^2})$ induced by all (isomorphism classes of) supersingular curves over $\F_{p^2}$.
+\end{definition}
+Since the supersingular $l$-isogeny graph is disconnected from the rest of $\Gamma_l(\F_{p^2})$, we see that it is an $(l + 1)$-regular graph.
+We also know its size exactly, which directly follows from a classical result on the number of supersingular curves over $\F_{p^2}$.
+\begin{prop}
+    For $p \geq 5$, there are exactly
+    \begin{equation*}
+        \left\lfloor \frac p {12} \right\rfloor + \begin{cases}
+            0 & \text{if $p \equiv 1 \mod 12$} \\
+            1 & \text{if $p \equiv 5, 7 \mod 12$} \\
+            2 & \text{if $p \equiv 11 \mod 12$}
+        \end{cases}
+    \end{equation*}
+    supersingular Elliptic Curves over $\F_{p^2}$.
+\end{prop}
+For a proof of this statement, see e.g. \cite[Thm~V.4.1]{arithmetic_elliptic_curves}.
+
+In \cite{supersingular_graphs_ramajuan}, Pizer has now shown that
+\begin{theorem}
+    The supersingular $l$-isogeny graph is Ramajuan.
+\end{theorem}
+This shows that there is a huge difference between the ordinary and supersingular graphs.
+For example, there is always a path of length $O(\log(p))$ between two curves in the supersingular graph, but in the ordinary graph, such a path does not exist in many cases.
+We will try to quantify this in the last section.
+The idea of our research is to utilize these differences in order to find random, supersingular curves.
 
 \section{Generating supersingular curves}
+
+\printbibliography
 
 \end{document}
