@@ -578,11 +578,16 @@ We will try to quantify this in the last section.
 The idea of our research is to utilize these differences in order to find random, supersingular curves.
 
 \section{Modular polynomials}
-In the ordinary case, the class group action might be used to compute neighbors in the $l$-isogeny graph, provided we know the endomorphism ring of the start curve.
-However, finding the endomorphism ring is a hard problem in itself, and thus this method is not really practical.
-Furthermore, we currently have no useful approach to compute isogeneous curves in the supersingular setting.
+If we want to work computationally with isogeny graphs, we need a way to explicitly compute them.
+The simplest way to find the $m$-isogeny neighbors of a curve $E$ is to compute $E[m]$ and find the order-$m$-subgroups.
+While this works in many cases, it can happen that the torsion group $E[m]$ only lies in an extension of $\F_q$ of degree $O(m^2)$, in which it is very costly to work.
+Furthermore, there are many other applications where a torsion-based approach does not work at all.
 
-One solution to this problem is given by modular curves.
+In the ordinary case, the class group action might be also used to compute neighbors in the $l$-isogeny graph, provided we know the endomorphism ring of the start curve.
+However, finding the endomorphism ring is a hard problem in itself, and thus this method is not really practical.
+Furthermore, this does not work in the supersingular setting.
+
+One solution to this problem is given by modular curves, which give a very useful algebraic structure to the $l$-isogeny graph.
 In particular, the existence of a nontrivial $l$-isogeny between curves is an algebraically closed condition, i.e. is given by an algebraic curve.
 
 The classical way to study this is by using the theory of modular forms.
@@ -690,6 +695,22 @@ In fact, it is easy to see that
     \Phi_p(X, Y) \equiv -(X^p - Y)(Y^p - X) \mod p
 \end{equation*}
 since the only $p$-isogenies over a field of characteristic $p$ are the Frobenius and its conjugate.
+
+The modular polynomial is an indispensable tool when doing computations on the isogeny graph.
+In particular, when combined with an algorithm to factor polynomials over $\F_q$, it allows us to compute all the neighbors of a curve $E$ in the $l$-isogeny graph.
+For example Sutherland's supersingular test \cite{sutherland_supersingularity_test} uses modular polynomials for walks in the isogeny graph, and distinguishes ordinary and supersingular curves by the structure of their isogeny graph neighborhoods.
+Another example is Shoof's algorithm \cite{shoof_point_counting} for counting $\F_q$-rational points on a curve, which also fundamentally relies on modular polynomials.
+
+Therefore, computing modular polynomials is an important task.
+The most classical approach is to mimic to proof of Thm~\ref{prop:complex_mod_poly}, i.e. view Elliptic Curves as lattices over $\C$ and compute the Fourier coefficients of the $j$-function.
+However, one main problem is that the coefficients in the modular polynomial become very large very fast.
+For example, $\Phi_5$ has already the constant coefficient
+\begin{equation*}
+    141359947154721358697753474691071362751004672000
+\end{equation*}
+In many cases, we only need the value of $\Phi_m$ modulo a prime $p$, and thus other algorithms can easily be faster.
+A whole line of work tries to use isogeny graphs over finite fields to find such an algorithm, see e.g. \cite{compute_modular_polynomial} and \cite{compute_modular_polynomial2}.
+Using the Chinese Remainder theorem, these algorithms can also be used to find $\Phi_m$ over $\C$ by collecting information modulo many different primes.
 
 \chapter{Generating supersingular curves}
 
