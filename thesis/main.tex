@@ -1,4 +1,4 @@
-\documentclass{scrartcl}
+\documentclass{ociamthesis}
 
 \usepackage{graphicx}
 \usepackage[utf8]{inputenc}
@@ -16,13 +16,24 @@
 \usepackage{enumerate}
 \usepackage{tikz}
 \usepackage{stmaryrd}
+\usepackage{hyperref}
 \usepackage[style=english]{csquotes}
-\usepackage[language=english, backend=biber, style=alphabetic, sorting=nyt]{biblatex}
+
+\hypersetup{
+    colorlinks,
+    linkcolor={red!50!black},
+    citecolor={blue!50!black},
+    urlcolor={blue!80!black}
+}
 
 \usetikzlibrary{babel, positioning, shapes.geometric, arrows, arrows.meta}
-\addbibresource{../bibliography.bib}
+
 \title{Generating supersingular curves with modular polynomials}
+
 \author{Simon Pohmann}
+\college{St Hugh's College}
+\degree{Master of Science in Mathematics}
+\degreedate{2022} 
 
 \newcommand{\Z}{\mathbb{Z}}
 \newcommand{\Q}{\mathbb{Q}}
@@ -71,9 +82,11 @@
 
 \tableofcontents
 
-\section{Introduction}
+\chapter{Introduction}
 
-\section{Ordinary isogeny graphs}
+\chapter{Isogeny graphs}
+
+\section{The ordinary case}
 
 \subsection{Imaginary quadratic orders}
 For this part, let $\O$ be an order in an imaginary quadratic number field $K$.
@@ -442,7 +455,7 @@ also in the finite field case, if we require $\a$ to be an (integral) ideal repr
 Clearly, every ideal class has such a representative, since we can multiply with the principal ideal $(p) = (p, \pi)(p, \pi - t)$ and divide out the principal ideal $(\pi) = (p, \pi)^s$.
 However, some sources do not explicitly mention that $\a$ must be chosen coprime to $(p, \pi)$, which caused me some confusion.
 
-\subsection{Vulcanoes}
+\subsection{Vulcanos}
 Once we have the class group action, we can derive a lot of information about the structure of the ordinary part of an isogeny graph.
 \begin{definition}
     Denote by $\Gamma_l(\F_q)$ the graph whose vertices are isomorphism classes of Elliptic Curves over $\F_q$, and the edges are the degree $l$ isogenies between them (with multiplicity).
@@ -474,7 +487,7 @@ Most of this follows from the above class group action, and for the remaining de
     \end{itemize} 
 \end{theorem}
 
-\section{Supersingular isogeny graphs}
+\section{The supersingular case}
 After studying the ordinary connected components of the $l$-isogeny graph $\Gamma_l(\F_q)$, we now come to the supersingular component(s).
 First, note that all supersingular j-invariants are defined over $\F_{p^2}$, and so we will assume $q = p^2$ for this section.
 
@@ -564,8 +577,18 @@ For example, there is always a path of length $O(\log(p))$ between two curves in
 We will try to quantify this in the last section.
 The idea of our research is to utilize these differences in order to find random, supersingular curves.
 
-\section{Generating supersingular curves}
+\section{Modular polynomials}
+In the ordinary case, the class group action might be used to compute neighbors in the $l$-isogeny graph, provided we know the endomorphism ring of the start curve.
+However, finding the endomorphism ring is a hard problem in itself, and thus this method is not really practical.
+Furthermore, we currently have no useful approach to compute isogeneous curves in the supersingular setting.
 
-\printbibliography
+One solution to this problem is given by modular curves.
+In particular, the existence of a nontrivial $l$-isogeny between curves is an algebraically closed condition, i.e. can be described by a polynomial.
+In this section, we will study on how to do this.
+
+\chapter{Generating supersingular curves}
+
+\bibliography{../bibliography}
+\bibliographystyle{plain}
 
 \end{document}
