@@ -528,7 +528,7 @@ Because of this, expanders are usually defined as graphs for which $\lambda_2$ o
 Our definition~\ref{def:expander} is then sometimes called ``two-sided expander''.
 However, we will never use one-sided expanders in this work, hence the above definition shall be sufficient.
 
-The nice thing about the expansion ratio is, that it gives more intuition on what the expander property means.
+The nice thing about the expansion ratio is that it gives more intuition on what the expander property means.
 In particular, an expander graph is densely connected, i.e. by deleting a small number of edges, it is impossible to make the graph split into two (or more) connected components of relatively large size.
 \begin{definition}
     A connected $d$-regular graph is called Ramajuan, if
@@ -583,8 +583,113 @@ However, finding the endomorphism ring is a hard problem in itself, and thus thi
 Furthermore, we currently have no useful approach to compute isogeneous curves in the supersingular setting.
 
 One solution to this problem is given by modular curves.
-In particular, the existence of a nontrivial $l$-isogeny between curves is an algebraically closed condition, i.e. can be described by a polynomial.
-In this section, we will study on how to do this.
+In particular, the existence of a nontrivial $l$-isogeny between curves is an algebraically closed condition, i.e. is given by an algebraic curve.
+
+The classical way to study this is by using the theory of modular forms.
+Since this is out of the scope of this work, we refer to \cite[§11]{cox_primes_of_form} for an introduction of the topic.
+The basic result is the following.
+\begin{theorem}
+    \label{prop:complex_mod_poly}
+    For $m \geq 2$ there is an irreducible and monic polynomial
+    \begin{equation*}
+        \Phi_m(X, Y) \in \Z[X, Y]
+    \end{equation*}
+    such that for Elliptic Curves $E, E'$ defined over $\C$, there is a cyclic $m$-isogeny $E \to E'$ if and only if $\Phi_m(j(E), j(E')) = 0$.
+\end{theorem}
+This polynomial is called the \emph{(classical) modular polynomial of level $m$}.
+A proof of this theorem is e.g. given in \cite[Thm~11.18]{cox_primes_of_form}.
+A few corollaries of this theorem can easily be inferred from this statement:
+\begin{corollary}
+    Let $m \geq 2$. Then we have
+    \begin{itemize}
+        \item $\Phi_m$ is symmetric, i.e. $\Phi_m(X, Y) = \Phi_m(Y, X)$.
+        \item $\Phi_m$ has degree $\psi(m)$ (as polynomial in $X$), where $\psi$ is the Dedekind $\psi$-function
+        \begin{equation*}
+            \psi(m) = m \prod_{p \divides m} 1 + \frac 1 p
+        \end{equation*}
+    \end{itemize}
+\end{corollary}
+\begin{proof}
+    The first statement follows from the existence of the dual isogeny.
+    For the second statement, note that for each Elliptic Curve $E$ over $\C$, the degree of $\Phi_m(X, j(E))$ is the number of curves $E'$ with an $m$-isogeny $E \to E'$, which is equal to the number of cyclic subgroups $G \leq E \cong (\mathbb{R}/\Z)^2$ of size $m$.
+    By the Chinese Remainder theorem, this is a multiplicative function, and for a prime power $m = p^k$, the number is
+    \begin{align*}
+       &\#\bigl\{ G \leq (\Z/m\Z)^2 \ \bigm| \ \#G = m \bigr\} \\
+       =& \#\bigl\{ \langle (1, \alpha) \rangle \ \bigm| \ \alpha \in \Z/m\Z \bigr\} + \#\bigl\{ \langle (\alpha, 1) \rangle \ \bigm| \ \alpha \in (\Z/m\Z) \setminus (\Z/m\Z)^* \bigr\} \\
+       =& p^k + \#\bigl\{ \langle (\alpha, 1) \rangle \ \bigm| \ \alpha \in p(\Z/m\Z) \bigr\} = p^k + p^{k - 1} \\
+       =& m \left( 1 + \frac 1 p \right) \qedhere
+    \end{align*}
+\end{proof}
+Since we are mainly interested in the case of finite fields, we have to show that the modular polynomial behaves well under reductions mod $p$.
+First, we use two lemmas.
+\begin{lemma}
+    \label{prop:modified_hensel_lifting}
+    Let $f \in \O_K[X]$ be a polynomial for some number field $K$ with a prime $\p$.
+    If $f(X) \mod \p \in \F_q[X]$ has a root, then $f$ has a root in $\O_L$ for some finite field extension $L/K$.
+\end{lemma}
+\begin{proof}
+    Follows by Hensel's Lemma.
+\end{proof}
+\begin{lemma}
+    Let $E$ and $E'$ be curves over $\F_q$ and $\phi: E \to E'$ a cyclic $m$-isogeny.
+    Then there exist curves $E_0$, $E_0'$ with j-invariant in $\O_K$ for some number field $K$ with a prime $\p$ over $p = \mathrm{char}(K)$ and an isogeny $\phi_0: E_0 \to E_0'$ such that
+    \begin{equation*}
+        \tilde{E}_0 = E, \ \tilde{E}_0' = E' \quad \text{and} \quad \tilde{\phi}_0 = \phi
+    \end{equation*}
+    where $\tilde{\cdot}$ is the reduction modulo $\p$.
+\end{lemma}
+\begin{proof}
+    Consider some arbitrary lift $E_0$ and $E_0'$ of $E$ resp. $E'$ to a number field $K$ such that $j(E_0), j(E_0') \in \O_K$.
+    Assume that $E_0'$ is defined by a homogeneous polynomial $f = Y^2Z - X^3 - AXZ^2 - BZ^3 \in \O_K[X, Y, Z]$.
+    Finally, assume $\phi = [u : Y v : w]$ with polynomials $u, v, w \in \F_q[X]$ and choose an arbitrary lift $v_0, w_0 \in \O_K[X]$ of $v$ resp. $w$.
+    Hence the coefficients $u^{(0)}, ..., u^{(n)}$ of $u \in \F_q[X]$ are a root of
+    \begin{equation*}
+        f(\sum T_i X^i, Y v_0, w_0) = \sum_i a_i(T_0, ..., T_n) X^i \in \O_K[X][T_i]
+    \end{equation*}
+    modulo $\p$.
+    Note that the coefficient of $X^j$ in $(\sum_i T_i X^i)^3$ contains the monomial $T_0^2 T_j$, and wlog we have chosen the lifts of $A, B$ such that also the coefficient in $f(\sum T_i X^i, Y v, w)$ does.
+    Furthermore, the coefficient of $X^j$ in $f(\sum T_i x^i, Y v, w) \in \O_K[T_0, ..., T_j]$.
+
+    wlog $u_0 \neq 0$, otherwise we can just move $E'$ in $x$-direction by some element in $\p$, which preserves $\tilde{E}_0' = E'$.
+
+    Now Lemma~\ref{prop:modified_hensel_lifting} shows that there is a lift $u^{(0)}_0$ of $u^{(0)}$ in some number field $L_i/K$ with $a_0(u^{(0)}_0) = 0$.
+    Since $u_0^{(0)} \neq 0$, we see that $a_i(u_0^{(0)}, ..., u_0^{(i - 1)}, T_i)$ contains the monomial $T_i$, and so applying the lemma inductively, we also find lifts $u^{(1)}_0, ..., u^{(d)}_0 \in \O_L/K$ with $a_i(u^{(0)}_0, ..., u^{(i)}_0) = 0$, where $d = \deg(u)$.
+    In other words, we found a lift $u_0$ of $u$ in $\O_L[X]$ such that $f(u_0, Y v_0, w) = 0$.
+    Now we can set $\phi_0 = [u_0 : v_0 : w_0]: E_0 \to E_0'$ and the claim follows.
+\end{proof}
+Using more Hensel lifting, we now can pull down the properties of $\Phi_m$ to finite fields.
+\begin{prop}
+    For $m \geq 2$ and Elliptic Curves $E$ and $E'$ over $\F_q$, have $\Phi_m(j(E), j(E')) = 0 \in \F_q$ if and only if there is a cyclic $m$-isogeny $E \to E'$.
+\end{prop}
+\begin{proof}
+    First, consider the direction $\Leftarrow$.
+    Here the previous Lemma shows that we can lift the situation to $m$-isogeneous curves $E_0$ and $E_0'$ over a number field $K$, and so have by Prop.~\ref{prop:complex_mod_poly} that
+    \begin{equation*}
+        \Phi_m(j(E_0), j(E_0')) = 0
+    \end{equation*}
+    Furthermore we know that $j(E_0), j(E_0') \in \O_K$, and so we clearly have for the reduction modulo $\p$ that
+    \begin{equation*}
+        \Phi_m(j(E), j(E')) \equiv \Phi_m(j(E_0), j(E_0')) \equiv 0 \mod \p
+    \end{equation*}
+
+    Now we show the direction $\Rightarrow$.
+    We have $\Phi_m(j(E), j(E')) = 0 \in \F_q$, thus there is a number field $K$ with a prime $\p$ over $p = \mathrm{char}(\F_q)$ and $x, y \in \O_K$ such that
+    \begin{equation*}
+        \Phi_m(x, y) \equiv 0 \mod \p \quad \text{and} \quad x \equiv j(E), \ y \equiv j(E') \mod \p
+    \end{equation*}
+    Now we can again use Lemma~\ref{prop:modified_hensel_lifting} to find $x'$ in the completion $K_\p$ such that $x' \equiv x \mod \p$ and $\Phi_m(x', y) = 0 \in K_\p$.
+    Since $x'$ is a root of $\Phi_m(X, y)$, it is algebraic and thus an algebraic integer.
+    So there is a number field $K'$ with a prime $\p'$ over $\p$ such that $x', y \in K'$ and $x' \equiv j(E)$, $y \equiv j(E')$ modulo $\p'$.
+    In particular, there are curves $E$, $E'$ over $K'$ with j-invariants $x'$ resp. $y$, and thus by Prop.~\ref{prop:complex_mod_poly}, there is a cyclic $m$-isogeny $E \to E'$.
+    Therefore, there is also an $m$-isogeny between the curves $\tilde{E}$ and $\tilde{E}'$, which are the reductions of $E$ resp. $E'$ modulo $\p'$.
+\end{proof}
+Some properties however do not holds anymore.
+For example, in the finite field case, $\Phi_m$ might not be irreducible anymore.
+In fact, it is easy to see that
+\begin{equation*}
+    \Phi_p(X, Y) \equiv -(X^p - Y)(Y^p - X) \mod p
+\end{equation*}
+since the only $p$-isogenies over a field of characteristic $p$ are the Frobenius and its conjugate.
 
 \chapter{Generating supersingular curves}
 
