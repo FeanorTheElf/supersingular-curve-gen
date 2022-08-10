@@ -1,0 +1,628 @@
+
+\section{The ordinary case}
+
+\subsection{Imaginary quadratic orders}
+For this part, let $\O$ be an order in an imaginary quadratic number field $K$.
+\begin{lemma}
+    Let $\p \leq \O_K$ be a prime with $\Norm(\p) \perp [\O_K : \O]$.
+    Then $\p$ has a set of generators in $\O$.
+\end{lemma}
+\begin{proof}
+    Suppose $\p$ is a prime over $p$, and let $\O = \Z[\phi]$.
+    We use the decomposition law in Dedekind ring extensions.
+    Since $\Norm(\p) \perp [\O_K : \O]$ are coprime, we can apply it with a generator $\phi$ of $\O$.
+
+    If $\mathrm{MiPo}(\phi) = f(X)g(X) \mod p$ splits, then have
+    \begin{equation*}
+        p\O_K = (p, f(\phi))(p, g(\phi))
+    \end{equation*}
+    and so the prime ideals over $p$ are $(p, f(\phi))$ and $(p, g(\phi))$.
+    If $\mathrm{MiPo}(\phi) \mod p$ is irreducible, then have that $p\O_K$ is prime and thus the only prime ideal over $p$.
+    Hence, all prime ideals over $p$ (including $\p$) have a set of generators in $\O$.
+\end{proof}
+\begin{corollary}
+    \label{prop:generators_in_order}
+    Let $\a \leq \O_K$ be an ideal with $\Norm(\a) \perp [\O_K : \O]$. Then $\a$ has a set of generators in $\O$.
+\end{corollary}
+\begin{prop}
+    Let $\p \leq \O$ be a prime ideal with $\Norm(\p) \perp [\O_K : \O]$ and $\p' = \p\O_K$.
+    Then $\O_\p = (\O_K)_{\p'}$.
+\end{prop}
+\begin{proof}
+    We have $\O_K = \Z[\alpha]$ and $\O = \Z[f\alpha]$ where $f = [\O_K : \O]$.
+    Thus $f \notin \p$ and so $f \in \O_\p^*$.
+    Therefore $\O_K \subseteq \O_\p$ and thus $(\O_K)_{\p'} \subseteq \O_\p$.
+\end{proof}
+\begin{prop}
+    \label{prop:coprime_ideals_order}
+    Let $\mathfrak{I}(\O)$ resp. $\mathfrak{I}(\O_K)$ denote the set of invertible ideals of norm $\perp [\O_K : \O]$.
+    Then
+    \begin{align*}
+        \mathfrak{I}(\O) \to \mathfrak{I}(\O_K), \quad \a \mapsto \a\O_K
+    \end{align*}
+    is a monoid isomorphism with inverse
+    \begin{equation*}
+        \mathfrak{I}(\O_K) \to \mathfrak{I}(\O), \quad \a \mapsto \a \cap \O
+    \end{equation*}
+\end{prop}
+\begin{proof}
+    Clearly, this is a well-defined monoid homomorphism.
+    Hence, we have to show that it is bijective.
+
+    By Corollary~\ref{prop:generators_in_order}, we know that any $\a \leq \O_K$ with $\Norm(\a) \perp [\O_K : \O]$ has generators in $\O$, thus $(\a \cap \O)\O_K = \a$.
+    This shows that $\a \cap \O$ is a preimage of $\a$, and so the map is surjective. 
+
+    Assume now $\a, \b \leq \O$ with $\a\O_K = \b\O_K$ and $\Norm(\a), \Norm(\b) \perp [\O_K : \O]$.
+    We show that $\a_\p = \b_\p$ for all primes $\p \leq \O$.
+    Note that if $\Norm(\p) \not\perp [\O_K : \O]$, this holds trivially, as $\a_\p = \O_\p = \b_\p$.
+    Otherwise, note that
+    \begin{equation*}
+        \a_\p = \a_\p \O_\p = \a (\O_K)_\p = \a\O_K(\O_K)_\p = \b\O_K(\O_K)_\p = \b_\p (\O_K)_\p = \b_\p
+    \end{equation*}
+    as $\O_\p = (\O_K)_\p$.
+    This shows that $\a_\p = \b_\p$ at all primes, so $\a = \b$ and our map is injective.
+    Furthermore, since $(\a \cap \O)\O_K = \a$, we see that it has the inverse
+    \begin{equation*}
+        \mathfrak{I}(\O_K) \to \mathfrak{I}(\O), \quad \a \mapsto \a \cap \O
+    \end{equation*}
+    which must then be well-defined.
+\end{proof}
+
+\subsection{The class group action}
+The class group action that we will define in the following is the most important tool when working with isogeny graphs of ordinary curves.
+Because of this, it is mentioned in more or less all the literature dealing with the topic.
+For me, it was thus quite surprising that I could nowhere find a precise and relatively elementary proof for the statement in the case of finite fields.
+
+Most sources cite \cite[Thm~4.5]{class_group_action_waterhouse}, however the statement there is not as explicit as one might wish, and the proof is done in the much more general theory of abelian schemes.
+Apart from that, there are many references to the corresponding statement for curves over $\C$, but these ignore some of the subtleties introduced by non-separable isogenies. 
+Therefore, we now present a relatively simple proof of the class group action for ordinary curves defined over a finite field and explicitly handle the non-separable case.
+\begin{definition}
+    For an integral ideal $\a \leq \End(E)$ of an ordinary Elliptic Curve $E$, define the $\a$-torsion
+    \begin{equation*}
+        E[\a] := \bigcap_{\alpha \in \a} \ker(\alpha)
+    \end{equation*}
+\end{definition}
+From now on, we will often compare endomorphism rings of isogeneous curves.
+To do so, we embed those rings into an imaginary quadratic number field $K$.
+However, the field $K$ and its orders can have nontrivial automorphisms, which means the embedding $\End(E) \to K$ cannot be unique.
+Fortunately, there is a unique embedding that is canonical in the following sense.
+\begin{lemma}
+    Let $\phi: E \to E'$ be an isogeny.
+    Then there is an isomorphism
+    \begin{equation*}
+        \Phi: \End(E) \otimes \Q \to \End(E') \to \Q, \quad \tau \mapsto \frac 1 {\deg(\phi)} \phi \circ \tau \circ \hat{\phi}
+    \end{equation*}
+    Furthermore, if we assume $E$ to be ordinary, then this is canonical in the sense that for any other isogeny $\psi: E \to E'$ have $\Phi = \Psi$.
+\end{lemma}
+If we set $K = \End(E) \otimes \Q$, then of course this gives a canonical embedding $\End(E') \to K$ for each curve $E'$ isogeneous to $E$.
+From now on, whenever we consider such an embedding, or identify isomorphic endomorphism rings of isogeneous curves, this embedding shall be used.
+\begin{prop}
+    Let $\phi: E \to E'$ be an isogeny of prime degree $p$ between (not necessarily ordinary) Elliptic Curves.
+    Then (after embedding $\End(E')$ via $\Phi$ and $\End(E)$ into $\End(E) \otimes \Q$) exactly one of the following is the case.
+    \begin{itemize}
+        \item $\End(E) = \End(E')$ and we call $\phi$ \emph{horizontal}.
+        \item $\End(E) \subseteq \End(E')$ with $[\End(E') : \End(E)] = p$. We call $\phi$ \emph{ascending}.
+        \item $\End(E) \supseteq \End(E')$ with $[\End(E) : \End(E')] = p$. We call $\phi$ \emph{descending}.
+    \end{itemize}
+\end{prop}
+Furthermore, we will sometimes talk about horizontal or vertical isogenies \emph{at a prime $l$}, which is defined by the next proposition.
+The advantage is that this is defined for all isogenies, not just those of prime degree.
+\begin{prop}
+    Similarly, let $\phi: E \to E'$ be an isogeny of any degree $n$.
+    Further, let $l$ be a prime.
+    Then (after embedding $\End(E') \otimes \Z_{(l)}$ via $\Phi$ and $\End(E) \otimes \Z_{(l)}$ into $\End(E) \otimes \Q$)exactly one of the following is the case.
+    \begin{itemize}
+        \item $\End(E) \otimes \Z_{(l)} = \End(E') \otimes \Z_{(l)}$ and we call $\phi$ \emph{horizontal at $l$}.
+        \item $\End(E) \otimes \Z_{(l)} \subseteq \End(E') \otimes \Z_{(l)}$ with $[\End(E') \otimes \Z_{(l)} : \End(E) \otimes \Z_{(l)}] = l^r$ for $r > 0$. We call $\phi$ \emph{ascending at $l$}.
+        \item $\End(E) \otimes \Z_{(l)} \supseteq \End(E') \otimes \Z_{(l)}$ with $[\End(E) \otimes \Z_{(l)} : \End(E') \otimes \Z_{(l)}] = p$ for $r > 0$. We call $\phi$ \emph{descending at $l$}.
+    \end{itemize}
+\end{prop}
+Now we can make a step towards the class group action and present how we assign isogenies to (integral, invertible) ideals of the endomorphism ring.
+\begin{definition}
+    For an ordinary Elliptic Curve $E$ and an integral, invertible ideal
+    \footnote{By Prop.~\ref{prop:coprime_ideals_order}, this representation of an ideal $\a$ is well-defined and unique, as $\Norm((p, \pi)) = p \notdivides [\O_{\End(E) \otimes \Q} : \End(E)] \divides d(\End(E))$.}
+    $\a = \b(p, \pi_E)^r \leq \End(E)$ with $\b \perp (p, \pi_E)$ define the isogeny
+    \begin{equation*}
+        \phi_{E, \a}: E \ \longrightarrow \ E/E[\b] \ \overset{\pi}{\longrightarrow} \ E_\a := (E/E[\b])^{(p^r)}
+    \end{equation*}
+    where $E \to E/E[\b]$ is the separable isogeny with kernel $E[\b]$ and $\pi: E/E[\b] \to (E/E[\b])^{(p^r)}$ is the $r$-th power Frobenius map.
+\end{definition}
+In order to define a group action later, we need to be able to chain such isogenies given by ideals.
+The obvious difficulty here is that the ideals are all in the same ring, but subsequent isogenies will have different curves as domain.
+Hence, we need to be able to view an ideal $\a \leq \End(E)$ as an ideal of another endomorphism ring $\End(E')$.
+As it turns out, the endomorphism rings we consider are all isomorphic, and so this works out nicely. 
+\begin{lemma}
+    Let $E$ be an ordinary Elliptic Curve and $\a \leq \End(E)$ an integral, invertible ideal.
+    Then $\End(E) \cong \End(E_\a)$.
+    In particular, $\phi_{E, \a}$ is horizontal at every prime $l$.
+\end{lemma}
+\begin{proof}
+    Let $\a = \b(p, \pi_E)^r$ with $\b \perp (p, \pi_E)$.
+    We show that $\End(E) \cong \End(E/E[\b])$ and the claim follows, as for any Elliptic Curve $E$, have an isomorphism
+    \begin{equation*}
+        \End(E) \to \End(E^{(p)}), \quad \alpha \mapsto \alpha^{(p)}
+    \end{equation*}
+    It suffices to show that the separable isogeny $\phi := \phi_{E, \b}$ is horizontal at each prime $l$.
+
+    Assume for a contradiction that $\phi$ is descending at $l$.
+    In other words, there is $\tau \in \End(E)$ such that $\phi \circ \tau \circ \hat{\phi}$ is not divisible by $l$.
+    Hence, $E'[l] \not\subseteq \ker(\phi \circ \tau \circ \hat{\phi})$ and there is a point $P \in E'[l]$ with $\phi(\tau(\hat{\phi}(P))) \neq \IdPoint$.
+    This implies $\tau(\hat{\phi}(P)) \notin E[\a]$ and thus there is $\alpha \in \a$ with $\tau(\hat{\phi}(P)) \notin \ker(\alpha)$.
+    Note that $\alpha$ factors through $\phi$ as
+    \begin{center}
+        \begin{tikzpicture}
+            \node (Ep) at (0, 0) {$E'$};
+            \node (E1) at (-4, 0) {$E$};
+            \node (E2) at (4, 0) {$E$};
+
+            \draw [->] (E1) -- (Ep) node [midway, above] {$\phi$};
+            \draw [->] (Ep) -- (E2) node [midway, above] {$\psi$};
+            \draw [->] (E1) to [bend left] node [midway, above] {$\alpha$} (E2);
+        \end{tikzpicture}
+    \end{center}
+    We assume $l \divides n$, otherwise the claim is trivial.
+    However, then we have the contradiction
+    \begin{align*}
+        \psi((\phi \circ \tau \circ \hat{\phi})(P)) &= (\psi \circ \phi \circ \tau \circ \hat{\phi})(P) = (\alpha \circ \tau \circ \hat{\phi})(P) \\
+        &= (\tau \circ \alpha \circ \hat{\phi})(P) = (\tau \circ \psi \circ [n])(P) = (\tau \circ \psi)(\IdPoint) = \IdPoint
+    \end{align*}
+    since $\tau \circ \alpha = \alpha \circ \tau$ ($\End(E)$ is commutative).
+\end{proof}
+Next, we prove that ideal multiplication is compatible with chaining of isogenies.
+Note that the condition $p \notdivides [\O_K : \O]$ is just equivalent to all curves $E$ with $\End(E) \cong \O$ being ordinary.
+\begin{lemma}
+    Let $\O$ be a quadratic imaginary order with $p \notdivides d(\O)$ with two integral, invertible ideals $\a, \b \leq \O$.
+    Let further $E$ be an Elliptic Curve with $\End(E) \cong \O$.
+    Identifying $\End(E_\a)$ with $\O$ by the canonical isomorphism $\Phi_{E, \a}: \End(E) \overset{\sim}{\longrightarrow} \End(E_\a)$, we have
+    \begin{equation*}
+        E_{\a\b} \cong (E_\a)_\b \quad \text{and} \quad \phi_{E, \a\b} = \phi_{E_\a, \b} \circ \phi_{E, \a}
+    \end{equation*}
+\end{lemma}
+\begin{proof}
+    First, we show that $\Phi_{E, \a}(\pi_E) = \pi_{E_\a}$ and so we can write $\pi \in \O$ for the unique element mapping to the Frobenius in $\End(E)$ resp. $\End(E_\a)$.
+    We have that
+    \begin{equation*}
+        \Phi_{E, \a}(\pi_E) = \frac 1 {\deg(\phi_{E, \a})} \phi_{E, \a} \circ \pi_E \circ \hat{\phi}_{E, \a}
+    \end{equation*}
+    and so
+    \begin{equation*}
+        \phi_{E, \a} \circ \hat{\phi}_{E, \a} \circ \Phi_{E, \a}(\pi_E) = \phi_{E, \a} \circ \pi_E \circ \hat{\phi}_{E, \a}
+    \end{equation*}
+    Counting separability degrees on both sides shows that $\Phi_{E, \a}(\pi_E)$ is purely inseparable, thus must be the Frobenius $\pi_{E_\a}$.
+    
+    Now write $\a = \tilde{\a} (p, \pi)^r$ and $\b = \tilde{\b} (p, \pi)^s$.
+    It is now the case that
+    \begin{equation*}
+        \phi_{E, \a\b} = \phi_{E, \tilde{\a} \tilde{\b}}^{(p^{r + s})}
+    \end{equation*}
+    and
+    \begin{equation*}
+        \phi_{E_\a, \b} \circ \phi_{E, \a} = (\phi_{E_\a, \tilde{\b}} \circ \pi_r \circ \phi_{E, \tilde{\a}})^{(p^s)} = (\phi_{E_\a, \tilde{\b}} \circ \phi)^{(p^r)} = (\phi_{E_\a, \tilde{\b}}^{(q/p^r)} \circ \phi_{E, \tilde{\a}})^{(p^{r + s})}
+    \end{equation*}
+    where $\pi_r: E_{\tilde{\a}} \to E_{\tilde{\a}}^{(p^r)}$ is the $p^r$-th power Frobenius and $\phi_{E_\a, \tilde{\b}}$ is defined over $\F_q$.
+    Note that $\phi_{E_\a, \tilde{\b}}$ is the separable isogeny with kernel $E_\a[\tilde{\b}]$ and thus $\phi_{E_\a, \tilde{\b}}^{(q/p^r)}$ is the separable isogeny with kernel $E_{\a}^{(q/p^r)}[\tilde{\b}] = E_{\tilde{\a}}[\tilde{\b}]$.
+    In other words, find
+    \begin{equation*}
+        \phi_{E_\a, \tilde{\b}}^{(q/p^r)} = \phi_{E_{\tilde{\a}}, \tilde{\b}}
+    \end{equation*}
+    and so it suffices to show the claim in the case that $\a = \tilde{\a}$, $\b = \tilde{\b}$ are integral, invertible ideals coprime to $(p, \pi)$.
+
+    Having reduced everything to the separable case, it now suffices to show that $\ker(\phi_{E_\a, \b} \circ \phi_{E, \a}) = E[\a\b]$.
+    For simplicity of notation, write $\phi = \phi_{E, \a}$ and $\psi = \phi_{E_\a, \b}$.
+    Hence, we want to show that $\ker(\psi \circ \phi) = E[\a\b]$.
+
+    The crucial point here is that our isomorphism $\End(E) \cong \End(E_\a)$ is given by $\Phi$.
+    Since the identification of $\End(E)$ and $\End(E_\a)$ would hide this, we will be explicit in this part and write
+    \begin{align*}
+        i: \O \to \End(E) \quad \text{and} \quad i': \O \to \End(E')
+    \end{align*}
+    for the isomorphisms.
+    Note that $\Phi \circ i = i'$.
+    We have
+    \begin{align*}
+        \ker(\psi \circ \phi) =& \phi^{-1}(\ker\psi) = \phi^{-1}(E'[\mathfrak{a}]) = \phi^{-1}\Bigl( \bigcap_{\tau \in \mathfrak{a}} \ker(i'(\tau)) \Bigr) \\
+        =& \bigcap_{\tau \in \mathfrak{a}} \phi^{-1}(\ker(i'(\tau))) = \bigcap_{\tau \in \mathfrak{a}} \ker(i'(\tau) \circ \phi) \overset{(*)}{=} \bigcap_{\tau \in \mathfrak{a}} \ker(\phi \circ i(\tau)) \\
+        =& \bigcap_{\tau \in \mathfrak{a}} i(\tau)^{-1}(\ker\phi) = \bigcap_{\tau \in \mathfrak{a}} i(\tau)^{-1}(E[\mathfrak{b}]) = \bigcap_{\tau \in \mathfrak{a}, \ \rho \in \mathfrak{b}} i(\tau)^{-1}(\ker(i(\rho))) \\
+        =& \bigcap_{\tau \in \mathfrak{a}, \ \rho \in \mathfrak{b}} \ker(\underbrace{i(\rho) \circ i(\tau)}_{\mathclap{= i(\rho\tau) \in i(\a\b)}}) = E[\mathfrak{b}\mathfrak{a}]
+    \end{align*}
+    The equality at $(*)$ holds, since
+    \begin{equation*}
+        i'(\tau) = (\Phi_* \circ i)(\tau) = \frac 1 {\deg(\phi)} \phi \circ i(\tau) \circ \hat{\phi} \qedhere
+    \end{equation*}
+\end{proof}
+The whole reason why the ideal $(p, \pi)$ plays such a special role is that it consists of exactly the inseparable endomorphisms.
+\begin{lemma}
+    \label{prop:inseparable_iff_frobenius_ideal}
+    Let $E$ be an ordinary curve and $\alpha \in \End(E)$.
+    Then $\alpha$ inseparable if and only if $\alpha \in (p, \pi)$.
+\end{lemma}
+\begin{proof}
+    First, consider
+    \begin{equation*}
+        \b := \{ \beta \in \End(E) \ | \ \text{$\beta$ inseparable} \}
+    \end{equation*}
+    This is an ideal, as for two inseparable $\beta_1, \beta_2 \in \End(E)$ have that they factor as
+    \begin{center}
+        \begin{tikzpicture}
+            \node (Ep) at (0, 0) {$E^{(p)}$};
+            \node (E1) at (-4, 0) {$E$};
+            \node (E2) at (4, 0) {$E$};
+
+            \draw [->] (E1) -- (Ep) node [midway, above] {$\pi_1$};
+            \draw [->] (Ep) -- (E2) node [midway, above] {$\phi_i$};
+            \draw [->] (E1) to [bend left] node [midway, above] {$\beta_i$} (E2);
+        \end{tikzpicture}
+    \end{center}
+    with the $p$-th power Frobenius $\pi_1$.
+    Now $\beta_1 + \beta_2 = (\phi_1 + \phi_2) \circ \pi_1$ is inseparable, and clearly $\beta \gamma$ is inseparable for $\beta \in \b$ and $\gamma \in \End(E)$ (just compare separability degrees).
+
+    Furthermore, $p$ and $\pi$ are inseparable, so $(p, \pi) \subseteq \b$.
+    Note that in the imaginary quadratic order $\End(E)$, every prime ideal is maximal.
+    Since $\Norm((p, \pi)) = p \perp d(\End(E))$, Prop.~\ref{prop:coprime_ideals_order} shows that $(p, \pi)$ is prime, and thus $(p, \pi) = \b$ (clearly, $\b \neq \End(E)$).
+\end{proof}
+
+\begin{lemma}
+    Let $E$ be an ordinary curve and $\a, \b \leq \End(E)$ two integral, invertible ideals.
+    Then $E_\a \cong E_\b$ if and only if $[\a] = [\b] \in \Cl(\End(E))$ are in the same ideal class.
+\end{lemma}
+\begin{proof}
+    First, we show the direction $\Leftarrow$.
+    By assumption, there are $\alpha, \beta \in \O$ such that $\alpha\a = \beta\b$.
+    Thus $E_{\alpha\a} = E_{\beta\b}$ and it suffices to show that for any Elliptic Curve $E$ and $\alpha \in \End(E)$, have $E_{(\alpha)} \cong E$.
+
+    Write $(\alpha) = (p, \pi)^r \a$ and assume that $E$ is defined over $\F_{p^s}$.
+    Then $(\alpha)(p)^{\lceil r/s \rceil s - r} = (\pi)^{\lceil r/s \rceil}(\alpha')$ since $(p) = (p, \pi)(p, \pi - t)$ and $(p, \pi)^s = (\pi)$ by an easy computation.
+    Furthermore, $\alpha' \notin (p, \pi)$.
+    Now note that for any curve $E$, have $E_{(\pi)} = E^{(p^s)} \cong E$ and $E_{(p)} \cong E$, where the latter holds, since in the ordinary case, $p$ factors as
+    \begin{center}
+        \begin{tikzpicture}
+            \node (Ep) at (0, 0) {$E^{(p)}$};
+            \node (E1) at (-4, 0) {$E$};
+            \node (E2) at (4, 0) {$E$};
+
+            \draw [->] (E1) -- (Ep) node [midway, above] {$\pi_1$};
+            \draw [->] (Ep) -- (E2) node [midway, above] {$\phi$};
+            \draw [->] (E1) to [bend left] node [midway, above] {$[p]$} (E2);
+        \end{tikzpicture}
+    \end{center}
+    with the $p$-th power Frobenius $\pi_1$ and $\phi$ is separable with $\ker(\phi) = E[p] = \ker([p]) \cap \ker(\pi - t)$.
+    Thus we see that $E_{(\alpha)} \cong E_{(\alpha')}$ and can assume wlog that $\alpha = \alpha' \notin (p, \pi)$.
+
+    By Lemma~\ref{prop:inseparable_iff_frobenius_ideal}, we now see that $\alpha$ is separable, and so clearly $\ker(\alpha) = E[(\alpha)]$.
+    Since $\alpha: E \to E$ is the separable isogeny on $E$ with kernel $E[(\alpha)]$, we see that $E_{(\alpha)} = E/E[(\alpha)] \cong E$.
+
+    Now we consider the other direction $\Rightarrow$.
+    Again, write $\a = \tilde{\a}(p, \pi)^r$ and assume that $E$ is defined over $\F_{p^s}$.
+    Then we have as before that $\a (p)^{\lceil r/s \rceil s - r} = (\pi)^{\lceil r/s \rceil} \a'$ for the ideal $\a' = \tilde{\a} (p, \pi - t)^{\lceil r/s \rceil s - r}$.
+    Now clearly $[\a] = [\a']$ are in the same ideal class and $\a' \perp (p, \pi)$.
+    Furthermore, by the direction $\Leftarrow$, have $E_\a \cong E_{\a'}$.
+    Doing the same with $\b$, we can assume wlog that $\a = \a'$ and $\b = \b'$ are ideals coprime to $(p, \pi)$.
+
+    Therefore, the isogenies $\phi_{E, \a}$ and $\phi_{E, \b}$ are separable.
+    Write $E' := E_\a = E_\b$.
+    Choose $N > 0$ such that $[N]^{-1}(E[\a]) \supseteq E[\b]$.
+    Now the isogeny $[N] \circ \phi_{E, \a}$ factors through $\phi_{E, \b}$, i.e. we get a commutative diagram
+    \begin{center}
+        \begin{tikzpicture}
+            \node (E1) at (0, 1) {$E'$};
+            \node (E2) at (0, -1) {$E'$};
+            \node (E0) at (-4, 0) {$E$};
+            \node (E3) at (4, 0) {$E'$};
+
+            \draw [->] (E0) -- (E1) node [midway, above] {$\phi_{E, \a}$};
+            \draw [->] (E0) -- (E2) node [midway, above] {$\phi_{E, \b}$};
+            \draw [->] (E1) -- (E3) node [midway, above] {$[N]$};
+            \draw [->] (E2) -- (E3) node [midway, above] {$\psi$};
+        \end{tikzpicture}
+    \end{center}
+    for some endomorphism $\psi: E' \to E'$.
+    Clearly the isogenies $[N]$ and $\psi$ are given by the ideals $(N)$ resp. $(\psi)$, and so we find
+    \begin{equation*}
+        (N)\a = (\psi)\b
+    \end{equation*}
+    and the claim follows.
+\end{proof}
+Now we have proven almost everything we need.
+The final ingredient, from which it will then follow that the class group action is transitive, is a theorem of Tate.
+Since it uses much of the theory on general abelian varieties, we will present it without proof here.
+For a proof, the reader is referred to the work of Tate \cite{tate}.
+\begin{theorem}[Isogeny theorem]
+    \label{prop:isogeny_theorem}
+    Let $E$, $E'$ be Elliptic Curves defined over $\F_q$.
+    Then there is a separable isogeny $E \to E'$ if and only if $\#E(\F_q) = \#E'(\F_q)$.
+\end{theorem}
+Note that this condition is also equivalent to $\End(E) \otimes \Q \cong \End(E') \otimes \Q$ or that the $q$-th power Frobenius endomorphisms have the same trace. 
+\begin{theorem}
+    \label{prop:class_group_action}
+    Let $\O$ be an imaginary quadratic order with $p \notdivides d(\O)$ and denote by $\Ell(\O)$ the set of isomorphism classes of all Elliptic Curves $E$ over $\bar{\F}_p$ with $\End(E) \cong \O$.
+    Then there is a free and transitive group action
+    \begin{equation*}
+        \Cl(\O) \times \Ell(\O) \to \Ell(\O), \quad ([\a], E) \mapsto E_\a
+    \end{equation*}
+    where $\a$ is an integral, invertible ideal representative of the ideal class $[\a]$.
+\end{theorem}
+\begin{proof}
+    Well-definedness and freeness follow from all the previous lemmas.
+    So it is left to derive the transitivity from Thm~\ref{prop:isogeny_theorem}.
+    Let $E$ and $E'$ be curves in $\Ell(\O)$.
+    Clearly, we then have $\#E(\F_q) = \#E'(\F_q)$ and so there is a separable isogeny $\phi: E \to E'$.
+    Everything we have to show is that $\phi = \phi_{E, \a}$ for some ideal $\a \leq \O$.
+    \\\\TODO
+\end{proof}
+A similar class group action exists in many other cases, since it is really founded in the theory of abelian varieties, see \cite{class_group_action_waterhouse}.
+Notable examples are the CSIDH class group action for supersingular curves defined over $\F_p$ (see \cite{csidh}), its generalization to so-called oriented curves (see \cite{osidh}), and the very classical class group action of Elliptic Curves with complex multiplication (over $\C$).
+More concretely, if we consider an order $\O$ in a quadratic imaginary number field and write $\Ell(\O)$ for the set of (isomorphism classes of) curves over $\C$ with endomorphism ring $\O$ (these are said to have \emph{complex multiplication}), then there is a free and transitive class group action
+\begin{equation*}
+    \Cl(\O) \times \Ell(\O) \to \Ell(\O), \quad ([\a], E) \to E/E[\a]
+\end{equation*}
+where we choose $\a$ to be an integral ideal representative of $[\a]$.
+Note that for ideals $\a \perp (p, \pi)$, this is analogous to our action defined above.
+However, since the Frobenius has trivial kernel, one needs some addition in the finite field case.
+
+Note that one can still keep the simpler definition
+\begin{equation*}
+    \Cl(\O) \times \Ell(\O) \to \Ell(\O), \quad ([\a], E) \to E/E[\a]
+\end{equation*}
+also in the finite field case, if we require $\a$ to be an (integral) ideal representative of $[\a]$ that is coprime to $(p, \pi)$.
+Clearly, every ideal class has such a representative, since we can multiply with the principal ideal $(p) = (p, \pi)(p, \pi - t)$ and divide out the principal ideal $(\pi) = (p, \pi)^s$.
+However, some sources do not explicitly mention that $\a$ must be chosen coprime to $(p, \pi)$, which caused me some confusion.
+
+\subsection{Vulcanos}
+Once we have the class group action, we can derive a lot of information about the structure of the ordinary part of an isogeny graph.
+\begin{definition}
+    Denote by $\Gamma_l(\F_q)$ the graph whose vertices are isomorphism classes of Elliptic Curves over $\F_q$, and the edges are the degree $l$ isogenies between them (with multiplicity).
+\end{definition}
+Since there is never an isogeny between ordinary and supersingular curves, we will continue to talk of ordinary and supersingular connected components of $\Gamma_l(\F_q)$.
+Note that by the j-invariant, an isomorphism class of an Elliptic Curve $E$ is in 1-to-1 correspondence with the j-invariant $j(E)$, and so we could also say that the vertices of $\Gamma_l(\F_q)$ are just the elements of $\F_q$.
+Furthermore that the existence of the dual isogeny implies that $\Gamma_l(\F_q)$ is undirected.
+\begin{definition}
+    For $l > 0, d \geq 0$, a graph $G$ is called \emph{$l$-vulcano of depth $d$}, if its vertices can be partitioned into a set $C$ (the ``crater'') and a set $L$ (the ``lava flows'') such that
+    \begin{itemize}
+        \item $G[C]$ is either a single vertex (possibly with one or two loops), two connected vertices or a cycle
+        \item $G[V]$ is a forest of complete $l$-ary trees with depth $d$
+        \item Every vertex $v \in C$ is connected to the roots of $l + 1 - \deg_{G[C]}(v)$ trees in $G[V]$
+    \end{itemize}
+    In particular, every vertex in $G$ except the leaves of the trees has degree $l + 1$.
+\end{definition}
+The term ``vulcano'' was introduced by \cite{isogeny_vulcano}, after Kohel had mostly determined the structure of ordinary connected components in his PhD thesis.
+Most of this follows from the above class group action, and for the remaining details we refer the reader to Kohel's thesis \cite[Prop.~23]{kohel}.
+\begin{theorem}
+    \label{prop:isogeny_vulcano}
+    Let $G$ be a connected component of $\Gamma_l(\F_q)$.
+    Suppose that $G$ is ordinary, i.e. its vertices are (isomorphism classes of) ordinary curves.
+    Then $G$ is an $l$-vulcano.
+    Further, we have
+    \begin{itemize}
+        \item All curves on the crater have the same endomorphism ring $\O$ with $l \notdivides [\O_{\O \otimes \Q} : \O]$.
+        \item All curves on the $i$-th tree level of a lava flow have the endomorphism ring $\Z + l^i\O$.
+        \item The size of the crater is the order of $\l_1$ in $\Cl(\O)$, where $(l) = \l_1\l_2$ in $\O$, or 1 if $l$ is inert in $\O$.
+    \end{itemize} 
+\end{theorem}
+
+\section{The supersingular case}
+\label{sec:supersingular_isogeny_graph}
+After studying the ordinary connected components of the $l$-isogeny graph $\Gamma_l(\F_q)$, we now come to the supersingular component(s).
+First, note that all supersingular j-invariants are defined over $\F_{p^2}$, and so we will assume $q = p^2$ for this section.
+
+In the supersingular setting, the endomorphism ring is now non-commutative.
+There still exists a non-commutative analogue of the class group action, but using that structure is significantly harder.
+Mainly, because the theory of quaternion algebras is more complicated, and its class group structure is less studied.
+
+Instead, there is the famous result of Pizer, which states that supersingular isogeny graphs (i.e. the supersingular part of $\Gamma_l(\F_q)$) are so called Ramajuan graphs, that is have excellent expander properties.
+We will introduce this result in this section, but without proof.
+\begin{definition}
+    \label{def:expander}
+    A $d$-regular graph $G$ is called $\epsilon$-expander, if the eigenvalues $\lambda_1 > ... > \lambda_n$ of its adjacency matrix satisfy
+    \begin{equation*}
+        |\lambda_2|, |\lambda_n| \leq (1 - \epsilon) d
+    \end{equation*}
+\end{definition}
+In the literature, expander graphs are often defined by the use of the expansion ration
+\begin{equation*}
+    h(G) := \min_{S \subseteq V, \ \#S \leq \frac n 2} \frac {\#\partial S} {\# S}
+\end{equation*}
+of a graph $G = (V, E)$.
+Here $\partial S$ is the edge boundary, i.e. the set of edges between a point in $S$ and a point in $V \setminus S$.
+
+The connection between those two definitions is then given by the Cheeger-inequality
+\begin{prop}
+    Let $G$ be a $d$-regular graph such that its adjacency matrix has eigenvalues $\lambda_1 > ... > \lambda_n$.
+    Then
+    \begin{equation*}
+        \frac {d - \lambda_2} 2 \leq h(G) \leq \sqrt{2d(d - \lambda_2)}
+    \end{equation*}
+\end{prop}
+\begin{proof}
+    See e.g. \cite{cheeger_inequality}.
+\end{proof}
+This inequality only correlates the so-called spectral gap $d - \lambda_2$ with $h(G)$, and does not bound $|\lambda_2|$.
+In many cases, bounds on the spectral gap or expansion ration already suffice to show properties of expanders.
+Because of this, expanders are usually defined as graphs for which $\lambda_2$ or $h(G)$ are bounded.
+Our definition~\ref{def:expander} is then sometimes called ``two-sided expander''.
+However, we will never use one-sided expanders in this work, hence the above definition shall be sufficient.
+
+The nice thing about the expansion ratio is that it gives more intuition on what the expander property means.
+In particular, an expander graph is densely connected, i.e. by deleting a small number of edges, it is impossible to make the graph split into two (or more) connected components of relatively large size.
+\begin{definition}
+    A connected $d$-regular graph is called Ramajuan, if
+    \begin{equation*}
+        |\lambda_2|, |\lambda_n| \leq 2\sqrt{d - 1}
+    \end{equation*}
+    where $\lambda_1 > ... > \lambda_n$ are again the eigenvalues of the adjacency matrix.
+\end{definition}
+It is known that the bound $2\sqrt{d - 1}$ is asymptotically optimal, i.e. for sufficiently large $n$, all $d$-regular graphs of $n$ vertices have $\lambda_2 \geq 2\sqrt{d - 1} - \epsilon$.
+In that sense, we can say Ramajuan graphs are graphs with asymptotically optimal expansion properties.
+
+One of the main properties of expander graphs is random walks on them mix rapidly.
+That is, the final vertex of relatively short random walks is distributed almost uniformly among all vertices.
+\begin{theorem}
+    \label{prop:expander_random_walk}
+    Let $G = (V, E)$ be a $d$-regular $\epsilon$-expander graph and $v \in V$ a vertex.
+    Then the distribution of the final vertex of a random walk starting from $v$ of length $t$ is close to uniform, in particular, the $\ell_2$-statistical distance is bounded by $(1 - \epsilon)^t$.
+\end{theorem}
+For a proof of this theorem, see e.g. Thm~3.3 in this excellent survey on expander graphs \cite{expander_survey}.
+Note that expander graphs used in cryptography are usually of exponential size, so this theorem says that a random walk of polynomial length already reaches all vertices of the graph.
+
+Now we come to the anticipated result, that supersingular isogeny graphs are expander graphs.
+\begin{definition}
+    The \emph{supersingular $l$-isogeny graph over $\F_{p^2}$} is the subgraph of $\Gamma_l(\F_{p^2})$ induced by all (isomorphism classes of) supersingular curves over $\F_{p^2}$.
+\end{definition}
+Since the supersingular $l$-isogeny graph is disconnected from the rest of $\Gamma_l(\F_{p^2})$, we see that it is an $(l + 1)$-regular graph.
+We also know its size exactly, which directly follows from a classical result on the number of supersingular curves over $\F_{p^2}$.
+\begin{prop}
+    For $p \geq 5$, there are exactly
+    \begin{equation*}
+        \left\lfloor \frac p {12} \right\rfloor + \begin{cases}
+            0 & \text{if $p \equiv 1 \mod 12$} \\
+            1 & \text{if $p \equiv 5, 7 \mod 12$} \\
+            2 & \text{if $p \equiv 11 \mod 12$}
+        \end{cases}
+    \end{equation*}
+    supersingular Elliptic Curves over $\F_{p^2}$.
+\end{prop}
+For a proof of this statement, see e.g. \cite[Thm~V.4.1]{arithmetic_elliptic_curves}.
+
+In \cite{supersingular_graphs_ramajuan}, Pizer has now shown that
+\begin{theorem}
+    \label{prop:supersingular_graph_ramajuan}
+    The supersingular $l$-isogeny graph is Ramajuan.
+\end{theorem}
+This shows that there is a huge difference between the ordinary and supersingular graphs.
+For example, there is always a path of length $O(\log(p))$ between two curves in the supersingular graph, but in the ordinary graph, such a path does not exist in many cases.
+We will try to quantify this in the last section.
+The idea of our research is to utilize these differences in order to find random, supersingular curves.
+
+\section{Modular polynomials}
+If we want to work computationally with isogeny graphs, we need a way to explicitly compute them.
+The simplest way to find the $m$-isogeny neighbors of a curve $E$ is to compute $E[m]$ and find the order-$m$-subgroups.
+While this works in many cases, it can happen that the torsion group $E[m]$ only lies in an extension of $\F_q$ of degree $O(m^2)$, in which it is very costly to work.
+Furthermore, there are many other applications where a torsion-based approach does not work at all.
+
+In the ordinary case, the class group action might be also used to compute neighbors in the $l$-isogeny graph, provided we know the endomorphism ring of the start curve.
+However, finding the endomorphism ring is a hard problem in itself, and thus this method is not really practical.
+Furthermore, this does not work in the supersingular setting.
+
+One solution to this problem is given by modular curves, which give a very useful algebraic structure to the $l$-isogeny graph.
+In particular, the existence of a nontrivial $l$-isogeny between curves is an algebraically closed condition, i.e. is given by an algebraic curve.
+
+The classical way to study this is by using the theory of modular forms.
+Since this is out of the scope of this work, we refer to \cite[§11]{cox_primes_of_form} for an introduction of the topic.
+The basic result is the following.
+\begin{theorem}
+    \label{prop:complex_mod_poly}
+    For $m \geq 2$ there is an irreducible and monic polynomial
+    \begin{equation*}
+        \Phi_m(X, Y) \in \Z[X, Y]
+    \end{equation*}
+    such that for Elliptic Curves $E, E'$ defined over $\C$, there is a cyclic $m$-isogeny $E \to E'$ if and only if $\Phi_m(j(E), j(E')) = 0$.
+\end{theorem}
+This polynomial is called the \emph{(classical) modular polynomial of level $m$}.
+A proof of this theorem is e.g. given in \cite[Thm~11.18]{cox_primes_of_form}.
+A few corollaries of this theorem can easily be inferred from this statement:
+\begin{corollary}
+    Let $m \geq 2$. Then we have
+    \begin{itemize}
+        \item $\Phi_m$ is symmetric, i.e. $\Phi_m(X, Y) = \Phi_m(Y, X)$.
+        \item $\Phi_m$ has degree $\psi(m)$ (as polynomial in $X$), where $\psi$ is the Dedekind $\psi$-function
+        \begin{equation*}
+            \psi(m) = m \prod_{p \divides m} 1 + \frac 1 p
+        \end{equation*}
+    \end{itemize}
+\end{corollary}
+\begin{proof}
+    The first statement follows from the existence of the dual isogeny.
+    For the second statement, note that for each Elliptic Curve $E$ over $\C$, the degree of $\Phi_m(X, j(E))$ is the number of curves $E'$ with an $m$-isogeny $E \to E'$, which is equal to the number of cyclic subgroups $G \leq E \cong (\mathbb{R}/\Z)^2$ of size $m$.
+    By the Chinese Remainder theorem, this is a multiplicative function, and for a prime power $m = p^k$, the number is
+    \begin{align*}
+       &\#\bigl\{ G \leq (\Z/m\Z)^2 \ \bigm| \ \#G = m \bigr\} \\
+       =& \#\bigl\{ \langle (1, \alpha) \rangle \ \bigm| \ \alpha \in \Z/m\Z \bigr\} + \#\bigl\{ \langle (\alpha, 1) \rangle \ \bigm| \ \alpha \in (\Z/m\Z) \setminus (\Z/m\Z)^* \bigr\} \\
+       =& p^k + \#\bigl\{ \langle (\alpha, 1) \rangle \ \bigm| \ \alpha \in p(\Z/m\Z) \bigr\} = p^k + p^{k - 1} \\
+       =& m \left( 1 + \frac 1 p \right) \qedhere
+    \end{align*}
+\end{proof}
+Since we are mainly interested in the case of finite fields, we have to show that the modular polynomial behaves well under reductions mod $p$.
+First, we use two lemmas.
+\begin{lemma}
+    \label{prop:modified_hensel_lifting}
+    Let $f \in \O_K[X]$ be a polynomial for some number field $K$ with a prime $\p$.
+    If $f(X) \mod \p \in \F_q[X]$ has a root, then $f$ has a root in $\O_L$ for some finite field extension $L/K$.
+\end{lemma}
+\begin{proof}
+    Follows by Hensel's Lemma.
+\end{proof}
+\begin{lemma}
+    Let $E$ and $E'$ be curves over $\F_q$ and $\phi: E \to E'$ a cyclic $m$-isogeny.
+    Then there exist curves $E_0$, $E_0'$ with j-invariant in $\O_K$ for some number field $K$ with a prime $\p$ over $p = \mathrm{char}(K)$ and an isogeny $\phi_0: E_0 \to E_0'$ such that
+    \begin{equation*}
+        \tilde{E}_0 = E, \ \tilde{E}_0' = E' \quad \text{and} \quad \tilde{\phi}_0 = \phi
+    \end{equation*}
+    where $\tilde{\cdot}$ is the reduction modulo $\p$.
+\end{lemma}
+\begin{proof}
+    Consider some arbitrary lift $E_0$ and $E_0'$ of $E$ resp. $E'$ to a number field $K$ such that $j(E_0), j(E_0') \in \O_K$.
+    Assume that $E_0'$ is defined by a homogeneous polynomial $f = Y^2Z - X^3 - AXZ^2 - BZ^3 \in \O_K[X, Y, Z]$.
+    Finally, assume $\phi = [u : Y v : w]$ with polynomials $u, v, w \in \F_q[X]$ and choose an arbitrary lift $v_0, w_0 \in \O_K[X]$ of $v$ resp. $w$.
+    Hence the coefficients $u^{(0)}, ..., u^{(n)}$ of $u \in \F_q[X]$ are a root of
+    \begin{equation*}
+        f(\sum T_i X^i, Y v_0, w_0) = \sum_i a_i(T_0, ..., T_n) X^i \in \O_K[X][T_i]
+    \end{equation*}
+    modulo $\p$.
+    Note that the coefficient of $X^j$ in $(\sum_i T_i X^i)^3$ contains the monomial $T_0^2 T_j$, and wlog we have chosen the lifts of $A, B$ such that also the coefficient in $f(\sum T_i X^i, Y v, w)$ does.
+    Furthermore, the coefficient of $X^j$ in $f(\sum T_i x^i, Y v, w) \in \O_K[T_0, ..., T_j]$.
+
+    wlog $u_0 \neq 0$, otherwise we can just move $E'$ in $x$-direction by some element in $\p$, which preserves $\tilde{E}_0' = E'$.
+
+    Now Lemma~\ref{prop:modified_hensel_lifting} shows that there is a lift $u^{(0)}_0$ of $u^{(0)}$ in some number field $L_i/K$ with $a_0(u^{(0)}_0) = 0$.
+    Since $u_0^{(0)} \neq 0$, we see that $a_i(u_0^{(0)}, ..., u_0^{(i - 1)}, T_i)$ contains the monomial $T_i$, and so applying the lemma inductively, we also find lifts $u^{(1)}_0, ..., u^{(d)}_0 \in \O_L/K$ with $a_i(u^{(0)}_0, ..., u^{(i)}_0) = 0$, where $d = \deg(u)$.
+    In other words, we found a lift $u_0$ of $u$ in $\O_L[X]$ such that $f(u_0, Y v_0, w) = 0$.
+    Now we can set $\phi_0 = [u_0 : v_0 : w_0]: E_0 \to E_0'$ and the claim follows.
+\end{proof}
+Using more Hensel lifting, we now can pull down the properties of $\Phi_m$ to finite fields.
+\begin{prop}
+    For $m \geq 2$ and Elliptic Curves $E$ and $E'$ over $\F_q$, have $\Phi_m(j(E), j(E')) = 0 \in \F_q$ if and only if there is a cyclic $m$-isogeny $E \to E'$.
+\end{prop}
+\begin{proof}
+    First, consider the direction $\Leftarrow$.
+    Here the previous Lemma shows that we can lift the situation to $m$-isogeneous curves $E_0$ and $E_0'$ over a number field $K$, and so have by Prop.~\ref{prop:complex_mod_poly} that
+    \begin{equation*}
+        \Phi_m(j(E_0), j(E_0')) = 0
+    \end{equation*}
+    Furthermore we know that $j(E_0), j(E_0') \in \O_K$, and so we clearly have for the reduction modulo $\p$ that
+    \begin{equation*}
+        \Phi_m(j(E), j(E')) \equiv \Phi_m(j(E_0), j(E_0')) \equiv 0 \mod \p
+    \end{equation*}
+
+    Now we show the direction $\Rightarrow$.
+    We have $\Phi_m(j(E), j(E')) = 0 \in \F_q$, thus there is a number field $K$ with a prime $\p$ over $p = \mathrm{char}(\F_q)$ and $x, y \in \O_K$ such that
+    \begin{equation*}
+        \Phi_m(x, y) \equiv 0 \mod \p \quad \text{and} \quad x \equiv j(E), \ y \equiv j(E') \mod \p
+    \end{equation*}
+    Now we can again use Lemma~\ref{prop:modified_hensel_lifting} to find $x'$ in the completion $K_\p$ such that $x' \equiv x \mod \p$ and $\Phi_m(x', y) = 0 \in K_\p$.
+    Since $x'$ is a root of $\Phi_m(X, y)$, it is algebraic and thus an algebraic integer.
+    So there is a number field $K'$ with a prime $\p'$ over $\p$ such that $x', y \in K'$ and $x' \equiv j(E)$, $y \equiv j(E')$ modulo $\p'$.
+    In particular, there are curves $E$, $E'$ over $K'$ with j-invariants $x'$ resp. $y$, and thus by Prop.~\ref{prop:complex_mod_poly}, there is a cyclic $m$-isogeny $E \to E'$.
+    Therefore, there is also an $m$-isogeny between the curves $\tilde{E}$ and $\tilde{E}'$, which are the reductions of $E$ resp. $E'$ modulo $\p'$.
+\end{proof}
+Some properties however do not holds anymore.
+For example, in the finite field case, $\Phi_m$ might not be irreducible anymore.
+In fact, it is easy to see that
+\begin{equation*}
+    \Phi_p(X, Y) \equiv -(X^p - Y)(Y^p - X) \mod p
+\end{equation*}
+since the only $p$-isogenies over a field of characteristic $p$ are the Frobenius and its conjugate.
+
+The modular polynomial is an indispensable tool when doing computations on the isogeny graph.
+In particular, when combined with an algorithm to factor polynomials over $\F_q$, it allows us to compute all the neighbors of a curve $E$ in the $l$-isogeny graph.
+For example Sutherland's supersingular test \cite{sutherland_supersingularity_test} uses modular polynomials for walks in the isogeny graph, and distinguishes ordinary and supersingular curves by the structure of their isogeny graph neighborhoods.
+Another example is Shoof's algorithm \cite{shoof_point_counting} for counting $\F_q$-rational points on a curve, which also fundamentally relies on modular polynomials.
+
+Therefore, computing modular polynomials is an important task.
+The most classical approach is to mimic to proof of Thm~\ref{prop:complex_mod_poly}, i.e. view Elliptic Curves as lattices over $\C$ and compute the Fourier coefficients of the $j$-function.
+However, one main problem is that the coefficients in the modular polynomial become very large very fast.
+For example, $\Phi_5$ has already the constant coefficient
+\begin{equation*}
+    141359947154721358697753474691071362751004672000
+\end{equation*}
+In many cases, we only need the value of $\Phi_m$ modulo a prime $p$, and thus other algorithms can easily be faster.
+A whole line of work tries to use isogeny graphs over finite fields to find such an algorithm, see e.g. \cite{compute_modular_polynomial} and \cite{compute_modular_polynomial2}.
+Using the Chinese Remainder theorem, these algorithms can also be used to find $\Phi_m$ over $\C$ by collecting information modulo many different primes.
