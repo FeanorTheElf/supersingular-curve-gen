@@ -198,6 +198,40 @@ This is compatible with the structure of the $l$-isogeny vulcano~\ref{prop:isoge
 Furthermore, a non-crater vertex always has $l$ children and one parent, and the class number of the children level is $h(\Z + l^e\O_K) = l h(\Z + l^{e - 1}\O_K)$.
 
 Now lets come back to our estimate of the number of ordinary roots of $f_{p, m, l^e}$.
+Already before we do any further analysis, the above theorem has some important consequences.
+Whenever we have two ordinary curves $E$ and $E'$ with same endomorphism ring $\O$ in a quadratic imaginary number field $K$, then by the class group action, there is $\a \leq \O$ with $[\a].E = E'$.
+It is not too hard to see that there also must be an ideal $\tilde{\b} \leq \O$ of norm coprime to $l$ in the same ideal class $[\a]$ and so $[\tilde{\b}].E = E'$.
+By Prop.~\ref{prop:coprime_ideals_order}, there is now a unique $\b \leq \O_K$ with $\b \cap \O = \tilde{\b}$.
+
+Now this gives us a graph automorphism of the $l$-isogeny subgraph induced by $\Ell(\O)$, given by
+\begin{equation*}
+    \Ell(\O) \to \Ell(\O), \quad E \mapsto [\b \cap \End(E)].E
+\end{equation*}
+This is not just a graph automorphism (i.e. preserves the graph structure), but also preserves Frobenius conjugates and the property of being defined over $\F_p$.
+The latter follows, since being defined over $\F_p$ is a property of the endomorphism ring, namely equivalent to the ideal $(p, \pi)$ being principal.
+
+Since our approach only uses properties of the $l$-isogeny graph and Frobenius conjugates, this means that if $E$ and $E'$ have the same endomorphism ring, it holds
+\begin{equation*}
+    f_{p, n, m}(j(E)) = 0 \quad \Leftrightarrow \quad f_{p, n, m}(j(E')) = 0
+\end{equation*}
+Hence, if there is an ordinary root of $f_{p, n, m}$ with endomorphism ring of discriminant $D$, then by the above theorem, there are at least $\Omega(\sqrt{D}/\log\log(D)^2)$ ordinary roots.
+The ``average'' discriminant of an ordinary curve over $\F_{p^2}$ is $\Theta(p^2)$, and this means having one ``average'' ordinary root already implies having $\Omega(p / \log\log(p))$.
+Note that the number of supersingular roots is $O(\sqrt{np})$, which is exponentially smaller than $\Omega(p/\log\log(p))$ unless $n \in \Omega(p^{1 - \epsilon})$ for all $\epsilon > 0$.
+
+Thus, we should try to choose $n$ and $m$ (and possibly $p$) such that $f_{p, n, m}$ has no ordinary roots
+(as it turns out, we cannot prevent that there are some ordinary roots with very small endomorphism ring, but that is ok).
+The other way is of course to also choose $n = \Theta(p)$.
+In this case however, we will have to work with the polynomial $\Phi_n$ of exponential degree, so we must again use some trick around.
+For example, we could do the analogous thing we did for $m$ and choose $n$ to be a power of a small prime.
+
+First, we study the case that $n = O(\mathrm{poly}(\log(p)))$ and $f_{p, n, m}$ has no ordinary roots, except with very small endomorphism ring.
+One case that works is the following.
+\begin{prop}
+    Let $n = l^f$ and $m = l^e$ for $n = \Theta(\mathrm{poly}(\log(p)))$ and $e = \Theta(\log_l(p))$.    
+\end{prop}
+\begin{proof}
+    
+\end{proof}
 
 \section{An idea based on Sutherland's supersingularity test}
 As an alternative to the above approach, we propose another set of polynomial equations, whose properties might make computations easier.
@@ -360,7 +394,7 @@ Hence, consider the polynomial system
 \end{align*}
 The additional constraints $\Phi_2l(u_i, u_{i + 2})$ ensure that $u_i \neq u_{i + 2}$, unless the curve of j-invariant $u_i$ has a cyclic endomorphism of size $2l$.
 However, this means that its endomorphism ring has polynomially large discriminant, and by the class group action, there are only polynomially many such curves.
-Hence, a root of above system is supersingular with noticeable probability (i.e. $1/\mathrm{poly}(\log(p))$). 
+Hence, a root of above system is supersingular with probability $1 - 1/\mathrm{poly}(\log(p))$. 
 
 Still, it seems pretty impossible to efficiently compute a random root of above system.
 We now present a way that looks like there is some hope to compute its roots, even though there are still some serious obstacles.
@@ -409,6 +443,7 @@ Finally, we can still make it somewhat more explicit.
     Clearly, both of them commute in the above sense.
 \end{proof}
 \begin{lemma}
+    \label{prop:symbolic_elimination}
     We have
     \begin{equation*}
         y^{p^2 - 1} - 1 \equiv \left(\begin{matrix*}
@@ -431,3 +466,34 @@ Finally, we can still make it somewhat more explicit.
 \begin{proof}
     Just perform univariate polynomial division of $y^{p^2 - 1} - 1$ modulo the monic polynomial $\Phi_l(x, y)$ in $k[x][y]$.
 \end{proof}
+The idea is now to find $l + 1$ indeterminates $B$, and compute the elimination ideal
+\begin{align*}
+    \langle &\Phi_{l_i}(x, u_i), \Phi_{l_i}(x, v_i), \Phi_{l_i}(x, w_i), \\
+    &\Phi_{2l_i}(u_i, v_i), \Phi_{2l_i}(u_i, w_i), \Phi_{2l_i}(v_i, w_i), \\
+    &\left(\begin{matrix*}
+        u_i^l \\
+        \vdots \\
+        1
+    \end{matrix*}\right)^T B - 1, \left(\begin{matrix*}
+        v_i^l \\
+        \vdots \\
+        1
+    \end{matrix*}\right)^T B - 1, \left(\begin{matrix*}
+        w_i^l \\
+        \vdots \\
+        1
+    \end{matrix*}\right)^T B - 1 \rangle \cap k[x, B]
+\end{align*}
+Now we can find polynomials $f_{i1}, ..., f_{in_i} \in k[x, B]$ that generate this ideal.
+Hence, we only have to find a random joint root of the univariate polynomials
+\begin{equation*}
+    f_{ij}(x, b_i) \quad \text{where} \quad b_i = A_i^{p^2 - l - 1} \left(\begin{matrix*}
+        1 \\
+        0 \\
+        \vdots \\
+        0
+    \end{matrix*}\right)
+\end{equation*}
+for the matrices $A_i$ given by Lemma~\ref{prop:symbolic_elimination}.
+While we cannot explicitly write down those polynomials, we can evaluate them, evaluate their derivates and perform a series of other computations.
+Hence, there might be some way to find a random root of those (note that they have all $\Theta(p/12)$ supersingular j-invariants and some $o(p)$ ordinary j-invariants as roots).

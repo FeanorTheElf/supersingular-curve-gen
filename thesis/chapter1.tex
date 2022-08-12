@@ -378,8 +378,8 @@ Furthermore that the existence of the dual isogeny implies that $\Gamma_l(\F_q)$
 \begin{definition}
     For $l > 0, d \geq 0$, a graph $G$ is called \emph{$l$-vulcano of depth $d$}, if its vertices can be partitioned into a set $C$ (the ``crater'') and a set $L$ (the ``lava flows'') such that
     \begin{itemize}
-        \item $G[C]$ is either a single vertex (possibly with one or two loops), two connected vertices or a cycle
-        \item $G[V]$ is a forest of complete $l$-ary trees with depth $d$
+        \item $G[C]$ is either a single vertex (possibly with one or two loops), two connected vertices or a cycle of at least two vertices\footnote{A cycle of two vertices shall be two vertices with a double edge.}
+        \item $G[V]$ is a forest of complete $l$-ary trees of depth $d$
         \item Every vertex $v \in C$ is connected to the roots of $l + 1 - \deg_{G[C]}(v)$ trees in $G[V]$
     \end{itemize}
     In particular, every vertex in $G$ except the leaves of the trees has degree $l + 1$.
@@ -518,7 +518,7 @@ The basic result is the following.
 \end{theorem}
 This polynomial is called the \emph{(classical) modular polynomial of level $m$}.
 A proof of this theorem is e.g. given in \cite[Thm~11.18]{cox_primes_of_form}.
-A few corollaries of this theorem can easily be inferred from this statement:
+A few corollaries of this theorem can easily be inferred.
 \begin{corollary}
     Let $m \geq 2$. Then we have
     \begin{itemize}
@@ -545,7 +545,7 @@ First, we use two lemmas.
 \begin{lemma}
     \label{prop:modified_hensel_lifting}
     Let $f \in \O_K[X]$ be a polynomial for some number field $K$ with a prime $\p$.
-    If $f(X) \mod \p \in \F_q[X]$ has a root, then $f$ has a root in $\O_L$ for some finite field extension $L/K$.
+    If $f(X) \mod \p \in \F_q[X]$ has a root $\alpha$, then $f$ has a root in $\O_L$ that reduces to $\alpha$ modulo a prime over $\p$ for some finite field extension $L/K$.
 \end{lemma}
 \begin{proof}
     Follows by Hensel's Lemma.
@@ -568,14 +568,14 @@ First, we use two lemmas.
     \end{equation*}
     modulo $\p$.
     Note that the coefficient of $X^j$ in $(\sum_i T_i X^i)^3$ contains the monomial $T_0^2 T_j$, and wlog we have chosen the lifts of $A, B$ such that also the coefficient in $f(\sum T_i X^i, Y v, w)$ does.
-    Furthermore, the coefficient of $X^j$ in $f(\sum T_i x^i, Y v, w) \in \O_K[T_0, ..., T_j]$.
+    Furthermore, the coefficient of $X^j$ in $f(\sum T_i x^i, Y v, w)$ is in $\O_K[T_0, ..., T_j]$, i.e. only depends on $T_0, ..., T_j$.
 
     wlog $u_0 \neq 0$, otherwise we can just move $E'$ in $x$-direction by some element in $\p$, which preserves $\tilde{E}_0' = E'$.
 
-    Now Lemma~\ref{prop:modified_hensel_lifting} shows that there is a lift $u^{(0)}_0$ of $u^{(0)}$ in some number field $L_i/K$ with $a_0(u^{(0)}_0) = 0$.
+    Now Lemma~\ref{prop:modified_hensel_lifting} shows that there is a lift $u^{(0)}_0$ of $u^{(0)}$ in some number field $L_0/K$ with $a_0(u^{(0)}_0) = 0$.
     Since $u_0^{(0)} \neq 0$, we see that $a_i(u_0^{(0)}, ..., u_0^{(i - 1)}, T_i)$ contains the monomial $T_i$, and so applying the lemma inductively, we also find lifts $u^{(1)}_0, ..., u^{(d)}_0 \in \O_L/K$ with $a_i(u^{(0)}_0, ..., u^{(i)}_0) = 0$, where $d = \deg(u)$.
     In other words, we found a lift $u_0$ of $u$ in $\O_L[X]$ such that $f(u_0, Y v_0, w) = 0$.
-    Now we can set $\phi_0 = [u_0 : v_0 : w_0]: E_0 \to E_0'$ and the claim follows.
+    Now we can set $\phi_0 = [u_0 : Y v_0 : w_0]: E_0 \to E_0'$ and the claim follows.
 \end{proof}
 Using more Hensel lifting, we now can pull down the properties of $\Phi_m$ to finite fields.
 \begin{prop}
