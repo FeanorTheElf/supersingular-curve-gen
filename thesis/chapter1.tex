@@ -347,7 +347,76 @@ Note that this condition is also equivalent to $\End(E) \otimes \Q \cong \End(E'
     Let $E$ and $E'$ be curves in $\Ell(\O)$.
     Clearly, we then have $\#E(\F_q) = \#E'(\F_q)$ and so there is a separable isogeny $\phi: E \to E'$.
     Everything we have to show is that $\phi = \phi_{E, \a}$ for some ideal $\a \leq \O$.
-    \\\\TODO
+    
+    Here we use the same approach as in \cite[Thm~4.5]{class_group_action_waterhouse}.
+    In particular, we want to consider the problem locally at primes $l$.
+    The usual way to achieve this is to consider the $l$-adic Tate module defined as the inverse limit
+    \begin{equation*}
+        T_lE := \lim_n E[l^n]
+    \end{equation*}
+    Note that this is an $\O_l := \O \otimes \Z_l$-module.
+    Furthermore, the isogeny $\phi$ induces a map
+    \begin{equation*}
+        \phi_l: T_lE \to T_lE', \quad (P_n)_n \mapsto (\phi P_n)_n
+    \end{equation*}
+    By our choice of the canonical isomorphism $\End(E) \cong \O \cong \End(E')$, this becomes an $\O_l$-module homomorphism.
+    Extending it linearly, we get the map
+    \begin{equation*}
+        \phi_l: T_lE \otimes_{\Z_l} \Q_l \to T_lE' \otimes_{\Z_l} \Q_l
+    \end{equation*}
+    This is now a $\Q_l$-vector space homomorphism.
+    We can now consider the $\O_l$-module $M := \phi_l^{-1}(T_lE') \subseteq T_lE \otimes_{\Z_l} \Q_l$.
+    This contains $T_lE$ and furthermore, $T_lE$ has finite index in $M$.
+    Therefore $M$ is a $\O_l$-submodule of $l^nT_lE$ for some $n$.
+
+    So we see that $M$ is a free rank-1 module over $\O_l$, and thus there is an element $\alpha_l \in \O_l$ with
+    \begin{equation*}
+        \alpha_l M = T_lE
+    \end{equation*}
+    Note that we can write $\alpha_l = a \otimes l^n b$ with $a \in \O$ and $b \in \Z_l^*$.
+    Then also $(al^n) M = T_lE$ and thus we can assume wlog that $\alpha_l = al^n \in \O$.
+
+    Now it is left to establish the connection between $\ker(\phi)$ and $M$.
+    This is done by the map
+    \begin{equation*}
+        \phi_l^{-1}(T_lE') = M \to \ker(\phi)_{(l)}, \quad \frac 1 {l^m} (P_n)_n \mapsto P_m
+    \end{equation*}
+    where an element of $T_lE'$ is $(P_n)_n$ with $P_n \in E[l^n]$ such that $lP_{n + 1} = P_n$.
+    Further
+    \begin{equation*}
+        \ker(\phi)_{(l)} := \{ P \in \ker(\phi) \ | \ \text{$l^nP = \IdPoint$ for some $n \geq 0$}\}
+    \end{equation*}
+    is the power-of-$l$ torsion part of $\ker(\phi)$, or equivalently the localization at the prime ideal $(l)$ as $\Z$-module.
+
+    First, note that the map is well-defined, as for an element $1/l^m (P_n)_n$ in the domain, we have by assumption
+    \begin{equation*}
+        \frac 1 {l^m} \phi_l((P_n)_n) = \frac 1 {l^m} (\phi(P_n))_n \in T_lE'
+    \end{equation*}
+    and thus $\phi(P_m) = \IdPoint$, i.e. $P_m \in \ker(\phi)$.
+
+    Clearly, the map is also a homomorphism of $\O$-modules, where $\ker(\phi)_{(l)}$ becomes an $\O$-module in the obvious way.
+    
+    It is also surjective, since for $P \in \ker(\phi)_{(l)}$ of order $\mathrm{ord}(P) = l^m$, we can lift it to an element $(P_n)_n$ with $P_m = P$.
+    Then clearly $1/l^m(P_n)_n \in M$ with image $P$.
+
+    Finally, note that for $1/l^m(P_n)_n \in M$ have $P_m = \IdPoint$ if and only if $P_0 = ... = P_m = \IdPoint$, in which case we have that
+    \begin{equation*}
+        1/l^m(P_n)_n = (P_{n + m})_n \in T_lE
+    \end{equation*}
+    Thus the kernel of above map is $T_lE$ and we get an isomorphism of $\O$-modules
+    \begin{equation*}
+        \ker(\phi)_{(l)} \cong M / T_lE
+    \end{equation*}
+
+    Now let $\a \leq \O$ be the ideal such that $\a_\l = (\alpha_l)_\l$ for every prime ideal $\l$ under a prime number $l$.
+    This works out, as only finitely many $(\alpha_l) \neq (1)$ (namely for those $l$ with $l \divides \deg(\phi)$).
+
+    Then for each primes $l$, we have
+    \begin{equation*}
+        \ker(\phi)_{(l)} = \{ P \in E_{(l)} \ | \ \alpha_l(P) = \IdPoint \} = \{ P \in E_{(l)} \ | \ \forall \alpha \in \a: \alpha(P) = \IdPoint \}
+    \end{equation*}
+    where again $E_{(l)}$ is the power-of-$l$ torsion part of the group $E$.
+    Thus $\ker(\phi) = E[\a]$.
 \end{proof}
 A similar class group action exists in many other cases, since it is really founded in the theory of abelian varieties, see \cite{class_group_action_waterhouse}.
 Notable examples are the CSIDH class group action for supersingular curves defined over $\F_p$ (see \cite{csidh}), its generalization to so-called oriented curves (see \cite{osidh}), and the very classical class group action of Elliptic Curves with complex multiplication (over $\C$).
