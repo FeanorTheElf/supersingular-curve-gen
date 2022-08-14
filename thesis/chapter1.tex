@@ -94,6 +94,22 @@ Fortunately, there is a unique embedding that is canonical in the following sens
     \end{equation*}
     Furthermore, if we assume $E$ to be ordinary, then this is canonical in the sense that for any other isogeny $\psi: E \to E'$ have $\Phi = \Psi$.
 \end{lemma}
+\begin{proof}
+    It is clear that this is a morphism of ring, and its inverse is given by $\hat{\Phi}$ induced by the dual isogeny $\hat{\phi}$.
+    
+    So it remains to show the last part.
+    Let $\phi$ and $\psi$ be two isogenies $E \to E'$.
+    Then for each $\tau \in \End(E)$ have
+    \begin{align*}
+        (\Phi \circ \hat{\Psi})(\tau) =& \frac 1 { \deg(\phi) } \phi \circ \left( \frac 1 {\deg(\psi)} \hat{\psi} \circ \tau \circ \psi \right) \\
+        =& \frac 1 { \deg(\phi)\deg(\psi) } (\phi \circ \hat{\psi}) \circ \tau \circ (\psi \circ \hat{\phi}) \\
+        =& \frac 1 { \deg(\phi)\deg(\psi) } (\phi \circ \hat{\psi}) \circ (\psi \circ \hat{\phi}) \circ \tau \\
+        =& \frac 1 { \deg(\phi)\deg(\psi) } (\deg(\phi) \deg(\psi)) \tau = \tau
+    \end{align*}
+    since $(\psi \circ \hat{\phi})$ and $\tau$ are elements of $\End(E)$, hence commute.
+
+    Now $\hat{\Psi}$ is the inverse of $\Psi$, and the claim follows.
+\end{proof}
 If we set $K = \End(E) \otimes \Q$, then of course this gives a canonical embedding $\End(E') \to K$ for each curve $E'$ isogeneous to $E$.
 From now on, whenever we consider such an embedding, or identify isomorphic endomorphism rings of isogeneous curves, this embedding shall be used.
 \begin{prop}
@@ -394,7 +410,7 @@ Note that this condition is also equivalent to $\End(E) \otimes \Q \cong \End(E'
     \end{equation*}
     and thus $\phi(P_m) = \IdPoint$, i.e. $P_m \in \ker(\phi)$.
 
-    Clearly, the map is also a homomorphism of $\O$-modules, where $\ker(\phi)_{(l)}$ becomes an $\O$-module in the obvious way.
+    Clearly, the map is also a morphism of $\O$-modules, where $\ker(\phi)_{(l)}$ becomes an $\O$-module in the obvious way.
     
     It is also surjective, since for $P \in \ker(\phi)_{(l)}$ of order $\mathrm{ord}(P) = l^m$, we can lift it to an element $(P_n)_n$ with $P_m = P$.
     Then clearly $1/l^m(P_n)_n \in M$ with image $P$.
