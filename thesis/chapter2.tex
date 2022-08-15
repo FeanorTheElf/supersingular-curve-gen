@@ -230,6 +230,10 @@ The reason is that this is equivalent to there being a solution with $x \perp y$
 \begin{equation*}
     x^2 + D y^2 = m
 \end{equation*}
+if $D \equiv 0 \mod 4$ and
+\begin{equation*}
+    x^2 + D y^2 = m
+\end{equation*}
 For now we will only make a crude estimate, but note that everything can be made rigorous.
 We do that later with a very similar argument in \ref{prop:counting_fp2_vulcano_levels}.
 Neglecting $\log$-factors, we now have
@@ -404,7 +408,7 @@ In our case, we are also interested in how many ordinary curves we will accept i
 All this is considered in the next proposition.
 \begin{theorem}
     \label{prop:counting_fp2_vulcano_levels}
-    Let $p$ be an odd prime and $m \geq 2$ an integer coprime to $p$.
+    Let $p$ be an odd prime and $m \geq 2$ an odd integer coprime to $p$.
     Consider the number $n$ of endomorphism rings $\O$ of ordinary curves defined over $\F_{p^2}$ with $\pi \in \Z + m\O$, where $\pi$ is the $p^2$-Frobenius endomorphism
     \footnote{
         With the $p^2$-th power Frobenius endomorphism of an order $\O$, we mean a nontrivial element of norm $p^2$.
@@ -416,8 +420,8 @@ All this is considered in the next proposition.
     \begin{equation*}
         \Bigl\lfloor \frac p {m^2} \Bigr\rfloor \leq n \leq \Bigl\lfloor \frac {4p(p + 1)} {m^3} \Bigr\rfloor
     \end{equation*}
-    Furthermore, consider the number $N$ of ordinary j-invariants $j \in \F_{p^2}$ such that there are $r$ levels defined over $\F_{p^2}$ below $j$ in the $l$-isogeny vulcano of $j$ (excluding the level of $j$).
-    Under GRH, we then get for $p \geq m^2$ that
+    Furthermore, consider the number $N$ of ordinary j-invariants $j \in \F_{p^2}$ such that $\pi \in \Z + m\End(j)$.
+    Under GRH, we then get
     \begin{equation*}
         c_1\left( \frac {p^2} {m^3 \log\log(p)^2} \right) \leq N \leq c_2\left( \frac {p^2\log(p)^2} {m^3} \right)
     \end{equation*}
@@ -464,7 +468,7 @@ All this is considered in the next proposition.
     \begin{equation*}
         a^2m^2d(\O_0) = (t - 2p)(t + 2p)
     \end{equation*}
-    Unless $l = 2$, $l$ cannot divide both $t - 2p$ and $t + 2p$.
+    Unless $m = 2$ or $m = 4$, $m$ cannot divide both $t - 2p$ and $t + 2p$.
 
     If $m^2 \divides t + 2p$, then $t \in \{ m^2 - 2p, 2m^2 - 2p, ..., km^2 - 2p \}$ where $k = \lfloor 2p/m^2 \rfloor$.
 
