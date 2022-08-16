@@ -60,15 +60,14 @@ More concretely, from the OSDIH class group action, see e.g. \cite[Thm~4.3]{chen
 \end{corollary}
 Since it has degree $np$, it has in total $np$ roots in $\bar{\F}_p$, which means that the fraction of supersingular roots is still exponentially small.
 Of course, it might be more interesting to find the number of roots over $\F_{p^2}$, but this turns out to be somewhat tricky.
-We will come back to that later, using some heuristical arguments.
-Furthermore, it is not clear how to find roots of that polynomial, because of its exponential degree.
+Another obvious problem with this polynomial is that it has exponential degree, so it is not clear how to compute its roots.
 
 To tackle these two problems, \cite{base_paper} proposed to instead take the polynomial
 \begin{equation*}
     f_{p, n, m} = \gcd(\Phi_n(X, X^p), \Phi_m(X, X^m))
 \end{equation*}
 The idea to find a root of this is to take a non-square $d \in \F_p$ and its square root $\delta \in \F_{p^2}$.
-Then $(a + b\delta)^p = a - b\delta$ and so we can equivalently look for $x, y$ such that
+Then $(a + b\delta)^p = a - b\delta$ and so we can equivalently look for $x, y \in \F_p$ such that
 \begin{equation*}
     \Phi_n(x + \delta y, x - \delta y) = \Phi_m(x + \delta y, x - \delta y) = 0
 \end{equation*}
@@ -92,7 +91,7 @@ If we relax this to just any $l^e$-isogeny and note that an $l^e$-isogeny is equ
 \end{equation*}
 In other words, we look for a solution to the polynomial system
 \begin{equation*}
-    \langle \Phi_m(x, y), \Phi_l(x, x_1), ..., \Phi_l(x_{e - 1}, y) \rangle
+    F_{p, m, l^e} := \langle \Phi_m(x, y), \Phi_l(x, x_1), ..., \Phi_l(x_{e - 1}, y) \rangle
 \end{equation*}
 The other advantage of this approach is that every supersingular curve $E$ has an $l^e$-isogeny to $E^{(p)}$ if $e \geq O(\log_l(p))$.
 This follows from our results on expander graphs.
@@ -108,11 +107,14 @@ has a nonzero probability of ending in any fixed vertex, by Thm~\ref{prop:expand
 Note further that for moderately large $l$, the constant approaches $2$, i.e. we can choose $e \approx 2\log_l(p)$.
 
 This leaves us with a polynomial system of $O(\log(p))$ unknowns and equations, which at least can be explicitly written down.
-Now we want to study how many ordinary resp. supersingular roots this has.
+Now we want to study how big the fraction of supersingular roots is.
 However, since by our choice of $e = \Theta(\log_l(p))$, we can assume that all supersingular j-invariants are roots of $\Phi_{l^e}(X, X^p)$, and so the number of supersingular roots is $O(\sqrt{mp})$, again by Corollary~\ref{prop:osidh_class_group_action}.
+Hence, we want to find instances of $l, e$ and $m$ such that above system has at most $O(\mathrm{poly}(\log(p)))$ ordinary roots. 
 
-\subsection{Studying the class group structure}
-To estimate the number of ordinary roots, we need a bound on the class number of quadratic imaginary orders.
+\subsection{Studying the number of ordinary roots}
+To estimate the number of ordinary roots, we will of course use the class group action.
+Thus, we need a bound on the class number of quadratic imaginary orders.
+The next theorem puts together some classical results, in particular the famous class number formula.
 \begin{theorem}
     \label{prop:class_number_bounds}
     Let $\O$ be an order in a quadratic imaginary number field with discriminant $D = d(\O)$.
@@ -197,8 +199,9 @@ This is compatible with the structure of the $l$-isogeny vulcano~\ref{prop:isoge
 \end{itemize}
 Furthermore, a non-crater vertex always has $l$ children and one parent, and the class number of the children level is $h(\Z + l^e\O_K) = l h(\Z + l^{e - 1}\O_K)$.
 
-Now lets come back to our estimate of the number of ordinary roots of $f_{p, m, l^e}$.
-Already before we do any further analysis, the above theorem has some important consequences.
+Now lets come back to our estimate of the number of ordinary roots of $f_{p, m, n}$ resp. our polynomial system $F_{p, m, l^e}$.
+First, we now explain why instead of (isomorphism classes of) curves it suffices to count endomorphism rings.
+
 Whenever we have two ordinary curves $E$ and $E'$ with same endomorphism ring $\O$ in a quadratic imaginary number field $K$, then by the class group action, there is $\a \leq \O$ with $[\a].E = E'$.
 It is not too hard to see that there also must be an ideal $\tilde{\b} \leq \O$ of norm coprime to $l$ in the same ideal class $[\a]$ and so $[\tilde{\b}].E = E'$.
 By Prop.~\ref{prop:coprime_ideals_order}, there is now a unique $\b \leq \O_K$ with $\b \cap \O = \tilde{\b}$.
@@ -214,18 +217,34 @@ Since our approach only uses properties of the $l$-isogeny graph and Frobenius c
 \begin{equation*}
     f_{p, n, m}(j(E)) = 0 \quad \Leftrightarrow \quad f_{p, n, m}(j(E')) = 0
 \end{equation*}
-Hence, if there is an ordinary root of $f_{p, n, m}$ with endomorphism ring of discriminant $D$, then by the above theorem, there are at least $\Omega(\sqrt{D}/\log\log(D)^2)$ ordinary roots.
-The ``average'' discriminant of an ordinary curve over $\F_{p^2}$ is $\Theta(p^2)$, and this means having one ``average'' ordinary root already implies having $\Omega(p / \log\log(p))$.
-Note that the number of supersingular roots is $O(\sqrt{np})$, which is exponentially smaller than $\Omega(p/\log\log(p))$ unless $n \in \Omega(p^{1 - \epsilon})$ for all $\epsilon > 0$.
+and similar for the system $F_{p, n, l^e}$.
 
-Thus, we should try to choose $n$ and $m$ (and possibly $p$) such that $f_{p, n, m}$ has no ordinary roots
-(as it turns out, we cannot prevent that there are some ordinary roots with very small endomorphism ring, but that is ok).
-The other way is of course to also choose $n = \Theta(p)$.
-In this case however, we will have to work with the polynomial $\Phi_n$ of exponential degree, so we must again work with it implicitly.
-For example, we could do the analogous thing we did for $m$ and choose $n$ to be a power of a small prime.
+Hence, we determine the set of endomorphism rings such that any resp. all corresponding curves are roots of the polynomials.
+Then, the total number of curves is given by the sum over the class numbers $\sum_D h(D)$ where $D$ runs through the discrimiannts of said endomorphism rings. 
 
-First, we study the case that $n = O(\mathrm{poly}(\log(p)))$ and $f_{p, n, m}$ has no ordinary roots, except with very small endomorphism ring.
-Before counting the number of roots, we deal with the small endomorphism case.
+We mentioned before that $\Phi_m(X, X^p)$ has about $mp$ ordinary roots over $\bar{\F}_p$, but the argument implicitly assumed that the polynomial is separable.
+With our new framework, is is now easy to properly compute the number of ordinary roots of $\Phi_m(X, X^p)$, as these correspond to the endomorphism rings with cyclic
+\footnote{An element $\alpha \in \O$ is cyclic if the corresponding endomorphisms of curves $E$ with $\End(E) \cong \O$ are cyclic. This is equivalent to $n \notdivides \alpha$ for all $n \geq 2$.}
+elements of norm $mp$. 
+The reason is that this is equivalent to there being a solution with $x \perp y$ of the diophantine equation
+\begin{equation*}
+    x^2 + D y^2 = m
+\end{equation*}
+if $D \equiv 0 \mod 4$ and
+\begin{equation*}
+    x^2 + D y^2 = m
+\end{equation*}
+For now we will only make a crude estimate, but note that everything can be made rigorous.
+We do that later with a very similar argument in \ref{prop:counting_fp2_vulcano_levels}.
+Neglecting $\log$-factors, we now have
+\begin{align*}
+    &\#\{ j \in \bar{\F}_p \ | \ \Phi_m(j, j^p) = 0 \} = \sum_{\substack{\text{$x^2 - Dy^2 = mp$ solvable}\\\text{with $x \perp y$}}} h(D) \\
+    \geq& \sum_{0 < x < \sqrt{mp}} \sqrt{mp - x^2} \approx \int_0^{\sqrt{mp}} \sqrt{mp - x^2} \approx \Theta(mp)
+\end{align*}
+None of the ways we consider to capture supersingularity by modular polynomials can completely exclude ordinary roots.
+This is because if we take $m$ and $l$ to be small, then an ordinary curve defined over $\F_p$ with endomorphisms of degree $m$ and $l$ will always be a root.
+Similar situations can occur with other polynomial systems, but it is always the case that these ordinary curves have very small endomorphisms.
+The next statement shows that thus this is not a problem, as those ordinary roots are very rare.
 \begin{prop}
     \label{prop:small_endomorphism_rare}
     For $n > 0$, there are at most $O(n^{3/2}\log(n)^2)$ isomorphism classes of ordinary curves who have a nontrivial endomorphism of degree $n$.
@@ -244,7 +263,21 @@ Before counting the number of roots, we deal with the small endomorphism case.
         \sum_{\substack{-4n \leq D \leq 0\\\mathclap{\text{$D$ fundamental discriminant}}}} h(D) \leq \sum_{1 \leq D \leq 4n} \sqrt{D}\log(D)^2 \in O(n^{3/2}\log(n)^2) \qedhere
     \end{align*}
 \end{proof}
-Now we can see that for example the following choice of $n$ and $l^e$ works, i.e. gives us almost only supersingular roots.
+This is now as far as we can go with the general case.
+The main problem is that once we want to determine which endomorphism rings have nontrivial endomorphisms of two different degrees (e.g. $m$ and $l^e$), there is no analogue of the simple statement
+\begin{equation*}
+    \{ d(\O) \ | \ \text{$\O$ has cyclic endomorphism of degree $m$}\} \supseteq \{ m - x^2 \ | \ 0 < x < \sqrt{m} \}
+\end{equation*}
+While the diophantine equation $x^2 + D y^2 = m$ has been deeply studied (see e.g. \cite{cox_primes_of_form}), the best characterization for it being solvable (assuming $m = p$ is prime) involves the so-called Hilbert class polynomial
+\begin{equation*}
+    h_D(x) = \prod_{d(\End(E)) = D} (X - j(E))
+\end{equation*}
+In our case, $D$ is variable, which makes working with Hilbert class polynomials very unwieldy.
+All in all, it seems like the general case is very hard to get a handle on.
+
+\subsection{A working example}
+While we are unlikely to get nice provable bounds on the number of ordinary roots in the general situation of $F_{p, m, l^e}$, there are special cases in which this is possible.
+Next we present one of those situations.
 \begin{prop}
     Let $l$ be a prime and further $f$ be odd and $e$ be even.
     Then the system
@@ -318,8 +351,8 @@ Now we can see that for example the following choice of $n$ and $l^e$ works, i.e
     However, now we get a contradiction, since above path has odd length $2i + 1$, while $e - 2k$ is even by assumption.
 \end{proof}
 By choosing $e = \Theta(\log_l(p))$, we have $\Theta(\sqrt{l^fp})$ supersingular roots of above system.
-Thus, this theorem shows that the fraction of supersingular roots is exponentially large.
-Thus, an algorithm that can compute a random root of $F_{p, l^f, l^e}$ will generate a random supersingular curve with very high probability.
+Thus, this theorem shows that the fraction of supersingular roots is not just noticable, i.e. $1/\mathrm{poly}(\log(p))$, but even exponentially large.
+Therefore an algorithm that is able to efficiently compute a random root of $F_{p, l^f, l^e}$ can be used to generate a random supersingular curve with very high probability.
 We expect that this will not reveal a trapdoor, i.e. information about the endomorphism ring.
 
 Note that we can choose $f$ very small, e.g. $\log_l\log(p)$ and thus $n = l^f$ is polynomial in $\log(p)$.
@@ -336,6 +369,25 @@ The original paper~\cite{base_paper} thought it might be possible to use a ``squ
 \end{equation*} 
 but this means we will not represent $\Phi_{l^e}$ by the polynomial system anymore, hence we would need to get enough information about the exponential-degree modular polynomial $\Phi_{l^e}$ another way.
 This seems to be a very serious obstacle.
+
+\subsection{Heuristic Analysis}
+
+The difficulties begin when we want to estimate the number of curves $E$ that satisfy more conditions.
+For example, we might be interested in the number of ordinary roots of $\Phi_m(X, X^p)$ over $\F_{p^2}$, which then corresponds to endomorphism rings $\O$ with elements of norm $mp$ and $p^2$ that are not divisible by any integer $n \geq 2$ 
+\footnote{Clearly, a nontrival endomorphism of norm $p^2$ must either be the $p^2$-th power Frobenius or its dual, thus implying that $j(E) \in \F_{p^2}$.}.
+Another example is of course the number of ordinary roots of $f_{p, n, m}$, which again corresponds to endomorphism rings with elements of norm $np$ resp. $mp$ that are not divisible by integers $n \geq 2$.
+
+Counting these endomorphism rings seems to be difficult using elementary methods.
+While the equations have been studied thoroughly (e.g. \cite{cox_primes_of_form}), this was always done in terms of a fixed $D$.
+In particular in the prime power case, there is a nice formulation of the condition in terms of the class group.
+Let $l$ be a prime that splits into $(l) = \l_1\l_2$ in $\O$.
+Then there is an element $\alpha \in \O$ with $\Norm(\alpha) = l^e$ and $n \notdivides \alpha$ for $n \geq 2$ if and only if $\ord [\l_1] = e$ in the class group.
+
+In that way, the questions we want to answer are deeply connected to the structure of the class group for increasing $D$.
+While this is a much-research topic in algebraic number theory, not many strong results are known so far.
+However, there is the famous Cohen-Lenstra-heuristic.
+It says that the frequency of a group $G$ occuring as $p$-torsion part of the class group is asymptotically (w.r.t. increasing discriminants $D$) equivalent to $1/\#\mathrm{Aut}(G)$.
+Furthermore, these events for different primes $p$ seem to be independent.
 
 \section{An idea based on Sutherland's supersingularity test}
 As an alternative to the above approach, we propose another set of polynomial equations, whose properties might make computations easier.
@@ -355,7 +407,8 @@ However, a slightly better bound can achieved, as observed by \cite{fp_supersing
 In our case, we are also interested in how many ordinary curves we will accept if we choose $n$ smaller than the optimal bound.
 All this is considered in the next proposition.
 \begin{theorem}
-    Let $p$ be an odd prime and $m \geq 2$ an integer coprime to $p$.
+    \label{prop:counting_fp2_vulcano_levels}
+    Let $p$ be an odd prime and $m \geq 2$ an odd integer coprime to $p$.
     Consider the number $n$ of endomorphism rings $\O$ of ordinary curves defined over $\F_{p^2}$ with $\pi \in \Z + m\O$, where $\pi$ is the $p^2$-Frobenius endomorphism
     \footnote{
         With the $p^2$-th power Frobenius endomorphism of an order $\O$, we mean a nontrivial element of norm $p^2$.
@@ -367,8 +420,8 @@ All this is considered in the next proposition.
     \begin{equation*}
         \Bigl\lfloor \frac p {m^2} \Bigr\rfloor \leq n \leq \Bigl\lfloor \frac {4p(p + 1)} {m^3} \Bigr\rfloor
     \end{equation*}
-    Furthermore, consider the number $N$ of ordinary j-invariants $j \in \F_{p^2}$ such that there are $r$ levels defined over $\F_{p^2}$ below $j$ in the $l$-isogeny vulcano of $j$ (excluding the level of $j$).
-    Under GRH, we then get for $p \geq m^2$ that
+    Furthermore, consider the number $N$ of ordinary j-invariants $j \in \F_{p^2}$ such that $\pi \in \Z + m\End(j)$.
+    Under GRH, we then get
     \begin{equation*}
         c_1\left( \frac {p^2} {m^3 \log\log(p)^2} \right) \leq N \leq c_2\left( \frac {p^2\log(p)^2} {m^3} \right)
     \end{equation*}
@@ -415,7 +468,7 @@ All this is considered in the next proposition.
     \begin{equation*}
         a^2m^2d(\O_0) = (t - 2p)(t + 2p)
     \end{equation*}
-    Unless $l = 2$, $l$ cannot divide both $t - 2p$ and $t + 2p$.
+    Unless $m = 2$ or $m = 4$, $m$ cannot divide both $t - 2p$ and $t + 2p$.
 
     If $m^2 \divides t + 2p$, then $t \in \{ m^2 - 2p, 2m^2 - 2p, ..., km^2 - 2p \}$ where $k = \lfloor 2p/m^2 \rfloor$.
 
