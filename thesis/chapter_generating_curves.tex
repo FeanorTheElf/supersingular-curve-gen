@@ -17,7 +17,8 @@ We found answers to some of the questions in the paper, as well as a variation o
 However, the algorithm is still not practical.
 In this chapter, we present those results, after first discussing some naive approaches.
 
-\section{Naive approaches}
+\section{Naive and classical approaches}
+\label{prop:naive_classical_approaches}
 First, we have a look at some simple approaches to the problem, to get a feeling for the challenges.
 
 \paragraph{Random Sampling} It is a folklore knowledge that all supersingular curves over $\bar{\F}_p$ have a j-invariant in $\F_{p^2}$, i.e. are isomorphic to a curve defined over $\F_{p^2}$.
@@ -288,7 +289,6 @@ Next we present one of those situations.
     \footnote{It might be not totally clear what we mean by an ordinary root of the system.
     So let us define the number of ordinary roots as the number of $j \in \bar{\F}_p$ such that $F_{p, l^f, l^e}(j, x_1, ..., x_{e - 1})$ has a solution.
     However, note that for a fixed $j$, the number of different solutions of the system is polynomial, hence it would not make a big difference if we counted all solution tuples $(x, x_1, ..., x_{e - 1})$.}.
-    Note that $l^f \in O(\log(p))$.
 \end{prop}
 \begin{proof}
     We show that every ordinary root $j \in \bar{\F}_p$ of $F_{p, l^f, l^e}$ has an endomorphism of degree at most $l^{2f}$ and the claim follows by Prop.~\ref{prop:small_endomorphism_rare}.
@@ -369,25 +369,6 @@ The original paper~\cite{base_paper} thought it might be possible to use a ``squ
 \end{equation*} 
 but this means we will not represent $\Phi_{l^e}$ by the polynomial system anymore, hence we would need to get enough information about the exponential-degree modular polynomial $\Phi_{l^e}$ another way.
 This seems to be a very serious obstacle.
-
-\subsection{Heuristic Analysis}
-
-The difficulties begin when we want to estimate the number of curves $E$ that satisfy more conditions.
-For example, we might be interested in the number of ordinary roots of $\Phi_m(X, X^p)$ over $\F_{p^2}$, which then corresponds to endomorphism rings $\O$ with elements of norm $mp$ and $p^2$ that are not divisible by any integer $n \geq 2$ 
-\footnote{Clearly, a nontrival endomorphism of norm $p^2$ must either be the $p^2$-th power Frobenius or its dual, thus implying that $j(E) \in \F_{p^2}$.}.
-Another example is of course the number of ordinary roots of $f_{p, n, m}$, which again corresponds to endomorphism rings with elements of norm $np$ resp. $mp$ that are not divisible by integers $n \geq 2$.
-
-Counting these endomorphism rings seems to be difficult using elementary methods.
-While the equations have been studied thoroughly (e.g. \cite{cox_primes_of_form}), this was always done in terms of a fixed $D$.
-In particular in the prime power case, there is a nice formulation of the condition in terms of the class group.
-Let $l$ be a prime that splits into $(l) = \l_1\l_2$ in $\O$.
-Then there is an element $\alpha \in \O$ with $\Norm(\alpha) = l^e$ and $n \notdivides \alpha$ for $n \geq 2$ if and only if $\ord [\l_1] = e$ in the class group.
-
-In that way, the questions we want to answer are deeply connected to the structure of the class group for increasing $D$.
-While this is a much-research topic in algebraic number theory, not many strong results are known so far.
-However, there is the famous Cohen-Lenstra-heuristic.
-It says that the frequency of a group $G$ occuring as $p$-torsion part of the class group is asymptotically (w.r.t. increasing discriminants $D$) equivalent to $1/\#\mathrm{Aut}(G)$.
-Furthermore, these events for different primes $p$ seem to be independent.
 
 \section{An idea based on Sutherland's supersingularity test}
 As an alternative to the above approach, we propose another set of polynomial equations, whose properties might make computations easier.

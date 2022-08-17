@@ -1,0 +1,37 @@
+
+In recent years, much progress has been made in the construction of quantum computers that might be able to break currently used cryptographic schemes.
+Hence, the search for alternative schemes is currently in the center of attention.
+One approach is based on ideas of Couveignes, Rostovtsev and Stolbunov \cite{old_isogeny_crypto1, old_isogeny_crypto2, old_isogeny_crypto3}, but only became really practical with the introduction of the SIDH protocol \cite{sidh}.
+
+The main difference to the previous protocols is that instead of ordinary Elliptic Curves, SIDH relies on supersingular curves.
+These have the advantage that the structure of their rational points is much more predictable, hence allowing efficient computations.
+The recent success in the cryptoanalysis of SIDH \cite{sidh_broken} is likely to end this, however our research started before that breakthrough and also studied some questions of general interest.
+In particular, supersingular curves are also interesting objects on their own, and are important in the field of arithmetic geometry.
+
+For cryptography, it is thus a natural question how to computationally generate random supersingular curves for use in various protocols.
+The current approach, based on random walks in isogeny graphs (see Section~\ref{prop:naive_classical_approaches}), is very efficient, but has a drawback.
+Namely, the computation reveals an isogeny path to the starting curve, which can be used for attacks in some scenarios.
+It is currently an open problem if we can generate Elliptic Curves efficiently in a way that does not reveal such an isogeny, nor other information that might be used for attacks in certain scenarios.
+Up to now, in these scenarios, a trusted third party is thus required, that can uses a classical method to generate a curve, and then forgets about the additional information produced in the process.
+
+Some ideas to solve this have been proposed in \cite{base_paper}, most of them trying to exploit special structure to find roots of very large polynomials.
+However, for each approach so far there are some serious obstacles before it might be practical.
+In this work, we focus on the second of these, which is based on a correlation between a curve being supersingular, and having two fixed-degree isogenies to its Frobenius conjugate.
+The idea is now to find a random curve with two such isogenies, which then is supersingular with high probability.
+Finding a curve with these isogenies is equivalent to finding a root of a certain polynomial system involving modular polynomials, which might be possible to do computationally.
+
+Our work studies this correlation, and finds a special case in which we can quantify it.
+Namely, we prove the following statement.
+\begin{prop}[First Result]
+    Let $l$ be a small prime, $f$ be an odd integer and $e$ an even integer such that $l^f$ is polynomial in $\log(p)$ and $l^e = \Theta(p)$.
+    Then a random Elliptic Curve over $\bar{\F}_p$ with a cyclic $l^f$-isogeny and any $l^e$-isogeny to its Frobenius conjugate is supersingular with exponentially high probability (in $\log(p)$).
+\end{prop}
+Furthermore, we also propose a modified idea, and explain why it might be easier to implement efficiently.
+\begin{prop}[Second Result]
+    Let $l_1, ..., l_r$ be a small primes with $\prod l_i \geq \sqrt{p}$.
+    Then a random Elliptic Curve over $\F_{p^2}$ such that there are three $l_i$-isogeneous curves over $\F_{p^2}$ for each $i$ is supersingular with exponentially high probability.
+\end{prop}
+Finally, we also want to present in detail some results that transfers classical results in number theory to the statements required in cryptography.
+In particular, most literature in number theory deals with curves over $\C$, while in crypto we work in the finite field setting.
+Moreover, the very influential papers \cite{deuring_endomorphism_rings} and \cite{class_group_action_waterhouse} are not very accessible, as the first one is written in German, and the second works in the much more general setting of abelian varieties.
+Hence, we perceive in the literature a tiny gap between algebraic geometric foundations and the statements used in crypto, which we want to bridge in this work.
