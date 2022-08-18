@@ -1,8 +1,31 @@
 
+In cryptography, we are of course not just interested in abstract structure of Elliptic Curves and isogenies, but also in computing it.
+There are for example nice ways to compute the curve $E$ and the isogeny $E \to E/G$ for a finite subgroup $G \leq E$ in time polynomial in $\#G$.
+However, in the general case, there is no way how one can represent or compute an isogeny of exponentially large degree.
+This is where we can do cryptography, since for smooth-degree isogenies $\psi$, we can factor them into a sequence of small degree isogenies, and evaluate them one after the other.
+However, if this factorization is not known, it seems very hard to evaluate the isogeny.
+
+The underlying structure of this approach (and others) can now be captured by the $l$-isogeny graph $\Gamma_l(\F_q)$, for a prime $l \neq p$.
+\begin{definition}
+    Denote by $\Gamma_l(\F_q)$ the graph whose vertices are isomorphism classes of Elliptic Curves over $\F_q$, and the edges are the degree $l$ isogenies between them (with multiplicity).
+\end{definition}
+Since there is never an isogeny between ordinary and supersingular curves, each connected component of $\Gamma_l(\F_q)$ contains either only ordinary or supersingular curves.
+Hence, we will call them ordinary and supersingular connected components, respectively.
+Furthermore, the existence of the dual isogeny shows that this graph is undirected, and we know that it is $(l + 1)$-regular (if $l \perp p$), since there are exactly $l + 1$ subgroups of order $l$ in $E[l] \cong (\Z/l\Z)^2$.
+
+Note that when doing computations with this graph, we identify each vertex with the j-invariant of the corresponding curves.
+This makes it easy to work with isomorphism classes of Elliptic Curves.
+Furthermore, we observe that $\Gamma_l(\F_q)$ has exactly $q$ vertices, since there are that many j-invariants $j \in \F_q$.
+
 \section{The ordinary case}
+We begin by analysing the structure of the ordinary part of $\Gamma_l(\F_q)$, which (as we will see), is quite different from the supersingular part.
+There is a very powerful description of this graph in terms of the endomorphism rings of the ordinary curves.
+Since these are (usually non-maximal) orders in quadratic imaginary number fields, whose theory is somewhat more complicated than the one of maximal orders (which are Dedekind domains), we first study them a little.
 
 \subsection{Imaginary quadratic orders}
 For this part, let $\O$ be an order in an imaginary quadratic number field $K$.
+What we will mainly do in this section is to show that ideal $\a \leq \O$ with norm $\Norm(\a) := [\O : \a]$ coprime to the index $[\O_K : \O]$ behave ``nicely'', i.e. similar to ideals in a Dedekind domain.
+Furthermore, we will study the structure of the class group of $\O$.
 \begin{lemma}
     Let $\p \leq \O_K$ be a prime with $\Norm(\p) \perp [\O_K : \O]$.
     Then $\p$ has a set of generators in $\O$.
@@ -25,6 +48,7 @@ For this part, let $\O$ be an order in an imaginary quadratic number field $K$.
     Let $\a \leq \O_K$ be an ideal with $\Norm(\a) \perp [\O_K : \O]$. Then $\a$ has a set of generators in $\O$.
 \end{corollary}
 \begin{prop}
+    \label{prop:prime_coprime_localization_same}
     Let $\p \leq \O$ be a prime ideal with $\Norm(\p) \perp [\O_K : \O]$ and $\p' = \p\O_K$.
     Then $\O_\p = (\O_K)_{\p'}$.
 \end{prop}
@@ -33,16 +57,17 @@ For this part, let $\O$ be an order in an imaginary quadratic number field $K$.
     Thus $f \notin \p$ and so $f \in \O_\p^*$.
     Therefore $\O_K \subseteq \O_\p$ and thus $(\O_K)_{\p'} \subseteq \O_\p$.
 \end{proof}
+This already gives a somewhat nice description of most ideals of the order $\O$.
 \begin{prop}
     \label{prop:coprime_ideals_order}
-    Let $\mathfrak{I}(\O)$ resp. $\mathfrak{I}(\O_K)$ denote the set of invertible ideals of norm $\perp [\O_K : \O]$.
+    Let $\mathfrak{I}_f(\O)$ resp. $\mathfrak{I}_f(\O_K)$ denote the monoid of invertible integral ideals of norm $\perp f := [\O_K : \O]$.
     Then
     \begin{align*}
-        \mathfrak{I}(\O) \to \mathfrak{I}(\O_K), \quad \a \mapsto \a\O_K
+        \mathfrak{I}_f(\O) \to \mathfrak{I}_f(\O_K), \quad \a \mapsto \a\O_K
     \end{align*}
     is a monoid isomorphism with inverse
     \begin{equation*}
-        \mathfrak{I}(\O_K) \to \mathfrak{I}(\O), \quad \a \mapsto \a \cap \O
+        \mathfrak{I}_f(\O_K) \to \mathfrak{I}_f(\O), \quad \a \mapsto \a \cap \O
     \end{equation*}
 \end{prop}
 \begin{proof}
@@ -52,9 +77,9 @@ For this part, let $\O$ be an order in an imaginary quadratic number field $K$.
     By Corollary~\ref{prop:generators_in_order}, we know that any $\a \leq \O_K$ with $\Norm(\a) \perp [\O_K : \O]$ has generators in $\O$, thus $(\a \cap \O)\O_K = \a$.
     This shows that $\a \cap \O$ is a preimage of $\a$, and so the map is surjective. 
 
-    Assume now $\a, \b \leq \O$ with $\a\O_K = \b\O_K$ and $\Norm(\a), \Norm(\b) \perp [\O_K : \O]$.
+    Assume now $\a, \b \leq \O$ with $\a\O_K = \b\O_K$ and $\Norm(\a), \Norm(\b) \perp f$.
     We show that $\a_\p = \b_\p$ for all primes $\p \leq \O$.
-    Note that if $\Norm(\p) \not\perp [\O_K : \O]$, this holds trivially, as $\a_\p = \O_\p = \b_\p$.
+    Note that if $\Norm(\p) \not\perp f$, this holds trivially, as $\a_\p = \O_\p = \b_\p$.
     Otherwise, note that
     \begin{equation*}
         \a_\p = \a_\p \O_\p = \a (\O_K)_\p = \a\O_K(\O_K)_\p = \b\O_K(\O_K)_\p = \b_\p (\O_K)_\p = \b_\p
@@ -63,13 +88,153 @@ For this part, let $\O$ be an order in an imaginary quadratic number field $K$.
     This shows that $\a_\p = \b_\p$ at all primes, so $\a = \b$ and our map is injective.
     Furthermore, since $(\a \cap \O)\O_K = \a$, we see that it has the inverse
     \begin{equation*}
-        \mathfrak{I}(\O_K) \to \mathfrak{I}(\O), \quad \a \mapsto \a \cap \O
+        \mathfrak{I}_f(\O_K) \to \mathfrak{I}_f(\O), \quad \a \mapsto \a \cap \O
     \end{equation*}
     which must then be well-defined.
 \end{proof}
+Furthermore, we are really interested in the class group of $\O$, which is now the quotient of only the invertible ideals of $\O$ modulo the principal ideals.
+The following statements are special cases of the general theory in \cite[Chapter I.§12]{neukirch}.
+\begin{lemma}
+    Write $\mathfrak{I}(\O)$ for the group of invertible fractional ideals in $\O$.
+    Then there exists an isomorphism
+    \begin{equation*}
+        \iota: \bigoplus_\p K^*/\O_\p^* \to \mathfrak{I}(\O)
+    \end{equation*}
+    with $\iota(a)\O_\p = (a_\p)$ for all prime ideals $\p \leq \O$ and $a = (a_\p)_\p$.
+\end{lemma}
+\begin{proof}
+    First, we show that for an invertible ideal $\a = (a_1, ..., a_n)$ have that $\a\O_\p$ is principal.
+    By assumption, have $\a\b = (1)$ with $\b = (b_1, ..., b_m)$ and so have $1 = \sum a_i b_i c_i$ with $c_i \in \O_\p$.
+    Clearly, $1 \notin \p\O_\p$ and thus one $a_i b_i c_i \notin \p\O_\p$, so $a_i b_i c_i \in \O_\p^*$ is a unit.
+    Therefore, we find that $\a\O_\p = a_i\O_\p$, because for all $x \in \a\O_\p$, have then $x b_i c_i \in \a\b = \O_\p$, so
+    \begin{equation*}
+        x = a_i \underbrace{x b_i c_i}_{\in \O_\p} \in a_i \O_\p
+    \end{equation*}
+    Now we can see that there is a well-defined homomorphism
+    \begin{equation*}
+        \iota^{-1}: \mathfrak{I}(\O) \to \bigoplus_\p K^*/\O_\p^*
+    \end{equation*}
+    that maps an ideal $\a$ to the class of generators of $\a\O_\p$.
+    
+    Clearly, it is injective, since if $\a\O_\p \neq \b\O_\p$ for any prime $\p$, then $\a \neq \b$.
+
+    It is thus left to show that $\iota^{-1}$ is also surjective.
+    Assume $(a_\p)_\p \in \bigoplus_\p K^*/\O_\p^*$.
+    Then set $\a := \bigcap_\p a_\p \O_\p$.
+    Clearly we have
+    \begin{equation*}
+        \a\O_\q = \bigcap_\p a_\p \O_\p \O_\q = a_\p \O_\p \cap \bigcap_{\p \neq \q} a_\p \underbrace{\O_\p \O_\q}_{= K^*} = a_\p \O_\p \cap K^* = a_\p \O_\p
+    \end{equation*}
+    and so $\iota^{-1}(\a) = (a_\p)_\p$.
+    The claim follows.
+\end{proof}
+This lemma is a very useful characterization of invertible ideals.
+We are now ready for our first description of $\Cl(\O)$.
+\begin{lemma}
+    Let $f = [\O_K : \O]$ and assume that $\O_K^* = \{ \pm 1 \}$.
+    There is an exact sequence
+    \begin{equation*}
+        1 \ \to \ \bigoplus_\p R_\p^*/\O_\p^* \ \to \ \Cl(\O) \ \to \ \Cl(\O_K) \ \to \ 1
+    \end{equation*}
+    where $\Cl(\O)$ is the ideal class group of $\O$, i.e. the group of invertible, fractional ideals modulo principal ideals and $R_\p$ is the localization of $\O_K$ at the multiplicative set $\O \setminus \p$.
+\end{lemma}
+\begin{proof}
+    First, we show that every ideal class $[\a] \in \Cl(\O_K)$ has an integral representative of norm coprime to $f$.
+    Let $m \divides \Norm(\a)$ be maximal such that $m \divides f^e$ for some $e$.
+    Then there is an element $\alpha \in m\a^{-1}$, and we see that $\Norm(\alpha^{-1}\a) \divides \Norm(\a)/m$, thus is coprime to $f$.
+    Furthermore, $\alpha \in \a^{-1}$, so $\alpha^{-1}\a$ is integral.
+    This shows our claim, and so by Corollary~\ref{prop:generators_in_order} that the natural map
+    \begin{equation*}
+        \Cl(\O) \to \Cl(\O_K), \quad [\a] \to [\a\O_K]
+    \end{equation*}
+    is surjective.
+
+    Next, note that the isomorphism $\iota: \mathfrak{I}(\O) \to \bigoplus_\p K^*/\O_\p^*$ induces a map
+    \begin{equation*}
+        \bigoplus_\p R_\p^*/\O_\p^* \to \Cl(\O)
+    \end{equation*}
+    where $R_\p$ is the localization of $\O_K$ at the multiplicative subset $\O \setminus \p$.
+
+    It is injective, as for an element $a = (a_\p)_\p$ in the kernel, have that $\iota(a) = (\alpha)$.
+    However, then $(a_\p) = (\alpha)$ in $\O_\p$.
+    Hence, $\a_\p = \alpha\epsilon$ for $\epsilon \in \O_\p^*$ and we can assume that the representatives $a_\p \in R_\p^*$ are chosen such that $a_\p = \alpha$.
+    This implies that $\alpha \in \bigcap_\p R_\p^* = \O_K^*$, and by the assumption $\O_K^* = \{ \pm 1 \}$, have then $\alpha = \pm 1$.
+    The claim follows.
+
+    Now it is only left to show that the sequence is exact at $\Cl(\O)$.
+
+    For $a = (a_\p)_\p \in \bigoplus_\p R_\p^*/\O_\p^*$, we know that
+    \begin{equation*}
+        \iota(a)R_\p = \iota(a)\O_\p R_\p = a_\p R_\p = R_\p
+    \end{equation*}
+    and so $\mathrm{im}(f) \subseteq \ker(g)$.
+    Now we show the converse.
+
+    Let $\a \leq \O$ be integral and invertible with $\a\O_K = (\alpha)$.
+    Since $[\frac 1 \alpha \a] = [\a]$ are in the same ideal class, we can assume wlog that $\alpha = 1$.
+
+    Let $a = (a_\p)_\p = \iota^{-1}(\a)$.
+    Then
+    \begin{equation*}
+        a_\p R_\p = a_\p\O_\p R_\p = \iota(a)R_\p = \a R_\p = \alpha R_\p = R_\p
+    \end{equation*}
+    This clearly implies that $a_\p \in R_\p^*$ and so $\a \in \mathrm{im}(f)$.
+\end{proof}
+The expression $\bigoplus_\p R_\p^*/\O_\p^*$ is still somewhat unwieldy, but fortunately, it has the following nice form.
+\begin{lemma}
+    We have
+    \begin{equation*}
+        (\O_K/f\O_K)^*/(\O/f\O_K)^* \cong \bigoplus_\p R_\p^*/\O_\p^*
+    \end{equation*}
+    Note that $f\O_K \subseteq \O$ is the largest ideal of $\O_K$ contained in $\O$, and thus an ideal of $\O$ as well.
+\end{lemma}
+\begin{proof}
+    First, note that if $\Norm(\p) \perp f$, we know that $R_\p = (\O_K)_{\p\O_K}$ and so by Prop.~\ref{prop:prime_coprime_localization_same} that $R_\p^*/\O_\p^*$ is trivial.
+    
+    Note that for each prime $\p \leq \O$ containing $f\O_K$ have a finite, positive number of primes $\q \leq \O_K$ with $\q \cap \O = \p$.
+    There is at least one, as $\p\O_K$ is contained in a prime, and the number is finite, as $f\O_K$ factors into finitely many primes in the Dedekind ring $\O_K$.
+    Hence, we have by the chinese remainder theorem
+    \begin{equation*}
+        (\O/f\O_K)^* \cong \bigoplus_{\p \supseteq f\O_K} (\O_\p/f\O_K\O_\p)^* \cong \bigoplus_{\p \supseteq f\O_K} (\O_\p/f\O_K\O_\p)^* = \bigoplus_{\p \supseteq f\O_K} (\O_\p/fR_\p)^*
+    \end{equation*}
+    Furthermore, we have
+    \begin{equation*}
+        (\O_K/f\O_K)^* \cong \bigoplus_{\q \supseteq f\O_K} ((\O_K)_\q/f(\O_K)_\q)^* \cong \bigoplus_{\p \supseteq f\O_K} \bigoplus_{\q \supseteq \p\O_K} ((\O_K)_\q/f(\O_K)_\q)^*
+    \end{equation*}
+    We claim that
+    \begin{equation*}
+        R_\p/fR_\p \cong \bigoplus_{\q \supseteq \p\O_K} (R_\p)_\q/f(R_\p)_\q = \bigoplus_{\q \supseteq \p\O_K} (\O_K)_\q/f(\O_K)_\q
+    \end{equation*}
+    This isomorphism follows from the chinese remainder theorem and the fact that the prime ideals $\q$ over $\p\O_K$ give all prime ideals of $R_\p$.
+    
+    Both isomorphisms are compatible
+    \footnote{Meaning the inclusion $\O/f\O_K \subseteq \O_K/f\O_K$ commutes with the natural map
+    \begin{equation*}
+        O/f\O_K \overset{\sim}{\to} \bigoplus_\p (\O_\p/f\O_K\O_\p) = \bigoplus_\p (\O_\p/fR_\p) \to \bigoplus_\p (R_\p/fR_\p) \overset{\sim}{\to} \O_K/f\O_K
+    \end{equation*}
+    }, 
+    and so have
+    \begin{equation*}
+        (\O_K/f\O_K)^*/(\O/f\O_K)^* \cong \bigoplus_{\p \supseteq f\O_K} (R_\p/fR_\p)^*/(\O_\p/fR_\p)^*
+    \end{equation*}
+    Finally, observe that the map $R_\p^* \to (R_\p/fR_\p)^*/(\O_\p/fR_\p)^*$ has kernel $\O_\p^*$.
+    It also is surjective, since for $[a] \in (R_\p/fR_\p)^*$ there is $b \in R_\p$ with $ab \in 1 + fR_\p$ and thus $ab \equiv 1 \mod \p R_\p$ (because we only consider $\p$ with $f \in \p$).
+    In particular, $a \notin \q$ for all primes $\q$ of $R_\p$ (these are all over $\p R_\p$), and so $a \in R_\p^*$.
+\end{proof}
+\begin{corollary}
+    \label{prop:class_group_order}
+    Suppose $\O_K = \{ \pm 1 \}$. Then there is an exact sequence
+    \begin{equation*}
+        1 \ \to \ (\O_K/f\O_K)^*/(\O/f\O_K)^* \ \to \ \Cl(\O) \ \to \ \Cl(\O_K) \ \to \ 1
+    \end{equation*}
+\end{corollary}
+The condition $\O_K = \{ \pm 1 \}$ is very weak, as there are only two quadratic imaginary number fields such that the ring of integers has more units, namely $K = \Q[\sqrt{-3}]$ and $K = \Q[\sqrt{-1}]$.
+These correspond to the Elliptic Curves with j-invariants $0$ and $1728$ (if they are ordinary), and need a special treatment in many cases anyway.
+In \cite{neukirch}, there is also a more general version of this statement without this assumption.
 
 \subsection{The class group action}
-The class group action that we will define in the following is the most important tool when working with isogeny graphs of ordinary curves.
+Now we can come back to the study of Elliptic Curves and their isogeny graphs.
+The class group action which we will define in the following is the most important tool when working with isogeny graphs of ordinary curves.
 Because of this, it is mentioned in more or less all the literature dealing with the topic.
 For me, it was thus quite surprising that I could nowhere find a precise and relatively elementary proof for the statement in the case of finite fields.
 
@@ -85,12 +250,12 @@ Therefore, we now present a relatively simple proof of the class group action fo
 From now on, we will often compare endomorphism rings of isogeneous curves.
 To do so, we embed those rings into an imaginary quadratic number field $K$.
 However, the field $K$ and its orders can have nontrivial automorphisms, which means the embedding $\End(E) \to K$ cannot be unique.
-Fortunately, there is a unique embedding that is canonical in the following sense.
+Fortunately, we can choose a system of embeddings $\End(E) \to K$ jointly for all curves $E$ in a canonical way as follows.
 \begin{lemma}
     Let $\phi: E \to E'$ be an isogeny.
     Then there is an isomorphism
     \begin{equation*}
-        \Phi: \End(E) \otimes \Q \to \End(E') \to \Q, \quad \tau \mapsto \frac 1 {\deg(\phi)} \phi \circ \tau \circ \hat{\phi}
+        \Phi: \End(E) \otimes \Q \to \End(E') \otimes \Q, \quad \tau \mapsto \frac 1 {\deg(\phi)} \phi \circ \tau \circ \hat{\phi}
     \end{equation*}
     Furthermore, if we assume $E$ to be ordinary, then this is canonical in the sense that for any other isogeny $\psi: E \to E'$ have $\Phi = \Psi$.
 \end{lemma}
@@ -110,8 +275,12 @@ Fortunately, there is a unique embedding that is canonical in the following sens
 
     Now $\hat{\Psi}$ is the inverse of $\Psi$, and the claim follows.
 \end{proof}
-If we set $K = \End(E) \otimes \Q$, then of course this gives a canonical embedding $\End(E') \to K$ for each curve $E'$ isogeneous to $E$.
-From now on, whenever we consider such an embedding, or identify isomorphic endomorphism rings of isogeneous curves, this embedding shall be used.
+In other words, we choose an arbitrary embedding $\End(E) \to K$ for one curve $E$, and then choose all further embeddings $\End(E') \to K$ for isogeneous curves $E'$ as
+\begin{equation*}
+    \End(E') \to \End(E') \otimes \Q \ \overset{\Phi}{\longrightarrow} \ \End(E) \otimes \Q \to K
+\end{equation*}
+From now on, we thus identify $\End(E)$ with an approriate subring of $K$ using that embedding.
+In particular, whenever we compare endomorphism rings of different curves, this canonical isomorphism shall be used.
 \begin{prop}
     Let $\phi: E \to E'$ be an isogeny of prime degree $p$ between (not necessarily ordinary) Elliptic Curves.
     Then (after embedding $\End(E')$ via $\Phi$ and $\End(E)$ into $\End(E) \otimes \Q$) exactly one of the following is the case.
@@ -345,7 +514,7 @@ For a proof, the reader is referred to the work of Tate \cite{tate}.
 \begin{theorem}[Isogeny theorem]
     \label{prop:isogeny_theorem}
     Let $E$, $E'$ be Elliptic Curves defined over $\F_q$.
-    Then there is a separable isogeny $E \to E'$ if and only if $\#E(\F_q) = \#E'(\F_q)$.
+    Then there is an isogeny $E \to E'$ if and only if $\#E(\F_q) = \#E'(\F_q)$.
 \end{theorem}
 Note that this condition is also equivalent to $\End(E) \otimes \Q \cong \End(E') \otimes \Q$ or that the $q$-th power Frobenius endomorphisms have the same trace. 
 \begin{theorem}
@@ -454,12 +623,6 @@ However, some sources do not explicitly mention that $\a$ must be chosen coprime
 
 \subsection{Vulcanos}
 Once we have the class group action, we can derive a lot of information about the structure of the ordinary part of an isogeny graph.
-\begin{definition}
-    Denote by $\Gamma_l(\F_q)$ the graph whose vertices are isomorphism classes of Elliptic Curves over $\F_q$, and the edges are the degree $l$ isogenies between them (with multiplicity).
-\end{definition}
-Since there is never an isogeny between ordinary and supersingular curves, we will continue to talk of ordinary and supersingular connected components of $\Gamma_l(\F_q)$.
-Note that by the j-invariant, an isomorphism class of an Elliptic Curve $E$ is in 1-to-1 correspondence with the j-invariant $j(E)$, and so we could also say that the vertices of $\Gamma_l(\F_q)$ are just the elements of $\F_q$.
-Furthermore that the existence of the dual isogeny implies that $\Gamma_l(\F_q)$ is undirected.
 \begin{definition}
     For $l > 0, d \geq 0$, a graph $G$ is called \emph{$l$-vulcano of depth $d$}, if its vertices can be partitioned into a set $C$ (the ``crater'') and a set $L$ (the ``lava flows'') such that
     \begin{itemize}

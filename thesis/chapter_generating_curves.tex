@@ -125,7 +125,8 @@ The next theorem puts together some classical results, in particular the famous 
     \end{equation*}
 \end{theorem}
 \begin{proof}
-    In the case of a maximal order in a quadratic imaginary number field $K$ with discriminant $d_K = d(\O_K) < -4$, the Dirichlet class number formula has the form
+    wlog assume that $d_K := d(\O_K) < -4$.
+    Then the Dirichlet class number formula has the form
     \begin{equation*}
         h(\O_K) = \frac {\sqrt{|d_K|}} {2\pi} L(1, \chi)
     \end{equation*}
@@ -143,15 +144,11 @@ The next theorem puts together some classical results, in particular the famous 
         \Theta\left(\frac {\sqrt{|D|}} {\log\log|D|}\right) \leq h(D) \leq \Theta\left(\sqrt{|D|} \log|D|\right)
     \end{equation*}
 
-    To transfer this result to all orders, we use \cite[Thm~I.12.12]{neukirch}, which states that
+    To transfer this result to all orders, we use Corollary~\ref{prop:class_group_order}, from which it follows that
     \begin{equation*}
-        h(\O) = \frac {h(\O_K)} {[\O_K^* : \O^*]} \frac {\#(\O_K / \mathfrak{f})^*} {\#(\O / \mathfrak{f})^*}
+        h(\O) = h(\O_K) \frac {\#(\O_K / \mathfrak{f})^*} {\#(\O / \mathfrak{f})^*}
     \end{equation*}
     where $\mathfrak{f} \leq \O_K$ is the largest ideal contained in $\O$.
-    Since we are in a quadratic imaginary number field of discriminant $< -4$, there are no units in $\O_K$ resp. $\O$, and so we only have to find
-    \begin{equation*}
-        \frac {\#(\O_K / \mathfrak{f})^*} {\#(\O / \mathfrak{f})^*}
-    \end{equation*}
     For the conductor $f = [\O_K : \O]$ we know that $d(\O) = f^2 d_K$, and clearly $\mathfrak{f} = (f)$.
     Now $\O/\mathfrak{f} \cong \Z/f\Z$ and so $\#(\O/\mathfrak{f})^* = \phi(f)$.
     To find $\#(\O_K/\mathfrak{f})^*$, consider the factorization $f = \prod p_i^{e_i}$.
