@@ -26,6 +26,14 @@ Since these are (usually non-maximal) orders in quadratic imaginary number field
 For this part, let $\O$ be an order in an imaginary quadratic number field $K$.
 What we will mainly do in this section is to show that ideal $\a \leq \O$ with norm $\Norm(\a) := [\O : \a]$ coprime to the index $[\O_K : \O]$ behave ``nicely'', i.e. similar to ideals in a Dedekind domain.
 Furthermore, we will study the structure of the class group of $\O$.
+First, we state a version of the chinese remainder theorem.
+\begin{lemma}
+    Let $\a$ be a nonzero ideal of $\O$. Then
+    \begin{equation*}
+        \O/\a \cong \bigoplus_\p \O_\p/\a\O_\p
+    \end{equation*}
+\end{lemma}
+For a proof of this, see e.g. \cite[Prop.~I.12.3]{neukirch}.
 \begin{lemma}
     Let $\p \leq \O_K$ be a prime with $\Norm(\p) \perp [\O_K : \O]$.
     Then $\p$ has a set of generators in $\O$.
@@ -103,6 +111,8 @@ The following statements are special cases of the general theory in \cite[Chapte
     with $\iota(a)\O_\p = (a_\p)$ for all prime ideals $\p \leq \O$ and $a = (a_\p)_\p$.
 \end{lemma}
 \begin{proof}
+    Again, this is a special case of \cite[Prop.~I.12.9]{neukirch}.
+
     First, we show that for an invertible ideal $\a = (a_1, ..., a_n)$ have that $\a\O_\p$ is principal.
     By assumption, have $\a\b = (1)$ with $\b = (b_1, ..., b_m)$ and so have $1 = \sum a_i b_i c_i$ with $c_i \in \O_\p$.
     Clearly, $1 \notin \p\O_\p$ and thus one $a_i b_i c_i \notin \p\O_\p$, so $a_i b_i c_i \in \O_\p^*$ is a unit.
@@ -119,14 +129,29 @@ The following statements are special cases of the general theory in \cite[Chapte
     Clearly, it is injective, since if $\a\O_\p \neq \b\O_\p$ for any prime $\p$, then $\a \neq \b$.
 
     It is thus left to show that $\iota^{-1}$ is also surjective.
+    The following proof is taken with some modifications from \cite[Prop.~I.12.2]{neukirch}.
+
     Assume $(a_\p)_\p \in \bigoplus_\p K^*/\O_\p^*$.
     Then set $\a := \bigcap_\p a_\p \O_\p$.
-    Clearly we have
+    Clearly we have $\a\O_\p \subseteq a_\p\O_\p$, so it is left to show the inclusion $\supseteq$.
+
+    First of all, all except finitely many $a_\q$ are in $\O_\q^*$, hence we can assume that those are $a_\q = 1$.
+    Let $c \in \O$ with $ca_\q/a_\p \in \O$ for all $\q$ such that $a_\q \neq 1$.
+    Now the chinese remainder theorem gives us $b \in \O$ such that
     \begin{equation*}
-        \a\O_\q = \bigcap_\p a_\p \O_\p \O_\q = a_\p \O_\p \cap \bigcap_{\p \neq \q} a_\p \underbrace{\O_\p \O_\q}_{= K^*} = a_\p \O_\p \cap K^* = a_\p \O_\p
+        b \equiv c \mod \p \quad \text{and} \quad b \equiv ca_q/a_\p \mod \q^k \quad \text{for $\q \neq \p$ with $a_\q \neq 1$}
     \end{equation*}
-    and so $\iota^{-1}(\a) = (a_\p)_\p$.
-    The claim follows.
+    where $k \geq 1$ is an integer such that $a_q \in \q^k\O_k$.
+
+    This $b$ is unique modulo $\bigcap_{a_\q \neq 1} \q^k$, and in particular, we can choose it such that $ba_\p/c \in \O$.
+    Now we have $b/c \in \O_\p^*$.
+    Furthermore, $a_\p b/c \in \a$, since
+    \begin{itemize}
+        \item $b/c \in \O_\p^* \subseteq \O_\p$, so $a_\p b/c \in a_\p\O_\p$.
+        \item $b \equiv ca_q/a_\p \mod \q^k$, so $a_\p b/c \equiv a_\q \mod \q^k\O_\q$, which implies $a_\p b/c \in a_\q\O_\q$ for $\q \neq \p$ with $a_\q \neq 1$.
+        \item $ba_\p/c \in \O$, so $ba_\p/c \in a_\q\O_\q$ whenever $a_\q = 1$.
+    \end{itemize}
+    Since $b/c \in \O_\p^*$, we now find $a_\p \in \a\O_\p^*$ and the claim follows.
 \end{proof}
 This lemma is a very useful characterization of invertible ideals.
 We are now ready for our first description of $\Cl(\O)$.
@@ -139,6 +164,8 @@ We are now ready for our first description of $\Cl(\O)$.
     where $\Cl(\O)$ is the ideal class group of $\O$, i.e. the group of invertible, fractional ideals modulo principal ideals and $R_\p$ is the localization of $\O_K$ at the multiplicative set $\O \setminus \p$.
 \end{lemma}
 \begin{proof}
+    This proof is taken with some modifications from \cite[Prop.~I.12.11]{neukirch}.
+
     First, we show that every ideal class $[\a] \in \Cl(\O_K)$ has an integral representative of norm coprime to $f$.
     Let $m \divides \Norm(\a)$ be maximal such that $m \divides f^e$ for some $e$.
     Then there is an element $\alpha \in m\a^{-1}$, and we see that $\Norm(\alpha^{-1}\a) \divides \Norm(\a)/m$, thus is coprime to $f$.
