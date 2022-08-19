@@ -103,6 +103,7 @@ This already gives a somewhat nice description of most ideals of the order $\O$.
 Furthermore, we are really interested in the class group of $\O$, which is now the quotient of only the invertible ideals of $\O$ modulo the principal ideals.
 The following statements are special cases of the general theory in \cite[Chapter I.§12]{neukirch}.
 \begin{lemma}
+    \label{prop:invertible_ideal_characterization}
     Write $\mathfrak{I}(\O)$ for the group of invertible fractional ideals in $\O$.
     Then there exists an isomorphism
     \begin{equation*}
@@ -268,6 +269,9 @@ For me, it was thus quite surprising that I could nowhere find a precise and rel
 Most sources cite \cite[Thm~4.5]{class_group_action_waterhouse}, however the statement there is not as explicit as one might wish, and the proof is done in the much more general theory of abelian schemes.
 Apart from that, there are many references to the corresponding statement for curves over $\C$, but these ignore some of the subtleties introduced by non-separable isogenies. 
 Therefore, we now present a relatively simple proof of the class group action for ordinary curves defined over a finite field and explicitly handle the non-separable case.
+
+For the whole section, let $E$ and $E'$ be Elliptic Curves defined over a finite field $k = \F_q$ with characteristic $p$.
+We write $\pi_E$ for the $q$-th power Frobenius endomorphism of $E$.
 \begin{definition}
     For an integral ideal $\a \leq \End(E)$ of an ordinary Elliptic Curve $E$, define the $\a$-torsion
     \begin{equation*}
@@ -302,12 +306,12 @@ Fortunately, we can choose a system of embeddings $\End(E) \to K$ jointly for al
 
     Now $\hat{\Psi}$ is the inverse of $\Psi$, and the claim follows.
 \end{proof}
-In other words, we choose an arbitrary embedding $\End(E) \to K$ for one curve $E$, and then choose all further embeddings $\End(E') \to K$ for isogeneous curves $E'$ as
+In other words, we choose an arbitrary embedding $\End(E) \to K$ for one ordinary curve $E$, and then choose all further embeddings $\End(E') \to K$ for isogeneous curves $E'$ as
 \begin{equation*}
     \End(E') \to \End(E') \otimes \Q \ \overset{\Phi}{\longrightarrow} \ \End(E) \otimes \Q \to K
 \end{equation*}
-From now on, we thus identify $\End(E)$ with an approriate subring of $K$ using that embedding.
-In particular, whenever we compare endomorphism rings of different curves, this canonical isomorphism shall be used.
+From now on, whenever we identify $\End(E)$ with an approriate subring of $K$, this shall use that embedding.
+This will be used already in the next statement, which describes the relationship of endomorphism rings of isogeneous curves more concretely.
 \begin{prop}
     Let $\phi: E \to E'$ be an isogeny of prime degree $p$ between (not necessarily ordinary) Elliptic Curves.
     Then (after embedding $\End(E')$ via $\Phi$ and $\End(E)$ into $\End(E) \otimes \Q$) exactly one of the following is the case.
@@ -317,27 +321,46 @@ In particular, whenever we compare endomorphism rings of different curves, this 
         \item $\End(E) \supseteq \End(E')$ with $[\End(E) : \End(E')] = p$. We call $\phi$ \emph{descending}.
     \end{itemize}
 \end{prop}
+\begin{proof}
+    Note that the map
+    \begin{equation*}
+        l\Phi: \End(E) \to \End(E'), \quad \tau \mapsto \phi \circ \tau \circ \hat{\phi}
+    \end{equation*}
+    yields endomorphisms of $\End(E')$, and so we have $l\End(E) \subseteq \End(E')$.
+    Similarly, find $l\End(E') \subseteq \End(E)$.
+
+    Now let $\alpha$ be a generator of the maximal order in $K = \End(E) \otimes \Q$.
+    Then each order of $K$ is of the form $\Z + f\alpha\Z$, and so
+    \begin{equation*}
+        \End(E) = \Z \oplus f_1\alpha\Z, \quad \End(E') \Z \oplus f_2\alpha\Z
+    \end{equation*}
+    However, this implies that $f_1 \divides lf_2$ and $f_2 \divides lf_1$, so $f_1 \divides l f_2 \divides l^2 f_1$.
+    Since $l$ is prime, we find $f_2 \in \{ f_1/l, f_1, l f_1 \}$ and the claim follows.
+\end{proof}
 Furthermore, we will sometimes talk about horizontal or vertical isogenies \emph{at a prime $l$}, which is defined by the next proposition.
 The advantage is that this is defined for all isogenies, not just those of prime degree.
 \begin{prop}
     Similarly, let $\phi: E \to E'$ be an isogeny of any degree $n$.
     Further, let $l$ be a prime.
-    Then (after embedding $\End(E') \otimes \Z_{(l)}$ via $\Phi$ and $\End(E) \otimes \Z_{(l)}$ into $\End(E) \otimes \Q$)exactly one of the following is the case.
+    Then (after embedding $\End(E') \otimes \Z_{(l)}$ via $\Phi$ and $\End(E) \otimes \Z_{(l)}$ into $\End(E) \otimes \Q$) exactly one of the following is the case.
     \begin{itemize}
         \item $\End(E) \otimes \Z_{(l)} = \End(E') \otimes \Z_{(l)}$ and we call $\phi$ \emph{horizontal at $l$}.
         \item $\End(E) \otimes \Z_{(l)} \subseteq \End(E') \otimes \Z_{(l)}$ with $[\End(E') \otimes \Z_{(l)} : \End(E) \otimes \Z_{(l)}] = l^r$ for $r > 0$. We call $\phi$ \emph{ascending at $l$}.
         \item $\End(E) \otimes \Z_{(l)} \supseteq \End(E') \otimes \Z_{(l)}$ with $[\End(E) \otimes \Z_{(l)} : \End(E') \otimes \Z_{(l)}] = p$ for $r > 0$. We call $\phi$ \emph{descending at $l$}.
     \end{itemize}
 \end{prop}
+\begin{proof}
+    Exactly as the previous proof.
+\end{proof}
 Now we can make a step towards the class group action and present how we assign isogenies to (integral, invertible) ideals of the endomorphism ring.
 \begin{definition}
     For an ordinary Elliptic Curve $E$ and an integral, invertible ideal
     \footnote{By Prop.~\ref{prop:coprime_ideals_order}, this representation of an ideal $\a$ is well-defined and unique, as $\Norm((p, \pi)) = p \notdivides [\O_{\End(E) \otimes \Q} : \End(E)] \divides d(\End(E))$.}
     $\a = \b(p, \pi_E)^r \leq \End(E)$ with $\b \perp (p, \pi_E)$ define the isogeny
     \begin{equation*}
-        \phi_{E, \a}: E \ \longrightarrow \ E/E[\b] \ \overset{\pi}{\longrightarrow} \ E_\a := (E/E[\b])^{(p^r)}
+        \phi_{E, \a}: E \ \longrightarrow \ E/E[\b] \ \overset{\pi_r}{\longrightarrow} \ E_\a := (E/E[\b])^{(p^r)}
     \end{equation*}
-    where $E \to E/E[\b]$ is the separable isogeny with kernel $E[\b]$ and $\pi: E/E[\b] \to (E/E[\b])^{(p^r)}$ is the $r$-th power Frobenius map.
+    where $E \to E/E[\b]$ is the unique separable isogeny with kernel $E[\b]$ and $\pi_r: E/E[\b] \to (E/E[\b])^{(p^r)}$ is the $r$-th power Frobenius map.
 \end{definition}
 In order to define a group action later, we need to be able to chain such isogenies given by ideals.
 The obvious difficulty here is that the ideals are all in the same ring, but subsequent isogenies will have different curves as domain.
@@ -380,10 +403,48 @@ As it turns out, the endomorphism rings we consider are all isomorphic, and so t
     \end{align*}
     since $\tau \circ \alpha = \alpha \circ \tau$ ($\End(E)$ is commutative).
 \end{proof}
-Next, we prove that ideal multiplication is compatible with chaining of isogenies.
-Note that the condition $p \notdivides [\O_K : \O]$ is just equivalent to all curves $E$ with $\End(E) \cong \O$ being ordinary.
+For the next statement, we need to establish the relationship between separability of endomorphisms and properties of the endomorphism ring.
 \begin{lemma}
-    Let $\O$ be a quadratic imaginary order with $p \notdivides d(\O)$ with two integral, invertible ideals $\a, \b \leq \O$.
+    \label{prop:inseparable_iff_frobenius_ideal}
+    Let $E$ be an ordinary curve and $\alpha \in \End(E)$.
+    Then $\alpha$ inseparable if and only if $\alpha \in (p, \pi_E)$.
+\end{lemma}
+\begin{proof}
+    First, consider
+    \begin{equation*}
+        \b := \{ \beta \in \End(E) \ | \ \text{$\beta$ inseparable} \}
+    \end{equation*}
+    This is an ideal, as for two inseparable $\beta_1, \beta_2 \in \End(E)$ have that they factor as
+    \begin{center}
+        \begin{tikzpicture}
+            \node (Ep) at (0, 0) {$E^{(p)}$};
+            \node (E1) at (-4, 0) {$E$};
+            \node (E2) at (4, 0) {$E$};
+
+            \draw [->] (E1) -- (Ep) node [midway, above] {$\pi_1$};
+            \draw [->] (Ep) -- (E2) node [midway, above] {$\phi_i$};
+            \draw [->] (E1) to [bend left] node [midway, above] {$\beta_i$} (E2);
+        \end{tikzpicture}
+    \end{center}
+    with the $p$-th power Frobenius $\pi_1: E \to E^{(p)}$.
+    Now $\beta_1 + \beta_2 = (\phi_1 + \phi_2) \circ \pi_1$ is inseparable, and clearly $\beta \gamma$ is inseparable for $\beta \in \b$ and $\gamma \in \End(E)$ (just compare separability degrees).
+
+    Furthermore, $p$ and $\pi_E$ are inseparable, so $(p, \pi) \subseteq \b$.
+    Note that in the imaginary quadratic order $\End(E)$, every prime ideal is maximal.
+    Since $\Norm((p, \pi)) = p \perp d(\End(E))$, Prop.~\ref{prop:coprime_ideals_order} shows that $(p, \pi_E)$ is prime, and thus $(p, \pi_E) = \b$ (clearly, $\b \neq \End(E)$).
+\end{proof}
+Note now that for an isogeny $\phi: E \to E'$, have
+\begin{equation*}
+    \phi \circ \hat{\phi} \circ \Phi(\pi_E) = \frac {\deg(\phi)} {\deg(\phi)} \phi \circ \pi_E \circ \hat{\phi}
+\end{equation*}
+Comparing inseparability degrees, it follows that $\Phi(\pi_E)$ is totally inseparable as endomorphism on $E'$.
+Hence, $E'$ is isomorphic to a curve such that $\Phi(\pi_E)$ becomes the Frobenius endomorphism of that curve.
+Since we only work with isomorphism classes, we assume from now on that $\Phi(\pi_E)$ is the Frobenius of $E'$.
+
+Now we can prove that ideal multiplication is compatible with chaining of isogenies.
+Note that the condition $p \notdivides d(\O)$ is just equivalent to all curves $E$ with $\End(E) \cong \O$ being ordinary.
+\begin{lemma}
+    Let $\O$ be a quadratic imaginary order with $p \notdivides d(\O)$ and two integral, invertible ideals $\a, \b \leq \O$.
     Let further $E$ be an Elliptic Curve with $\End(E) \cong \O$.
     Identifying $\End(E_\a)$ with $\O$ by the canonical isomorphism $\Phi_{E, \a}: \End(E) \overset{\sim}{\longrightarrow} \End(E_\a)$, we have
     \begin{equation*}
@@ -391,33 +452,25 @@ Note that the condition $p \notdivides [\O_K : \O]$ is just equivalent to all cu
     \end{equation*}
 \end{lemma}
 \begin{proof}
-    First, we show that $\Phi_{E, \a}(\pi_E) = \pi_{E_\a}$ and so we can write $\pi \in \O$ for the unique element mapping to the Frobenius in $\End(E)$ resp. $\End(E_\a)$.
-    We have that
-    \begin{equation*}
-        \Phi_{E, \a}(\pi_E) = \frac 1 {\deg(\phi_{E, \a})} \phi_{E, \a} \circ \pi_E \circ \hat{\phi}_{E, \a}
-    \end{equation*}
-    and so
-    \begin{equation*}
-        \phi_{E, \a} \circ \hat{\phi}_{E, \a} \circ \Phi_{E, \a}(\pi_E) = \phi_{E, \a} \circ \pi_E \circ \hat{\phi}_{E, \a}
-    \end{equation*}
-    Counting separability degrees on both sides shows that $\Phi_{E, \a}(\pi_E)$ is purely inseparable, thus must be the Frobenius $\pi_{E_\a}$.
+    Write $\pi \in \O$ for the unique element of $\O$ that maps to the Frobenius of $E$ under the maps $\O \overset{\sim}{\longrightarrow} \End(E)$ for all $E$ with $\End(E) \cong \O$.
     
-    Now write $\a = \tilde{\a} (p, \pi)^r$ and $\b = \tilde{\b} (p, \pi)^s$.
+    We have $\a = \tilde{\a} (p, \pi)^r$ and $\b = \tilde{\b} (p, \pi)^s$ with $\tilde{\a}, \tilde{\b} \perp (p, \pi)$.
     It is now the case that
     \begin{equation*}
         \phi_{E, \a\b} = \phi_{E, \tilde{\a} \tilde{\b}}^{(p^{r + s})}
     \end{equation*}
     and
     \begin{equation*}
-        \phi_{E_\a, \b} \circ \phi_{E, \a} = (\phi_{E_\a, \tilde{\b}} \circ \pi_r \circ \phi_{E, \tilde{\a}})^{(p^s)} = (\phi_{E_\a, \tilde{\b}} \circ \phi)^{(p^r)} = (\phi_{E_\a, \tilde{\b}}^{(q/p^r)} \circ \phi_{E, \tilde{\a}})^{(p^{r + s})}
+        \phi_{E_\a, \b} \circ \phi_{E, \a} = (\phi_{E_\a, \tilde{\b}} \circ \pi_r \circ \phi_{E, \tilde{\a}})^{(p^s)} = (\phi_{E_\a, \tilde{\b}}^{(q/p^r)} \circ \phi_{E, \tilde{\a}})^{(p^{r + s})}
     \end{equation*}
-    where $\pi_r: E_{\tilde{\a}} \to E_{\tilde{\a}}^{(p^r)}$ is the $p^r$-th power Frobenius and $\phi_{E_\a, \tilde{\b}}$ is defined over $\F_q$.
+    where $\pi_r: E_{\tilde{\a}} \to E_{\tilde{\a}}^{(p^r)}$ is the $p^r$-th power Frobenius and we assume that $\phi_{E_\a, \tilde{\b}}$ is defined over $\F_q$.
     Note that $\phi_{E_\a, \tilde{\b}}$ is the separable isogeny with kernel $E_\a[\tilde{\b}]$ and thus $\phi_{E_\a, \tilde{\b}}^{(q/p^r)}$ is the separable isogeny with kernel $E_{\a}^{(q/p^r)}[\tilde{\b}] = E_{\tilde{\a}}[\tilde{\b}]$.
     In other words, find
     \begin{equation*}
         \phi_{E_\a, \tilde{\b}}^{(q/p^r)} = \phi_{E_{\tilde{\a}}, \tilde{\b}}
     \end{equation*}
     and so it suffices to show the claim in the case that $\a = \tilde{\a}$, $\b = \tilde{\b}$ are integral, invertible ideals coprime to $(p, \pi)$.
+    By Lemma~\ref{prop:inseparable_iff_frobenius_ideal}, this means that the isogenies $\phi_{E, \a}$ and $\phi_{E_\a, \b}$ are separable.
 
     Having reduced everything to the separable case, it now suffices to show that $\ker(\phi_{E_\a, \b} \circ \phi_{E, \a}) = E[\a\b]$.
     For simplicity of notation, write $\phi = \phi_{E, \a}$ and $\psi = \phi_{E_\a, \b}$.
@@ -442,37 +495,17 @@ Note that the condition $p \notdivides [\O_K : \O]$ is just equivalent to all cu
         i'(\tau) = (\Phi_* \circ i)(\tau) = \frac 1 {\deg(\phi)} \phi \circ i(\tau) \circ \hat{\phi} \qedhere
     \end{equation*}
 \end{proof}
-The whole reason why the ideal $(p, \pi)$ plays such a special role is that it consists of exactly the inseparable endomorphisms.
-\begin{lemma}
-    \label{prop:inseparable_iff_frobenius_ideal}
-    Let $E$ be an ordinary curve and $\alpha \in \End(E)$.
-    Then $\alpha$ inseparable if and only if $\alpha \in (p, \pi)$.
-\end{lemma}
-\begin{proof}
-    First, consider
-    \begin{equation*}
-        \b := \{ \beta \in \End(E) \ | \ \text{$\beta$ inseparable} \}
-    \end{equation*}
-    This is an ideal, as for two inseparable $\beta_1, \beta_2 \in \End(E)$ have that they factor as
-    \begin{center}
-        \begin{tikzpicture}
-            \node (Ep) at (0, 0) {$E^{(p)}$};
-            \node (E1) at (-4, 0) {$E$};
-            \node (E2) at (4, 0) {$E$};
+What we have so far is already enough to establish a monoid action
+\begin{equation*}
+    \mathfrak{I}(\O) \times \Ell(\O) \to \Ell(\O), \quad \a \mapsto E_{\a}
+\end{equation*}
+where $\mathfrak{I}(\O)$ stands for the monoid of integral invertible ideals of $\O$ and
+\begin{equation*}
+    \Ell(\O) := \{ \text{$E$ isomorphism class of Elliptic Curves over $\bar{\F}_p$} \ | \ \End(E) \cong \O \}
+\end{equation*}
+denote the set of isomorphism classes of Elliptic Curves with endomorphism ring $\O$.
 
-            \draw [->] (E1) -- (Ep) node [midway, above] {$\pi_1$};
-            \draw [->] (Ep) -- (E2) node [midway, above] {$\phi_i$};
-            \draw [->] (E1) to [bend left] node [midway, above] {$\beta_i$} (E2);
-        \end{tikzpicture}
-    \end{center}
-    with the $p$-th power Frobenius $\pi_1$.
-    Now $\beta_1 + \beta_2 = (\phi_1 + \phi_2) \circ \pi_1$ is inseparable, and clearly $\beta \gamma$ is inseparable for $\beta \in \b$ and $\gamma \in \End(E)$ (just compare separability degrees).
-
-    Furthermore, $p$ and $\pi$ are inseparable, so $(p, \pi) \subseteq \b$.
-    Note that in the imaginary quadratic order $\End(E)$, every prime ideal is maximal.
-    Since $\Norm((p, \pi)) = p \perp d(\End(E))$, Prop.~\ref{prop:coprime_ideals_order} shows that $(p, \pi)$ is prime, and thus $(p, \pi) = \b$ (clearly, $\b \neq \End(E)$).
-\end{proof}
-
+Next, we investigate the torsion of this action, i.e. for which $\a$ we have $\a.E = E$.
 \begin{lemma}
     Let $E$ be an ordinary curve and $\a, \b \leq \End(E)$ two integral, invertible ideals.
     Then $E_\a \cong E_\b$ if and only if $[\a] = [\b] \in \Cl(\End(E))$ are in the same ideal class.
@@ -546,7 +579,7 @@ For a proof, the reader is referred to the work of Tate \cite{tate}.
 Note that this condition is also equivalent to $\End(E) \otimes \Q \cong \End(E') \otimes \Q$ or that the $q$-th power Frobenius endomorphisms have the same trace. 
 \begin{theorem}
     \label{prop:class_group_action}
-    Let $\O$ be an imaginary quadratic order with $p \notdivides d(\O)$ and denote by $\Ell(\O)$ the set of isomorphism classes of all Elliptic Curves $E$ over $\bar{\F}_p$ with $\End(E) \cong \O$.
+    Let $\O$ be an imaginary quadratic order with $p \notdivides d(\O)$.
     Then there is a free and transitive group action
     \begin{equation*}
         \Cl(\O) \times \Ell(\O) \to \Ell(\O), \quad ([\a], E) \mapsto E_\a
@@ -559,7 +592,8 @@ Note that this condition is also equivalent to $\End(E) \otimes \Q \cong \End(E'
     Let $E$ and $E'$ be curves in $\Ell(\O)$.
     Clearly, we then have $\#E(\F_q) = \#E'(\F_q)$ and so there is a separable isogeny $\phi: E \to E'$.
     Everything we have to show is that $\phi = \phi_{E, \a}$ for some ideal $\a \leq \O$.
-    
+    Note that we can multiply $\a$ by $(p)$ and divide by $\pi$, and thus achieve that $\phi$ is separable.
+
     Here we use the same approach as in \cite[Thm~4.5]{class_group_action_waterhouse}.
     In particular, we want to consider the problem locally at primes $l$.
     The usual way to achieve this is to consider the $l$-adic Tate module defined as the inverse limit
@@ -576,12 +610,13 @@ Note that this condition is also equivalent to $\End(E) \otimes \Q \cong \End(E'
     \begin{equation*}
         \phi_l: T_lE \otimes_{\Z_l} \Q_l \to T_lE' \otimes_{\Z_l} \Q_l
     \end{equation*}
-    This is now a $\Q_l$-vector space homomorphism.
     We can now consider the $\O_l$-module $M := \phi_l^{-1}(T_lE') \subseteq T_lE \otimes_{\Z_l} \Q_l$.
-    This contains $T_lE$ and furthermore, $T_lE$ has finite index in $M$.
+    Note that this is the only time we use the assumption $\End(E) \cong \End(E')$, which yields here that $M$ is an $\O_l$-module.
+
+    The module $M$ contains $T_lE$ and furthermore, $T_lE$ has finite index in $M$.
     Therefore $M$ is a $\O_l$-submodule of $l^{-n}T_lE$ for some $n$.
 
-    So we see that $M$ is a free rank-1 module over $\O_l$, and thus there is an element $\alpha_l \in \O_l$ with
+    So we see that $M$ is a free rank-1 module over $\O_l$, and hence there is an element $\alpha_l \in \O_l$ with
     \begin{equation*}
         \alpha_l M = T_lE
     \end{equation*}
@@ -593,10 +628,10 @@ Note that this condition is also equivalent to $\End(E) \otimes \Q \cong \End(E'
     \begin{equation*}
         \phi_l^{-1}(T_lE') = M \to \ker(\phi)_{(l)}, \quad \frac 1 {l^m} (P_n)_n \mapsto P_m
     \end{equation*}
-    where an element of $T_lE'$ is $(P_n)_n$ with $P_n \in E[l^n]$ such that $lP_{n + 1} = P_n$.
+    where an element of $T_lE'$ is $(P_n)_n$ with $P_n \in E[l^n]$ such that $[l]P_{n + 1} = P_n$.
     Further
     \begin{equation*}
-        \ker(\phi)_{(l)} := \{ P \in \ker(\phi) \ | \ \text{$l^nP = \IdPoint$ for some $n \geq 0$}\}
+        \ker(\phi)_{(l)} := \{ P \in \ker(\phi) \ | \ \text{$[l]^nP = \IdPoint$ for some $n \geq 0$}\}
     \end{equation*}
     is the power-of-$l$ torsion part of $\ker(\phi)$, or equivalently the localization at the prime ideal $(l)$ as $\Z$-module.
 
@@ -620,8 +655,8 @@ Note that this condition is also equivalent to $\End(E) \otimes \Q \cong \End(E'
         \ker(\phi)_{(l)} \cong M / T_lE
     \end{equation*}
 
-    Now let $\a \leq \O$ be the ideal such that $\a_\l = (\alpha_l)_\l$ for every prime ideal $\l$ under a prime number $l$.
-    This works out, as only finitely many $(\alpha_l) \neq (1)$ (namely for those $l$ with $l \divides \deg(\phi)$).
+    Now let $\a \leq \O$ be the invertible ideal such that $\a\O_\l = (\alpha_l)_\l$ for every prime ideal $\l$ under a prime number $l$ (the $\alpha_l$ are the element from above with $\alpha_l M = T_lE$).
+    This is possible by Lemma~\ref{prop:invertible_ideal_characterization}, as only finitely many $(\alpha_l) \neq (1)$ (namely for those $l$ with $l \divides \deg(\phi)$).
 
     Then for each primes $l$, we have
     \begin{equation*}
@@ -646,7 +681,7 @@ Note that one can still keep the simpler definition
 \end{equation*}
 also in the finite field case, if we require $\a$ to be an (integral) ideal representative of $[\a]$ that is coprime to $(p, \pi)$.
 Clearly, every ideal class has such a representative, since we can multiply with the principal ideal $(p) = (p, \pi)(p, \pi - t)$ and divide out the principal ideal $(\pi) = (p, \pi)^s$.
-However, some sources do not explicitly mention that $\a$ must be chosen coprime to $(p, \pi)$, which caused me some confusion.
+However, some sources do not explicitly mention that $\a$ must be chosen coprime to $(p, \pi)$, which caused me some confusion at the beginning.
 
 \subsection{Vulcanos}
 Once we have the class group action, we can derive a lot of information about the structure of the ordinary part of an isogeny graph.
@@ -655,12 +690,11 @@ Once we have the class group action, we can derive a lot of information about th
     \begin{itemize}
         \item $G[C]$ is either a single vertex (possibly with one or two loops), two connected vertices or a cycle of at least two vertices\footnote{A cycle of two vertices shall be two vertices with a double edge.}
         \item $G[V]$ is a forest of complete $l$-ary trees of depth $d$
-        \item Every vertex $v \in C$ is connected to the roots of $l + 1 - \deg_{G[C]}(v)$ trees in $G[V]$
+        \item Every vertex $v \in C$ is connected to the roots of $l + 1 - \deg_{G[C]}(v)$ trees in $G[L]$
     \end{itemize}
     In particular, every vertex in $G$ except the leaves of the trees has degree $l + 1$.
 \end{definition}
 The term ``vulcano'' was introduced by \cite{isogeny_vulcano}, after Kohel had mostly determined the structure of ordinary connected components in his PhD thesis.
-Most of this follows from the above class group action, and for the remaining details we refer the reader to Kohel's thesis \cite[Prop.~23]{kohel}.
 \begin{theorem}
     \label{prop:isogeny_vulcano}
     Let $G$ be a connected component of $\Gamma_l(\F_q)$.
@@ -673,6 +707,12 @@ Most of this follows from the above class group action, and for the remaining de
         \item The size of the crater is the order of $\l_1$ in $\Cl(\O)$, where $(l) = \l_1\l_2$ in $\O$, or 1 if $l$ is inert in $\O$.
     \end{itemize} 
 \end{theorem}
+\begin{proof}
+    This follows from the class group action and the description of the class group of quadratic imaginary orders~\ref{prop:class_group_order}.
+    For the remaining details, we refer the reader to Kohel's thesis \cite[Prop.~23]{kohel}.
+\end{proof}
+We remark that the crater of a vulcano is a single vertex with a loop, if $(l)$ is inert in $\O$.
+Furthermore, the crater consists of two connected vertices, if $(l)$ is ramified in $\O$, and is either a vertex with double loop or a cycle, if $(l)$ splits.
 
 \section{The supersingular case}
 \label{sec:supersingular_isogeny_graph}
@@ -712,7 +752,7 @@ The connection between those two definitions is then given by the Cheeger-inequa
 \end{proof}
 This inequality only correlates the so-called spectral gap $d - \lambda_2$ with $h(G)$, and does not bound $|\lambda_2|$.
 In many cases, bounds on the spectral gap or expansion ration already suffice to show properties of expanders.
-Because of this, expanders are usually defined as graphs for which $\lambda_2$ or $h(G)$ are bounded.
+Because of this, expanders are usually defined as graphs for which only $\lambda_2$ or $h(G)$ are bounded.
 Our definition~\ref{def:expander} is then sometimes called ``two-sided expander''.
 However, we will never use one-sided expanders in this work, hence the above definition shall be sufficient.
 
@@ -762,7 +802,7 @@ In \cite{supersingular_graphs_ramajuan}, Pizer has now shown that
     \label{prop:supersingular_graph_ramajuan}
     The supersingular $l$-isogeny graph is Ramajuan.
 \end{theorem}
-This shows that there is a huge difference between the ordinary and supersingular graphs.
+This means that there is a huge difference between the ordinary and supersingular graphs.
 For example, there is always a path of length $O(\log(p))$ between two curves in the supersingular graph, but in the ordinary graph, such a path does not exist in many cases.
 We will try to quantify this in the last section.
 The idea of our research is to utilize these differences in order to find random, supersingular curves.
@@ -816,7 +856,7 @@ A few corollaries of this theorem can easily be inferred.
     \end{align*}
 \end{proof}
 Since we are mainly interested in the case of finite fields, we have to show that the modular polynomial behaves well under reductions mod $p$.
-First, we use two lemmas.
+This theory relies on Hensel lifting, and has been explored by \cite{deuring_endomorphism_rings}.
 \begin{lemma}
     \label{prop:modified_hensel_lifting}
     Let $f \in \O_K[X]$ be a polynomial for some number field $K$ with a prime $\p$.
@@ -825,6 +865,8 @@ First, we use two lemmas.
 \begin{proof}
     Follows by Hensel's Lemma.
 \end{proof}
+The next lemma allows us to lift curves connected by an isogeny over $\F_q$ to $\C$.
+This is very similar to the well-known lifting lemma of Deuring, which is about lifting a curve together with an endomorphism.
 \begin{lemma}
     Let $E$ and $E'$ be curves over $\F_q$ and $\phi: E \to E'$ a cyclic $m$-isogeny.
     Then there exist curves $E_0$, $E_0'$ with j-invariant in $\O_K$ for some number field $K$ with a prime $\p$ over $p = \mathrm{char}(K)$ and an isogeny $\phi_0: E_0 \to E_0'$ such that
@@ -834,25 +876,32 @@ First, we use two lemmas.
     where $\tilde{\cdot}$ is the reduction modulo $\p$.
 \end{lemma}
 \begin{proof}
+    This proof is somewhat technical, but the basic idea is simple.
+    Having an isogeny $E \to E'$ is equivalent to the fact that the polynomial of the isogeny satisfy the defining equations of $E'$.
+    In other words, we have to lift polynomials over $\F_q$ to a number field such that certain equations are satisfied.
+    This however can be done by Hensel's lemma.
+    The only difficulty is that we have to lift the correct coefficient in the correct order, to resolve all required dependencies.
+
     Consider some arbitrary lift $E_0$ and $E_0'$ of $E$ resp. $E'$ to a number field $K$ such that $j(E_0), j(E_0') \in \O_K$.
     Assume that $E_0'$ is defined by a homogeneous polynomial $f = Y^2Z - X^3 - AXZ^2 - BZ^3 \in \O_K[X, Y, Z]$.
-    Finally, assume $\phi = [u : Y v : w]$ with polynomials $u, v, w \in \F_q[X]$ and choose an arbitrary lift $v_0, w_0 \in \O_K[X]$ of $v$ resp. $w$.
+    Finally, assume\footnote{It is a simple consequence of the geometry of Elliptic Curves that every isogeny is of such a form.} $\phi = [u : Y v : w]$ with polynomials $u, v, w \in \F_q[X]$ and choose an arbitrary lift $v_0, w_0 \in \O_K[X]$ of $v$ resp. $w$.
     Hence the coefficients $u^{(0)}, ..., u^{(n)}$ of $u \in \F_q[X]$ are a root of
     \begin{equation*}
         f(\sum T_i X^i, Y v_0, w_0) = \sum_i a_i(T_0, ..., T_n) X^i \in \O_K[X][T_i]
     \end{equation*}
     modulo $\p$.
-    Note that the coefficient of $X^j$ in $(\sum_i T_i X^i)^3$ contains the monomial $T_0^2 T_j$, and wlog we have chosen the lifts of $A, B$ such that also the coefficient in $f(\sum T_i X^i, Y v, w)$ does.
-    Furthermore, the coefficient of $X^j$ in $f(\sum T_i x^i, Y v, w)$ is in $\O_K[T_0, ..., T_j]$, i.e. only depends on $T_0, ..., T_j$.
+    Note that the coefficient $a_j(T_0, ..., T_n)$ of $X^j$ in $(\sum_i T_i X^i)^3$ contains the monomial $T_0^2 T_j$, and 
+    wlog we have chosen the lifts of $A, B$ such that also the coefficient in $f(\sum T_i X^i, Y v, w)$ does.
+    Furthermore, $a_j$ is in $\O_K[T_0, ..., T_j]$, i.e. only depends on $T_0, ..., T_j$.
 
     wlog $u_0 \neq 0$, otherwise we can just move $E'$ in $x$-direction by some element in $\p$, which preserves $\tilde{E}_0' = E'$.
 
-    Now Lemma~\ref{prop:modified_hensel_lifting} shows that there is a lift $u^{(0)}_0$ of $u^{(0)}$ in some number field $L_0/K$ with $a_0(u^{(0)}_0) = 0$.
-    Since $u_0^{(0)} \neq 0$, we see that $a_i(u_0^{(0)}, ..., u_0^{(i - 1)}, T_i)$ contains the monomial $T_i$, and so applying the lemma inductively, we also find lifts $u^{(1)}_0, ..., u^{(d)}_0 \in \O_L/K$ with $a_i(u^{(0)}_0, ..., u^{(i)}_0) = 0$, where $d = \deg(u)$.
+    We know that $u^{(0)}$ is a root of $a_0$ modulo $\p$, and so Lemma~\ref{prop:modified_hensel_lifting} shows that there is a lift $u^{(0)}_0$ of $u^{(0)}$ in some number field $L_0/K$ with $a_0(u^{(0)}_0) = 0$.
+    Since $u_0^{(0)} \neq 0$, we see that $a_i(u_0^{(0)}, ..., u_0^{(i - 1)}, T_i)$ contains the monomial $T_i$, and so applying the lemma inductively, we also find lifts $u^{(1)}_0, ..., u^{(n)}_0 \in \O_L/K$ with $a_i(u^{(0)}_0, ..., u^{(i)}_0) = 0$.
     In other words, we found a lift $u_0$ of $u$ in $\O_L[X]$ such that $f(u_0, Y v_0, w) = 0$.
     Now we can set $\phi_0 = [u_0 : Y v_0 : w_0]: E_0 \to E_0'$ and the claim follows.
 \end{proof}
-Using more Hensel lifting, we now can pull down the properties of $\Phi_m$ to finite fields.
+Using a little bit more Hensel lifting (don't worry, the ugly part is done), we now can pull down the properties of $\Phi_m$ to finite fields.
 \begin{prop}
     For $m \geq 2$ and Elliptic Curves $E$ and $E'$ over $\F_q$, have $\Phi_m(j(E), j(E')) = 0 \in \F_q$ if and only if there is a cyclic $m$-isogeny $E \to E'$.
 \end{prop}
@@ -878,7 +927,7 @@ Using more Hensel lifting, we now can pull down the properties of $\Phi_m$ to fi
     In particular, there are curves $E$, $E'$ over $K'$ with j-invariants $x'$ resp. $y$, and thus by Prop.~\ref{prop:complex_mod_poly}, there is a cyclic $m$-isogeny $E \to E'$.
     Therefore, there is also an $m$-isogeny between the curves $\tilde{E}$ and $\tilde{E}'$, which are the reductions of $E$ resp. $E'$ modulo $\p'$.
 \end{proof}
-Some properties however do not holds anymore.
+Some properties however cannot be transfered to the finite field case.
 For example, in the finite field case, $\Phi_m$ might not be irreducible anymore.
 In fact, it is easy to see that
 \begin{equation*}
