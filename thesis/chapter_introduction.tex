@@ -14,7 +14,7 @@ The current approach, based on random walks in isogeny graphs (see Section~\ref{
 Namely, the computation reveals an isogeny path to the starting curve, which usually has a small endomorphism ring, a weakness \cite{endomorphism_ring_isogeny_path_equivalent}.
 In the standard scenario, this is not a problem, since the person generating the curve will be one of the participants, and not an attacker.
 However, there are situations in which there are problems caused by this weakness.
-In particular, a various cryptographic primitives \cite{torsion_point_problem1, torsion_point_problem2} currently require a trusted setup step because of it.
+In particular, various cryptographic primitives \cite{torsion_point_problem1, torsion_point_problem2} currently require a trusted setup step, which another way of generating initial curves would be found.
 
 It is currently an open problem if we can generate Elliptic Curves efficiently in a way that does not reveal such an isogeny, nor other information that might be used for attacks in certain scenarios.
 Up to now, the only solution is to involve a trusted third party that forgets about the additional information produced by generating a supersingular curve by one of the classical ways.
