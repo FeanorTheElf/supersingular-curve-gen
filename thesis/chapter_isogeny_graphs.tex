@@ -311,7 +311,7 @@ In other words, we choose an arbitrary embedding $\End(E) \to K$ for one ordinar
     \End(E') \to \End(E') \otimes \Q \ \overset{\Phi}{\longrightarrow} \ \End(E) \otimes \Q \to K
 \end{equation*}
 From now on, whenever we identify $\End(E)$ with an approriate subring of $K$, this shall use that embedding.
-This will be used already in the next statement, which describes the relationship of endomorphism rings of isogeneous curves more concretely.
+It will already be used in the next statement, which describes the relationship of endomorphism rings of isogeneous curves more concretely.
 \begin{prop}
     Let $\phi: E \to E'$ be an isogeny of prime degree $p$ between ordinary Elliptic Curves.
     Then (after embedding $\End(E')$ via $\Phi$ and $\End(E)$ into $\End(E) \otimes \Q$) exactly one of the following is the case.
@@ -479,7 +479,7 @@ Note that the condition $p \notdivides d(\O)$ is just equivalent to all curves $
     The crucial point here is that our isomorphism $\End(E) \cong \End(E_\a)$ is given by $\Phi$.
     Since the identification of $\End(E)$ and $\End(E_\a)$ would hide this, we will be explicit in this part and write
     \begin{align*}
-        i: \O \to \End(E) \quad \text{and} \quad i': \O \to \End(E')
+        i: \O \overset{\sim}{\longrightarrow} \End(E) \quad \text{and} \quad i': \O \overset{\sim}{\longrightarrow} \End(E')
     \end{align*}
     for the isomorphisms.
     Note that $\Phi \circ i = i'$.
@@ -704,7 +704,7 @@ The term ``vulcano'' was introduced by \cite{isogeny_vulcano}, after Kohel had m
     \begin{itemize}
         \item All curves on the crater have the same endomorphism ring $\O$ with $l \notdivides [\O_{\O \otimes \Q} : \O]$.
         \item All curves on the $i$-th tree level of a lava flow have the endomorphism ring $\Z + l^i\O$.
-        \item The size of the crater is the order of $\l_1$ in $\Cl(\O)$, where $(l) = \l_1\l_2$ in $\O$, or 1 if $l$ is inert in $\O$.
+        \item The size of the crater is the order of $\l_1$ in $\Cl(\O)$, where $(l) = \l_1\l_2$ in $\O$, or 1 if $l$ is inert.
     \end{itemize} 
 \end{theorem}
 \begin{proof}

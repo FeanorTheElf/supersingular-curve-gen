@@ -167,7 +167,7 @@ The next theorem puts together some classical results, in particular the famous 
             \phi(f)^2 & \text{otherwise}
         \end{cases}
     \end{align*}
-    since in the case $\left(\frac {-d_K} p \right) = -1$, have that $a^2 + d_K b^2 = (a + \delta b)(a - \delta b)$.
+    since in the case $(-d_K/p) = -1$, have that $a^2 + d_K b^2 = (a + \delta b)(a - \delta b)$.
     Hence the change of variables $(a, b) \mapsto (a + \delta b, a - \delta b)$ transforms the set into $(\F_p \setminus \{0\})^2$.
 
     Thus, we find
@@ -186,10 +186,10 @@ Note that the study of the class number of nonmaximal orders $h(\Z + f\O_K)$ in 
 \end{equation*}
 This is compatible with the structure of the $l$-isogeny vulcano~\ref{prop:isogeny_vulcano}, in particular
 \begin{itemize}
-    \item If $l \divides d_K$, i.e. is ramified in $\O_K$, the crater consists of two vertices with a double edge (or a single vertex with a double loop).
-    Since the whole graph is $(l + 1)$-regular, a crater vertex has $l - 1$ neighbors outside the crater.
-    Thus, the class number of the first level is $h(\Z + l\O_K) = (l - 1)h(\O_K)$.
-    \item If $-d_K$ is a quadratic residue mod $l$, then $l$ splits in $\O_K$ and so the crater is a cycle.
+    \item If $l \divides d_K$, i.e. is ramified in $\O_K$, the crater consists of two vertices with an edge (or a single vertex with a single loop).
+    Since the whole graph is $(l + 1)$-regular, a crater vertex has $l$ neighbors outside the crater.
+    Thus, the class number of the first level is $h(\Z + l\O_K) = lh(\O_K)$.
+    \item If $-d_K$ is a quadratic residue mod $l$, then $l$ splits in $\O_K$ and so the crater is a cycle (or a single vertex with a double loop).
     As above, a crater vertex thus has $l - 1$ neighbors outside the crater and the class number is $h(\Z + l\O_K) = (l - 1)h(\O_K)$.
     \item If $l$ is inert in $\O_K$, the crater is a single vertex with a single loop.
     Since the whole graph is $(l + 1)$-regular, it has $l$ neighbors outside the crater and as expected, the class number is $h(\Z + l\O_K) = l h(\O_K)$.
@@ -588,17 +588,71 @@ Finally, we can still make it somewhat more explicit.
     \end{equation*}
     where
     \begin{equation*}
-        b = A^{p^2 - l - 1} \left(\begin{matrix*}
+        b = A^{p^2 - l - 1} e_1 \quad \text{for the first unit vector $e_1 = \left(\begin{matrix*}
             1 \\
             0 \\
             \vdots \\
             0
-        \end{matrix*}\right)
+        \end{matrix*}\right)$}
     \end{equation*}
-    for an explicitly computable $(l + 1) \times (l + 1)$ matrix $A \in k[x]^{(l + 1) \times (l + 1)}$.
+    for the explicitly computable $(l + 1) \times (l + 1)$ matrix $A \in k[x]^{(l + 1) \times (l + 1)}$ given by
+    \begin{equation*}
+        A = \left( \begin{matrix*}
+            -a_l & 1 & 0 & \dots & 0 \\
+            -a_{l - 1} & 0 & 1 & \dots & 0 \\
+            \vdots & \vdots & \vdots & \ddots & \vdots \\
+            -a_1 & 0 & 0 & \dots & 1 \\
+            -a_0 & 0 & 0 & \dots & 0
+        \end{matrix*} \right) \in k[x]^{(l + 1) \times (l + 1)}
+    \end{equation*}
+    where
+    \begin{equation*}
+        \Phi_l(x, y) = \sum_{i = 0}^{l + 1} a_i(x) y^i \in k[x][y]
+    \end{equation*}
+    as univariate polynomial over $k[x]$.
 \end{lemma}
 \begin{proof}
-    Just perform univariate polynomial division of $y^{p^2 - 1} - 1$ modulo the monic polynomial $\Phi_l(x, y)$ in $k[x][y]$.
+    We just perform univariate polynomial division of $y^{p^2 - 1} - 1$ by $\Phi_l(x, y)$ in $k[x][y]$.
+
+    Define a sequence of polynomials in $k[x, y]$ by
+    \begin{equation}
+        f_0 := y^{p^2 - 1} \quad \text{and} \quad f_{i + 1} = f_i - \mathrm{lc}(f_i) \Phi_l(x, y) y^{p^2 - l - 2 - i}
+    \end{equation}
+    Here, $\mathrm{lc}(f_i)$ and $\deg$ refer to the appropriate values when considering $f_i$ as a univariate polynomial over $k[x]$, in particular $\mathrm{lc}(f_i) \in k[x]$.
+    This clearly implies that $f_i \equiv f_j \mod \Phi_l(x, y)$.
+    We show that
+    \begin{equation*}
+        f_i = \left( \begin{matrix*}
+            y^{p^2 - 1 - i} \\ \vdots \\ y^{p^2 - l - 1 - i}
+        \end{matrix*} \right)^T A^i e_1
+    \end{equation*}
+
+    To see that this is true, note that $f_i$ has contains only the monomials $y^{p^2 - 1 - i}, ..., y^{p^2 - l - 1 - i}$ (technically, by induction hypothesis).
+    Hence, we can write
+    \begin{equation*}
+        f_i = y^{p^2 - l - 1 - i} \sum_{j = 0}^l c_j y^j
+    \end{equation*}
+    Since $a_{l + 1} = 1$, it follows that
+    \begin{align*}
+        f_{i + 1} =& y^{p^2 - l - 1 - i} \Bigl( \sum_{j = 0}^l c_j - c_l a_{j + 1} \Bigr) - y^{p^2 - l - 2 - i} c_l a_0 \\
+        =& y^{p^2 - l - 1 - (i + 1)} \sum_{j = 0}^l (c_{j - 1} - c_l a_j)
+    \end{align*}
+    where we define $c_{-1} = 0$.
+    Now we have
+    \begin{equation*}
+        \left( \begin{matrix*}
+            c_{l - 1} - c_l a_l \\
+            \vdots \\
+            c_0 - c_l a_1 \\
+           - c_l a_0
+        \end{matrix*} \right) = A \left( \begin{matrix*}
+            c_l \\
+            \vdots \\
+            c_1 \\
+            c_0
+        \end{matrix*} \right)
+    \end{equation*}
+    and the claim follows.
 \end{proof}
 The idea is now to introduce $l + 1$ indeterminates $B$, and compute the elimination ideal
 \begin{align*}
@@ -621,12 +675,7 @@ The idea is now to introduce $l + 1$ indeterminates $B$, and compute the elimina
 Now we can find polynomials $f_{i1}, ..., f_{in_i} \in k[x, B]$ that generate this ideal.
 Hence, we only have to find a random joint root of the univariate polynomials
 \begin{equation*}
-    f_{ij}(x, b_i) \quad \text{where} \quad b_i = A_i^{p^2 - l - 1} \left(\begin{matrix*}
-        1 \\
-        0 \\
-        \vdots \\
-        0
-    \end{matrix*}\right)
+    f_{ij}(x, b_i) \quad \text{where} \quad b_i = A_i^{p^2 - l - 1} e_1
 \end{equation*}
 for the matrices $A_i$ given by Lemma~\ref{prop:symbolic_elimination}.
 While we cannot explicitly write down those polynomials, we can evaluate them, evaluate their derivates and perform a series of other computations.
