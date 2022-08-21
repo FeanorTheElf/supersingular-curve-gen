@@ -43,6 +43,20 @@ and the subgroup of $k$-rational points
     E(k) := \{ P \in E \ | \ \text{$P = (x : y : z)$ for some $x, y, z \in k$} \}
 \end{equation*}
 
+A property of Elliptic Curves that can be used for some slightly exotic cryptographic primitives (like identity-based crypto, or the verifiable delay function we present in Section~\ref{sec:verifiable_delay_function}) is the Weil pairing.
+Let $m \geq 2$ be an integer coprime to $p$.
+Then there exists a map, the $m$-th \emph{Weil pairing}
+\begin{equation*}
+    e_m: E[m] \times E[m] \to \mu_m
+\end{equation*}
+where $\mu_m \subseteq \C^*$ is the group of $m$-th roots of unity.
+It has the following properties (see \cite[Prop.~III.8.1]{arithmetic_elliptic_curves}):
+\begin{itemize}
+    \item $e_m$ is bilinear, i.e. $e_m(S + S', T) = e_m(S, T)e_m(S', T)$ and similar for the second argument.
+    \item $e_m$ is alternating, i.e. $e_m(T, T) = 1$.
+    \item $e_m$ is nondegenerate, i.e. if $e_m(S, \cdot)$ is the constant map $\IdPoint$, then $S = \IdPoint$.
+\end{itemize}
+
 \section{Isogenies}
 An \emph{isogeny} between two Elliptic Curves $E$ and $E'$ is a morphism (in the sense of algebraic geometry) that maps $\IdPoint$ to $\IdPoint$.
 The first important result is that an isogeny is automatically a group homomorphism \cite[Thm~III.4.8]{arithmetic_elliptic_curves}.
@@ -105,6 +119,12 @@ Now the previous correspondence shows that $\psi$ factors through through the mu
     \end{tikzpicture}
 \end{center}
 The isogeny $\hat{\psi}: E' \to E$ has then the same degree as $\psi$, and is called the \emph{dual isogeny} of $\psi$.
+
+Interestingly, the dual isogeny behaves like an adjoint w.r.t. the Weil pairing, i.e.
+\begin{equation*}
+    e_m(S, \phi(T)) = e_m(\hat{\phi}(S), T)
+\end{equation*}
+for an isogeny $\phi: E \to E'$ and the $m$-th Weil pairing $e_m$ of $E$ resp. $E'$ (see \cite[Prop.~III.8.2]{arithmetic_elliptic_curves}).
 
 \section{The endomorphism ring}
 For an Elliptic Curve $E$, we write from now on $\End(E)$ for the set of isogenies $E \to E$.
@@ -169,4 +189,4 @@ However, too hard to show \cite[Thm~III.10.1]{arithmetic_elliptic_curves} that
 \end{equation*}
 in the case $\mathrm{char}(k) \neq 2, 3$.
 Thus we see that either $j(E) \in \{ 0, 1728 \}$ or $[p] = \pm\pi^2$, and so in both cases that $j(E) \in \F_{p^2}$.
-In other words, every supersingular curve is isomoprhic to a curve over $\F_{p^2}$.
+In other words, every supersingular curve is isomorphic to a curve over $\F_{p^2}$.

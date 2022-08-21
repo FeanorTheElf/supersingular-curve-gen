@@ -1,8 +1,6 @@
-
 In this chapter, we give an introduction to the basic algorithms and constructions in isogeny-based cryptography.
 This field began in 2006 with the ideas of Couveignes \cite{old_isogeny_crypto1}, Rostovtsev and Stolbunov \cite{old_isogeny_crypto2, old_isogeny_crypto3}, who proposed a key exchange somewhat similar to the classical Diffie-Hellman, but secure against quantum attacks.
-Since then, a variety of protocols have been found, most of which are either post-quantum key exchange methods (most prominently SIDH \cite{sidh}), or variants of collision resistant hash functions (most prominently the GCL hash function \cite{supersingular_hash_function}).
-Some digital signature schemes have also been proposed (e.g. \cite{digital_signature}), but generally, they are still too slow to be practical. 
+Since then, a variety of protocols have been found, for example post-quantum key exchanges (most prominently SIDH \cite{sidh}), variants of collision resistant hash functions (most prominently the GCL hash function \cite{supersingular_hash_function}), digital signature schemes (e.g. \cite{digital_signature}) and others. 
 The fundamental idea underlying all those methods is to take a random walk in an expander graph, and use that the final curve in the walk seems to be behave in an unpredictable way.
 
 The most general problem that isogeny-based cryptography reduces to, is the \emph{explicit isogeny problem}.
@@ -51,13 +49,13 @@ It is a clever algorithm based on isogeny graphs, and will be important again la
 Consider the following problem: Given an Elliptic Curve $E$ over $\F_{p^2}$, determine whether $E$ is supersingular.
 If the j-invariant $j(E) \neq 0, 1728$, one way could be to check whether $[p] = \pm \pi$ for the $p^2$-th power Frobenius endomorphism of $E$.
 To do this, just sample random points $P$ and check whether $[p](P) = \pm \pi(P)$.
-If this is the case for many different $P$, then $E$ is supersingular with high probability.
+If this is the case for many different $P$, then $E$ is supersingular with high probability
+\footnote{We also want to mention that there are more efficient probabilistic algorithms for supersingularity testing, and the above is only for illustrative purposes.}.
 
 However, this method is only probabilistic and cannot prove that $E$ is supersingular.
 In particular, in the ordinary case, the nonconstant isogeny $[p] - \pi$ can still have separability degree $O(p)$, and thus have an exponentially large kernel.
-Note that there are also even more efficient probabilistic algorithms to check if $E$ is supersingular.
 
-However, to prove supersingularity, different methods are needed.
+Therefore, to prove supersingularity, different methods are needed.
 Sutherland \cite{sutherland_supersingularity_test} proposed the following method based on isogeny graphs.
 
 Note that $E$ is defined over $\F_{p^2}$ if and only if there is a nontrival element of norm $p^2$ in $\End(E)$ (either this element or its conjugate must be the $p^2$-th power Frobenius).
@@ -103,7 +101,10 @@ In particular, they are faster than ideas based on point counting.
 Hence, this algorithm also plays an important role in isogeny-based cryptography, e.g. for key validation.
 
 \section{Supersingular Isogeny Diffie-Hellman}
-The structure of Supersingular Isogeny Diffie-Hellman (SIDH) is, as the name suggests, somewhat similar to the classical Diffie-Hellman key exchange.
+Even though the Supersingular Isogeny Diffie-Hellman (SIDH) scheme is broken, we think its ideas are important and serve well to illustrate the basic approach in isogeny-based cryptography.
+Hence, we want to given an overview in this section.
+
+The basic structure of SIDH is, as the name suggests, somewhat similar to the classical Diffie-Hellman key exchange.
 The basic idea is that both Alice and Bob take a random walk start from a joint curve $E$ in the supersingular $l_A$-resp. $l_B$-isogeny graph, ending at curves $E_A$ and $E_B$.
 Now they exchange these curves, and then take the ``same'' walk on the other curve, i.e. Alice performs the same walk again, but this time starting from $E_B$ and similar for Bob.
 Hence, Alice ends up at a curve $E_{BA}$ and Bob with a curve $E_{AB}$.
@@ -133,3 +134,126 @@ In particular, it is not enough to assume that the isogeny path problem is hard,
 As it turns out, this additional information indeed decreases the security, as first mentioned by Cristophe Petit \cite{torsion_point_attack}.
 However, it still was a big shock when \cite{sidh_broken} discovered an efficient attack using these torsion points, bringing the complete demise of SIDH.
 This is even more surprising, as an SIDH-based cryptosystem named SIKE \cite{sike} was already considered a promising candidate for post-quantum crypto, and made it into the fourth (and final) round of the NIST post-quantum standardization process.
+
+Since SIDH is broken, it does not serve perfectly to motivate the usefulness of a way to generate supersingular curves without revealing a trapdoor.
+Still, we want to mention that choosing a starting curve with unknown endomorphism ring can prevent the torsion point attacks of \cite{torsion_point_attack}.
+Next, we want to present another, slightly more exotic cryptosystem for which it is important to have a hard starting curve, i.e. a curve for which nobody knows a trapdoor (e.g. the endomorphism ring).
+
+\section{An isogeny-based verifiable delay function}
+\label{sec:verifiable_delay_function}
+In this section, we present the verifiable delay function by De Feo, Masson, Petit and Sanso \cite{verifiable_delay_function}.
+A \emph{verifiable delay function} (VDF) as first formalized in \cite{definition_verifiable_delay_function} is a cryptographic primitive consisting of three algorithms
+\begin{itemize}
+    \item \textbf{KeyGen}$(\lambda, T)$ takes a security parameter $\lambda$ and a time parameter $T$ and computes a pair $(\mathrm{ek}, \mathrm{vk})$ of an evaluation key $\mathrm{ek}$ and a verification key $\mathrm{vk}$.
+    \item \textbf{Eval}$(\mathrm{ek}, s)$ takes the evaluation key and an input $s$ and computes an output $a$. 
+    The key feature is that it should be impossible to compute \textbf{Eval} in time less than $T$, no matter how much parallel computing capabilities are available.
+    \item \textbf{Verify}$(\mathrm{vk}, s, a)$ takes the verification key, the input $s$ and the output $a$ and checks whether \textbf{Eval}$(\mathrm{ek}, s) = a$.
+\end{itemize}
+Both \textbf{KeyGen} and \textbf{Verify} should run in time $O(\mathrm{poly}(\lambda))$, while \textbf{Eval} should (of course) run in time $T$.
+The security of the VDF consists then of the three properties \emph{Correctness}, \emph{Soundness} and \emph{Sequentiality}.
+As usual, correctness and soundness refer to the fact that \textbf{Verify} accepts correctly computed outputs (i.e. by \textbf{Eval}) and declines other outputs, both with probability $1 - 2^{-\lambda}$.
+The interesting property is sequentiality, which states that it is impossible to compute \textbf{Eval}$(\mathrm{ek}, s)$ in less than $T$ computational steps, no matter how much parallel processing is available.
+
+Therefore, a verifiable delay function provides a way of ensuring that an output $a$ is only known after a certain amount of wall clock time has elapsed (starting from the point at which the input $s$ is known).
+Most applications focus on the use to generate public, trusted randomness: Some public entropy source provides the input $s$, but we assume that an attacker has ways to influence the entropy source (a common example are stock market prices).
+To prevent an attacker from exploiting this, one now uses the entropy source $a = $ \textbf{Eval}$(\mathrm{ek}, s)$ instead, which can still be manipulated by the attacker, but not exploited anymore.
+More concretely, if $T$ is larger than the natural change interval of the source $s$, an attacker cannot predict fast enough how a manipulation influences the output, and thus not profit from it.
+There are more applications, for example in blockchain technology.
+
+The isogeny-based VDF from \cite{verifiable_delay_function} relaxes this slightly by allowing the setup routine to take time $O(\mathrm{poly}(\lambda, T))$.
+Apart from that, it satisfies above security properties under some isogeny-related security assumptions.
+The basic idea is as follows.
+
+The only efficient way we know to evaluate an isogeny $\psi: E \to E'$ of exponential degree $l^T$ is to write it as a sequence
+\begin{equation*}
+    E = E_0 \overset{\psi_1}{\longrightarrow} E_1 \overset{\psi_2}{\longrightarrow} \ ... \ \overset{\psi_T}{\longrightarrow} E_T = E'
+\end{equation*}
+of $l$-isogenies, and then compute the points $P_i = \psi_i(P_{i - 1})$ for an input point $P_0 \in E$.
+Clearly, since $P_i$ depends on $P_{i - 1}$, it is impossible to effectively parallelize that.
+Hence, it seems like a reasonable security assumption that $\psi(P)$ cannot be evaluated in less than $T$ time steps, and thus can be used for the function \textbf{Eval}.
+
+Verification on the other hand can now be done using the Weil pairing.
+If $P \in E[m]$ (with $m$ coprime to $l$ and $p$), we have that
+\begin{equation*}
+    e_m(\hat{\psi}(P), Q) = e_m(P, \psi(Q))
+\end{equation*}
+and (assuming that $\hat{\psi}(P)$ is known), we can compute $e_m(\hat{\psi}(P), Q)$ very efficiently.
+There is just one problem here.
+The map $e_m(P, \cdot): E[m] \to \mu_m$ obviously cannot be injective by a cardinality argument, and indeed, given $\psi(Q)$ we can easily compute other points $Q'$ with
+\begin{equation*}
+    e_m(P, \psi(Q)) = e_m(P, Q')
+\end{equation*}
+This obviously violates the soundness of system, as an attacker could compute $Q = $ \textbf{Eval}$(\mathrm{ek}, Q) = \psi(Q)$, but then claim $Q'$ to be the result.
+Verification as above will not detect this.
+To make it work, \cite{verifiable_delay_function} proposes to assume that $E/\F_p$ and use the trace map
+\begin{equation*}
+    \mathrm{Tr}: E[m] \to E[m] \cap E(\F_p), \quad P \mapsto P + \pi_E(P)
+\end{equation*}
+This map is $m$-to-1, and we have that
+\begin{equation*}
+    e_m(P, \mathrm{Tr}(\psi(Q))) = e_m(\hat{\psi}(P), Q)^2
+\end{equation*}
+which can be used for verification.
+This now works, since the map $e_m(P, \cdot): E[m] \cap E(\F_p) \to \mu_m$ is indeed bijective for suitable choices of $P$.
+Therefore, we get the scheme displayed in Algorithms~\ref{alg:setup_vdf}, \ref{alg:eval_vdf} and~\ref{alg:verify_vdf}.
+\begin{algorithm}
+    \caption{\label{alg:setup_vdf} \textbf{Setup}\\
+    \textbf{Input:} A security parameter $\lambda$ and a time parameter $T$\\
+    \textbf{Output:} Curves $E$ and $E'$, an evaluation key $\psi: E' \to E$ and a verification key $(P, \hat{\psi}(P))$}
+    \begin{algorithmic}[1]
+        \State Find distinct primes $p$ and $m$ of size depending on $\lambda$
+        \State Find a random supersingular Elliptic Curve $E$ over $\F_p$
+        \State Take a random walk of length $T$ starting from $E$ in the 2-isogeny graph, given by $\hat{\psi}: E \to E'$
+        \State Find a random point $P \in E[m]$
+        \State Compute $\hat{\psi}(P)$
+        \State\Return $\mathrm{ek} = (E, E', \psi)$ and $\mathrm{vk} = (E, E', P, \hat{\psi}(P))$
+    \end{algorithmic}
+\end{algorithm}
+\begin{algorithm}
+    \caption{\label{alg:eval_vdf} \textbf{Eval}\\
+    \textbf{Input:} The evaluation key $(E, E', \psi)$ and an input point $Q \in E'[m]$\\
+    \textbf{Output:} An output point $Q' \in E[m]$}
+    \begin{algorithmic}[1]
+        \State Compute $\psi(Q)$
+        \State\Return $Q' := \mathrm{Tr}(\psi(Q))$
+    \end{algorithmic}
+\end{algorithm}
+\begin{algorithm}
+    \caption{\label{alg:verify_vdf} \textbf{Verify}\\
+    \textbf{Input:} The verification key $(E, E', P, \hat{\psi}(P))$, an input $Q \in E'[m]$ and an output $Q'$\\
+    \textbf{Output:} An output point $\psi(Q)$}
+    \begin{algorithmic}[1]
+        \If{$Q' \in \mathrm{im}(\mathrm{Tr}) = E[m] \cap E(\F_p)$ and $e_m(P, Q') = e_m(\hat{\psi}(P), Q)^2$}
+            \State\Return Valid
+        \Else
+            \State\Return Invalid
+        \EndIf
+    \end{algorithmic}
+\end{algorithm}
+
+In a practical implementation, we might want to exclude $P \in E[m]$ such that the map $e_m(P, \cdot): E[m] \cap E(\F_p) \to \mu_m$ is not bijective.
+This is done in \cite{verifiable_delay_function}, but we will ignore those cases here.
+Furthermore, we also will not prove that this is indeed a VDL, again refering the reader to \cite{verifiable_delay_function}.
+
+However, we do want to discuss step 2 in the setup step, Algorithm~\ref{alg:setup_vdf}.
+In particular, we claim that the curve $E$ has to be generated in a way that does not reveal its endomorphism ring $\End(E)$, or the resulting scheme will be insecure.
+Hence, the classical methods of using CM techniques and random walks fail here.
+Since there is currently no known alternative, at the moment this VDF requires a trusted party to generate the cuve $E$, and then forget about its endomorphism ring.
+
+Namely, note that breaking sequentiality of the VDF can be achieved by solving the \emph{isogeny shortcut problem}.
+\begin{problem}
+    Given an isogeny $\psi: E \to E'$ of exponential degree $l^T$ and a point $Q \in E$, compute $\psi(Q)$ in time less than $T$.
+\end{problem}
+Since the supersingular isogeny graph is an expander, there exists always a path $E \to E'$ of length $O(\log(p))$.
+Hence, if $T \in \omega(\log(p))$, we can solve the isogeny shortcut problem by the following three steps
+\begin{itemize}
+    \item Find an isogeny $\phi: E \to E'$ of degree at most $l^{O(\log(p))}$
+    \item Find an endomorphism $\alpha \in \End(E')$ such that $\restr{\alpha \circ \phi}{E[m]} = \restr{\psi}{E[m]}$
+    \item Evaluate $\alpha(\phi(P))$
+\end{itemize}
+Using similar techniques to the reductions between the isogeny path problem and the endomorphism ring problem \cite{endomorphism_ring_isogeny_path_equivalent}, the authors in \cite{verifiable_delay_function} have now shown that all three of these steps are indeed possible in time polynomial in $\log(T)$ if the endomorphism ring $\End(E)$ is known.
+Hence, anyone who knows the endomorphism ring of the starting curve $E$ from Algorithm~\ref{alg:setup_vdf} can compute \textbf{Eval} in time less than $T$, thus breaking the protocol.
+
+This is one of several examples why the generation of supersingular curves without revealing a trapdoor would be an important tool for cryptography.
+However, as already mentioned, it is still an open problem to find an algorithm that achieves this.
+In the next chapter, we will now present the progress we made on this problem. 
