@@ -522,16 +522,16 @@ Hence, consider the polynomial system
     &... \\
     &\Phi_l(u_{n - 1}, u_n), \Phi_l(v_{n - 1}, v_n), \Phi_l(w_{n - 1}, w_n), \\
     &u_n^{p^2 - 1} - 1, v_n^{p^2 - 1} - 1, w_n^{p^2 - 1} - 1, \\
-    &\Phi_{2l}(u_0, v_0), \Phi_{2l}(u_0, w_0), \Phi_{2l}(v_0, w_0), \\
-    &\Phi_{2l}(u_0, u_2), \Phi_{2l}(v_0, v_2), \Phi_{2l}(w_0, w_2), \\
+    &\Phi_{l^2}(u_0, v_0), \Phi_{l^2}(u_0, w_0), \Phi_{l^2}(v_0, w_0), \\
+    &\Phi_{l^2}(u_0, u_2), \Phi_{l^2}(v_0, v_2), \Phi_{l^2}(w_0, w_2), \\
     &... \rangle
 \end{align*}
-The additional constraints $\Phi_2l(u_i, u_{i + 2})$ ensure that $u_i \neq u_{i + 2}$, unless the curve of j-invariant $u_i$ has a cyclic endomorphism of size $2l$.
+The additional constraints $\Phi_{l^2}(u_i, u_{i + 2})$ ensure that $u_i \neq u_{i + 2}$, unless the curve of j-invariant $u_i$ has a cyclic endomorphism of size $l^2$.
 However, this means that its endomorphism ring has polynomially large discriminant, and by the class group action, there are only polynomially many such curves.
 Hence, a root of above system is supersingular with probability $1 - 1/\mathrm{poly}(\log(p))$. 
 
 Still, it seems pretty impossible to efficiently compute a random root of above system.
-We now present a way that looks like there is some hope to compute its roots, even though there are still some serious obstacles.
+We now present a way that looks like there is some hope to do the computations, even though there are still some serious obstacles.
 \begin{prop}
     Let $\O$ be an order in a quadratic imaginary number field with $p^2$-power Frobenius $\pi$.
     Let $l_1, ..., l_r$ be distinct primes.
