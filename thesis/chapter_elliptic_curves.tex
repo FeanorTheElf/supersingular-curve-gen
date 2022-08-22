@@ -25,9 +25,9 @@ More concretely, if the curve is given by an affine equation $y^2 = x^3 + Ax + B
 \end{equation*}
 where
 \begin{equation*}
-    (\lambda, \mu) = \begin{cases}
-        (y_2 - y_1, x_2 - x_1) & \text{if $x_1 \neq x_2$} \\
-        (3x_1^2 + A, 2y_1) & \text{if $x_1 = x_2$}
+    (\lambda : \mu) = \begin{cases}
+        (y_2 - y_1 : x_2 - x_1) & \text{if $x_1 \neq x_2$} \\
+        (3x_1^2 + A : 2y_1) & \text{if $x_1 = x_2$}
     \end{cases}
 \end{equation*}
 Moreover, we declare the special point $\IdPoint$ to be the identity element of the group.
@@ -160,7 +160,7 @@ Denote by $\pi_E$ the $q$-th power Frobenius, where $E$ is defined over $\F_q$.
         $\End(E)$ is commutative & $\End(E)$ is not commutative \\
         $\mathrm{Tr}(\pi_E) \not\equiv 0 \mod p$ & $\mathrm{Tr}(\pi_E) \equiv 0 \mod p$ \\
         $\hat{\pi}_E$ separable & $\hat{\pi}_E$ totally inseparable \\
-        $p \notdivides d(\End(E))$ & $p \divides d(\O)$ for some commutative subring $\O \subseteq \End(E)$
+        $p \notdivides d(\End(E))$ and $p \notdivides d(\Z[\pi_E])$ & $p \divides d(\Z[\pi_E])$
     \end{tabular}
 \end{center}
 Note that the trace

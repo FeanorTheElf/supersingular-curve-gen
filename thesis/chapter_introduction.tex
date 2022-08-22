@@ -38,8 +38,9 @@ In our research, we tried to address both problems.
 Namely, we were able to find a special cases involving two isogenies, in which the fraction of supersingular Elliptic Curves is provably big enough.
 More concretely, we present the following result.
 \begin{prop}[First Result]
-    Let $l$ be a small prime, $f$ be an odd integer and $e$ an even integer such that $l^f$ is polynomial in $\log(p)$ and $l^e = \Theta(p)$.
-    Then a random Elliptic Curve over $\bar{\F}_p$ with a cyclic $l^f$-isogeny and any $l^e$-isogeny to its Frobenius conjugate is supersingular with exponentially high probability (in $\log(p)$).
+    \label{prop:main_result1}
+    Let $l$ be a small prime, $f$ be an odd integer and $e$ an even integer such that $l^e = \Theta(p)$.
+    Then a random Elliptic Curve over $\F_{p^2}$ with a cyclic $l^f$-isogeny and any $l^e$-isogeny to its Frobenius conjugate is supersingular with exponentially high probability (in $\log(p)$).
 \end{prop}
 Taking the degrees of the isogenies to be prime powers might additionally have computational advantages, as it allows us to decompose the isogeny into a sequence of smaller ones.
 In particular, this holds for the possibly non-cyclic isogeny of degree $l^e$.
@@ -48,8 +49,9 @@ The second problem seems to be more difficult, and we did not find an algorithm 
 However, we also propose a variant of the original idea, and argue that the structure of the corresponding polynomials looks like it might make computations simpler.
 This new method is based on the following statement, which is our second main result.
 \begin{prop}[Second Result]
+    \label{prop:main_result2}
     Let $l_1, ..., l_r$ be a small primes with $\prod l_i \geq \sqrt{p}$.
-    Then a random Elliptic Curve over $\F_{p^2}$ such that there are three $l_i$-isogeneous curves over $\F_{p^2}$ for each $i$ is supersingular with exponentially high probability.
+    Then a random Elliptic Curve over $\bar{\F}_p$ such that there are three $l_i$-isogeneous curves over $\F_{p^2}$ for each $i$ is supersingular with exponentially high probability.
 \end{prop}
 Finally, we also present some classical results from the theory underlying isogeny graphs, in the hope of making them more accessible to cryptographers.
 Most of the standard mathematical literature on the subject (e.g. \cite{cox_primes_of_form}) usually focuses on the case of Elliptic Curves over $\C$, and the finite field setting used in cryptography introduces some additional subtleties.
