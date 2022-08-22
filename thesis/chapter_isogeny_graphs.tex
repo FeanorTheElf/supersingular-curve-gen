@@ -713,6 +713,24 @@ The term ``vulcano'' was introduced by \cite{isogeny_vulcano}, after Kohel had m
 \end{proof}
 We remark that the crater of a vulcano is a single vertex with a loop, if $(l)$ is inert in $\O$.
 Furthermore, the crater consists of two connected vertices, if $(l)$ is ramified in $\O$, and is either a vertex with double loop or a cycle, if $(l)$ splits.
+\begin{figure}
+    \begin{minipage}{0.5\textwidth}
+        \includegraphics[width = \textwidth]{../example_odd_crater_fp.png}
+    \end{minipage}%
+    \begin{minipage}{0.5\textwidth}
+        \includegraphics[width = \textwidth]{../example_odd_crater.png}
+    \end{minipage}
+    \begin{minipage}{0.5\textwidth}
+        \includegraphics[width = \textwidth]{../example_II.png}
+    \end{minipage}%
+    \begin{minipage}{0.5\textwidth}
+        \includegraphics[width = \textwidth]{../example_III.png}
+    \end{minipage}
+    \caption{
+        \label{fig:example_vulcanos} Examples of different 2-and 3-isogeny vulcanos in $\F_{101^2}$. 
+        The value $\mathrm{z}$ is the generator of $\F_{101^2}$ with minimal polynomial $x^2 + 97x + 2$.
+    }
+\end{figure}
 
 \section{The supersingular case}
 \label{sec:supersingular_isogeny_graph}
@@ -722,7 +740,15 @@ First, note that all supersingular j-invariants are defined over $\F_{p^2}$, and
 In the supersingular setting, the endomorphism ring is now non-commutative.
 There still exists a non-commutative analogue of the class group action, but using that structure is significantly harder.
 Mainly, because the theory of quaternion algebras is more complicated, and its class group structure is less studied.
-
+\begin{figure}
+    \begin{center}
+        \includegraphics[width = 0.5\textwidth]{../example_supersingular.png}
+    \end{center}
+    \caption{
+        \label{fig:example_supersingular_graph} The supersingular 3-isogeny graph over $\F_{101^2}$.
+        The element $\mathrm{z}$ is a generator of $\F_{101^2}$ as in Figure~\ref{fig:example_vulcanos}.
+    }
+\end{figure}
 Instead, there is the famous result of Pizer, which states that supersingular isogeny graphs (i.e. the supersingular part of $\Gamma_l(\F_q)$) are so called Ramajuan graphs, that is have excellent expander properties.
 We will introduce this result in this section, but without proof.
 \begin{definition}
