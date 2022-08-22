@@ -1,20 +1,31 @@
-Since the advent of the SIDH scheme \cite{sidh}, supersingular curves are at the center of attention in isogeny-based cryptography.
-The most important hard problem in that context is the \emph{(supersingular) isogeny path problem}, defined as finding an isogeny of smooth degree (or sometimes power-$l$ degree) between two given supersingular curves.
-This problem is also equivalent \cite{endomorphism_ring_reductions} to the supersingular endomorphism ring problem, that is to compute a basis of the endomorphism ring of a supersingular curve.
-In many cryptographic application, it is helpful or even required that supersingular curves used to instantiate the scheme do not come with a trapdoor that might simplify solving one of these problems.
-More concretely, we want to instantiate the scheme with a random supersingular curve, for which nobody knows the endomorphism ring or a smooth isogeny to a previously fixed curve.
-Hence it is an important question how we can compute a random supersingular curve in a way that the computation does not reveal such information - or more precisely, that it is impossible to efficiently compute this information given the randomness used for finding the curve. 
 
-Up to now, the only attempt at solving this problem is in \cite{base_paper}, who proposed several highly interesting ideas.
-However, each of them currently has some major obstacle that must be overcome before one can get a practical method.
-Three of the five presented ideas are based on defining polynomial systems whose roots are (overwhelmingly) supersingular, and then try to find a random root of the system.
-The main problem with those methods is that the considered polynomials are too large to work with efficiently.
-Furthermore, current tools to solve polynomial systems like resultants and in particular Groebner bases are often impractical even for moderately sized inputs.
+In this chapter, we now come to the main question of this work.
+We have always talked about the ``generation of supersingular curves without revealing a trapdoor'', but in fact multiple variants of this problem are conceivable.
+Following \cite{base_paper}, we thus define the following three problems.
+\begin{problem}[Demonstrating a hard curve]
+    Given a prime $p$, compute a supersingular curve $E$ over $\F_{p^2}$ without revealing $\End(E)$.
+\end{problem}
+We can formalize the requirement ``without revealing $\End(E)$'' as follows.
+Given $E$ and any random bits passed to the generation algorithm, it should be impossible to compute $\End(E)$.
+This of course excludes random walk-based methods, since the random bits used for the random walk allows us to repeat the walk, and so find an isogeny $E_0 \to E$ from the starting curve $E_0$.
+Using that isogeny, we then can compute $\End(E)$ (assuming we know $\End(E_0)$).
+Furthermore, it excludes methods that yield curves with very small endomorphism ring, as those endomorphism rings are always efficiently computable.
 
-Our research focused on the second idea of \cite{base_paper}, which is based on modular polynomials.
-We found answers to some of the questions in the paper, as well as a variation of the method that has properties that might help with efficiently computing it.
-However, the algorithm is still not practical.
-In this chapter, we present those results, after first discussing some naive approaches.
+Note that an algorithm solving the hard curve demonstration problem does not have to be randomized.
+In fact, it would already be interesting to find just a single hard curve over $\F_{p^2}$ for which nobody knows the endomorphism ring.
+This is different for the next problem.
+\begin{problem}[Generating a random hard curve]
+    Given a prime $p$, compute a random supersingular curve $E$ uniformly selected from some exponentially sized set of supersingular curves over $\F_{p^2}$, without revealing $\End(E)$.
+\end{problem}
+In particular, a solution to the problem can then be used to setup any cryptographic primitive with hard and secure starting curves.
+
+Finally, the most difficult problem is to find a trapdoor-free hash function to the whole set of supersingular curves.
+\begin{problem}[Hashing into hard curves]
+    Given a prime $p$ and an input string $s$, deterministically find a supersingular curve $E$ without revealing $\End(E)$.
+    Furthermore, if $s$ is uniform on $\{0, 1\}^n$ for a sufficiently large $n$, the resulting curve $E$ should be uniform among all supersingular curves over $\F_{p^2}$.
+\end{problem}
+An algorithm solving the above problem can then easily made into a collision-free hash function by prepending it with a secure hash function.
+Note that for most applications, it would already be sufficient if the above problems could be solved only for certain primes $p$. 
 
 \section{Naive and classical approaches}
 \label{prop:naive_classical_approaches}
@@ -30,7 +41,15 @@ As discussed in Section~\ref{sec:supersingular_isogeny_graph}, a random walk of 
 As long as we know one fixed curve to start with, this is quite efficient.
 However, clearly this computation reveals a power-$l$ degree isogeny to the fixed starting curve, which is exactly what we want to avoid.
 
-\paragraph{Polynomial with supersingular roots} An idea that is more similar to what we will do next, is to use the following theorem from \cite[Thm~V.4.1]{arithmetic_elliptic_curves}.
+\paragraph{CM methods} Using the theory of complex multiplication of curves over $\C$ and their reduction modulo primes, Brökner \cite{constructing_supersingular_curves} found an algorithm that can find supersingular curves $E$ over $\F_p$, even for astronomically large prime $p$.
+This method is often combined with random walks, as these naturally require a supersingular curve to start the walk from.
+
+However, curves generated with Brökner's method have one drawback.
+Namely, the algorithm has time complexity polynomial in the discriminant of the endomorphism ring of the considered curves over $\C$, and this endomorphism ring embeds into the endomorphism ring of their reduction mod $p$.
+Hence, it is only efficient when generating curves with very small endomorphism rings.
+This is clearly a weakness, as small endomorphism rings can be computed efficiently, for example by an exhaustive search for small endomorphisms.
+
+\paragraph{Polynomial with supersingular roots} An idea that is more similar to what we will do next, is to use the following theorem \cite[Thm~V.4.1]{arithmetic_elliptic_curves}.
 \begin{theorem}
     Let $p$ be an odd prime and $m = (p - 1)/2$. Then the Elliptic Curve given by $y^2 = x(x - 1)(x - \lambda)$ over $\F_q$ is supersingular, if and only if
     \begin{equation*}
@@ -39,11 +58,13 @@ However, clearly this computation reveals a power-$l$ degree isogeny to the fixe
 \end{theorem}
 In other words, we just have to find a random root of the polynomial $H_p(X)$, which then gives rise to a random supersingular curve.
 The obvious problem here is again that $p$ is exponential in the input size $\log(p)$, thus the polynomial $H_p(X)$ also has exponential degree, and it is not clear if we can find a random root efficiently.
-In fact, the first idea in \cite{base_paper} is use a method similar to the Newton-Raphson algorithm to find a random root.
-However, that seems to be only moderately successful.
+
+In fact, the first idea in \cite{base_paper} tries to find a random root of this polynomial, by a method similar to the Newton-Raphson iteration.
+Of course, this is challenging, because it is not even clear how to evaluate $H_p(\lambda)$ efficiently for a given $\lambda$.
 
 \section{Katherine Stange's approach}
-The second idea of \cite{base_paper}, which we want to study in more detail, is based on the following intuition:
+In our research, we mainly focused on analysing and improving the second proposal in \cite{base_paper}, which was proposed by Katherine Stange.
+It is based on the following intuition.
 
 Since the supersingular isogeny graph is an expander, it is relatively likely that there is an $n$-isogeny between two random curves $E$ and $E'$ (for a fixed $n$).
 On the other hand, this is much less likely in the ordinary case.
@@ -58,7 +79,7 @@ More concretely, from the OSDIH class group action, see e.g. \cite[Thm~4.3]{chen
     \label{prop:osidh_class_group_action}
     There are $\Theta(\sqrt{mp})$ supersingular curves $E$ over $\F_{p^2}$ with an $m$-isogeny to $E^{(p)}$.
 \end{corollary}
-Since it has degree $np$, it has in total $np$ roots in $\bar{\F}_p$, which means that the fraction of supersingular roots is still exponentially small.
+Since $\Phi_n(X, X^p)$ has degree $np$, it has in total $np$ roots in $\bar{\F}_p$ (assuming it is separable), which means that the fraction of supersingular roots is still exponentially small.
 Of course, it might be more interesting to find the number of roots over $\F_{p^2}$, but this turns out to be somewhat tricky.
 Another obvious problem with this polynomial is that it has exponential degree, so it is not clear how to compute its roots.
 
@@ -66,7 +87,7 @@ To tackle these two problems, \cite{base_paper} proposed to instead take the pol
 \begin{equation*}
     f_{p, n, m} = \gcd(\Phi_n(X, X^p), \Phi_m(X, X^m))
 \end{equation*}
-The idea to find a root of this is to take a non-square $d \in \F_p$ and its square root $\delta \in \F_{p^2}$.
+The idea to find a root of this is to take a non-square in $\F_p$ and its square root $\delta \in \F_{p^2}$.
 Then $(a + b\delta)^p = a - b\delta$ and so we can equivalently look for $x, y \in \F_p$ such that
 \begin{equation*}
     \Phi_n(x + \delta y, x - \delta y) = \Phi_m(x + \delta y, x - \delta y) = 0
@@ -76,8 +97,8 @@ Hence, we look for a root in $\F_p$ of the polynomial
     \mathrm{res}_Y(\Phi_n(X + \delta Y, X - \delta Y), \Phi_m(X + \delta Y, X - \delta Y))
 \end{equation*}
 However, note that a solution to this system will have an endomorphism of degree $nm$.
-If we choose both $n$ and $m$ of size polynomial in $\log(p)$, this means the endomorphism ring has polynomial discriminant, which is a weakness (in particular, there are only polynomially many curves with such an endomorphism ring).
-Hence, at least one of $n$ resp. $m$ has to be of super-polynomial (or better exponential) degree in $\log(p)$.
+If we choose both $n$ and $m$ of size polynomial in $\log(p)$, this means the endomorphism ring has polynomial discriminant, which is a weakness.
+Hence, at least one of $n$ resp. $m$ has to be super-polynomial (or better exponential) in $\log(p)$.
 
 This of course makes it very hard to even write down or compute some properties of $\Phi_n$.
 Hence, we will study a slight modification and focus on the case that $n = l^e$ is a prime power.
@@ -93,7 +114,7 @@ In other words, we look for a solution to the polynomial system
 \begin{equation*}
     F_{p, m, l^e} := \langle \Phi_m(x, y), \Phi_l(x, x_1), ..., \Phi_l(x_{e - 1}, y) \rangle
 \end{equation*}
-The other advantage of this approach is that every supersingular curve $E$ has an $l^e$-isogeny to $E^{(p)}$ if $e \geq O(\log_l(p))$.
+The other advantage of this approach is that every supersingular curve $E$ has an $l^e$-isogeny to $E^{(p)}$ if $e \in \Omega(\log_l(p))$.
 This follows from our results on expander graphs.
 More concretely, Thm~\ref{prop:supersingular_graph_ramajuan} shows that the supersingular $l$-isogeny graph over $\F_{p^2}$ is an $\epsilon$-expander for
 \begin{equation*}
@@ -101,15 +122,14 @@ More concretely, Thm~\ref{prop:supersingular_graph_ramajuan} shows that the supe
 \end{equation*}
 Thus, a random walk of length at least
 \begin{equation*}
-    -\log_{2/\sqrt{l}}(p/12) = O(\log_l(p))
+    -\log_{2/\sqrt{l}}(p/12) \leq 2 \log_l(p) = \Theta(\log_l(p))
 \end{equation*}
 has a nonzero probability of ending in any fixed vertex, by Thm~\ref{prop:expander_random_walk}.
-Note further that for moderately large $l$, the constant approaches $2$, i.e. we can choose $e \approx 2\log_l(p)$.
 
 This leaves us with a polynomial system of $O(\log(p))$ unknowns and equations, which at least can be explicitly written down.
 Now we want to study how big the fraction of supersingular roots is.
 However, since by our choice of $e = \Theta(\log_l(p))$, we can assume that all supersingular j-invariants are roots of $\Phi_{l^e}(X, X^p)$, and so the number of supersingular roots is $O(\sqrt{mp})$, again by Corollary~\ref{prop:osidh_class_group_action}.
-Hence, we want to find instances of $l, e$ and $m$ such that above system has at most $O(\mathrm{poly}(\log(p)))$ ordinary roots. 
+Hence, we want to find instances of $l, e$ and $m$ such that above system has only a small amount of ordinary roots, preferably $o(\sqrt{mp})$. 
 
 \subsection{Studying the number of ordinary roots}
 To estimate the number of ordinary roots, we will of course use the class group action.
@@ -216,8 +236,8 @@ Since our approach only uses properties of the $l$-isogeny graph and Frobenius c
 \end{equation*}
 and similar for the system $F_{p, n, l^e}$.
 
-Hence, we determine the set of endomorphism rings such that any resp. all corresponding curves are roots of the polynomials.
-Then, the total number of curves is given by the sum over the class numbers $\sum_D h(D)$ where $D$ runs through the discrimiannts of said endomorphism rings. 
+Hence, we determine the set of endomorphism rings such that any (or equivalently all) corresponding curves are roots of the polynomials.
+Then, the total number of curves is given by the sum over the class numbers $\sum_D h(D)$ where $D$ runs through the discriminants of said endomorphism rings. 
 
 We mentioned before that $\Phi_m(X, X^p)$ has about $mp$ ordinary roots over $\bar{\F}_p$, but the argument implicitly assumed that the polynomial is separable.
 With our new framework, is is now easy to properly compute the number of ordinary roots of $\Phi_m(X, X^p)$, as these correspond to the endomorphism rings with cyclic
@@ -225,18 +245,18 @@ With our new framework, is is now easy to properly compute the number of ordinar
 elements of norm $mp$. 
 The reason is that this is equivalent to there being a solution with $x \perp y$ of the diophantine equation
 \begin{equation*}
-    x^2 + D y^2 = m
+    x^2 + D y^2 = mp
 \end{equation*}
-if $D \equiv 0 \mod 4$ and
-\begin{equation*}
-    x^2 + D y^2 = m
-\end{equation*}
-For now we will only make a crude estimate, but note that everything can be made rigorous.
-We do that later with a very similar argument in \ref{prop:counting_fp2_vulcano_levels}.
+where $\End(E) \cong \Z[\sqrt{D}]$, i.e. $d(\End(E)) = 4D$.
+Note that we want a lower bound (we have an upper bound by the degree argument), and so we can ignore the possibilities in which $\End(E)$ is not of this form (i.e. $\End(E) \cong \Z[(1 + \sqrt{D})/2]$).
+
+Furthermore, at the moment we content ourself with a very crude estimate, but note that everything can be made rigorous.
+We do that later with a very similar argument in Prop.~\ref{prop:counting_fp2_vulcano_levels}.
 Neglecting $\log$-factors, we now have
 \begin{align*}
-    &\#\{ j \in \bar{\F}_p \ | \ \Phi_m(j, j^p) = 0 \} = \sum_{\substack{\text{$x^2 - Dy^2 = mp$ solvable}\\\text{with $x \perp y$}}} h(D) \\
-    \geq& \sum_{0 < x < \sqrt{mp}} \sqrt{mp - x^2} \approx \int_0^{\sqrt{mp}} \sqrt{mp - x^2} \approx \Theta(mp)
+    &\#\{ j \in \bar{\F}_p \ | \ \Phi_m(j, j^p) = 0 \} \geq \sum_{\substack{\text{$x^2 - Dy^2 = mp$ solvable}\\\text{with $x \perp y$}}} h(4D) \\
+    \geq& \sum_{0 < x < \sqrt{mp}} h(4mp - 4x^2) \approx \sum_{0 < x < \sqrt{mp}} 2\sqrt{mp - x^2} \\
+    \approx& \ 2\int_0^{\sqrt{mp}} \sqrt{mp - x^2} dx = 2mp \int_0^1 \sqrt{1 - x^2} dx \in \Omega(mp)
 \end{align*}
 None of the ways we consider to capture supersingularity by modular polynomials can completely exclude ordinary roots.
 This is because if we take $m$ and $l$ to be small, then an ordinary curve defined over $\F_p$ with endomorphisms of degree $m$ and $l$ will always be a root.
@@ -247,25 +267,22 @@ The next statement shows that thus this is not a problem, as those ordinary root
     For $n > 0$, there are at most $O(n^{3/2}\log(n)^2)$ isomorphism classes of ordinary curves who have a nontrivial endomorphism of degree $n$.
 \end{prop}
 \begin{proof}
-    First, note that for an endomorphism $\phi$ of an Elliptic Curve $E$ have
-    \begin{equation*}
-        \text{$\phi$ cyclic} \quad \Leftrightarrow \quad \text{no $m \geq 2$ divides $\phi$}
-    \end{equation*}
-    Hence, a curve $E$ having a cyclic endomorphism of degree $n$ implies that $\End(E)$ has a nontrivial element of norm $n$.
-
-    Now assume that $\O$ is an imaginary quadratic order with $p \notdivides d(\O)$ that has such an element $\beta \in \O$.
+    Assume that $\O$ is an imaginary quadratic order with $p \notdivides d(\O)$ that has such an element $\beta \in \O \setminus \Z$ of norm $n$.
     The discriminant of the order $\Z[\beta]$ is $d(\Z[\beta]) = \mathrm{Tr}(\beta)^2 - 4\Norm(\beta) \geq -4\Norm(\beta)$.
-    Hence $|d(\O)| \leq 4n$, and we find that the number of isomorphism classes of ordinary curves with a cyclic $n$-endomorphism is bounded by
+    Hence $|d(\O)| \leq 4n$, and we find that the number of isomorphism classes of ordinary curves with a nontrivial $n$-endomorphism is bounded by
     \begin{align*}
-        \sum_{\substack{-4n \leq D \leq 0\\\mathclap{\text{$D$ fundamental discriminant}}}} h(D) \leq \sum_{1 \leq D \leq 4n} \sqrt{D}\log(D)^2 \in O(n^{3/2}\log(n)^2) \qedhere
+        \sum_{\substack{-4n \leq D \leq 0\\\mathclap{\text{$D$ fundamental discriminant}}}} h(D) \leq \sum_{1 \leq D \leq 4n} \sqrt{D}\log(D)^2 \in O(n^{3/2}\log(n)^2)
     \end{align*}
+    This shows the claim.
 \end{proof}
 This is now as far as we can go with the general case.
 The main problem is that once we want to determine which endomorphism rings have nontrivial endomorphisms of two different degrees (e.g. $m$ and $l^e$), there is no analogue of the simple statement
 \begin{equation*}
-    \{ d(\O) \ | \ \text{$\O$ has cyclic endomorphism of degree $m$}\} \supseteq \{ m - x^2 \ | \ 0 < x < \sqrt{m} \}
+    \{ d(\O) \ | \ \text{$\O$ has cyclic endomorphism of degree $m$}\} \supseteq \{ 4(m - x^2) \ | \ 0 < x < \sqrt{m} \}
 \end{equation*}
-While the diophantine equation $x^2 + D y^2 = m$ has been deeply studied (see e.g. \cite{cox_primes_of_form}), the best characterization for it being solvable (assuming $m = p$ is prime) involves the so-called Hilbert class polynomial
+and an appropriate converse.
+
+While the diophantine equation $x^2 + D y^2 = m$ has been thoroughly studied (see e.g. \cite{cox_primes_of_form}), the best characterization for it being solvable (assuming $m = p$ is prime) involves the so-called Hilbert class polynomial
 \begin{equation*}
     h_D(x) = \prod_{d(\End(E)) = D} (X - j(E))
 \end{equation*}
@@ -274,20 +291,21 @@ All in all, it seems like the general case is very hard to get a handle on.
 
 \subsection{A working example}
 While we are unlikely to get nice provable bounds on the number of ordinary roots in the general situation of $F_{p, m, l^e}$, there are special cases in which this is possible.
-Next we present one of those situations.
+In particular, if we choose $m$ such that there is a simple relationship between $\Phi_m$ and $\Phi_{l^e}$, we can do something.
+One situation in which everything works out is presented next.
 \begin{prop}
     Let $l$ be a prime and further $f$ be odd and $e$ be even.
     Then the system
     \begin{equation*}
         F_{p, l^f, l^e} := \langle \Phi_{l^f}(x, x^p), \Phi_l(x, x_1), ..., \Phi_l(x_{e - 1}, x^p) \rangle
     \end{equation*}
-    has $O(l^{3f}\log(l^f)^2)$ ordinary roots
+    has $O(l^{3f}\log(l^f)^2)$ ordinary roots in $\F_{p^2}$
     \footnote{It might be not totally clear what we mean by an ordinary root of the system.
     So let us define the number of ordinary roots as the number of $j \in \bar{\F}_p$ such that $F_{p, l^f, l^e}(j, x_1, ..., x_{e - 1})$ has a solution.
     However, note that for a fixed $j$, the number of different solutions of the system is polynomial, hence it would not make a big difference if we counted all solution tuples $(x, x_1, ..., x_{e - 1})$.}.
 \end{prop}
 \begin{proof}
-    We show that every ordinary root $j \in \bar{\F}_p$ of $F_{p, l^f, l^e}$ has an endomorphism of degree at most $l^{2f}$ and the claim follows by Prop.~\ref{prop:small_endomorphism_rare}.
+    We show that every ordinary root $j \in \F_{p^2}$ of $F_{p, l^f, l^e}$ has an endomorphism of degree at most $l^{2f}$ and the claim follows by Prop.~\ref{prop:small_endomorphism_rare}.
 
     For any ordinary curve $E$, denote now by $E_R$ the root of the lava flow tree containing $E$ in the $l$-isogeny vulcano.
     In other words, if $E$ is on the $i$-th lava flow tree level, then there is a sequence of ascending $l$-isogenies
@@ -296,7 +314,7 @@ Next we present one of those situations.
     \end{equation*}
     and $\End(E_R)$ is maximal at $l$ (meaning $l \notdivides [\O_{\End(E_R) \otimes \Q} : \End(E_R)]$).
 
-    Note further that $(E^{(p)})_R = E_R^{(p)}$ for all ordinary curves $E$.
+    Note further that $(E^{(p)})_R = E_R^{(p)}$ for all ordinary curves $E$, by the functoriality of $\cdot^{(p)}$.
 
     Now assume a root $j$ of $F_{p, l^f, l^e}$ gives an ordinary curve $E$.
     We distinguish two cases.
@@ -348,7 +366,8 @@ Next we present one of those situations.
 \end{proof}
 By choosing $e = \Theta(\log_l(p))$, we have $\Theta(\sqrt{l^fp})$ supersingular roots of above system.
 Thus, this theorem shows that the fraction of supersingular roots is not just noticable, i.e. $1/\mathrm{poly}(\log(p))$, but even exponentially large.
-Therefore an algorithm that is able to efficiently compute a random root of $F_{p, l^f, l^e}$ can be used to generate a random supersingular curve with very high probability.
+In particular, this proves our main result Prop.~\ref{prop:main_result1}.
+Furthermore an algorithm that is able to efficiently compute a random root of $F_{p, l^f, l^e}$ can be used to generate a random supersingular curve with very high probability.
 We expect that this will not reveal a trapdoor, i.e. information about the endomorphism ring.
 
 Note that we can choose $f$ very small, e.g. $\log_l\log(p)$ and thus $n = l^f$ is polynomial in $\log(p)$.
@@ -357,13 +376,14 @@ Therefore, we can indeed write down the system
     F_{p, l^f, l^e} := \langle \Phi_{l^f}(x, x^p), \Phi_l(x, x_1), ..., \Phi_l(x_{e - 1}, x^p) \rangle
 \end{equation*}
 explicitly.
-The only question is how to compute a random root.
+The only question is how to compute a random root in $\F_{p^2}$.
 The standard approach using Groebner basis does not work, as we expect its complexity to be exponential in the number of variables, i.e. exponential in $\log_l(p)$.
-The original paper~\cite{base_paper} thought it might be possible to use a ``square-and-multiply'' approach to compute the resultant
+As mentioned before, the original paper~\cite{base_paper} thought it might be possible to use a ``square-and-multiply'' approach to compute the resultant
 \begin{equation*}
     \mathrm{res}_Y(\Phi_n(X + \delta Y, X - \delta Y), \Phi_{l^e}(X + \delta Y, X - \delta Y))
-\end{equation*} 
-but this means we will not represent $\Phi_{l^e}$ by the polynomial system anymore, hence we would need to get enough information about the exponential-degree modular polynomial $\Phi_{l^e}$ another way.
+\end{equation*}
+for some $\delta = \sqrt{a}$ with a non-square $a \in \F_p^*$.
+However this means we will not represent $\Phi_{l^e}$ by the polynomial system anymore, hence we would need to get enough information about the exponential-degree modular polynomial $\Phi_{l^e}$ another way.
 This seems to be a very serious obstacle.
 
 \section{An idea based on Sutherland's supersingularity test}
@@ -371,39 +391,29 @@ As an alternative to the above approach, we propose another set of polynomial eq
 In particular, our system does not consist of long dependency cycles, in the sense that we have equations $f_i(x_i, x_{i + 1})$ and $f_n(x_n, x_0)$.
 Instead, our equations are of the form $f_i(x_i, x_{i + 1})$ and $f_n(x_n)$, which seems to be easier to handle.
 
-The basic idea is an observation by Sutherland \cite{sutherland_supersingularity_test}, namely that the lava flows of an ordinary vulcano can only have a bounded number of levels defined over $\F_{p^2}$.
-Hence, we can consider the following algorithm, which is Sutherland's supersingularity test.
-Beginning from the input j-invariant $j_0$, consider three random walks $j_0 = j_0^{(i)}, j_1^{(i)}, ..., j_n^{(i)}$ with $i \in \{ 1, 2, 3 \}$ in the $l$-isogeny graph of fixed length $n$ such that $j_1^{(1)}, j_1^{(2)}$ and $j_1^{(3)}$ are distinct.
-Furthermore, assume the walks do not backtrack.
-If $j_0$ is now ordinary, then at least one $j_1^{(i)}$ must be in a lava flow, and since the walks do not backtrack, one of them must descend in the corresponding lava flow tree.
-For $n$ large enough, this shows that one $j_n^{(i)} \notin \F_{p^2}$.
-On the other hand, the whole supersingular $l$-isogeny graph is defined over $\F_{p^2}$, so this will never happen.
+The basic idea is to use Sutherland's supersingularity test (see Section~\ref{sec:sutherlands_supersingularity_test}).
+Namely, if we take three non-backtracking walks away from an ordinary starting curve $E_0$ (such that the second vertices are distinct), then at least one of them will descend into a lava flow, and encounter a curve not defined over $\F_{p^2}$ after polynomially many steps.
+On the other hand, if we do the same starting from a supersingular curve, this will not happen, as the whole supersingular isogeny graph is defined over $\F_{p^2}$.
 
-It is easy to see that $n = \log_l(p)$ is sufficient, which is also Sutherland's original choice.
-However, a slightly better bound can achieved, as observed by \cite{fp_supersingularity_tests}.
-In our case, we are also interested in how many ordinary curves we will accept if we choose $n$ smaller than the optimal bound.
-All this is considered in the next proposition.
-\begin{theorem}
+We have already seen that $\log_l(p)$ steps are sufficient, which is also Sutherland's original choice.
+However, this is not optimal, and in our case, we are also interested in how many ordinary curves we will accept if we choose $n$ smaller than the optimal bound.
+In particular, our method can deal with a small number of ordinary roots (e.g. polynomially many), it should just not exponentially exceed the number of supersingular roots.
+All this is considered in the next proposition, which is again phrased using endomorphism rings.
+\begin{prop}
     \label{prop:counting_fp2_vulcano_levels}
     Let $p$ be an odd prime and $m \geq 2$ an odd integer coprime to $p$.
-    Consider the number $n$ of endomorphism rings $\O$ of ordinary curves defined over $\F_{p^2}$ with $\pi \in \Z + m\O$, where $\pi$ is the $p^2$-Frobenius endomorphism
-    \footnote{
-        With the $p^2$-th power Frobenius endomorphism of an order $\O$, we mean a nontrivial element of norm $p^2$.
-        There are at most two of them, and they are Galois conjugates. 
-        Hence, for $\End(E) \cong \O$ we can choose an isomorphism such that $\pi$ is indeed mapped to the Frobenius. 
-        Furthermore, by our study of the canonical isomorphism $\End(E) \cong \End(E')$ for isogeneous curves $E$ and $E'$, we know that the choice of the isomorphism $\O \cong \End(E)$ is compatible with all canonical isomorphisms.}
-    of $\O$.
+    Consider the number $n$ of endomorphism rings $\O$ of ordinary curves defined over $\F_{p^2}$ with $\pi \in \Z + m\O$, where $\pi$ is the $p^2$-Frobenius endomorphism of $\O$.
     Then
     \begin{equation*}
         \Bigl\lfloor \frac p {m^2} \Bigr\rfloor \leq n \leq \Bigl\lfloor \frac {4p(p + 1)} {m^3} \Bigr\rfloor
     \end{equation*}
     Furthermore, consider the number $N$ of ordinary j-invariants $j \in \F_{p^2}$ such that $\pi \in \Z + m\End(j)$.
-    Under GRH, we then get
+    Under GRH, we then for $m \leq p^2$ that
     \begin{equation*}
         c_1\left( \frac {p^2} {m^3 \log\log(p)^2} \right) \leq N \leq c_2\left( \frac {p^2\log(p)^2} {m^3} \right)
     \end{equation*}
     where $c_1, c_2 > 0$ are constants.
-\end{theorem}
+\end{prop}
 \begin{proof}
     First, we show the lower bounds.
     Note that there are $\lfloor p/m^2 \rfloor$ different integers $a$ with $0 < am^2 < p$ (clearly $m^2 \notdivides p$).
@@ -413,7 +423,7 @@ All this is considered in the next proposition.
     \begin{equation*}
         (p - 2am^2)^2 - D \cdot 1^2 = p^2 - 4pam^2 + 4a^2m^4 - 4a^2m^4 + 4pam^2 = p^2
     \end{equation*}
-    Thus the imaginary quadratic order $\O$ with discriminant $D$ contains a nontrivial element of norm $p^2$, which must be the Frobenius $\pi$.
+    Thus the imaginary quadratic order $\O$ with discriminant $D$ contains a nontrivial element of norm $p^2$, which must be the Frobenius $\pi$ (or its conjugate).
     In particular, the imaginary quadratic order $\O_0$ with discriminant $d := D/m^2$ satisfies $\O = \Z + m\O_0$ as $[\O_0 : \O]^2 = d(\O)/d(\O_0) = m^2$
     Therefore we see that $\pi \in \Z + m\O_0$.
     Note that each $a$ gives rise to a distinct $\O_0$, and the first lower bound follows.
@@ -421,7 +431,7 @@ All this is considered in the next proposition.
     To get a lower bound for the number of curves, note that for each $\O_0$, by the class group action, there are exactly $\#\Cl(\O_0)$ such curves.
     Under GRH, Thm~\ref{prop:class_number_bounds} gives
     \begin{equation*}
-        h(d) \geq \frac {\sqrt{|d|}} {(\log\log|d|)^2} \Theta(1)
+        h(D) \geq \frac {\sqrt{|D|}} {(\log\log|D|)^2} \Theta(1)
     \end{equation*}
     Hence, the total number of curves is lower bounded by
     \begin{align*}
@@ -445,7 +455,7 @@ All this is considered in the next proposition.
     \begin{equation*}
         a^2m^2d(\O_0) = (t - 2p)(t + 2p)
     \end{equation*}
-    Unless $m = 2$ or $m = 4$, $m$ cannot divide both $t - 2p$ and $t + 2p$.
+    Since $m$ is odd, we see that $m$ must be coprime to either $t - 2p$ or $t + 2p$ (it does not divide $4p$).
 
     If $m^2 \divides t + 2p$, then $t \in \{ m^2 - 2p, 2m^2 - 2p, ..., km^2 - 2p \}$ where $k = \lfloor 2p/m^2 \rfloor$.
 
@@ -462,9 +472,9 @@ All this is considered in the next proposition.
         (2k + 1) \frac {2p} {m} \leq \frac {4p(p + 1)} {m^3}
     \end{equation*}
     To bound the number of curves, we again use the class group action and the following bound on the class number of a quadratic imaginary number field.
-    Namely, if the discriminant is $d$, have
+    Namely, if the discriminant is $D$, have
     \begin{equation*}
-        h(d) \leq \sqrt{|d|}\log(|d|) O(1)
+        h(D) \leq \sqrt{|D|}\log(|D|) O(1)
     \end{equation*}
     This now gives us the following upper bound on the number of curves
     \begin{align*}
@@ -527,7 +537,7 @@ Hence, consider the polynomial system
     &... \rangle
 \end{align*}
 The additional constraints $\Phi_{l^2}(u_i, u_{i + 2})$ ensure that $u_i \neq u_{i + 2}$, unless the curve of j-invariant $u_i$ has a cyclic endomorphism of size $l^2$.
-However, this means that its endomorphism ring has polynomially large discriminant, and by the class group action, there are only polynomially many such curves.
+However, this means that its endomorphism ring has polynomially large discriminant, and again there are only polynomially many such curves by Prop.~\ref{prop:small_endomorphism_rare}.
 Hence, a root of above system is supersingular with probability $1 - 1/\mathrm{poly}(\log(p))$. 
 
 Still, it seems pretty impossible to efficiently compute a random root of above system.
@@ -562,7 +572,11 @@ Hence, we can instead consider the sum of systems
     &u_i^{p^2 - 1} - 1, v_i^{p^2 - 1} - 1, w_i^{p^2 - 1} - 1 \rangle 
 \end{align*}
 for distinct primes $l_i$ with $\prod_i l_i \geq \sqrt{p}$.
-Finally, we can still make it somewhat more explicit.
+Note that from these results, our second main result Prop.~\ref{prop:main_result2} follows.
+
+\subsection{A more explicit representaton}
+In the hope of making computations easier, we can try to transform our system further.
+For this, we first need the following lemma.
 \begin{lemma}
     Assume that $k$ is an algebraically closed field.
     Let $I \leq k[x, Y, B]$ be an ideal, where $Y$ and $B$ are vectors of unknowns.
@@ -576,6 +590,8 @@ Finally, we can still make it somewhat more explicit.
     Taking the point of view of varieties over the algebraically closed field $k$, we see that elimination corresponds to projection (the main theorem of elimination theory), and evaluation corresponds to the intersection with a linear subspace.
     Clearly, both of them commute in the above sense.
 \end{proof}
+We can also explicitly compute the polynomial division of $y^{p^2 - 1} - 1$ modulo $\Phi_l(x, y)$.
+Note that $y^{p^2 - 1} - 1$ is the only polynomial of exponential degree, and getting rid of it would be very nice.
 \begin{lemma}
     \label{prop:symbolic_elimination}
     We have
@@ -615,9 +631,9 @@ Finally, we can still make it somewhat more explicit.
     We just perform univariate polynomial division of $y^{p^2 - 1} - 1$ by $\Phi_l(x, y)$ in $k[x][y]$.
 
     Define a sequence of polynomials in $k[x, y]$ by
-    \begin{equation}
+    \begin{equation*}
         f_0 := y^{p^2 - 1} \quad \text{and} \quad f_{i + 1} = f_i - \mathrm{lc}(f_i) \Phi_l(x, y) y^{p^2 - l - 2 - i}
-    \end{equation}
+    \end{equation*}
     Here, $\mathrm{lc}(f_i)$ and $\deg$ refer to the appropriate values when considering $f_i$ as a univariate polynomial over $k[x]$, in particular $\mathrm{lc}(f_i) \in k[x]$.
     This clearly implies that $f_i \equiv f_j \mod \Phi_l(x, y)$.
     We show that
@@ -672,7 +688,8 @@ The idea is now to introduce $l + 1$ indeterminates $B$, and compute the elimina
         1
     \end{matrix*}\right)^T B - 1 \rangle \cap k[x, B]
 \end{align*}
-Now we can find polynomials $f_{i1}, ..., f_{in_i} \in k[x, B]$ that generate this ideal.
+This might now be done, since all polynomials we consider now are of polynomial degree.
+Next, we can find polynomials $f_{i1}, ..., f_{in_i} \in k[x, B]$ that generate this ideal.
 Hence, we only have to find a random joint root of the univariate polynomials
 \begin{equation*}
     f_{ij}(x, b_i) \quad \text{where} \quad b_i = A_i^{p^2 - l - 1} e_1

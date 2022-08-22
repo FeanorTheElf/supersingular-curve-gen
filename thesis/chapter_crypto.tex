@@ -46,6 +46,7 @@ While it is technically not a cryptosystem, we first want to present Sutherland'
 It is a clever algorithm based on isogeny graphs, and will be important again later.
 
 \section{Sutherland's supersingularity test}
+\label{sec:sutherlands_supersingularity_test}
 Consider the following problem: Given an Elliptic Curve $E$ over $\F_{p^2}$, determine whether $E$ is supersingular.
 If the j-invariant $j(E) \neq 0, 1728$, one way could be to check whether $[p] = \pm \pi$ for the $p^2$-th power Frobenius endomorphism of $E$.
 To do this, just sample random points $P$ and check whether $[p](P) = \pm \pi(P)$.
