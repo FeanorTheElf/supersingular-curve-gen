@@ -357,8 +357,45 @@ Therefore, we can indeed write down the system
     F_{p, l^f, l^e} := \langle \Phi_{l^f}(x, x^p), \Phi_l(x, x_1), ..., \Phi_l(x_{e - 1}, x^p) \rangle
 \end{equation*}
 explicitly.
-The only question is how to compute a random root.
-The standard approach using Groebner basis does not work, as we expect its complexity to be exponential in the number of variables, i.e. exponential in $\log_l(p)$.
+Next, we try to demonstrate this in one example.
+\begin{example}
+    Assume we choose $p = 51$, $l = 3$, $f = 3$ and $e = 4$.
+    Then $e$ is somewhat smaller than the bound required to have $\Phi_{l^e}(j_1, j_2) = 0$ for all supersingular $j_1$, $j_2$.
+    Still, we expect that most roots of $f_{p, l^f, l^e}$ are supersingular.
+    We have that
+    \begin{equation*}
+        \Phi_3 = -x^3y^3 + 6x^3y^2 + 6x^2y^3 + x^4 + 8x^3y + 7x^2y^2 + 8xy^3 + y^4 + 9x^3 + 12x^2y + 12xy^2 + 9y^3 - 26x^2 + 5xy - 26y^2 - 26x - 26y
+    \end{equation*}
+    and hence, $\Phi_{l^f}$ and $\Phi_{l^e}$ are huge, having 1240 resp. 11162 monomials.
+    However, we can compute
+    \begin{equation*}
+        f_{p, l^f, l^e} = x^156 + 2x^155 + 10x^154 + 7x^153 + 28x^152 + 13x^151 + 19x^150 + 10x^149 + 21x^148 + 25x^147 + 8x^146 + 33x^145 + 20x^144 + 3x^143 + 9x^142 + 19x^141 + 4x^140 + 3x^139 + 25x^138 + 33x^137 + 45x^136 + 32x^135 + 30x^134 + 44x^133 + 6x^132 + 37x^131 + 41x^130 + 30x^129 + 50x^128 + 4x^127 + 20x^126 + 37x^125 + 45x^124 + 42x^123 + 46x^122 + 36x^121 + 47x^120 + 24x^119 + 12x^118 + 28x^117 + 51x^116 + 33x^115 + 26x^114 + 39x^113 + 48x^112 + 40x^111 + 4x^110 + x^108 + 10x^107 + 9x^106 + 11x^105 + 34x^104 + 20x^103 + 2x^102 + 31x^101 + 46x^100 + 23x^99 + 36x^98 + 37x^97 + 49x^96 + 27x^95 + 21x^94 + 42x^93 + 10x^92 + 39x^91 + 41x^90 + 16x^89 + 43x^88 + 40x^87 + 30x^86 + 43x^85 + 33x^84 + 22x^83 + 23x^82 + 33x^81 + 31x^80 + 15x^79 + 40x^78 + 12x^77 + 10x^76 + 25x^75 + 7x^74 + 43x^73 + 36x^72 + 44x^71 + 15x^70 + 24x^69 + 2x^68 + 47x^67 + 43x^66 + 19x^65 + 7x^64 + 45x^63 + 17x^62 + 24x^61 + 25x^60 + 14x^59 + 25x^58 + 36x^57 + 9x^56 + 26x^55 + 5x^54 + 48x^53 + 15x^52 + 13x^51 + 2x^50 + 32x^49 + 26x^48 + 14x^47 + 17x^46 + 16x^45 + 37x^44 + 19x^43 + 49x^42 + 20x^41 + 19x^40 + 42x^39 + 51x^38 + 27x^37 + 21x^36 + 24x^35 + 30x^34 + 30x^33 + 12x^31 + 38x^30 + 31x^29 + 44x^28 + 39x^27 + 47x^26 + 39x^25 + 2x^24 + 12x^23 + 34x^22 + 8x^21 + 26x^20 + 35x^19 + 36x^18 + 39x^17 + 50x^16 + x^15 + 27x^14 + 38x^13 + 4x^12 + 43x^11 + 38x^10 + 41x^9 + 36x^8 + 24x^7 + 47x^6
+    \end{equation*}
+    It has the $F_{p^2}$-roots
+    \begin{equation*}
+        39, 52\alpha + 42, \alpha + 38, 0, 46, 44\alpha + 46, 9\alpha + 10, 50
+    \end{equation*}
+    Of those, $0$, $50$, $46$, $9\alpha + 10$ and $44\alpha + 46$ are supersingular, and the other three are ordinary.
+    The corresponding $3$-isogeny graphs are displayed in Figure~\ref{fig:example_51}.
+    Note that all ordinary solutions are in a vulcano with a curve that has a nontrivial $3$-endomorphism.
+    \begin{figure}
+        \begin{center}
+        \begin{minipage}{0.5\textwidth}
+            \includegraphics{../example_51_ordinary.png}
+        \end{minipage}
+        \begin{minipage}{0.5\textwidth}
+            \includegraphics{../example_51_supersingular.png}
+        \end{minipage}%
+        \end{center}
+        \caption{\label{fig:example_51} Ordinary 3-isogeny vulcano (left) and supersingular 3-isogeny graph (right) over $\F_{51^2}$, where $\mathrm{z2} = \alpha$ is a generator of $\F_{51^2}$.}
+    \end{figure}
+\end{example}
+It is a fact that this example cannot completely show that the method works, and most roots are supersingular.
+It would be much preferable with we could choose larger parameters, such that $\sqrt{p}$ and polynomial in $\log(p)$ look very different.
+However, we very soon hit the limits of computers - just think that $\Phi_{3^4}$ already has 11162 monomials.
+
+Also the standard approach using Groebner basis does not work, as we expect its complexity to be exponential in the number of variables, i.e. exponential in $\log_l(p)$.
+Already for $l = 3$ and $e = 4$, it is very slow and takes time in the range of minutes.
 The original paper~\cite{base_paper} thought it might be possible to use a ``square-and-multiply'' approach to compute the resultant
 \begin{equation*}
     \mathrm{res}_Y(\Phi_n(X + \delta Y, X - \delta Y), \Phi_{l^e}(X + \delta Y, X - \delta Y))
@@ -680,3 +717,4 @@ Hence, we only have to find a random joint root of the univariate polynomials
 for the matrices $A_i$ given by Lemma~\ref{prop:symbolic_elimination}.
 While we cannot explicitly write down those polynomials, we can evaluate them, evaluate their derivates and perform a series of other computations.
 Hence, there might be some way to find a random root of those (note that they have all $\Theta(p/12)$ supersingular j-invariants and some $o(p)$ ordinary j-invariants as roots).
+
