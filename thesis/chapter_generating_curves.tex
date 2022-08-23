@@ -63,7 +63,7 @@ In fact, the first idea in \cite{base_paper} tries to find a random root of this
 Of course, this is challenging, because it is not even clear how to evaluate $H_p(\lambda)$ efficiently for a given $\lambda$.
 
 \section{Katherine Stange's approach}
-In our research, we mainly focused on analysing and improving the second proposal in \cite{base_paper}, which was proposed by Katherine Stange.
+In our research, we mainly focused on analyzing and improving the second proposal in \cite{base_paper}, which was proposed by Katherine Stange.
 It is based on the following intuition.
 
 Since the supersingular isogeny graph is an expander, it is relatively likely that there is an $n$-isogeny between two random curves $E$ and $E'$ (for a fixed $n$).
@@ -116,7 +116,7 @@ In other words, we look for a solution to the polynomial system
 \end{equation*}
 The other advantage of this approach is that every supersingular curve $E$ has an $l^e$-isogeny to $E^{(p)}$ if $e \in \Omega(\log_l(p))$.
 This follows from our results on expander graphs.
-More concretely, Thm~\ref{prop:supersingular_graph_ramajuan} shows that the supersingular $l$-isogeny graph over $\F_{p^2}$ is an $\epsilon$-expander for
+More concretely, Theorem~\ref{prop:supersingular_graph_ramajuan} shows that the supersingular $l$-isogeny graph over $\F_{p^2}$ is an $\epsilon$-expander for
 \begin{equation*}
     \epsilon = 1 - \frac {2\sqrt{d - 1}} d = 1 - 2 \frac {\sqrt{l}} {l + 1} \geq 1 - \frac 2 {\sqrt{l}}
 \end{equation*}
@@ -124,7 +124,7 @@ Thus, a random walk of length at least
 \begin{equation*}
     -\log_{2/\sqrt{l}}(p/12) \leq 2 \log_l(p) = \Theta(\log_l(p))
 \end{equation*}
-has a nonzero probability of ending in any fixed vertex, by Thm~\ref{prop:expander_random_walk}.
+has a nonzero probability of ending in any fixed vertex, by Prop.~\ref{prop:expander_random_walk}.
 
 This leaves us with a polynomial system of $O(\log(p))$ unknowns and equations, which at least can be explicitly written down.
 Now we want to study how big the fraction of supersingular roots is.
@@ -204,7 +204,7 @@ Note that the study of the class number of nonmaximal orders $h(\Z + f\O_K)$ in 
         (l - 1) l^{e - 1} h(\O_K) & \text{if $\left(\frac {-d_K} l\right) = 1$}
     \end{cases}
 \end{equation*}
-This is compatible with the structure of the $l$-isogeny vulcano~\ref{prop:isogeny_vulcano}, in particular
+This is compatible with the structure of the $l$-isogeny volcano~\ref{prop:isogeny_vulcano}, in particular
 \begin{itemize}
     \item If $l \divides d_K$, i.e. is ramified in $\O_K$, the crater consists of two vertices with an edge (or a single vertex with a single loop).
     Since the whole graph is $(l + 1)$-regular, a crater vertex has $l$ neighbors outside the crater.
@@ -243,20 +243,20 @@ We mentioned before that $\Phi_m(X, X^p)$ has about $mp$ ordinary roots over $\b
 With our new framework, is is now easy to properly compute the number of ordinary roots of $\Phi_m(X, X^p)$, as these correspond to the endomorphism rings with cyclic
 \footnote{An element $\alpha \in \O$ is cyclic if the corresponding endomorphisms of curves $E$ with $\End(E) \cong \O$ are cyclic. This is equivalent to $n \notdivides \alpha$ for all $n \geq 2$.}
 elements of norm $mp$. 
-The reason is that this is equivalent to there being a solution with $x \perp y$ of the diophantine equation
+The reason is that this is equivalent to there being a solution with $x \perp y$ of the Diophantine equation
 \begin{equation*}
-    x^2 + D y^2 = mp
+    x^2 + D y^2 = m p
 \end{equation*}
 where $\End(E) \cong \Z[\sqrt{D}]$, i.e. $d(\End(E)) = 4D$.
 Note that we want a lower bound (we have an upper bound by the degree argument), and so we can ignore the possibilities in which $\End(E)$ is not of this form (i.e. $\End(E) \cong \Z[(1 + \sqrt{D})/2]$).
 
-Furthermore, at the moment we content ourself with a very crude estimate, but note that everything can be made rigorous.
+Furthermore, at the moment we content ourselves with a very crude estimate, but note that everything can be made rigorous.
 We do that later with a very similar argument in Prop.~\ref{prop:counting_fp2_vulcano_levels}.
 Neglecting $\log$-factors, we now have
 \begin{align*}
     &\#\{ j \in \bar{\F}_p \ | \ \Phi_m(j, j^p) = 0 \} \geq \sum_{\substack{\text{$x^2 - Dy^2 = mp$ solvable}\\\text{with $x \perp y$}}} h(4D) \\
-    \geq& \sum_{0 < x < \sqrt{mp}} h(4mp - 4x^2) \approx \sum_{0 < x < \sqrt{mp}} 2\sqrt{mp - x^2} \\
-    \approx& \ 2\int_0^{\sqrt{mp}} \sqrt{mp - x^2} dx = 2mp \int_0^1 \sqrt{1 - x^2} dx \in \Omega(mp)
+    \geq& \sum_{0 < x < \sqrt{mp}} h(4m p - 4x^2) \approx \sum_{0 < x < \sqrt{mp}} 2\sqrt{mp - x^2} \\
+    \approx& \ 2\int_0^{\sqrt{mp}} \sqrt{mp - x^2} dx = 2mp \int_0^1 \sqrt{1 - x^2} dx \in \Omega(m p)
 \end{align*}
 None of the ways we consider to capture supersingularity by modular polynomials can completely exclude ordinary roots.
 This is because if we take $m$ and $l$ to be small, then an ordinary curve defined over $\F_p$ with endomorphisms of degree $m$ and $l$ will always be a root.
@@ -282,7 +282,7 @@ The main problem is that once we want to determine which endomorphism rings have
 \end{equation*}
 and an appropriate converse.
 
-While the diophantine equation $x^2 + D y^2 = m$ has been thoroughly studied (see e.g. \cite{cox_primes_of_form}), the best characterization for it being solvable (assuming $m = p$ is prime) involves the so-called Hilbert class polynomial
+While the Diophantine equation $x^2 + D y^2 = m$ has been thoroughly studied (see e.g. \cite{cox_primes_of_form}), the best characterization for it being solvable (assuming $m = p$ is prime) involves the so-called Hilbert class polynomial
 \begin{equation*}
     h_D(x) = \prod_{d(\End(E)) = D} (X - j(E))
 \end{equation*}
@@ -307,7 +307,7 @@ One situation in which everything works out is presented next.
 \begin{proof}
     We show that every ordinary root $j \in \F_{p^2}$ of $F_{p, l^f, l^e}$ has an endomorphism of degree at most $l^{2f}$ and the claim follows by Prop.~\ref{prop:small_endomorphism_rare}.
 
-    For any ordinary curve $E$, denote now by $E_R$ the root of the lava flow tree containing $E$ in the $l$-isogeny vulcano.
+    For any ordinary curve $E$, denote now by $E_R$ the root of the lava flow tree containing $E$ in the $l$-isogeny volcano.
     In other words, if $E$ is on the $i$-th lava flow tree level, then there is a sequence of ascending $l$-isogenies
     \begin{equation*}
         E = E_0 \to E_1 \to ... \to E_i = E_R
@@ -319,7 +319,7 @@ One situation in which everything works out is presented next.
     Now assume a root $j$ of $F_{p, l^f, l^e}$ gives an ordinary curve $E$.
     We distinguish two cases.
 
-    If $j(E_R) \in \F_p$, i.e. the crater of the vulcano is defined over $\F_p$, then clearly $E_R = (E^{(p)})_R$.
+    If $j(E_R) \in \F_p$, i.e. the crater of the volcano is defined over $\F_p$, then clearly $E_R = (E^{(p)})_R$.
     Now let $k$ be minimal such that $j(E_k) \in \F_p$.
     Then every cyclic path $E \to E^{(p)}$ has the form
     \begin{equation*}
@@ -329,7 +329,7 @@ One situation in which everything works out is presented next.
 
     If we apply this to the $l$-isogeny path $E \to E^{(p)}$ of length $f$, we see that $\phi$ is an $l^{f - 2i}$-endomorphism of $E_i$.
     However, since $f - 2i$ is odd by assumption, $\deg(\phi)$ is not a square and so $\phi$ is nontrivial.
-    This now gives a nontrival endomorphism
+    This now gives a nontrivial endomorphism
     \begin{equation*}
         E \to E_1 \to ... \to E_i \ \overset{\phi}{\longrightarrow} \ E_i \to E_{i - 1} \to ... \to E
     \end{equation*}
@@ -341,20 +341,20 @@ One situation in which everything works out is presented next.
 
     If $(l) = \l_1 \l_2$ is split in $\O$, note that our cyclic $l$-isogeny path $E \to E^{(p)}$ of length $f$ induces a path $E_R \to E_R^{(p)}$ of length $f - 2i$, for some $i \geq 0$.
     Since walking around the crater is given by the action of $\l_1$, we see that $[(p, \pi)] = [\l_1]^{f - 2i}$ in the ideal class group.
-    Thus $\l_1^{2f - 4i}$ is principal, and its generator gives a nontrival endomorphism $\phi$ of $\End(E_R)$ of degree $l^{2f}$.
+    Thus $\l_1^{2f - 4i}$ is principal, and its generator gives a nontrivial endomorphism $\phi$ of $\End(E_R)$ of degree $l^{2f}$.
     Now
     \begin{equation*}
         E = E_0 \to E_1 \to ... \to E_i = E_R \ \overset{\phi}{\longrightarrow} E_R = E_i \to E_{i - 1} \to ... \to E
     \end{equation*}
-    gives a nontrival endomorphism of $E$ with degree $l^{2f}$, so we are done.
+    gives a nontrivial endomorphism of $E$ with degree $l^{2f}$, so we are done.
 
     If $(l)$ is inert in $\O$, the crater only has a single vertex.
-    Since we have $E_R \not\cong E_R^{(p)}$ are both curves in a crater, we see that they must be in different $l$-isogeny vulcanos.
+    Since we have $E_R \not\cong E_R^{(p)}$ are both curves in a crater, we see that they must be in different $l$-isogeny volcanos.
     Hence, this also holds for $E$ and $E^{(p)}$ and there cannot be an $l^f$-isogeny $E \to E^{(p)}$, contradicting our assumption.
 
     Finally, we are left with the case that $(l) = \l^2$ is ramified in $\O$.
     This is the only case where we will use the fact there is also an $l$-isogeny path $E \to E^{(p)}$ of length $e$.
-    Since $(l)$ is ramified, we see that the crater of the vulcano has exactly two vertices, which then must be $E_R$ and $E_R^{(p)}$.
+    Since $(l)$ is ramified, we see that the crater of the volcano has exactly two vertices, which then must be $E_R$ and $E_R^{(p)}$.
 
     We did not assume that the $l$-isogeny path $E \to E^{(p)}$ of length $e$ does not backtrack.
     But we can still remove the backtracks, and get a cyclic path $E \to E^{(p)}$ of length $e - 2k$, where $k$ is the number of backtracking steps in the original path.
@@ -365,7 +365,7 @@ One situation in which everything works out is presented next.
     However, now we get a contradiction, since above path has odd length $2i + 1$, while $e - 2k$ is even by assumption.
 \end{proof}
 By choosing $e = \Theta(\log_l(p))$, we have $\Theta(\sqrt{l^fp})$ supersingular roots of above system.
-Thus, this theorem shows that the fraction of supersingular roots is not just noticable, i.e. $1/\mathrm{poly}(\log(p))$, but even exponentially large.
+Thus, this theorem shows that the fraction of supersingular roots is not just noticeable, i.e. $1/\mathrm{poly}(\log(p))$, but even exponentially large.
 In particular, this proves our main result Prop.~\ref{prop:main_result1}.
 Furthermore an algorithm that is able to efficiently compute a random root of $F_{p, l^f, l^e}$ can be used to generate a random supersingular curve with very high probability.
 We expect that this will not reveal a trapdoor, i.e. information about the endomorphism ring.
@@ -382,31 +382,29 @@ Next, we try to demonstrate this in one example.
     Then $e$ is somewhat smaller than the bound required to have $\Phi_{l^e}(j_1, j_2) = 0$ for all supersingular $j_1$, $j_2$.
     Still, we expect that most roots of $f_{p, l^f, l^e}$ are supersingular.
     We have that
-    \begin{equation*}
-        \Phi_3 = -x^3y^3 + 6x^3y^2 + 6x^2y^3 + x^4 + 8x^3y + 7x^2y^2 + 8xy^3 + y^4 + 9x^3 + 12x^2y + 12xy^2 + 9y^3 - 26x^2 + 5xy - 26y^2 - 26x - 26y
-    \end{equation*}
+    \begin{align*}
+        \Phi_3 =& -x^3y^3 + 6x^3y^2 + 6x^2y^3 + x^4 + 8x^3y + 7x^2y^2 + 8xy^3 + y^4 + 9x^3 \\
+        &+ 12x^2y + 12xy^2 + 9y^3 - 26x^2 + 5xy - 26y^2 - 26x - 26y
+    \end{align*}
     and hence, $\Phi_{l^f}$ and $\Phi_{l^e}$ are huge, having 1240 resp. 11162 monomials.
-    However, we can compute
-    \begin{equation*}
-        f_{p, l^f, l^e} = x^156 + 2x^155 + 10x^154 + 7x^153 + 28x^152 + 13x^151 + 19x^150 + 10x^149 + 21x^148 + 25x^147 + 8x^146 + 33x^145 + 20x^144 + 3x^143 + 9x^142 + 19x^141 + 4x^140 + 3x^139 + 25x^138 + 33x^137 + 45x^136 + 32x^135 + 30x^134 + 44x^133 + 6x^132 + 37x^131 + 41x^130 + 30x^129 + 50x^128 + 4x^127 + 20x^126 + 37x^125 + 45x^124 + 42x^123 + 46x^122 + 36x^121 + 47x^120 + 24x^119 + 12x^118 + 28x^117 + 51x^116 + 33x^115 + 26x^114 + 39x^113 + 48x^112 + 40x^111 + 4x^110 + x^108 + 10x^107 + 9x^106 + 11x^105 + 34x^104 + 20x^103 + 2x^102 + 31x^101 + 46x^100 + 23x^99 + 36x^98 + 37x^97 + 49x^96 + 27x^95 + 21x^94 + 42x^93 + 10x^92 + 39x^91 + 41x^90 + 16x^89 + 43x^88 + 40x^87 + 30x^86 + 43x^85 + 33x^84 + 22x^83 + 23x^82 + 33x^81 + 31x^80 + 15x^79 + 40x^78 + 12x^77 + 10x^76 + 25x^75 + 7x^74 + 43x^73 + 36x^72 + 44x^71 + 15x^70 + 24x^69 + 2x^68 + 47x^67 + 43x^66 + 19x^65 + 7x^64 + 45x^63 + 17x^62 + 24x^61 + 25x^60 + 14x^59 + 25x^58 + 36x^57 + 9x^56 + 26x^55 + 5x^54 + 48x^53 + 15x^52 + 13x^51 + 2x^50 + 32x^49 + 26x^48 + 14x^47 + 17x^46 + 16x^45 + 37x^44 + 19x^43 + 49x^42 + 20x^41 + 19x^40 + 42x^39 + 51x^38 + 27x^37 + 21x^36 + 24x^35 + 30x^34 + 30x^33 + 12x^31 + 38x^30 + 31x^29 + 44x^28 + 39x^27 + 47x^26 + 39x^25 + 2x^24 + 12x^23 + 34x^22 + 8x^21 + 26x^20 + 35x^19 + 36x^18 + 39x^17 + 50x^16 + x^15 + 27x^14 + 38x^13 + 4x^12 + 43x^11 + 38x^10 + 41x^9 + 36x^8 + 24x^7 + 47x^6
-    \end{equation*}
+    However, we can still compute $f_{p, l^f, l^e}$, which is a polynomial of degree $156$.
     It has the $F_{p^2}$-roots
     \begin{equation*}
         39, 52\alpha + 42, \alpha + 38, 0, 46, 44\alpha + 46, 9\alpha + 10, 50
     \end{equation*}
     Of those, $0$, $50$, $46$, $9\alpha + 10$ and $44\alpha + 46$ are supersingular, and the other three are ordinary.
     The corresponding $3$-isogeny graphs are displayed in Figure~\ref{fig:example_51}.
-    Note that all ordinary solutions are in a vulcano with a curve that has a nontrivial $3$-endomorphism.
+    Note that all ordinary solutions are in a volcano with a curve that has a nontrivial $3$-endomorphism.
     \begin{figure}
-        \begin{center}
         \begin{minipage}{0.5\textwidth}
-            \includegraphics{../example_51_ordinary.png}
-        \end{minipage}
-        \begin{minipage}{0.5\textwidth}
-            \includegraphics{../example_51_supersingular.png}
+            \centering
+            \includegraphics[width = \textwidth]{../example_51_ordinary.png}
         \end{minipage}%
-        \end{center}
-        \caption{\label{fig:example_51} Ordinary 3-isogeny vulcano (left) and supersingular 3-isogeny graph (right) over $\F_{51^2}$, where $\mathrm{z2} = \alpha$ is a generator of $\F_{51^2}$.}
+        \begin{minipage}{0.5\textwidth}
+            \centering
+            \includegraphics[width = 0.6\textwidth]{../example_51_supersingular.png}
+        \end{minipage}
+        \caption{\label{fig:example_51} Ordinary 3-isogeny volcano (left) and supersingular 3-isogeny graph (right) over $\F_{51^2}$, where $\mathrm{z2} = \alpha$ is a generator of $\F_{51^2}$.}
     \end{figure}
 \end{example}
 It is a fact that this example cannot completely show that the method works, and most roots are supersingular.
@@ -466,7 +464,7 @@ All this is considered in the next proposition, which is again phrased using end
     Note that each $a$ gives rise to a distinct $\O_0$, and the first lower bound follows.
 
     To get a lower bound for the number of curves, note that for each $\O_0$, by the class group action, there are exactly $\#\Cl(\O_0)$ such curves.
-    Under GRH, Thm~\ref{prop:class_number_bounds} gives
+    Under GRH, Theorem~\ref{prop:class_number_bounds} gives
     \begin{equation*}
         h(D) \geq \frac {\sqrt{|D|}} {(\log\log|D|)^2} \Theta(1)
     \end{equation*}
@@ -561,7 +559,7 @@ Then the corresponding $l$-isogeny path backtracks, and it is not guaranteed tha
 Hence, we can still get many ordinary curves.
 
 Then condition $u_i \neq u_{i + 2}$ is not algebraically closed, so we cannot write it as a polynomial directly.
-But we can use the structure of the vulcanos (in particular, they have at most one cycle), and the fact that $\Phi_m$ characterizes the existence of a \emph{cyclic} isogeny.
+But we can use the structure of the volcanos (in particular, they have at most one cycle), and the fact that $\Phi_m$ characterizes the existence of a \emph{cyclic} isogeny.
 Hence, consider the polynomial system
 \begin{align*}
     \langle &\Phi_l(x, u_0), \Phi_l(x, v_0), \Phi_l(x, w_0), \\
@@ -611,7 +609,7 @@ Hence, we can instead consider the sum of systems
 for distinct primes $l_i$ with $\prod_i l_i \geq \sqrt{p}$.
 Note that from these results, our second main result Prop.~\ref{prop:main_result2} follows.
 
-\subsection{A more explicit representaton}
+\subsection{A more explicit representation}
 In the hope of making computations easier, we can try to transform our system further.
 For this, we first need the following lemma.
 \begin{lemma}
@@ -708,7 +706,9 @@ Note that $y^{p^2 - 1} - 1$ is the only polynomial of exponential degree, and ge
     and the claim follows.
 \end{proof}
 The idea is now to introduce $l + 1$ indeterminates $B$, and compute the elimination ideal
-\begin{align*}
+\begin{equation}
+\label{eq:elimination_ideal}
+\begin{split}
     \langle &\Phi_{l_i}(x, u_i), \Phi_{l_i}(x, v_i), \Phi_{l_i}(x, w_i), \\
     &\Phi_{2l_i}(u_i, v_i), \Phi_{2l_i}(u_i, w_i), \Phi_{2l_i}(v_i, w_i), \\
     &\left(\begin{matrix*}
@@ -724,14 +724,52 @@ The idea is now to introduce $l + 1$ indeterminates $B$, and compute the elimina
         \vdots \\
         1
     \end{matrix*}\right)^T B - 1 \rangle \cap k[x, B]
-\end{align*}
+\end{split}
+\end{equation}
 This might now be done, since all polynomials we consider now are of polynomial degree.
 Next, we can find polynomials $f_{i1}, ..., f_{in_i} \in k[x, B]$ that generate this ideal.
 Hence, we only have to find a random joint root of the univariate polynomials
 \begin{equation*}
-    f_{ij}(x, b_i) \quad \text{where} \quad b_i = A_i^{p^2 - l - 1} e_1
+    f_{i j}(x, b_i) \quad \text{where} \quad b_i = A_i^{p^2 - l - 1} e_1
 \end{equation*}
 for the matrices $A_i$ given by Lemma~\ref{prop:symbolic_elimination}.
 While we cannot explicitly write down those polynomials, we can evaluate them, evaluate their derivates and perform a series of other computations.
 Hence, there might be some way to find a random root of those (note that they have all $\Theta(p/12)$ supersingular j-invariants and some $o(p)$ ordinary j-invariants as roots).
 
+Note that also the computation of the elimination ideal from \ref{eq:elimination_ideal} is not trivial.
+The product of the considered primes $l_i$ must be at least $\sqrt{p}$, and so the largest ones are $\Theta(\log(p)/\log\log(p))$.
+In particular, we have to perform elimination in a polynomial ring with polynomially many unknowns.
+Hence, a standard Groebner basis will have exponential runtime.
+However, we only have to eliminate a constant number of variables, namely $u_i$, $v_i$ and $w_i$, so there might be a way to compute a ``partial'' Groebner basis that still yields generators of the elimination ideal.
+We have not studied this in depth, as some of the other difficulties seem more fundamental.
+
+\section{Conclusion}
+In this work, we have seen some polynomial-based approaches to solving a main open problem in the field of isogeny-based cryptography:
+Can we efficiently generate random, hard supersingular curves without revealing the endomorphism ring, or other information that can serve as a trapdoor?
+
+The main focus was an idea of Katherine Stange, which relied on modular polynomials.
+In the general case, its asymptotic success probability (i.e. the probability of finding a supersingular curve) is not so easy to study, since it is closely tied to the structure of the class group in quadratic imaginary orders.
+However, we were able to describe the success probability in special cases, and prove that it is sufficiently high.
+
+Furthermore, we worked on the main problem of the method, namely that one has to work with polynomials of exponential degree.
+We showed how in some cases, one can instead choose to work with polynomial systems in many variables, and presented a similar idea whose system might have an easier structure.
+However, we have also seen that Groebner basis methods to find solutions to these polynomial systems have exponential running time, and so we still cannot compute random supersingular curves efficiently.
+
+As already noted in \cite{base_paper}, there are alternatives to Groebner bases, e.g. \cite{poly_system_solve_algorithm} which can be much faster for sparse polynomial systems.
+It is a question for further research whether these give a significant speedup, or whether we can modify our methods to yield polynomial systems better suited for this solving algorithms.
+
+There is also the question whether there might be some ``square-and-multiply'' algorithm to compute the polynomial $f_{p, l^f, l^e}$, as mentioned as the ``dream approach'' in \cite{base_paper}.
+Of course, this would require new methods to compute information about $\Phi_n$ for exponential $n$.
+
+Another possible direction for future research is to see if we can use reduction theory to instead solve a polynomial system over the complex numbers $\C$.
+In this setting, we might then be able to use numeric techniques, like Newton's method.
+Of course, to transfer a solution over $\C$ back to finite fields, we require that the solution is an algebraic integer, and we need to find a representation that allows computing the reduction modulo $p$.
+However, the former is not a problem at all if the solution is given by a polynomial system.
+Furthermore, we might be able to address the second point by using the LLL algorithm or similar techniques, which can give us the minimal polynomial of the numerical approximation to an algebraic integer, if it has polynomial degree.
+This excludes CM curves, but there are many more non-CM curves with j-invariant in small-degree number fields that reduce to supersingular curves.
+
+Finally, there are also completely different approaches.
+In particular, \cite{base_paper} mentioned one idea based on higher-genus varieties, and an idea trying to use quantum computing.
+For the later, one main challenge is that the classical way of formalizing ``without revealing the endomorphism ring'' does not apply to the quantum setting anymore, as randomization is not given by random bits anymore, but intrinsic to the computation process.
+
+All in all, this is a very interesting and important problem, and it is not yet clear what shape a potential solution might have. 

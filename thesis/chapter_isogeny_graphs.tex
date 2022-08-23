@@ -18,7 +18,7 @@ This makes it easy to work with isomorphism classes of Elliptic Curves.
 Furthermore, we observe that $\Gamma_l(\F_q)$ has exactly $q$ vertices, since there are that many j-invariants $j \in \F_q$.
 
 \section{The ordinary case}
-We begin by analysing the structure of the ordinary part of $\Gamma_l(\F_q)$, which (as we will see), is quite different from the supersingular part.
+We begin by analyzing the structure of the ordinary part of $\Gamma_l(\F_q)$, which (as we will see), is quite different from the supersingular part.
 There is a very powerful description of this graph in terms of the endomorphism rings of the ordinary curves.
 Since these are (usually non-maximal) orders in quadratic imaginary number fields, whose theory is somewhat more complicated than the one of maximal orders (which are Dedekind domains), we first study them a little.
 
@@ -26,7 +26,7 @@ Since these are (usually non-maximal) orders in quadratic imaginary number field
 For this part, let $\O$ be an order in an imaginary quadratic number field $K$.
 What we will mainly do in this section is to show that ideal $\a \leq \O$ with norm $\Norm(\a) := [\O : \a]$ coprime to the index $[\O_K : \O]$ behave ``nicely'', i.e. similar to ideals in a Dedekind domain.
 Furthermore, we will study the structure of the class group of $\O$.
-First, we state a version of the chinese remainder theorem.
+First, we state a version of the Chinese remainder theorem.
 \begin{lemma}
     Let $\a$ be a nonzero ideal of $\O$. Then
     \begin{equation*}
@@ -138,7 +138,7 @@ The following statements are special cases of the general theory in \cite[Chapte
 
     First of all, all except finitely many $a_\q$ are in $\O_\q^*$, hence we can assume that those are $a_\q = 1$.
     Let $c \in \O$ with $ca_\q/a_\p \in \O$ for all $\q$ such that $a_\q \neq 1$.
-    Now the chinese remainder theorem gives us $b \in \O$ such that
+    Now the Chinese remainder theorem gives us $b \in \O$ such that
     \begin{equation*}
         b \equiv c \mod \p \quad \text{and} \quad b \equiv ca_q/a_\p \mod \q^k \quad \text{for $\q \neq \p$ with $a_\q \neq 1$}
     \end{equation*}
@@ -221,7 +221,7 @@ The expression $\bigoplus_\p R_\p^*/\O_\p^*$ is still somewhat unwieldy, but for
     
     Note that for each prime $\p \leq \O$ containing $f\O_K$ have a finite, positive number of primes $\q \leq \O_K$ with $\q \cap \O = \p$.
     There is at least one, as $\p\O_K$ is contained in a prime, and the number is finite, as $f\O_K$ factors into finitely many primes in the Dedekind ring $\O_K$.
-    Hence, we have by the chinese remainder theorem
+    Hence, we have by the Chinese remainder theorem
     \begin{equation*}
         (\O/f\O_K)^* \cong \bigoplus_{\p \supseteq f\O_K} (\O_\p/f\O_K\O_\p)^* \cong \bigoplus_{\p \supseteq f\O_K} (\O_\p/f\O_K\O_\p)^* = \bigoplus_{\p \supseteq f\O_K} (\O_\p/fR_\p)^*
     \end{equation*}
@@ -233,7 +233,7 @@ The expression $\bigoplus_\p R_\p^*/\O_\p^*$ is still somewhat unwieldy, but for
     \begin{equation*}
         R_\p/fR_\p \cong \bigoplus_{\q \supseteq \p\O_K} (R_\p)_\q/f(R_\p)_\q = \bigoplus_{\q \supseteq \p\O_K} (\O_K)_\q/f(\O_K)_\q
     \end{equation*}
-    This isomorphism follows from the chinese remainder theorem and the fact that the prime ideals $\q$ over $\p\O_K$ give all prime ideals of $R_\p$.
+    This isomorphism follows from the Chinese remainder theorem and the fact that the prime ideals $\q$ over $\p\O_K$ give all prime ideals of $R_\p$.
     
     Both isomorphisms are compatible
     \footnote{Meaning the inclusion $\O/f\O_K \subseteq \O_K/f\O_K$ commutes with the natural map
@@ -278,7 +278,7 @@ We write $\pi_E$ for the $q$-th power Frobenius endomorphism of $E$.
         E[\a] := \bigcap_{\alpha \in \a} \ker(\alpha)
     \end{equation*}
 \end{definition}
-From now on, we will often compare endomorphism rings of isogeneous curves.
+From now on, we will often compare endomorphism rings of isogenous curves.
 To do so, we embed those rings into an imaginary quadratic number field $K$.
 However, the field $K$ and its orders can have nontrivial automorphisms, which means the embedding $\End(E) \to K$ cannot be unique.
 Fortunately, we can choose a system of embeddings $\End(E) \to K$ jointly for all curves $E$ in a canonical way as follows.
@@ -306,12 +306,12 @@ Fortunately, we can choose a system of embeddings $\End(E) \to K$ jointly for al
 
     Now $\hat{\Psi}$ is the inverse of $\Psi$, and the claim follows.
 \end{proof}
-In other words, we choose an arbitrary embedding $\End(E) \to K$ for one ordinary curve $E$, and then choose all further embeddings $\End(E') \to K$ for isogeneous curves $E'$ as
+In other words, we choose an arbitrary embedding $\End(E) \to K$ for one ordinary curve $E$, and then choose all further embeddings $\End(E') \to K$ for isogenous curves $E'$ as
 \begin{equation*}
     \End(E') \to \End(E') \otimes \Q \ \overset{\Phi}{\longrightarrow} \ \End(E) \otimes \Q \to K
 \end{equation*}
-From now on, whenever we identify $\End(E)$ with an approriate subring of $K$, this shall use that embedding.
-It will already be used in the next statement, which describes the relationship of endomorphism rings of isogeneous curves more concretely.
+From now on, whenever we identify $\End(E)$ with an appropriate subring of $K$, this shall use that embedding.
+It will already be used in the next statement, which describes the relationship of endomorphism rings of isogenous curves more concretely.
 \begin{prop}
     Let $\phi: E \to E'$ be an isogeny of prime degree $p$ between ordinary Elliptic Curves.
     Then (after embedding $\End(E')$ via $\Phi$ and $\End(E)$ into $\End(E) \otimes \Q$) exactly one of the following is the case.
@@ -588,7 +588,7 @@ Note that this condition is also equivalent to $\End(E) \otimes \Q \cong \End(E'
 \end{theorem}
 \begin{proof}
     Well-definedness and freeness follow from all the previous lemmas.
-    So it is left to derive the transitivity from Thm~\ref{prop:isogeny_theorem}.
+    So it is left to derive the transitivity from Theorem~\ref{prop:isogeny_theorem}.
     Let $E$ and $E'$ be curves in $\Ell(\O)$.
     Clearly, we then have $\#E(\F_q) = \#E'(\F_q)$ and so there is a separable isogeny $\phi: E \to E'$.
     Everything we have to show is that $\phi = \phi_{E, \a}$ for some ideal $\a \leq \O$.
@@ -683,10 +683,10 @@ also in the finite field case, if we require $\a$ to be an (integral) ideal repr
 Clearly, every ideal class has such a representative, since we can multiply with the principal ideal $(p) = (p, \pi)(p, \pi - t)$ and divide out the principal ideal $(\pi) = (p, \pi)^s$.
 However, some sources do not explicitly mention that $\a$ must be chosen coprime to $(p, \pi)$, which caused me some confusion at the beginning.
 
-\subsection{Vulcanos}
+\subsection{Volcanos}
 Once we have the class group action, we can derive a lot of information about the structure of the ordinary part of an isogeny graph.
 \begin{definition}
-    For $l > 0, d \geq 0$, a graph $G$ is called \emph{$l$-vulcano of depth $d$}, if its vertices can be partitioned into a set $C$ (the ``crater'') and a set $L$ (the ``lava flows'') such that
+    For $l > 0, d \geq 0$, a graph $G$ is called \emph{$l$-volcano of depth $d$}, if its vertices can be partitioned into a set $C$ (the ``crater'') and a set $L$ (the ``lava flows'') such that
     \begin{itemize}
         \item $G[C]$ is either a single vertex (possibly with one or two loops), two connected vertices or a cycle of at least two vertices\footnote{A cycle of two vertices shall be two vertices with a double edge.}
         \item $G[V]$ is a forest of complete $l$-ary trees of depth $d$
@@ -694,12 +694,12 @@ Once we have the class group action, we can derive a lot of information about th
     \end{itemize}
     In particular, every vertex in $G$ except the leaves of the trees has degree $l + 1$.
 \end{definition}
-The term ``vulcano'' was introduced by \cite{isogeny_vulcano}, after Kohel had mostly determined the structure of ordinary connected components in his PhD thesis.
+The term ``volcano'' was introduced by \cite{isogeny_vulcano}, after Kohel had mostly determined the structure of ordinary connected components in his PhD thesis.
 \begin{theorem}
     \label{prop:isogeny_vulcano}
     Let $G$ be a connected component of $\Gamma_l(\F_q)$.
     Suppose that $G$ is ordinary, i.e. its vertices are (isomorphism classes of) ordinary curves.
-    Then $G$ is an $l$-vulcano.
+    Then $G$ is an $l$-volcano.
     Further, we have
     \begin{itemize}
         \item All curves on the crater have the same endomorphism ring $\O$ with $l \notdivides [\O_{\O \otimes \Q} : \O]$.
@@ -711,8 +711,26 @@ The term ``vulcano'' was introduced by \cite{isogeny_vulcano}, after Kohel had m
     This follows from the class group action and the description of the class group of quadratic imaginary orders~\ref{prop:class_group_order}.
     For the remaining details, we refer the reader to Kohel's thesis \cite[Prop.~23]{kohel}.
 \end{proof}
-We remark that the crater of a vulcano is a single vertex with a loop, if $(l)$ is inert in $\O$.
+We remark that the crater of a volcano is a single vertex with a loop, if $(l)$ is inert in $\O$.
 Furthermore, the crater consists of two connected vertices, if $(l)$ is ramified in $\O$, and is either a vertex with double loop or a cycle, if $(l)$ splits.
+\begin{figure}
+    \begin{minipage}{0.5\textwidth}
+        \includegraphics[width = \textwidth]{../example_odd_crater_fp.png}
+    \end{minipage}%
+    \begin{minipage}{0.5\textwidth}
+        \includegraphics[width = \textwidth]{../example_odd_crater.png}
+    \end{minipage}
+    \begin{minipage}{0.5\textwidth}
+        \includegraphics[width = \textwidth]{../example_II.png}
+    \end{minipage}%
+    \begin{minipage}{0.5\textwidth}
+        \includegraphics[width = \textwidth]{../example_III.png}
+    \end{minipage}
+    \caption{
+        \label{fig:example_vulcanos} Examples of different 2-and 3-isogeny volcanos in $\F_{101^2}$. 
+        The value $\mathrm{z}$ is the generator of $\F_{101^2}$ with minimal polynomial $x^2 + 97x + 2$.
+    }
+\end{figure}
 
 \section{The supersingular case}
 \label{sec:supersingular_isogeny_graph}
@@ -722,7 +740,15 @@ First, note that all supersingular j-invariants are defined over $\F_{p^2}$, and
 In the supersingular setting, the endomorphism ring is now non-commutative.
 There still exists a non-commutative analogue of the class group action, but using that structure is significantly harder.
 Mainly, because the theory of quaternion algebras is more complicated, and its class group structure is less studied.
-
+\begin{figure}
+    \begin{center}
+        \includegraphics[width = 0.5\textwidth]{../example_supersingular.png}
+    \end{center}
+    \caption{
+        \label{fig:example_supersingular_graph} The supersingular 3-isogeny graph over $\F_{101^2}$.
+        The element $\mathrm{z}$ is a generator of $\F_{101^2}$ as in Figure~\ref{fig:example_vulcanos}.
+    }
+\end{figure}
 Instead, there is the famous result of Pizer, which states that supersingular isogeny graphs (i.e. the supersingular part of $\Gamma_l(\F_q)$) are so called Ramajuan graphs, that is have excellent expander properties.
 We will introduce this result in this section, but without proof.
 \begin{definition}
@@ -775,7 +801,7 @@ That is, the final vertex of relatively short random walks is distributed almost
     Let $G = (V, E)$ be a $d$-regular $\epsilon$-expander graph and $v \in V$ a vertex.
     Then the distribution of the final vertex of a random walk starting from $v$ of length $t$ is close to uniform, in particular, the $\ell_2$-statistical distance is bounded by $(1 - \epsilon)^t$.
 \end{theorem}
-For a proof of this theorem, see e.g. Thm~3.3 in this excellent survey on expander graphs \cite{expander_survey}.
+For a proof of this theorem, see e.g. Theorem~3.3 in this excellent survey on expander graphs \cite{expander_survey}.
 Note that expander graphs used in cryptography are usually of exponential size, so this theorem says that a random walk of polynomial length already reaches all vertices of the graph.
 
 Now we come to the anticipated result, that supersingular isogeny graphs are expander graphs.
@@ -907,7 +933,7 @@ Using a little bit more Hensel lifting (don't worry, the ugly part is done), we 
 \end{prop}
 \begin{proof}
     First, consider the direction $\Leftarrow$.
-    Here the previous Lemma shows that we can lift the situation to $m$-isogeneous curves $E_0$ and $E_0'$ over a number field $K$, and so have by Prop.~\ref{prop:complex_mod_poly} that
+    Here the previous Lemma shows that we can lift the situation to $m$-isogenous curves $E_0$ and $E_0'$ over a number field $K$, and so have by Prop.~\ref{prop:complex_mod_poly} that
     \begin{equation*}
         \Phi_m(j(E_0), j(E_0')) = 0
     \end{equation*}
@@ -927,7 +953,7 @@ Using a little bit more Hensel lifting (don't worry, the ugly part is done), we 
     In particular, there are curves $E$, $E'$ over $K'$ with j-invariants $x'$ resp. $y$, and thus by Prop.~\ref{prop:complex_mod_poly}, there is a cyclic $m$-isogeny $E \to E'$.
     Therefore, there is also an $m$-isogeny between the curves $\tilde{E}$ and $\tilde{E}'$, which are the reductions of $E$ resp. $E'$ modulo $\p'$.
 \end{proof}
-Some properties however cannot be transfered to the finite field case.
+Some properties however cannot be transferred to the finite field case.
 For example, in the finite field case, $\Phi_m$ might not be irreducible anymore.
 In fact, it is easy to see that
 \begin{equation*}
@@ -941,7 +967,7 @@ For example Sutherland's supersingular test \cite{sutherland_supersingularity_te
 Another example is Shoof's algorithm \cite{shoof_point_counting} for counting $\F_q$-rational points on a curve, which also fundamentally relies on modular polynomials.
 
 Therefore, computing modular polynomials is an important task.
-The most classical approach is to mimic to proof of Thm~\ref{prop:complex_mod_poly}, i.e. view Elliptic Curves as lattices over $\C$ and compute the Fourier coefficients of the $j$-function.
+The most classical approach is to mimic to proof of Theorem~\ref{prop:complex_mod_poly}, i.e. view Elliptic Curves as lattices over $\C$ and compute the Fourier coefficients of the $j$-function.
 However, one main problem is that the coefficients in the modular polynomial become very large very fast.
 For example, $\Phi_5$ has already the constant coefficient
 \begin{equation*}
