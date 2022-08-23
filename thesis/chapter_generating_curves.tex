@@ -706,7 +706,9 @@ Note that $y^{p^2 - 1} - 1$ is the only polynomial of exponential degree, and ge
     and the claim follows.
 \end{proof}
 The idea is now to introduce $l + 1$ indeterminates $B$, and compute the elimination ideal
-\begin{align*}
+\begin{equation}
+\label{eq:elimination_ideal}
+\begin{split}
     \langle &\Phi_{l_i}(x, u_i), \Phi_{l_i}(x, v_i), \Phi_{l_i}(x, w_i), \\
     &\Phi_{2l_i}(u_i, v_i), \Phi_{2l_i}(u_i, w_i), \Phi_{2l_i}(v_i, w_i), \\
     &\left(\begin{matrix*}
@@ -722,7 +724,8 @@ The idea is now to introduce $l + 1$ indeterminates $B$, and compute the elimina
         \vdots \\
         1
     \end{matrix*}\right)^T B - 1 \rangle \cap k[x, B]
-\end{align*}
+\end{split}
+\end{equation}
 This might now be done, since all polynomials we consider now are of polynomial degree.
 Next, we can find polynomials $f_{i1}, ..., f_{in_i} \in k[x, B]$ that generate this ideal.
 Hence, we only have to find a random joint root of the univariate polynomials
@@ -733,3 +736,40 @@ for the matrices $A_i$ given by Lemma~\ref{prop:symbolic_elimination}.
 While we cannot explicitly write down those polynomials, we can evaluate them, evaluate their derivates and perform a series of other computations.
 Hence, there might be some way to find a random root of those (note that they have all $\Theta(p/12)$ supersingular j-invariants and some $o(p)$ ordinary j-invariants as roots).
 
+Note that also the computation of the elimination ideal from \ref{eq:elimination_ideal} is not trivial.
+The product of the considered primes $l_i$ must be at least $\sqrt{p}$, and so the largest ones are $\Theta(\log(p)/\log\log(p))$.
+In particular, we have to perform elimination in a polynomial ring with polynomially many unknowns.
+Hence, a standard Groebner basis will have exponential runtime.
+However, we only have to eliminate a constant number of variables, namely $u_i$, $v_i$ and $w_i$, so there might be a way to compute a ``partial'' Groebner basis that still yields generators of the elimination ideal.
+We have not studied this in depth, as some of the other difficulties seem more fundamental.
+
+\section{Conclusion}
+In this work, we have seen some polynomial-based approaches to solving a main open problem in the field of isogeny-based cryptography:
+Can we efficiently generate random, hard supersingular curves without revealing the endomorphism ring, or other information that can serve as a trapdoor?
+
+The main focus was an idea of Katherine Stange, which relied on modular polynomials.
+In the general case, its asymptotic success probability (i.e. the probability of finding a supersingular curve) is not so easy to study, since it is closely tied to the structure of the class group in quadratic imaginary orders.
+However, we were able to describe the success probability in special cases, and prove that it is sufficiently high.
+
+Furthermore, we worked on the main problem of the method, namely that one has to work with polynomials of exponential degree.
+We showed how in some cases, one can instead choose to work with polynomial systems in many variables, and presented a similar idea whose system might have an easier structure.
+However, we have also seen that Groebner basis methods to find solutions to these polynomial systems have exponential running time, and so we still cannot compute random supersingular curves efficiently.
+
+As already noted in \cite{base_paper}, there are alternatives to Groebner bases, e.g. \cite{poly_system_solve_algorithm} which can be much faster for sparse polynomial systems.
+It is a question for further research whether these give a significant speedup, or whether we can modify our methods to yield polynomial systems better suited for this solving algorithms.
+
+There is also the question whether there might be some ``square-and-multiply'' algorithm to compute the polynomial $f_{p, l^f, l^e}$, as mentioned as the ``dream approach'' in \cite{base_paper}.
+Of course, this would require new methods to compute information about $\Phi_n$ for exponential $n$.
+
+Another possible direction for future research is to see if we can use reduction theory to instead solve a polynomial system over the complex numbers $\C$.
+In this setting, we might then be able to use numeric techniques, like Newton's method.
+Of course, to transfer a solution over $\C$ back to finite fields, we require that the solution is an algebraic integer, and we need to find a representation that allows computing the reduction modulo $p$.
+However, the former is not a problem at all if the solution is given by a polynomial system.
+Furthermore, we might be able to address the second point by using the LLL algorithm or similar techniques, which can give us the minimal polynomial of the numerical approximation to an algebraic integer, if it has polynomial degree.
+This excludes CM curves, but there are many more non-CM curves with j-invariant in small-degree number fields that reduce to supersingular curves.
+
+Finally, there are also completely different approaches.
+In particular, \cite{base_paper} mentioned one idea based on higher-genus varieties, and an idea trying to use quantum computing.
+For the later, one main challenge is that the classical way of formalizing ``without revealing the endomorphism ring'' does not apply to the quantum setting anymore, as randomization is not given by random bits anymore, but intrinsic to the computation process.
+
+All in all, this is a very interesting and important problem, and it is not yet clear what shape a potential solution might have. 
