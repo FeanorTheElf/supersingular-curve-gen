@@ -70,6 +70,21 @@ For a proof of this, see e.g. \cite[Prop.~I.12.3]{neukirch}.
     Thus $f \notin \p$ and so $f \in \O_\p^*$.
     Therefore $\O_K \subseteq \O_\p$ and thus $(\O_K)_{\p'} \subseteq \O_\p$.
 \end{proof}
+\begin{lemma}
+    If $\a \leq \O$ with $\Norm(\a) \perp f := [\O_K : \O]$ then also $\Norm(\a\O_K) \perp f$.
+    Conversely, if $\a \leq \O_K$ with $\Norm(\a) \perp f$, then also $\Norm(\a \cap \O) \perp f$.
+\end{lemma}
+\begin{proof}
+    For the first statement, note that if $\Norm(\a) \perp f$, then also $\a \perp f\O$ and so there is a relation $1 = a + fb$ with $a \in \a$ and $b \in \O$.
+    However, then $1 \in \a\O_K + f\O_K$ and so $\a\O_K \perp f$, thus $\Norm(\a\O_K) \perp f$.
+
+    On the other hand, for $\a \leq \O_K$ with $\Norm(\a) \perp f$, we have the map
+    \begin{equation*}
+        \O \to \O_K/\a, \quad x \mapsto [x]
+    \end{equation*}
+    It clearly has kernel $\a \cap \O$, and so we find that $\O/(\a \cap \O) \subseteq \O_K/\a$.
+    Thus $\Norm(\a \cap \O) \divides \Norm(\a)$ and it follows that $\Norm(\a \cap \O) \perp f$.
+\end{proof}
 This already gives a somewhat nice description of most ideals of the order $\O$.
 \begin{prop}
     \label{prop:coprime_ideals_order}
@@ -117,7 +132,7 @@ The following statements are special cases of the general theory in \cite[Chapte
     with $\iota(a)\O_\p = (a_\p)$ for all prime ideals $\p \leq \O$ and $a = (a_\p)_\p$.
 \end{lemma}
 \begin{proof}
-    Again, this is a special case of \cite[Prop.~I.12.9]{neukirch}.
+    This proof is taken with some modifications from \cite[Prop.~I.12.9]{neukirch}.
 
     First, we show that for an invertible ideal $\a = (a_1, ..., a_n)$ have that $\a\O_\p$ is principal.
     By assumption, have $\a\b = (1)$ with $\b = (b_1, ..., b_m)$ and so have $1 = \sum a_i b_i c_i$ with $c_i \in \O_\p$.
@@ -141,23 +156,30 @@ The following statements are special cases of the general theory in \cite[Chapte
     Then set $\a := \bigcap_\p a_\p \O_\p$.
     Clearly we have $\a\O_\p \subseteq a_\p\O_\p$, so it is left to show the inclusion $\supseteq$.
 
-    First of all, all except finitely many $a_\q$ are in $\O_\q^*$, hence we can assume that those are $a_\q = 1$.
-    Let $c \in \O$ with $ca_\q/a_\p \in \O$ for all $\q$ such that $a_\q \neq 1$.
-    Now the Chinese remainder theorem gives us $b \in \O$ such that
-    \begin{equation*}
-        b \equiv c \mod \p \quad \text{and} \quad b \equiv ca_q/a_\p \mod \q^k \quad \text{for $\q \neq \p$ with $a_\q \neq 1$}
-    \end{equation*}
-    where $k \geq 1$ is an integer such that $a_q \in \q^k\O_k$.
+    By multiplying both $(a_\q)_\q$ and $\a$ with an appropriate constant, we can assume that all $a_\q \in \O$.
+    Furthermore, all but finitely many $a_\q \in \O_\q^*$, so assume wlog those are $a_\q = 1$.
 
-    This $b$ is unique modulo $\bigcap_{a_\q \neq 1} \q^k$, and in particular, we can choose it such that $ba_\p/c \in \O$.
-    Now we have $b/c \in \O_\p^*$.
-    Furthermore, $a_\p b/c \in \a$, since
+    Let $b \in \O \setminus \{ 0 \}$ with $ba_\q/a_\p \in \O$ for all finitely many $\q$, $a_\q \neq 1$.
+
+    Now the Chinese remainder theorem gives us $c \in \O$ such that
+    \begin{equation*}
+        c \equiv b \mod \p \quad \text{and} \quad c \equiv b a_q/a_\p \mod \q^k \quad \text{for $\q \neq \p$, $a_\q \neq 1$}
+    \end{equation*}
+    where $k \geq 1$ is an integer such that $\q^k\O_\q \subseteq a_\q\O_\q$.
+    Technically, $c$ is only unique modulo $\p \cap \bigcap_{\q \neq \p, a_\q \neq 1} \q$, but we are satisfied with any representative.
+
+    Now note that $c/b \in \O_\p^*$.
+    Therefore, we can choose $d \in \O \setminus \p$ with $dc/b \in \O$.
+    Hence, also $\epsilon := dc/b \in \O_\p^*$ and $\epsilon \in \O$.
+    We claim that $a_\p \epsilon \in \a$ and the claim follows.
+
+    We have
     \begin{itemize}
-        \item $b/c \in \O_\p^* \subseteq \O_\p$, so $a_\p b/c \in a_\p\O_\p$.
-        \item $b \equiv ca_q/a_\p \mod \q^k$, so $a_\p b/c \equiv a_\q \mod \q^k\O_\q$, which implies $a_\p b/c \in a_\q\O_\q$ for $\q \neq \p$ with $a_\q \neq 1$.
-        \item $ba_\p/c \in \O$, so $ba_\p/c \in a_\q\O_\q$ whenever $a_\q = 1$.
+        \item $a_\p \epsilon \in a_\p\O_\p$ since $\epsilon \in \O \subseteq \O_\p$.
+        \item $a_\p \epsilon \in a_\q\O_\q$ for $\q \neq \p$, $a_\q \neq 1$ since $a_\p c/b \equiv a_\q \mod \q^k$, thus $a_\p c/b \in a_\q\O_\q$ and finally $a_\p \epsilon = d a_\p c/b \in a_\q\O_\q$.
+        \item $a_\p \epsilon \in a_\q\O_\q$ for $\q$ with $a_\q = 1$, since $a_\p, \epsilon \in \O$, thus $a_\p \epsilon \in \O \subseteq \O_\q = a_\q\O_\q$.
     \end{itemize}
-    Since $b/c \in \O_\p^*$, we now find $a_\p \in \a\O_\p^*$ and the claim follows.
+    The claim follows.
 \end{proof}
 This lemma is a very useful characterization of invertible ideals.
 We are now ready for our first description of $\Cl(\O)$.
@@ -848,7 +870,7 @@ Finally, we also want to shortly comment on supersingular isogeny graphs over $\
     Nevertheless, there are many cryptosystems (and other applications) that work with a supersingular $l$-isogeny graph over $\F_p$.
     However, they do not use $\Gamma_l(\F_p)$, but a graph $G$ whose vertices are $\F_p$-isomorphism classes of supersingular curves, i.e. curves up to isomorphism defined over $\F_p$.
     Note that now the j-invariant does not characterize the isomorphism classes anymore, in particular, for every $j \in \F_p$ there are two $\F_p$-isomorphism classes corresponding to this j-invariant.
-    Hence, $G$ is not a subgraph of $\Gamma_l(\F_p)$, and it turns out that its structure is more similar to ordinary isogeny vulcanos than to a supersingular expander graph.
+    Hence, $G$ is not a subgraph of $\Gamma_l(\F_p)$, and it turns out that its structure is more similar to ordinary isogeny volcanos than to a supersingular expander graph.
 \end{remark}
 Since these graphs are not used in our work, we will leave it at this short remark.
 

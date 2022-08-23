@@ -80,8 +80,13 @@
 \begin{document}
 
 \maketitle
+\include{dedication}
+\include{acknowledgements}
+\include{abstract}
 
-\tableofcontents
+\begin{romanpages}
+    \tableofcontents
+\end{romanpages}
 
 \chapter{Introduction}
 
@@ -103,6 +108,7 @@
 
 \input{chapter_generating_curves.tex}
 
+\addcontentsline{toc}{chapter}{Bibliography}
 \bibliography{../bibliography}
 \bibliographystyle{plain}
 
