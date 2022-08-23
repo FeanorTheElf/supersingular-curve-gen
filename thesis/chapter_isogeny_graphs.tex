@@ -6,12 +6,17 @@ This is where we can do cryptography, since for smooth-degree isogenies $\psi$, 
 However, if this factorization is not known, it seems very hard to evaluate the isogeny.
 
 The underlying structure of this approach (and others) can now be captured by the $l$-isogeny graph $\Gamma_l(\F_q)$, for a prime $l \neq p$.
+For this chapter, and the rest of this work, we assume $p = \mathrm{char}(k) \neq 2, 3$.
 \begin{definition}
-    Denote by $\Gamma_l(\F_q)$ the graph whose vertices are isomorphism classes of Elliptic Curves over $\F_q$, and the edges are the degree $l$ isogenies between them (with multiplicity).
+    Denote by $\Gamma_l(k)$ the graph whose vertices are isomorphism classes of Elliptic Curves over $k$, and the edges are the degree $l$ isogenies (again up to isomorphism
+    \footnote{We say two isogenies $\phi, \psi: E \to E'$ are isomorphic, if there are automorphisms $\tau \in \mathrm{Aut}(E)$ and $\rho \in \mathrm{Aut}(E')$ such that $\phi = \rho \circ \psi \circ \tau$.
+    Note that $\mathrm{Aut}(E) = \{ \pm 1 \}$ unless $j(E) \in \{ 0, 1728 \}$ (assuming $\mathrm{char}(k) \neq 2, 3$), so this case occurs only at the two vertices with j-invariants $0$ and $1728$.}) 
+    between them (with multiplicity).
 \end{definition}
 Since there is never an isogeny between ordinary and supersingular curves, each connected component of $\Gamma_l(\F_q)$ contains either only ordinary or supersingular curves.
 Hence, we will call them ordinary and supersingular connected components, respectively.
-Furthermore, the existence of the dual isogeny shows that this graph is undirected, and we know that it is $(l + 1)$-regular (if $l \perp p$), since there are exactly $l + 1$ subgroups of order $l$ in $E[l] \cong (\Z/l\Z)^2$.
+Furthermore, the existence of the dual isogeny shows that this graph is undirected.
+We also know that if $p \neq 2, 3$ and $l \neq p$, the graph $\Gamma_l(\bar{\F}_p)$ is $(l + 1)$-regular except at the j-invariants $0$ and $1728$, since there are exactly $l + 1$ subgroups of order $l$ in $E[l] \cong (\Z/l\Z)^2$.
 
 Note that when doing computations with this graph, we identify each vertex with the j-invariant of the corresponding curves.
 This makes it easy to work with isomorphism classes of Elliptic Curves.
@@ -808,7 +813,8 @@ Now we come to the anticipated result, that supersingular isogeny graphs are exp
 \begin{definition}
     The \emph{supersingular $l$-isogeny graph over $\F_{p^2}$} is the subgraph of $\Gamma_l(\F_{p^2})$ induced by all (isomorphism classes of) supersingular curves over $\F_{p^2}$.
 \end{definition}
-Since the supersingular $l$-isogeny graph is disconnected from the rest of $\Gamma_l(\F_{p^2})$, we see that it is an $(l + 1)$-regular graph.
+Since the supersingular $l$-isogeny graph is disconnected from the rest of $\Gamma_l(\F_{p^2})$, we see that it is an $(l + 1)$-regular graph
+\footnote{We will be sloppy here, and call the supersingular $l$-isogeny graph $(l + 1)$-regular, even though it can contain up to two vertices of smaller degree (those with j-invariants $0$ and $1728$).}.
 We also know its size exactly, which directly follows from a classical result on the number of supersingular curves over $\F_{p^2}$.
 \begin{prop}
     For $p \geq 5$, there are exactly
@@ -832,6 +838,19 @@ This means that there is a huge difference between the ordinary and supersingula
 For example, there is always a path of length $O(\log(p))$ between two curves in the supersingular graph, but in the ordinary graph, such a path does not exist in many cases.
 We will try to quantify this in the last section.
 The idea of our research is to utilize these differences in order to find random, supersingular curves.
+
+Finally, we also want to shortly comment on supersingular isogeny graphs over $\F_p$.
+\begin{remark}
+    As we defined it, the graph $\Gamma_l(\F_p)$ is of course a subgraph of $\Gamma_l(\F_{p^2})$.
+    Even so, at least the supersingular part of $\Gamma_l(\F_p)$ is not particularly useful, as most of the structure does not carry over from $\Gamma_l(\F_{p^2})$.
+    For example, it is not $(l + 1)$-regular anymore.
+
+    Nevertheless, there are many cryptosystems (and other applications) that work with a supersingular $l$-isogeny graph over $\F_p$.
+    However, they do not use $\Gamma_l(\F_p)$, but a graph $G$ whose vertices are $\F_p$-isomorphism classes of supersingular curves, i.e. curves up to isomorphism defined over $\F_p$.
+    Note that now the j-invariant does not characterize the isomorphism classes anymore, in particular, for every $j \in \F_p$ there are two $\F_p$-isomorphism classes corresponding to this j-invariant.
+    Hence, $G$ is not a subgraph of $\Gamma_l(\F_p)$, and it turns out that its structure is more similar to ordinary isogeny vulcanos than to a supersingular expander graph.
+\end{remark}
+Since these graphs are not used in our work, we will leave it at this short remark.
 
 \section{Modular polynomials}
 If we want to work computationally with isogeny graphs, we need a way to explicitly compute them.
