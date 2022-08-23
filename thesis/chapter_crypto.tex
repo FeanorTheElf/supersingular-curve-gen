@@ -5,14 +5,14 @@ The fundamental idea underlying all those methods is to take a random walk in an
 
 The most general problem that isogeny-based cryptography reduces to, is the \emph{explicit isogeny problem}.
 \begin{problem}
-    Given two Elliptic Curves $E$ and $E'$ isogeneous of fixed degree $d$, find a $d$-isogeny $\phi: E \to E'$.
+    Given two Elliptic Curves $E$ and $E'$ isogenous of fixed degree $d$, find a $d$-isogeny $\phi: E \to E'$.
 \end{problem}
 There are algorithms to compute such an isogeny in time polynomial in $d$, and so we usually are interested in exponentially large degrees $d$.
 However, this raises the question on how to even represent the isogeny $\phi$.
 In most cases, we thus require $d$ to be smooth, in which case we can represent an isogeny of degree $d$ as a sequence of small-degree isogenies.
 This gives us the \emph{smooth isogeny problem}.
 \begin{problem}
-    Given two Elliptic Curves $E$ and $E'$ isogeneous of fixed $B$-smooth degree $d$, find a sequence of isogenies
+    Given two Elliptic Curves $E$ and $E'$ isogenous of fixed $B$-smooth degree $d$, find a sequence of isogenies
     \begin{equation*}
         E \overset{\phi_0}{\longrightarrow} E_1 \overset{\phi_1}{\longrightarrow} \ ... \ \overset{\phi_{n - 1}}{\longrightarrow} E_n \overset{\phi_n}{\longrightarrow} E'
     \end{equation*}
@@ -59,8 +59,8 @@ In particular, in the ordinary case, the nonconstant isogeny $[p] - \pi$ can sti
 Therefore, to prove supersingularity, different methods are needed.
 Sutherland \cite{sutherland_supersingularity_test} proposed the following method based on isogeny graphs.
 
-Note that $E$ is defined over $\F_{p^2}$ if and only if there is a nontrival element of norm $p^2$ in $\End(E)$ (either this element or its conjugate must be the $p^2$-th power Frobenius).
-Now assume we have an ordinary curve $E$ over $\F_{p^2}$ on the $i$-th lava flow level in the $2$-isogeny vulcano.
+Note that $E$ is defined over $\F_{p^2}$ if and only if there is a nontrivial element of norm $p^2$ in $\End(E)$ (either this element or its conjugate must be the $p^2$-th power Frobenius).
+Now assume we have an ordinary curve $E$ over $\F_{p^2}$ on the $i$-th lava flow level in the $2$-isogeny volcano.
 Then the curves on the $(i + j)$-th lava flow level have the endomorphism ring $\Z + 2^j\End(E)$ by Prop.~\ref{prop:isogeny_vulcano}.
 Assuming that $\pi \in \Z + 2^j\End(E)$, we then find that
 \begin{equation*}
@@ -73,7 +73,7 @@ In other words, if we go down $\log_2(p) + 1$ levels from $E$, we encounter a cu
 On the other hand, the whole supersingular 2-isogeny graph is defined over $\F_{p^2}$, so any path we take ends with a curve defined over $\F_{p^2}$.
 
 The only obstacle to making this into a supersingularity test is that there is no way how we can ``go down'' the lava flow, i.e. we do not know which of the 2-isogenies from $E$ to one of its 2-isogeneous neighbors is the descending one.
-In other words, if we just take any (non-backtracking) path starting from $E$, we might end up going around the crater of the 2-isogeny vulcano, and not down the lava flow.
+In other words, if we just take any (non-backtracking) path starting from $E$, we might end up going around the crater of the 2-isogeny volcano, and not down the lava flow.
 Sutherland's idea now is to simultaneously take three different (non-backtracking) random walks from $E$, but ensure that they have different second vertices.
 Hence, one of them will go down one step in the lava flow, and since the lava flow consists of trees, continue to go downwards.
 This yields Algorithm~\ref{alg:sutherland_supersingularity_test}.
@@ -131,7 +131,7 @@ This method is also displayed in Figure~\ref{fig:sidh}.
 \end{figure}
 
 Note that these additional published points $\phi_A(P_B), \phi_A(Q_B), \phi_B(P_A), \phi_B(Q_A)$ make the security assumption required for SIDH somewhat nonstandard.
-In particular, it is not enough to assume that the isogeny path problem is hard, and also if we relax this in an analogeous way to the classical Diffie-Hellman assumption (i.e. it is impossible to find $E_{AB}$ given $E_A$ and $E_B$) is not enough.
+In particular, it is not enough to assume that the isogeny path problem is hard, and also if we relax this in an analogous way to the classical Diffie-Hellman assumption (i.e. it is impossible to find $E_{AB}$ given $E_A$ and $E_B$) is not enough.
 As it turns out, this additional information indeed decreases the security, as first mentioned by Cristophe Petit \cite{torsion_point_attack}.
 However, it still was a big shock when \cite{sidh_broken} discovered an efficient attack using these torsion points, bringing the complete demise of SIDH.
 This is even more surprising, as an SIDH-based cryptosystem named SIKE \cite{sike} was already considered a promising candidate for post-quantum crypto, and made it into the fourth (and final) round of the NIST post-quantum standardization process.
@@ -234,12 +234,12 @@ Therefore, we get the scheme displayed in Algorithms~\ref{alg:setup_vdf}, \ref{a
 
 In a practical implementation, we might want to exclude $P \in E[m]$ such that the map $e_m(P, \cdot): E[m] \cap E(\F_p) \to \mu_m$ is not bijective.
 This is done in \cite{verifiable_delay_function}, but we will ignore those cases here.
-Furthermore, we also will not prove that this is indeed a VDL, again refering the reader to \cite{verifiable_delay_function}.
+Furthermore, we also will not prove that this is indeed a VDL, again referring the reader to \cite{verifiable_delay_function}.
 
 However, we do want to discuss step 2 in the setup step, Algorithm~\ref{alg:setup_vdf}.
 In particular, we claim that the curve $E$ has to be generated in a way that does not reveal its endomorphism ring $\End(E)$, or the resulting scheme will be insecure.
 Hence, the classical methods of using CM techniques and random walks fail here.
-Since there is currently no known alternative, at the moment this VDF requires a trusted party to generate the cuve $E$, and then forget about its endomorphism ring.
+Since there is currently no known alternative, at the moment this VDF requires a trusted party to generate the curve $E$, and then forget about its endomorphism ring.
 
 Namely, note that breaking sequentiality of the VDF can be achieved by solving the \emph{isogeny shortcut problem}.
 \begin{problem}
