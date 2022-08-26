@@ -24,7 +24,7 @@ Finally, the most difficult problem is to find a trapdoor-free hash function to 
     Given a prime $p$ and an input string $s$, deterministically find a supersingular curve $E$ without revealing $\End(E)$.
     Furthermore, if $s$ is uniform on $\{0, 1\}^n$ for a sufficiently large $n$, the resulting curve $E$ should be uniform among all supersingular curves over $\F_{p^2}$.
 \end{problem}
-An algorithm solving the above problem can then easily made into a collision-free hash function by prepending it with a secure hash function.
+An algorithm solving the above problem can then easily be made into a collision-free hash function by prepending it with a secure hash function.
 Note that for most applications, it would already be sufficient if the above problems could be solved only for certain primes $p$. 
 
 \section{Naive and classical approaches}
@@ -41,13 +41,13 @@ As discussed in Section~\ref{sec:supersingular_isogeny_graph}, a random walk of 
 As long as we know one fixed curve to start with, this is quite efficient.
 However, clearly this computation reveals a power-$l$ degree isogeny to the fixed starting curve, which is exactly what we want to avoid.
 
-\paragraph{CM methods} Using the theory of complex multiplication of curves over $\C$ and their reduction modulo primes, Brökner \cite{constructing_supersingular_curves} found an algorithm that can find supersingular curves $E$ over $\F_p$, even for astronomically large prime $p$.
+\paragraph{CM methods} Using the theory of complex multiplication of curves over $\C$ and their reduction modulo primes, Brökner \cite{constructing_supersingular_curves} found an algorithm that can find supersingular curves $E$ over $\F_p$, even for astronomically large primes $p$.
 This method is often combined with random walks, as these naturally require a supersingular curve to start the walk from.
 
 However, curves generated with Brökner's method have one drawback.
 Namely, the algorithm has time complexity polynomial in the discriminant of the endomorphism ring of the considered curves over $\C$, and this endomorphism ring embeds into the endomorphism ring of their reduction mod $p$.
 Hence, it is only efficient when generating curves with very small endomorphism rings.
-This is clearly a weakness, as small endomorphism rings can be computed efficiently, for example by an exhaustive search for small endomorphisms.
+This is clearly a weakness, as small endomorphism rings can be computed efficiently, for example by an exhaustive search of all low-degree isogenies.
 
 \paragraph{Polynomial with supersingular roots} An idea that is more similar to what we will do next, is to use the following theorem \cite[Thm~V.4.1]{arithmetic_elliptic_curves}.
 \begin{theorem}
@@ -85,7 +85,7 @@ Another obvious problem with this polynomial is that it has exponential degree, 
 
 To tackle these two problems, \cite{base_paper} proposed to instead take the polynomial
 \begin{equation*}
-    f_{p, n, m} = \gcd(\Phi_n(X, X^p), \Phi_m(X, X^m))
+    f_{p, n, m} = \gcd(\Phi_n(X, X^p), \Phi_m(X, X^p))
 \end{equation*}
 The idea to find a root of this is to take a non-square in $\F_p$ and its square root $\delta \in \F_{p^2}$.
 Then $(a + b\delta)^p = a - b\delta$ and so we can equivalently look for $x, y \in \F_p$ such that
@@ -108,7 +108,7 @@ First of all, we describe how the assumption $n = l^e$ might help us to work wit
 Note that $\Phi_{l^e}(j(E), j(E'))$ is equivalent to there being a cyclic $l^e$-isogeny between $E$ and $E'$.
 If we relax this to just any $l^e$-isogeny and note that an $l^e$-isogeny is equal to an $l$-isogeny path of length $e$, we can instead work with the condition
 \begin{equation*}
-    \exists x_1, ..., x_{e - 1}: \ \Phi_l(x, x_1) = \Phi_l(x_1, x_2) = ... = \Phi_l(x_{e - 1}, y)
+    \exists x_1, ..., x_{e - 1}: \ \Phi_l(x, x_1) = \Phi_l(x_1, x_2) = ... = \Phi_l(x_{e - 1}, y) = 0
 \end{equation*}
 In other words, we look for a solution to the polynomial system
 \begin{equation*}
@@ -128,7 +128,7 @@ has a nonzero probability of ending in any fixed vertex, by Prop.~\ref{prop:expa
 
 This leaves us with a polynomial system of $O(\log(p))$ unknowns and equations, which at least can be explicitly written down.
 Now we want to study how big the fraction of supersingular roots is.
-However, since by our choice of $e = \Theta(\log_l(p))$, we can assume that all supersingular j-invariants are roots of $\Phi_{l^e}(X, X^p)$, and so the number of supersingular roots is $O(\sqrt{mp})$, again by Corollary~\ref{prop:osidh_class_group_action}.
+To begin with, by our choice of $e = \Theta(\log_l(p))$, we can assume that all supersingular j-invariants are roots of $\Phi_{l^e}(X, X^p)$, and so the number of supersingular roots is $O(\sqrt{mp})$, again by Corollary~\ref{prop:osidh_class_group_action}.
 Hence, we want to find instances of $l, e$ and $m$ such that above system has only a small amount of ordinary roots, preferably $o(\sqrt{mp})$. 
 
 \subsection{Studying the number of ordinary roots}
@@ -156,7 +156,7 @@ The next theorem puts together some classical results, in particular the famous 
     is a real Dirichlet character and $L(s, \chi)$ is its Dirichlet L-function.
     This follows from the general class number formula, as e.g. presented in \cite[Korollar~VII.5.11]{neukirch}.
 
-    In \cite[Thm~1]{class_number_lower_bound}, it was proven under GRH that $L(1, \chi) \geq \Theta(\sqrt{|d_K|}\log\log|d_K|)$, and the lower bound follows.
+    In \cite[Thm~1]{class_number_lower_bound}, it was proven under GRH that $L(1, \chi) \geq \Theta(\sqrt{|d_K|}\log\log|d_K|)$, and the lower bound for $\O_K$ follows.
     The upper bound can easily be proven via partial summation, and does not require GRH.
     Hence, for a maximal order, we have
     \begin{equation*}
@@ -168,7 +168,7 @@ The next theorem puts together some classical results, in particular the famous 
         h(\O) = h(\O_K) \frac {\#(\O_K / \mathfrak{f})^*} {\#(\O / \mathfrak{f})^*}
     \end{equation*}
     where $\mathfrak{f} \leq \O_K$ is the largest ideal contained in $\O$.
-    For the conductor $f = [\O_K : \O]$ we know that $d(\O) = f^2 d_K$, and clearly $\mathfrak{f} = (f)$.
+    For the conductor $f = [\O_K : \O]$ we know that $d(\O) = f^2 d_K$, and clearly $\mathfrak{f} = f\O_K$.
     Now $\O/\mathfrak{f} \cong \Z/f\Z$ and so $\#(\O/\mathfrak{f})^* = \phi(f)$.
     To find $\#(\O_K/\mathfrak{f})^*$, consider the factorization $f = \prod p_i^{e_i}$.
     Clearly $\O_K/\mathfrak{f} \cong \bigoplus \O_K/(p_i)^{e_i}$, and thus it suffices to consider the case that $f = p^e$ is a prime power.
@@ -177,7 +177,7 @@ The next theorem puts together some classical results, in particular the famous 
     \begin{align*}
         \#(\O_K/\mathfrak{f})^* =& \#\{ (a, b) \in (\Z/p^e\Z)^2 \ | \ a^2 + d_K b^2 \in (\Z/p^e\Z)^* \} \\
         =& \#\{ (a, b) \in (\Z/p^e\Z)^2 \ | \ a^2 + d_K b^2 \not\equiv 0 \mod p \} \\
-        =& p^{2e - 2} \#\{ (a, b) \in \F_p \ | \ a^2 + d_K b^2 \neq 0 \} \\
+        =& p^{2e - 2} \#\{ (a, b) \in \F_p^2 \ | \ a^2 + d_K b^2 \neq 0 \} \\
         =& p^{2e - 2} \cdot \begin{cases}
             p^2 - 1 & \text{if $\left(\frac {-d_K} p \right) \in \{ -1, 0 \}$} \\
             (p - 1)^2 & \text{otherwise}
@@ -187,7 +187,7 @@ The next theorem puts together some classical results, in particular the famous 
             \phi(f)^2 & \text{otherwise}
         \end{cases}
     \end{align*}
-    since in the case $(-d_K/p) = -1$, have that $a^2 + d_K b^2 = (a + \delta b)(a - \delta b)$.
+    since in the case $(-d_K/p) = 1$, have that $a^2 + d_K b^2 = (a + \delta b)(a - \delta b)$.
     Hence the change of variables $(a, b) \mapsto (a + \delta b, a - \delta b)$ transforms the set into $(\F_p \setminus \{0\})^2$.
 
     Thus, we find
@@ -240,10 +240,10 @@ Hence, we determine the set of endomorphism rings such that any (or equivalently
 Then, the total number of curves is given by the sum over the class numbers $\sum_D h(D)$ where $D$ runs through the discriminants of said endomorphism rings. 
 
 We mentioned before that $\Phi_m(X, X^p)$ has about $mp$ ordinary roots over $\bar{\F}_p$, but the argument implicitly assumed that the polynomial is separable.
-With our new framework, is is now easy to properly compute the number of ordinary roots of $\Phi_m(X, X^p)$, as these correspond to the endomorphism rings with cyclic
+With our new framework, it is now easy to properly lower bound the number of ordinary roots of $\Phi_m(X, X^p)$, as these correspond to the endomorphism rings with cyclic
 \footnote{An element $\alpha \in \O$ is cyclic if the corresponding endomorphisms of curves $E$ with $\End(E) \cong \O$ are cyclic. This is equivalent to $n \notdivides \alpha$ for all $n \geq 2$.}
 elements of norm $mp$. 
-The reason is that this is equivalent to there being a solution with $x \perp y$ of the Diophantine equation
+The reason is that this is equivalent to there being a solution $x \perp y$ of the Diophantine equation
 \begin{equation*}
     x^2 + D y^2 = m p
 \end{equation*}
@@ -255,19 +255,19 @@ We do that later with a very similar argument in Prop.~\ref{prop:counting_fp2_vu
 Neglecting $\log$-factors, we now have
 \begin{align*}
     &\#\{ j \in \bar{\F}_p \ | \ \Phi_m(j, j^p) = 0 \} \geq \sum_{\substack{\text{$x^2 - Dy^2 = mp$ solvable}\\\text{with $x \perp y$}}} h(4D) \\
-    \geq& \sum_{0 < x < \sqrt{mp}} h(4m p - 4x^2) \approx \sum_{0 < x < \sqrt{mp}} 2\sqrt{mp - x^2} \\
+    \geq& \sum_{0 < x < \sqrt{mp}} h(4x^2 - 4m p) \approx \sum_{0 < x < \sqrt{mp}} 2\sqrt{mp - x^2} \\
     \approx& \ 2\int_0^{\sqrt{mp}} \sqrt{mp - x^2} dx = 2mp \int_0^1 \sqrt{1 - x^2} dx \in \Omega(m p)
 \end{align*}
 None of the ways we consider to capture supersingularity by modular polynomials can completely exclude ordinary roots.
-This is because if we take $m$ and $l$ to be small, then an ordinary curve defined over $\F_p$ with endomorphisms of degree $m$ and $l$ will always be a root.
+This is because if an ordinary curve defined over $\F_p$ with endomorphisms of degree $m$ and $l$ will always be a root.
 Similar situations can occur with other polynomial systems, but it is always the case that these ordinary curves have very small endomorphisms.
-The next statement shows that thus this is not a problem, as those ordinary roots are very rare.
+The next statement shows that this is not a problem, as those ordinary roots are very rare.
 \begin{prop}
     \label{prop:small_endomorphism_rare}
     For $n > 0$, there are at most $O(n^{3/2}\log(n)^2)$ isomorphism classes of ordinary curves who have a nontrivial endomorphism of degree $n$.
 \end{prop}
 \begin{proof}
-    Assume that $\O$ is an imaginary quadratic order with $p \notdivides d(\O)$ that has such an element $\beta \in \O \setminus \Z$ of norm $n$.
+    Assume that $\O$ is an imaginary quadratic order with $p \notdivides d(\O)$ that has a nontrivial element $\beta \in \O \setminus \Z$ of norm $n$.
     The discriminant of the order $\Z[\beta]$ is $d(\Z[\beta]) = \mathrm{Tr}(\beta)^2 - 4\Norm(\beta) \geq -4\Norm(\beta)$.
     Hence $|d(\O)| \leq 4n$, and we find that the number of isomorphism classes of ordinary curves with a nontrivial $n$-endomorphism is bounded by
     \begin{align*}
@@ -275,7 +275,7 @@ The next statement shows that thus this is not a problem, as those ordinary root
     \end{align*}
     This shows the claim.
 \end{proof}
-This is now as far as we can go with the general case.
+This is now as far as we can go in the general case.
 The main problem is that once we want to determine which endomorphism rings have nontrivial endomorphisms of two different degrees (e.g. $m$ and $l^e$), there is no analogue of the simple statement
 \begin{equation*}
     \{ d(\O) \ | \ \text{$\O$ has cyclic endomorphism of degree $m$}\} \supseteq \{ 4(m - x^2) \ | \ 0 < x < \sqrt{m} \}
@@ -307,7 +307,7 @@ One situation in which everything works out is presented next.
 \begin{proof}
     We show that every ordinary root $j \in \F_{p^2}$ of $F_{p, l^f, l^e}$ has an endomorphism of degree at most $l^{2f}$ and the claim follows by Prop.~\ref{prop:small_endomorphism_rare}.
 
-    For any ordinary curve $E$, denote now by $E_R$ the root of the lava flow tree containing $E$ in the $l$-isogeny volcano.
+    For any ordinary curve $E$, denote now by $E_R$ the unique vertex in the crater of the $l$-isogeny volcano of $E$ that is connected to the lava flow tree of $E$ (in particular, $E_R = E$ if $E$ already lies on the crater).
     In other words, if $E$ is on the $i$-th lava flow tree level, then there is a sequence of ascending $l$-isogenies
     \begin{equation*}
         E = E_0 \to E_1 \to ... \to E_i = E_R
@@ -341,12 +341,12 @@ One situation in which everything works out is presented next.
 
     If $(l) = \l_1 \l_2$ is split in $\O$, note that our cyclic $l$-isogeny path $E \to E^{(p)}$ of length $f$ induces a path $E_R \to E_R^{(p)}$ of length $f - 2i$, for some $i \geq 0$.
     Since walking around the crater is given by the action of $\l_1$, we see that $[(p, \pi)] = [\l_1]^{f - 2i}$ in the ideal class group.
-    Thus $\l_1^{2f - 4i}$ is principal, and its generator gives a nontrivial endomorphism $\phi$ of $\End(E_R)$ of degree $l^{2f}$.
+    Thus $\l_1^{2f - 4i}$ is principal ($E_R$ is defined over $\F_{p^2}$, so $[(p, \pi)]^2 = 1$), and its generator gives a nontrivial endomorphism $\phi$ of $\End(E_R)$ of degree $l^{2f - 4i}$.
     Now
     \begin{equation*}
         E = E_0 \to E_1 \to ... \to E_i = E_R \ \overset{\phi}{\longrightarrow} E_R = E_i \to E_{i - 1} \to ... \to E
     \end{equation*}
-    gives a nontrivial endomorphism of $E$ with degree $l^{2f}$, so we are done.
+    gives a nontrivial endomorphism of $E$ with degree $l^{2f - 2i} \leq l^{2f}$, so we are done.
 
     If $(l)$ is inert in $\O$, the crater only has a single vertex.
     Since we have $E_R \not\cong E_R^{(p)}$ are both curves in a crater, we see that they must be in different $l$-isogeny volcanos.
@@ -367,7 +367,7 @@ One situation in which everything works out is presented next.
 By choosing $e = \Theta(\log_l(p))$, we have $\Theta(\sqrt{l^fp})$ supersingular roots of above system.
 Thus, this theorem shows that the fraction of supersingular roots is not just noticeable, i.e. $1/\mathrm{poly}(\log(p))$, but even exponentially large.
 In particular, this proves our main result Prop.~\ref{prop:main_result1}.
-Furthermore an algorithm that is able to efficiently compute a random root of $F_{p, l^f, l^e}$ can be used to generate a random supersingular curve with very high probability.
+Furthermore an algorithm that is able to efficiently compute a random root of $F_{p, l^f, l^e}$ over $\F_{p^2}$ can be used to generate a random supersingular curve with very high probability.
 We expect that this will not reveal a trapdoor, i.e. information about the endomorphism ring.
 
 Note that we can choose $f$ very small, e.g. $\log_l\log(p)$ and thus $n = l^f$ is polynomial in $\log(p)$.
@@ -398,18 +398,18 @@ Next, we try to demonstrate this in one example.
     \begin{figure}
         \begin{minipage}{0.5\textwidth}
             \centering
-            \includegraphics[width = \textwidth]{../example_51_ordinary.png}
+            \includegraphics[width = 0.75\textwidth]{../example_51_ordinary.png}
         \end{minipage}%
         \begin{minipage}{0.5\textwidth}
             \centering
-            \includegraphics[width = 0.6\textwidth]{../example_51_supersingular.png}
+            \includegraphics[width = 0.45\textwidth]{../example_51_supersingular.png}
         \end{minipage}
         \caption{\label{fig:example_51} Ordinary 3-isogeny volcano (left) and supersingular 3-isogeny graph (right) over $\F_{51^2}$, where $\mathrm{z2} = \alpha$ is a generator of $\F_{51^2}$.}
     \end{figure}
 \end{example}
 It is a fact that this example cannot completely show that the method works, and most roots are supersingular.
-It would be much preferable with we could choose larger parameters, such that $\sqrt{p}$ and polynomial in $\log(p)$ look very different.
-However, we very soon hit the limits of computers - just think that $\Phi_{3^4}$ already has 11162 monomials.
+It would be much preferable if we could choose larger parameters, such that $\sqrt{p}$ and polynomial in $\log(p)$ look very different.
+However, we very soon hit the limits of computers - just remember that $\Phi_{3^4}$ already has 11162 monomials.
 
 Also the standard approach using Groebner basis does not work, as we expect its complexity to be exponential in the number of variables, i.e. exponential in $\log_l(p)$.
 Already for $l = 3$ and $e = 4$, it is very slow and takes time in the range of minutes.
@@ -544,8 +544,9 @@ According to the above discussion, the obvious polynomial system we want to find
 \begin{equation*}
     \langle \Phi_m(x, y_1), \Phi_m(x, y_2), \Phi_m(x, y_3), \ y_1^{p^2 - 1} - 1, \ y_2^{p^2 - 1} - 1, \ y_3^{p^2 - 1} - 1 \rangle
 \end{equation*}
-Since $m$ will be exponentially large, and we thus have no good description of $\Phi_m$, we can instead consider the paths explicitly again.
-More concretely, consider the polynomial system
+Since $m$ will be exponentially large, and we have no good description of $\Phi_m$, we can again consider the paths explicitly.
+More concretely, assume that $m = l^n$.
+We use the polynomial system
 \begin{align*}
     \langle &\Phi_l(x, u_0), \Phi_l(x, v_0), \Phi_l(x, w_0), \\
     &\Phi_l(u_0, u_1), \Phi_l(v_0, v_1), \Phi_l(w_0, w_1), \\
@@ -588,9 +589,9 @@ We now present a way that looks like there is some hope to do the computations, 
 \end{prop}
 \begin{proof}
     The direction $\Rightarrow$ is clear, as $\Z + l_1 ... l_r \O \subseteq \Z + l_i\O$.
-    For the other direction, choose an integral generator $\alpha$ of $\O$, i.e. $\O = \Z + \alpha\Z$.
-    Then $\Z + l_i\O = \Z + l_i\alpha\Z$.
-    Furthermore, there is a unique representation $\pi = a + b\alpha$.
+    For the other direction, choose an integral generator $\alpha$ of $\O$, i.e. $\O = \Z \oplus \alpha\Z$.
+    Then $\Z + l_i\O = \Z \oplus l_i\alpha\Z$.
+    Furthermore, as an element of $\O$, the Frobenius $\pi$ has a unique representation $\pi = a + b\alpha$ with integers $a$ and $b$.
     Now the assumption
     \begin{equation*}
         \pi \in \Z + l_i\O = \Z + l_i\alpha\Z
@@ -670,7 +671,7 @@ Note that $y^{p^2 - 1} - 1$ is the only polynomial of exponential degree, and ge
     \begin{equation*}
         f_0 := y^{p^2 - 1} \quad \text{and} \quad f_{i + 1} = f_i - \mathrm{lc}(f_i) \Phi_l(x, y) y^{p^2 - l - 2 - i}
     \end{equation*}
-    Here, $\mathrm{lc}(f_i)$ and $\deg$ refer to the appropriate values when considering $f_i$ as a univariate polynomial over $k[x]$, in particular $\mathrm{lc}(f_i) \in k[x]$.
+    Here, $\mathrm{lc}(f_i)$ refers to the appropriate value when considering $f_i$ as a univariate polynomial over $k[x]$, in particular $\mathrm{lc}(f_i) \in k[x]$.
     This clearly implies that $f_i \equiv f_j \mod \Phi_l(x, y)$.
     We show that
     \begin{equation*}
@@ -679,15 +680,15 @@ Note that $y^{p^2 - 1} - 1$ is the only polynomial of exponential degree, and ge
         \end{matrix*} \right)^T A^i e_1
     \end{equation*}
 
-    To see that this is true, note that $f_i$ has contains only the monomials $y^{p^2 - 1 - i}, ..., y^{p^2 - l - 1 - i}$ (technically, by induction hypothesis).
+    To see that this is true, note that $f_i$ contains only the monomials $y^{p^2 - 1 - i}, ..., y^{p^2 - l - 1 - i}$ (technically, by induction hypothesis).
     Hence, we can write
     \begin{equation*}
         f_i = y^{p^2 - l - 1 - i} \sum_{j = 0}^l c_j y^j
     \end{equation*}
     Since $a_{l + 1} = 1$, it follows that
     \begin{align*}
-        f_{i + 1} =& y^{p^2 - l - 1 - i} \Bigl( \sum_{j = 0}^l c_j - c_l a_{j + 1} \Bigr) - y^{p^2 - l - 2 - i} c_l a_0 \\
-        =& y^{p^2 - l - 1 - (i + 1)} \sum_{j = 0}^l (c_{j - 1} - c_l a_j)
+        f_{i + 1} =& y^{p^2 - l - 1 - i} \Bigl( \sum_{j = 0}^l (c_j - c_l a_{j + 1}) y^j \Bigr) - y^{p^2 - l - 2 - i} c_l a_0 \\
+        =& y^{p^2 - l - 1 - (i + 1)} \sum_{j = 0}^l (c_{j - 1} - c_l a_j) y^j
     \end{align*}
     where we define $c_{-1} = 0$.
     Now we have
@@ -737,7 +738,7 @@ for the matrices $A_i$ given by Lemma~\ref{prop:symbolic_elimination}.
 While we cannot explicitly write down those polynomials, we can evaluate them, evaluate their derivates and perform a series of other computations.
 Hence, there might be some way to find a random root of those (note that they have all $\Theta(p/12)$ supersingular j-invariants and some $o(p)$ ordinary j-invariants as roots).
 
-Note that also the computation of the elimination ideal from \ref{eq:elimination_ideal} is not trivial.
+Nevertheless, we should also mention that the computation of the elimination ideal from \ref{eq:elimination_ideal} is not trivial either.
 The product of the considered primes $l_i$ must be at least $\sqrt{p}$, and so the largest ones are $\Theta(\log(p)/\log\log(p))$.
 In particular, we have to perform elimination in a polynomial ring with polynomially many unknowns.
 Hence, a standard Groebner basis will have exponential runtime.

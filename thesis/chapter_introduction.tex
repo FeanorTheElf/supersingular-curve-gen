@@ -1,41 +1,38 @@
-In recent years, much progress has been made in the construction of quantum computers that might be able to break currently used cryptographic schemes.
-Hence, the search for alternative schemes is currently in the center of attention.
-One approach is based on ideas of Couveignes, Rostovtsev and Stolbunov \cite{old_isogeny_crypto1, old_isogeny_crypto2, old_isogeny_crypto3}, but only became really practical with the introduction of the SIDH protocol \cite{sidh}.
+The continuing progress in the construction of quantum computers has pushed the development of post-quantum cryptographic schemes into the center of attention.
+One approach is isogeny-based cryptography, which relies on the theory of elliptic curves and their isogenies.
+Founded on ideas of Couveignes, Rostovtsev and Stolbunov \cite{old_isogeny_crypto1, old_isogeny_crypto2, old_isogeny_crypto3}, a variety of different schemes have been proposed since then.
+This includes the well-known, although recently broken \cite{sidh_broken}, key exchange protocol SIDH \cite{sidh}.
 
-The main difference to the previous protocols is that instead of ordinary Elliptic Curves, SIDH relies on supersingular curves.
-These have the advantage that the structure of their rational points is much more predictable, hence allowing efficient computations.
-While recent successes in the cryptoanalysis of SIDH \cite{sidh_broken} eliminate this scheme, there are already ideas about how it can be fixed \cite{sidh_fix1,sidh_fix2}.
-Furthermore, many other cryptosystems are based on supersingular Elliptic Curves, like variants of SIDH \cite{csidh, osidh} or hash functions \cite{supersingular_hash_function}.
-All in all, it is fair to say that supersingular curves are a hot topic in cryptography.
+Although the pioneering works have been based on ordinary curves, a majority of later schemes uses supersingular curves.
+Hence, it is a natural question how to computationally generate supersingular curves in implementations.
+The good new is that methods based on complex multiplication \cite{constructing_supersingular_curves} together with random walks allow us to find uniformly random supersingular curves even over prime fields of exponentially large characteristic.
+However, this method has a drawback.
+Namely, whoever generates a curve using this algorithm can easily find its endomorphism ring, which can be used as a trapdoor for various cryptographically relevant problems \cite{endomorphism_ring_isogeny_path_equivalent}.
 
-It is thus a natural question how to computationally generate random supersingular curves for use in various protocols.
-The current approach, based on random walks in isogeny graphs (see Section~\ref{prop:naive_classical_approaches}), is very efficient, but has a drawback.
-Namely, the computation reveals an isogeny path to the starting curve, which usually has a small endomorphism ring, a weakness \cite{endomorphism_ring_isogeny_path_equivalent}.
-In the standard scenario, this is not a problem, since the person generating the curve will be one of the participants, and not an attacker.
-However, there are situations in which there are problems caused by this weakness.
-In particular, various cryptographic primitives \cite{verifiable_delay_function, torsion_point_problem2} currently require a trusted setup step, which another way of generating initial curves would be found.
+In many cases like encryption, this is not a problem at all, since the person generating the curve has access to the secret anyway, for example because they are a legitimate party in the communication.
+However, even for SIDH (before it was broken), there were some subtle security problem related to the torsion-point attacks, that could be prevented by other, trapdoor-free ways of finding starting curves.
+Furthermore, many applications, for example in blockchain environments or for more sophisticated primitives \cite{verifiable_delay_function, torsion_point_problem2}, are insecure if any party has knowledge of a trapdoor for the starting curve.
+Hence, these scenarios currently require a trusted third party, that generates a curve using one of the known approaches, and then forgets about the additional information produced in the process.
+Therefore, there is natural interest in methods to eliminate this trusted third party, by finding algorithms that generate supersingular curves, for whom the endomorphism ring problem is as hard as for random curves - even when the randomness used for the generation is known.
+This is currently an open problem.
 
-It is currently an open problem if we can generate Elliptic Curves efficiently in a way that does not reveal such an isogeny, nor other information that might be used for attacks in certain scenarios.
-Up to now, the only solution is to involve a trusted third party that forgets about the additional information produced by generating a supersingular curve by one of the classical ways.
-
-Some approaches to solve this problem have been proposed in \cite{base_paper}, most of them trying to exploit special structure to find roots of very large polynomials.
-However, for each approach so far there are some serious obstacles before it might be practical.
+Some approaches have been proposed in \cite{base_paper}, most of them trying to exploit special structure to find roots of very large polynomials.
+However, for each approach so far there are some serious obstacles that must be overcome before it might be practical.
 In this work, we focus on the second of these, which is proposed by Katherine Stange.
-Basically, it relies on the observation that Elliptic Curves with fixed-degree isogenies to their Frobenius conjugate are supersingular with higher probability.
-In the case that one requires two isogenies of different, fixed degree, they also propose a resultant-based algorithm to find such curves.
+Basically, it relies on the observation that Elliptic Curves with fixed-degree isogenies to their Galois conjugate are supersingular with higher probability.
+Further, they propose an approach based on modular polynomials and resultants that can find a random curve with two isogenies of different, fixed degree to their Galois conjugate.
 However, as mentioned in \cite{base_paper}, there are two main problems with this approach.
 
 First, it is not clear how strong the correlation between having fixed-degree isogenies to the conjugate and the supersingularity is.
-The paper contains an estimate under the assumption that the existence of different degree isogenies is in a certain sense independent.
-However, this estimate does not completely match their experimental data.
-Furthermore, in the case of taking two isogenies of different degree, the correlation seems to be too weak, i.e. there are still to many ordinary curves with such isogenies to make the method find a supersingular curve efficiently.
-According to their heuristic, this can be fixed by using three different isogenies, but this is also not proven, and computationally more expensive than the two-isogeny variant.
+The paper contains an estimate under the assumption that the existence of isogenies is in a certain sense independent, but this estimate does not completely match their experimental data.
+Furthermore, in the case of taking two isogenies of different degree, the correlation seems to be too weak for the idea to work properly.
+According to their heuristic, it can be fixed by using three different isogenies, but this is also not proven, and computationally more expensive than the two-isogeny variant.
 
 The second problem is that in order to avoid vulnerabilities, the algorithm has to work with modular polynomials of exponential degree.
 Currently, no way to exploit special structure is known that would allow us to do this efficiently.
 
 In our research, we tried to address both problems.
-Namely, we were able to find a special cases involving two isogenies, in which the fraction of supersingular Elliptic Curves is provably big enough.
+Namely, we were able to find a special case of the two-isogeny variant, in which the fraction of supersingular Elliptic Curves is provably big enough.
 More concretely, we present the following result.
 \begin{prop}[First Result]
     \label{prop:main_result1}
@@ -43,7 +40,6 @@ More concretely, we present the following result.
     Then a random Elliptic Curve over $\F_{p^2}$ with a cyclic $l^f$-isogeny and any $l^e$-isogeny to its Frobenius conjugate is supersingular with exponentially high probability (in $\log(p)$).
 \end{prop}
 Taking the degrees of the isogenies to be prime powers might additionally have computational advantages, as it allows us to decompose the isogeny into a sequence of smaller ones.
-In particular, this holds for the possibly non-cyclic isogeny of degree $l^e$.
 
 The second problem seems to be more difficult, and we did not find an algorithm that can compute the curves in practice.
 However, we also propose a variant of the original idea, and argue that the structure of the corresponding polynomials looks like it might make computations simpler.

@@ -9,7 +9,7 @@ If the characteristic of $k$ is not 2 or 3, each Elliptic Curve $E$ is isomorphi
 \begin{equation*}
     E: y^2 = x^3 + Ax + B
 \end{equation*}
-such that the special point is the projective point at infinity $\IdPoint = (0 : 1 : 1)$ \cite[Prop.~III.3.1]{arithmetic_elliptic_curves}.
+such that the special point is the projective point at infinity $\IdPoint = (0 : 1 : 0)$ \cite[Prop.~III.3.1]{arithmetic_elliptic_curves}.
 Furthermore, an isomorphism class of Elliptic Curves is uniquely determined by its j-invariant \cite[Prop.~III.1.4]{arithmetic_elliptic_curves}, defined as
 \begin{equation*}
     j(E) := -1728 \frac {(4A)^3} {-16(4A^3 + 27B^3)}
@@ -86,7 +86,7 @@ In particular, for a finite subgroup $G \leq E$ there is a unique (up to isomorp
 We also denote $E'$ by $E/G$, as that is the group structure on $E'$ by the isomorphism theorem (morphisms of projective irreducible curves are always surjective).
 
 Furthermore, this correspondence is compatible with the inclusion of finite subgroups as follows.
-If $G_1 \leq G_2 \leq E$ are two finite subgroups, then the unique separable isogeny $\psi: E \to E/G_2$ with kernel $G_2$ factors through the isogeny $\phi: E \to E/G_1$, i.e. there is an isogeny $\rho: E/G_1 \to E/G_2$ with
+If $G_1 \leq G_2 \leq E$ are two finite subgroups, then the unique separable isogeny $\psi: E \to E/G_2$ with kernel $G_2$ factors through the isogeny $\phi: E \to E/G_1$, i.e. there is an isogeny $\rho: E/G_1 \to E/G_2$ such that the diagram
 \begin{center}
     \begin{tikzpicture}
         \node (E0) at (-4, 0) {$E$};
@@ -98,10 +98,10 @@ If $G_1 \leq G_2 \leq E$ are two finite subgroups, then the unique separable iso
         \draw [->] (E0) to [bend left] node [midway, above] {$\psi$} (E2);
     \end{tikzpicture}
 \end{center}
-is commutative.
+commutes.
 An analogous statement also holds for inseparable isogenies.
 If $\mathrm{char}(k) = p$, then an inseparable isogeny $\psi: E \to E'$ always factors through the $p$-th power Frobenius $\pi: E \to E^{(p)}$ (which is of course purely inseparable), where $E^{(p)}$ is the Elliptic Curve with all coefficients of the defining equation raised to the $p$-th power.
-Note that can also define operation $\cdot^{(p)}$ on isogenies, by again raising each coefficient in the defining polynomials to the $p$-th power.
+Note that can also define the operation $\cdot^{(p)}$ on isogenies, by again raising each coefficient in the defining polynomials to the $p$-th power.
 This way, $\cdot^{(p)}$ becomes an endofunctor on the category of Elliptic Curves over $\bar{\F}_p$ and their isogenies.
 
 The final notion we require in this context is the one of the dual isogeny.
@@ -148,7 +148,7 @@ In particular, there is the following theorem
 \end{theorem}
 For a proof, see e.g. \cite[Corollary~III.9.4]{arithmetic_elliptic_curves}.
 
-If $\mathrm{char}(k) \subseteq \bar{\F}_p$, we call the curve $E$ \emph{ordinary} in the second case and \emph{supersingular} in the third case.
+If $k \subseteq \bar{\F}_p$, we call the curve $E$ \emph{ordinary} in the second case and \emph{supersingular} in the third case.
 There are some other fundamental differences between those two types, as displayed in the following table.
 Denote by $\pi_E$ the $q$-th power Frobenius, where $E$ is defined over $\F_q$.
 \begin{center}
@@ -176,10 +176,10 @@ There is also the famous theorem by Hasse \cite[Thm V.1.1]{arithmetic_elliptic_c
 \end{equation*}
 In particular, this implies that $|\mathrm{Tr}(\pi_E)| \leq 2\sqrt{q}$.
 Furthermore, if $E/\F_q$ is ordinary, the discriminant of the order $\End(E)$ divides the discriminant $d(\Z[\pi_E])$, as $\Z[\pi_E] \subseteq \End(E)$.
-As $d(\Z[\pi_E]) = \mathrm{Tr}(\pi_E)^2 - 4q$, we see that $-4q < d(\End(E)) < 0$ in this case.
+Now it follows that $-4q < d(\End(E)) < 0$ in this case, because $d(\Z[\pi_E]) = \mathrm{Tr}(\pi_E)^2 - 4q$.
 
 Finally, note that in a supersingular Elliptic Curve, we always have $[p] = \epsilon \pi^2$, where now $\pi: E \to E^{(p)}$ the the $p$-th power Frobenius and $\epsilon$ is an automorphisms of $E$.
-However, too hard to show \cite[Thm~III.10.1]{arithmetic_elliptic_curves} that
+However, it is not too hard to show \cite[Thm~III.10.1]{arithmetic_elliptic_curves} that
 \begin{equation*}
     \#\mathrm{Aut}(E) = \begin{cases}
         2 & \text{if $j(E) \neq 0, 1728$} \\

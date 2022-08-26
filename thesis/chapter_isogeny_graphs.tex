@@ -1,8 +1,8 @@
 
-In cryptography, we are of course not just interested in abstract structure of Elliptic Curves and isogenies, but also in computing it.
-There are for example nice ways to compute the curve $E$ and the isogeny $E \to E/G$ for a finite subgroup $G \leq E$ in time polynomial in $\#G$.
+In cryptography, we are of course not just interested in abstract structure of Elliptic Curves and isogenies, but also in computing with them.
+A fundamental algorithm based on the Velu formulas allows to compute the curve $E/G$ and the isogeny $E \to E/G$ for a finite subgroup $G \leq E$ in time polynomial in $\#G$.
 However, in the general case, there is no way how one can represent or compute an isogeny of exponentially large degree.
-This is where we can do cryptography, since for smooth-degree isogenies $\psi$, we can factor them into a sequence of small degree isogenies, and evaluate them one after the other.
+This is where one can do cryptography, since for smooth-degree isogenies $\psi$, we can factor them into a sequence of small degree isogenies, and evaluate them one after the other.
 However, if this factorization is not known, it seems very hard to evaluate the isogeny.
 
 The underlying structure of this approach (and others) can now be captured by the $l$-isogeny graph $\Gamma_l(\F_q)$, for a prime $l \neq p$.
@@ -28,7 +28,7 @@ There is a very powerful description of this graph in terms of the endomorphism 
 Since these are (usually non-maximal) orders in quadratic imaginary number fields, whose theory is somewhat more complicated than the one of maximal orders (which are Dedekind domains), we first study them a little.
 
 \subsection{Imaginary quadratic orders}
-For this part, let $\O$ be an order in an imaginary quadratic number field $K$.
+For this part, let $\O$ be an order in an imaginary quadratic number field $K$, and let $\O_K$ denote the maximal order in $K$.
 What we will mainly do in this section is to show that ideal $\a \leq \O$ with norm $\Norm(\a) := [\O : \a]$ coprime to the index $[\O_K : \O]$ behave ``nicely'', i.e. similar to ideals in a Dedekind domain.
 Furthermore, we will study the structure of the class group of $\O$.
 First, we state a version of the Chinese remainder theorem.
@@ -39,14 +39,16 @@ First, we state a version of the Chinese remainder theorem.
     \end{equation*}
 \end{lemma}
 For a proof of this, see e.g. \cite[Prop.~I.12.3]{neukirch}.
+From now on, write $\Norm(\a)$ for the norm of an ideal $\a \leq \O$, i.e. $\Norm(\a) := [\O : \a]$.
+In the Dedekind ring $\O_K$ this is multiplicative, in the order $\O$, it is (in general) not.
 \begin{lemma}
     Let $\p \leq \O_K$ be a prime with $\Norm(\p) \perp [\O_K : \O]$.
     Then $\p$ has a set of generators in $\O$.
 \end{lemma}
 \begin{proof}
-    Suppose $\p$ is a prime over $p$, and let $\O = \Z[\phi]$.
+    Suppose $\p$ is a prime over $p$, and write $\O = \Z[\phi]$ for a generator $\phi$ of $\O$.
     We use the decomposition law in Dedekind ring extensions.
-    Since $\Norm(\p) \perp [\O_K : \O]$ are coprime, we can apply it with a generator $\phi$ of $\O$.
+    Since $\Norm(\p) \perp [\O_K : \O]$ are coprime, we can apply it for the generator $\phi$ of $\O$.
 
     If $\mathrm{MiPo}(\phi) = f(X)g(X) \mod p$ splits, then have
     \begin{equation*}
@@ -56,6 +58,7 @@ For a proof of this, see e.g. \cite[Prop.~I.12.3]{neukirch}.
     If $\mathrm{MiPo}(\phi) \mod p$ is irreducible, then have that $p\O_K$ is prime and thus the only prime ideal over $p$.
     Hence, all prime ideals over $p$ (including $\p$) have a set of generators in $\O$.
 \end{proof}
+Since multiplication of ideals can be expressed by the product of their generators, we get the following corollary.
 \begin{corollary}
     \label{prop:generators_in_order}
     Let $\a \leq \O_K$ be an ideal with $\Norm(\a) \perp [\O_K : \O]$. Then $\a$ has a set of generators in $\O$.
@@ -66,9 +69,9 @@ For a proof of this, see e.g. \cite[Prop.~I.12.3]{neukirch}.
     Then $\O_\p = (\O_K)_{\p'}$.
 \end{prop}
 \begin{proof}
-    We have $\O_K = \Z[\alpha]$ and $\O = \Z[f\alpha]$ where $f = [\O_K : \O]$.
+    We can choose a generator $\alpha$ of $\O_K$ and find $\O_K = \Z[\alpha]$ as well as $\O = \Z[f\alpha]$ where $f = [\O_K : \O]$.
     Thus $f \notin \p$ and so $f \in \O_\p^*$.
-    Therefore $\O_K \subseteq \O_\p$ and thus $(\O_K)_{\p'} \subseteq \O_\p$.
+    Therefore $\alpha = f^{-1}f\alpha \in \O_\p$ and so $(\O_K)_{\p'} \subseteq \O_\p$.
 \end{proof}
 \begin{lemma}
     If $\a \leq \O$ with $\Norm(\a) \perp f := [\O_K : \O]$ then also $\Norm(\a\O_K) \perp f$.
@@ -85,6 +88,11 @@ For a proof of this, see e.g. \cite[Prop.~I.12.3]{neukirch}.
     It clearly has kernel $\a \cap \O$, and so we find that $\O/(\a \cap \O) \subseteq \O_K/\a$.
     Thus $\Norm(\a \cap \O) \divides \Norm(\a)$ and it follows that $\Norm(\a \cap \O) \perp f$.
 \end{proof}
+Instead of all ideals in $\O$, we often only work with the set of invertible (fractional) ideals.
+A fractional ideal $\a \leq \O$ is invertible, if there is another fractional ideal $\b$ with $\a\b = \O$.
+In contrast to the set of all ideals, this is now a group.
+Clearly, every ideal $\a$ of the Dedekind ring $\O_K$ is invertible.
+
 This already gives a somewhat nice description of most ideals of the order $\O$.
 \begin{prop}
     \label{prop:coprime_ideals_order}
@@ -106,21 +114,21 @@ This already gives a somewhat nice description of most ideals of the order $\O$.
     This shows that $\a \cap \O$ is a preimage of $\a$, and so the map is surjective. 
 
     Assume now $\a, \b \leq \O$ with $\a\O_K = \b\O_K$ and $\Norm(\a), \Norm(\b) \perp f$.
-    We show that $\a_\p = \b_\p$ for all primes $\p \leq \O$.
-    Note that if $\Norm(\p) \not\perp f$, this holds trivially, as $\a_\p = \O_\p = \b_\p$.
+    We show that $\a\O_\p = \b\O_\p$ for all primes $\p \leq \O$.
+    Note that if $\Norm(\p) \not\perp f$, this holds trivially, as $\a\O_\p = \O_\p = \b\O_\p$.
     Otherwise, note that
     \begin{equation*}
-        \a_\p = \a_\p \O_\p = \a (\O_K)_\p = \a\O_K(\O_K)_\p = \b\O_K(\O_K)_\p = \b_\p (\O_K)_\p = \b_\p
+        \a\O_\p = \a (\O_K)_\p = \a\O_K(\O_K)_\p = \b\O_K(\O_K)_\p = \b (\O_K)_\p = \b\O_\p
     \end{equation*}
     as $\O_\p = (\O_K)_\p$.
-    This shows that $\a_\p = \b_\p$ at all primes, so $\a = \b$ and our map is injective.
+    This shows that $\a\O_\p = \b\O_\p$ at all primes, so $\a = \b$ and our map is injective.
     Furthermore, since $(\a \cap \O)\O_K = \a$, we see that it has the inverse
     \begin{equation*}
         \mathfrak{I}_f(\O_K) \to \mathfrak{I}_f(\O), \quad \a \mapsto \a \cap \O
     \end{equation*}
     which must then be well-defined.
 \end{proof}
-Furthermore, we are really interested in the class group of $\O$, which is now the quotient of only the invertible ideals of $\O$ modulo the principal ideals.
+Furthermore, we are interested in the class group of $\O$, which is now the quotient of only the invertible ideals of $\O$ modulo the principal ideals.
 The following statements are special cases of the general theory in \cite[Chapter I.§12]{neukirch}.
 \begin{lemma}
     \label{prop:invertible_ideal_characterization}
@@ -135,11 +143,11 @@ The following statements are special cases of the general theory in \cite[Chapte
     This proof is taken with some modifications from \cite[Prop.~I.12.9]{neukirch}.
 
     First, we show that for an invertible ideal $\a = (a_1, ..., a_n)$ have that $\a\O_\p$ is principal.
-    By assumption, have $\a\b = (1)$ with $\b = (b_1, ..., b_m)$ and so have $1 = \sum a_i b_i c_i$ with $c_i \in \O_\p$.
+    By assumption, have $\a\b = (1)$ with $\b = (b_1, ..., b_m)$ and so have $1 = \sum a_i b_i c_i$ with $c_i \in \O$.
     Clearly, $1 \notin \p\O_\p$ and thus one $a_i b_i c_i \notin \p\O_\p$, so $a_i b_i c_i \in \O_\p^*$ is a unit.
     Therefore, we find that $\a\O_\p = a_i\O_\p$, because for all $x \in \a\O_\p$, have then $x b_i c_i \in \a\b = \O_\p$, so
     \begin{equation*}
-        x = a_i \underbrace{x b_i c_i}_{\in \O_\p} \in a_i \O_\p
+        x = a_i \underbrace{x b_i c_i}_{\in \O_\p} (\underbrace{a_ib_ic_i}_{\in\O_\p^*})^{-1} \in a_i \O_\p
     \end{equation*}
     Now we can see that there is a well-defined homomorphism
     \begin{equation*}
@@ -152,8 +160,8 @@ The following statements are special cases of the general theory in \cite[Chapte
     It is thus left to show that $\iota^{-1}$ is also surjective.
     The following proof is taken with some modifications from \cite[Prop.~I.12.2]{neukirch}.
 
-    Assume $(a_\p)_\p \in \bigoplus_\p K^*/\O_\p^*$.
-    Then set $\a := \bigcap_\p a_\p \O_\p$.
+    Let $(a_\p)_\p \in \bigoplus_\p K^*/\O_\p^*$ and set $\a := \bigcap_\p a_\p \O_\p$.
+    We claim that $\iota^{-1}(\a) = (a_\p)_\p$. 
     Clearly we have $\a\O_\p \subseteq a_\p\O_\p$, so it is left to show the inclusion $\supseteq$.
 
     By multiplying both $(a_\q)_\q$ and $\a$ with an appropriate constant, we can assume that all $a_\q \in \O$.
@@ -187,7 +195,7 @@ We are now ready for our first description of $\Cl(\O)$.
     Let $f = [\O_K : \O]$ and assume that $\O_K^* = \{ \pm 1 \}$.
     There is an exact sequence
     \begin{equation*}
-        1 \ \to \ \bigoplus_\p R_\p^*/\O_\p^* \ \to \ \Cl(\O) \ \to \ \Cl(\O_K) \ \to \ 1
+        1 \ \to \ \bigoplus_\p R_\p^*/\O_\p^* \overset{f}{\longrightarrow} \Cl(\O) \overset{g}{\longrightarrow} \Cl(\O_K) \ \to \ 1
     \end{equation*}
     where $\Cl(\O)$ is the ideal class group of $\O$, i.e. the group of invertible, fractional ideals modulo principal ideals and $R_\p$ is the localization of $\O_K$ at the multiplicative set $\O \setminus \p$.
 \end{lemma}
@@ -204,7 +212,7 @@ We are now ready for our first description of $\Cl(\O)$.
     \end{equation*}
     is surjective.
 
-    Next, note that the isomorphism $\iota: \mathfrak{I}(\O) \to \bigoplus_\p K^*/\O_\p^*$ induces a map
+    Next, note that the isomorphism $\iota: \bigoplus_\p K^*/\O_\p^* \to \mathfrak{I}(\O)$ induces a map
     \begin{equation*}
         \bigoplus_\p R_\p^*/\O_\p^* \to \Cl(\O)
     \end{equation*}
@@ -212,8 +220,8 @@ We are now ready for our first description of $\Cl(\O)$.
 
     It is injective, as for an element $a = (a_\p)_\p$ in the kernel, have that $\iota(a) = (\alpha)$.
     However, then $(a_\p) = (\alpha)$ in $\O_\p$.
-    Hence, $\a_\p = \alpha\epsilon$ for $\epsilon \in \O_\p^*$ and we can assume that the representatives $a_\p \in R_\p^*$ are chosen such that $a_\p = \alpha$.
-    This implies that $\alpha \in \bigcap_\p R_\p^* = \O_K^*$, and by the assumption $\O_K^* = \{ \pm 1 \}$, have then $\alpha = \pm 1$.
+    Hence, $a_\p = \alpha\epsilon$ for $\epsilon \in \O_\p^*$ and we can assume that the representatives $a_\p \in R_\p^*$ are chosen such that $a_\p = \alpha$.
+    This implies that $\alpha \in \O \cap \bigcap_\p R_\p^* = \O_K^*$, and by the assumption $\O_K^* = \{ \pm 1 \}$, have then $\alpha = \pm 1$.
     The claim follows.
 
     Now it is only left to show that the sequence is exact at $\Cl(\O)$.
@@ -250,7 +258,7 @@ The expression $\bigoplus_\p R_\p^*/\O_\p^*$ is still somewhat unwieldy, but for
     There is at least one, as $\p\O_K$ is contained in a prime, and the number is finite, as $f\O_K$ factors into finitely many primes in the Dedekind ring $\O_K$.
     Hence, we have by the Chinese remainder theorem
     \begin{equation*}
-        (\O/f\O_K)^* \cong \bigoplus_{\p \supseteq f\O_K} (\O_\p/f\O_K\O_\p)^* \cong \bigoplus_{\p \supseteq f\O_K} (\O_\p/f\O_K\O_\p)^* = \bigoplus_{\p \supseteq f\O_K} (\O_\p/fR_\p)^*
+        (\O/f\O_K)^* \cong \bigoplus_{\p \supseteq f\O_K} (\O_\p/f\O_K\O_\p)^* = \bigoplus_{\p \supseteq f\O_K} (\O_\p/fR_\p)^*
     \end{equation*}
     Furthermore, we have
     \begin{equation*}
@@ -324,7 +332,7 @@ Fortunately, we can choose a system of embeddings $\End(E) \to K$ jointly for al
     Let $\phi$ and $\psi$ be two isogenies $E \to E'$.
     Then for each $\tau \in \End(E)$ have
     \begin{align*}
-        (\Phi \circ \hat{\Psi})(\tau) =& \frac 1 { \deg(\phi) } \phi \circ \left( \frac 1 {\deg(\psi)} \hat{\psi} \circ \tau \circ \psi \right) \\
+        (\Phi \circ \hat{\Psi})(\tau) =& \frac 1 { \deg(\phi) } \phi \circ \left( \frac 1 {\deg(\psi)} \hat{\psi} \circ \tau \circ \psi \right) \circ \hat{\phi} \\
         =& \frac 1 { \deg(\phi)\deg(\psi) } (\phi \circ \hat{\psi}) \circ \tau \circ (\psi \circ \hat{\phi}) \\
         =& \frac 1 { \deg(\phi)\deg(\psi) } (\phi \circ \hat{\psi}) \circ (\psi \circ \hat{\phi}) \circ \tau \\
         =& \frac 1 { \deg(\phi)\deg(\psi) } (\deg(\phi) \deg(\psi)) \tau = \tau
@@ -351,18 +359,18 @@ It will already be used in the next statement, which describes the relationship 
 \begin{proof}
     Note that the map
     \begin{equation*}
-        l\Phi: \End(E) \to \End(E'), \quad \tau \mapsto \phi \circ \tau \circ \hat{\phi}
+        p\Phi: \End(E) \to \End(E'), \quad \tau \mapsto \phi \circ \tau \circ \hat{\phi}
     \end{equation*}
-    yields endomorphisms of $\End(E')$, and so we have $l\End(E) \subseteq \End(E')$.
-    Similarly, find $l\End(E') \subseteq \End(E)$.
+    yields endomorphisms of $\End(E')$, and so we have $p\End(E) \subseteq \End(E')$.
+    Similarly, find $p\End(E') \subseteq \End(E)$.
 
     Now let $\alpha$ be a generator of the maximal order in $K = \End(E) \otimes \Q$.
-    Then each order of $K$ is of the form $\Z + f\alpha\Z$, and so
+    Then each order of $K$ is of the form $\Z \oplus f\alpha\Z$, and so
     \begin{equation*}
         \End(E) = \Z \oplus f_1\alpha\Z, \quad \End(E') \Z \oplus f_2\alpha\Z
     \end{equation*}
-    However, this implies that $f_1 \divides lf_2$ and $f_2 \divides lf_1$, so $f_1 \divides l f_2 \divides l^2 f_1$.
-    Since $l$ is prime, we find $f_2 \in \{ f_1/l, f_1, l f_1 \}$ and the claim follows.
+    However, this implies that $f_1 \divides pf_2$ and $f_2 \divides pf_1$, so $f_1 \divides p f_2 \divides p^2 f_1$.
+    Since $p$ is prime, we find $f_2 \in \{ f_1/p, f_1, p f_1 \}$ and the claim follows.
 \end{proof}
 Furthermore, we will sometimes talk about horizontal or vertical isogenies \emph{at a prime $l$}, which is defined by the next proposition.
 The advantage is that this is defined for all isogenies, not just those of prime degree.
@@ -373,7 +381,7 @@ The advantage is that this is defined for all isogenies, not just those of prime
     \begin{itemize}
         \item $\End(E) \otimes \Z_{(l)} = \End(E') \otimes \Z_{(l)}$ and we call $\phi$ \emph{horizontal at $l$}.
         \item $\End(E) \otimes \Z_{(l)} \subseteq \End(E') \otimes \Z_{(l)}$ with $[\End(E') \otimes \Z_{(l)} : \End(E) \otimes \Z_{(l)}] = l^r$ for $r > 0$. We call $\phi$ \emph{ascending at $l$}.
-        \item $\End(E) \otimes \Z_{(l)} \supseteq \End(E') \otimes \Z_{(l)}$ with $[\End(E) \otimes \Z_{(l)} : \End(E') \otimes \Z_{(l)}] = p$ for $r > 0$. We call $\phi$ \emph{descending at $l$}.
+        \item $\End(E) \otimes \Z_{(l)} \supseteq \End(E') \otimes \Z_{(l)}$ with $[\End(E) \otimes \Z_{(l)} : \End(E') \otimes \Z_{(l)}] = l^r$ for $r > 0$. We call $\phi$ \emph{descending at $l$}.
     \end{itemize}
 \end{prop}
 \begin{proof}
@@ -409,7 +417,7 @@ As it turns out, the endomorphism rings we consider are all isomorphic, and so t
     Assume for a contradiction that $\phi$ is descending at $l$.
     In other words, there is $\tau \in \End(E)$ such that $\phi \circ \tau \circ \hat{\phi}$ is not divisible by $l$.
     Hence, $E'[l] \not\subseteq \ker(\phi \circ \tau \circ \hat{\phi})$ and there is a point $P \in E'[l]$ with $\phi(\tau(\hat{\phi}(P))) \neq \IdPoint$.
-    This implies $\tau(\hat{\phi}(P)) \notin E[\a]$ and thus there is $\alpha \in \a$ with $\tau(\hat{\phi}(P)) \notin \ker(\alpha)$.
+    This implies $\tau(\hat{\phi}(P)) \notin E[\b]$ and thus there is $\alpha \in \b$ with $\tau(\hat{\phi}(P)) \notin \ker(\alpha)$.
     Note that $\alpha$ factors through $\phi$ as
     \begin{center}
         \begin{tikzpicture}
@@ -422,10 +430,10 @@ As it turns out, the endomorphism rings we consider are all isomorphic, and so t
             \draw [->] (E1) to [bend left] node [midway, above] {$\alpha$} (E2);
         \end{tikzpicture}
     \end{center}
-    We assume $l \divides n$, otherwise the claim is trivial.
+    We assume $l \divides \deg(\phi)$, otherwise the claim is trivial.
     However, then we have the contradiction
     \begin{align*}
-        \psi((\phi \circ \tau \circ \hat{\phi})(P)) &= (\psi \circ \phi \circ \tau \circ \hat{\phi})(P) = (\alpha \circ \tau \circ \hat{\phi})(P) \\
+        \IdPoint \neq \psi((\phi \circ \tau \circ \hat{\phi})(P)) &= (\psi \circ \phi \circ \tau \circ \hat{\phi})(P) = (\alpha \circ \tau \circ \hat{\phi})(P) \\
         &= (\tau \circ \alpha \circ \hat{\phi})(P) = (\tau \circ \psi \circ [n])(P) = (\tau \circ \psi)(\IdPoint) = \IdPoint
     \end{align*}
     since $\tau \circ \alpha = \alpha \circ \tau$ ($\End(E)$ is commutative).
@@ -482,15 +490,15 @@ Note that the condition $p \notdivides d(\O)$ is just equivalent to all curves $
     Write $\pi \in \O$ for the unique element of $\O$ that maps to the Frobenius of $E$ under the maps $\O \overset{\sim}{\longrightarrow} \End(E)$ for all $E$ with $\End(E) \cong \O$.
     
     We have $\a = \tilde{\a} (p, \pi)^r$ and $\b = \tilde{\b} (p, \pi)^s$ with $\tilde{\a}, \tilde{\b} \perp (p, \pi)$.
-    It is now the case that
+    For $q$ such that $\phi_{E_\a, \tilde{b}}$ is defined over $\F_q$, it is now the case that
     \begin{equation*}
-        \phi_{E, \a\b} = \phi_{E, \tilde{\a} \tilde{\b}}^{(p^{r + s})}
+        \phi_{E, \a\b} = \pi_{r + s} \circ \phi_{E, \tilde{\a} \tilde{\b}}
     \end{equation*}
     and
     \begin{equation*}
-        \phi_{E_\a, \b} \circ \phi_{E, \a} = (\phi_{E_\a, \tilde{\b}} \circ \pi_r \circ \phi_{E, \tilde{\a}})^{(p^s)} = (\phi_{E_\a, \tilde{\b}}^{(q/p^r)} \circ \phi_{E, \tilde{\a}})^{(p^{r + s})}
+        \phi_{E_\a, \b} \circ \phi_{E, \a} = \pi_s \circ (\phi_{E_\a, \tilde{\b}} \circ \pi_r \circ \phi_{E, \tilde{\a}}) = \pi_{r + s} \circ (\phi_{E_\a, \tilde{\b}}^{(q/p^r)} \circ \phi_{E, \tilde{\a}})
     \end{equation*}
-    where $\pi_r: E_{\tilde{\a}} \to E_{\tilde{\a}}^{(p^r)}$ is the $p^r$-th power Frobenius and we assume that $\phi_{E_\a, \tilde{\b}}$ is defined over $\F_q$.
+    where $\pi_r: E_{\tilde{\a}} \to E_{\tilde{\a}}^{(p^r)}$ is the $p^r$-th power Frobenius, and similar for $\pi_s$, $\pi_{r + s}$. 
     Note that $\phi_{E_\a, \tilde{\b}}$ is the separable isogeny with kernel $E_\a[\tilde{\b}]$ and thus $\phi_{E_\a, \tilde{\b}}^{(q/p^r)}$ is the separable isogeny with kernel $E_{\a}^{(q/p^r)}[\tilde{\b}] = E_{\tilde{\a}}[\tilde{\b}]$.
     In other words, find
     \begin{equation*}
@@ -519,7 +527,7 @@ Note that the condition $p \notdivides d(\O)$ is just equivalent to all curves $
     \end{align*}
     The equality at $(*)$ holds, since
     \begin{equation*}
-        i'(\tau) = (\Phi_* \circ i)(\tau) = \frac 1 {\deg(\phi)} \phi \circ i(\tau) \circ \hat{\phi} \qedhere
+        i'(\tau) = (\Phi \circ i)(\tau) = \frac 1 {\deg(\phi)} \phi \circ i(\tau) \circ \hat{\phi} \qedhere
     \end{equation*}
 \end{proof}
 What we have so far is already enough to establish a monoid action
@@ -543,7 +551,7 @@ Next, we investigate the torsion of this action, i.e. for which $\a$ we have $\a
     Thus $E_{\alpha\a} = E_{\beta\b}$ and it suffices to show that for any Elliptic Curve $E$ and $\alpha \in \End(E)$, have $E_{(\alpha)} \cong E$.
 
     Write $(\alpha) = (p, \pi)^r \a$ and assume that $E$ is defined over $\F_{p^s}$.
-    Then $(\alpha)(p)^{\lceil r/s \rceil s - r} = (\pi)^{\lceil r/s \rceil}(\alpha')$ since $(p) = (p, \pi)(p, \pi - t)$ and $(p, \pi)^s = (\pi)$ by an easy computation.
+    It follows that $(p, \pi)^s = (\pi)$ and so there is $\alpha' \in \O$, $\alpha' \notin (p, \pi)$ with $(\alpha)(p)^{\lceil r/s \rceil s - r} = (\pi)^{\lceil r/s \rceil} (\alpha')$.
     Furthermore, $\alpha' \notin (p, \pi)$.
     Now note that for any curve $E$, have $E_{(\pi)} = E^{(p^s)} \cong E$ and $E_{(p)} \cong E$, where the latter holds, since in the ordinary case, $p$ factors as
     \begin{center}
@@ -573,7 +581,7 @@ Next, we investigate the torsion of this action, i.e. for which $\a$ we have $\a
     Therefore, the isogenies $\phi_{E, \a}$ and $\phi_{E, \b}$ are separable.
     Write $E' := E_\a = E_\b$.
     Choose $N > 0$ such that $[N]^{-1}(E[\a]) \supseteq E[\b]$.
-    Now the isogeny $[N] \circ \phi_{E, \a}$ factors through $\phi_{E, \b}$, i.e. we get a commutative diagram
+    Note that $[N] \circ \phi_{E, \a} = \phi_{E, \a} \circ [N]$ and so the isogeny $[N] \circ \phi_{E, \a}$ factors through $\phi_{E, \b}$, i.e. we get a commutative diagram
     \begin{center}
         \begin{tikzpicture}
             \node (E1) at (0, 1) {$E'$};
@@ -590,13 +598,13 @@ Next, we investigate the torsion of this action, i.e. for which $\a$ we have $\a
     for some endomorphism $\psi: E' \to E'$.
     Clearly the isogenies $[N]$ and $\psi$ are given by the ideals $(N)$ resp. $(\psi)$, and so we find
     \begin{equation*}
-        (N)\a = (\psi)\b
+        E[(N)\a] = E[(\psi)\b]
     \end{equation*}
     and the claim follows.
 \end{proof}
 Now we have proven almost everything we need.
 The final ingredient, from which it will then follow that the class group action is transitive, is a theorem of Tate.
-Since it uses much of the theory on general abelian varieties, we will present it without proof here.
+Since it uses much theory on general abelian varieties, we will present it without proof here.
 For a proof, the reader is referred to the work of Tate \cite{tate}.
 \begin{theorem}[Isogeny theorem]
     \label{prop:isogeny_theorem}
@@ -617,7 +625,7 @@ Note that this condition is also equivalent to $\End(E) \otimes \Q \cong \End(E'
     Well-definedness and freeness follow from all the previous lemmas.
     So it is left to derive the transitivity from Theorem~\ref{prop:isogeny_theorem}.
     Let $E$ and $E'$ be curves in $\Ell(\O)$.
-    Clearly, we then have $\#E(\F_q) = \#E'(\F_q)$ and so there is a separable isogeny $\phi: E \to E'$.
+    Clearly, we then have $\#E(\F_q) = \#E'(\F_q)$ and so there is an isogeny $\phi: E \to E'$.
     Everything we have to show is that $\phi = \phi_{E, \a}$ for some ideal $\a \leq \O$.
     Note that we can multiply $\a$ by $(p)$ and divide by $\pi$, and thus achieve that $\phi$ is separable.
 
@@ -627,18 +635,18 @@ Note that this condition is also equivalent to $\End(E) \otimes \Q \cong \End(E'
     \begin{equation*}
         T_lE := \lim_n E[l^n]
     \end{equation*}
-    Note that this is an $\O_l := \O \otimes \Z_l$-module.
     Furthermore, the isogeny $\phi$ induces a map
     \begin{equation*}
         \phi_l: T_lE \to T_lE', \quad (P_n)_n \mapsto (\phi P_n)_n
     \end{equation*}
-    By our choice of the canonical isomorphism $\End(E) \cong \O \cong \End(E')$, this becomes an $\O_l$-module homomorphism.
+    An endomorphism $\alpha$ of $E$ now acts on $T_lE$, and so $T_lE$ becomes a free $\O_l := (\O \otimes \Z_l)$-module of rank 1.
+    Also $T_lE'$ becomes an $\O_l$-module (this is where we use the assumption that $\End(E) \cong \End(E')$).
+    Additionally, our choice of the canonical isomorphism $\End(E) \cong \O \cong \End(E')$ implies that $\phi_l$ is an $\O_l$-module homomorphism.
     Extending it linearly, we get the map
     \begin{equation*}
         \phi_l: T_lE \otimes_{\Z_l} \Q_l \to T_lE' \otimes_{\Z_l} \Q_l
     \end{equation*}
     We can now consider the $\O_l$-module $M := \phi_l^{-1}(T_lE') \subseteq T_lE \otimes_{\Z_l} \Q_l$.
-    Note that this is the only time we use the assumption $\End(E) \cong \End(E')$, which yields here that $M$ is an $\O_l$-module.
 
     The module $M$ contains $T_lE$ and furthermore, $T_lE$ has finite index in $M$.
     Therefore $M$ is a $\O_l$-submodule of $l^{-n}T_lE$ for some $n$.
@@ -683,7 +691,7 @@ Note that this condition is also equivalent to $\End(E) \otimes \Q \cong \End(E'
     \end{equation*}
 
     Now let $\a \leq \O$ be the invertible ideal such that $\a\O_\l = (\alpha_l)_\l$ for every prime ideal $\l$ under a prime number $l$ (the $\alpha_l$ are the element from above with $\alpha_l M = T_lE$).
-    This is possible by Lemma~\ref{prop:invertible_ideal_characterization}, as only finitely many $(\alpha_l) \neq (1)$ (namely for those $l$ with $l \divides \deg(\phi)$).
+    This is possible by Lemma~\ref{prop:invertible_ideal_characterization}, as only finitely many $(\alpha_l) \neq (1)$ (namely those $l$ with $l \divides \deg(\phi)$).
 
     Then for each primes $l$, we have
     \begin{equation*}
@@ -735,7 +743,7 @@ The term ``volcano'' was introduced by \cite{isogeny_vulcano}, after Kohel had m
     \end{itemize} 
 \end{theorem}
 \begin{proof}
-    This follows from the class group action and the description of the class group of quadratic imaginary orders~\ref{prop:class_group_order}.
+    This follows from the class group action and the description of the class group of quadratic imaginary orders (Corollary~\ref{prop:class_group_order}).
     For the remaining details, we refer the reader to Kohel's thesis \cite[Prop.~23]{kohel}.
 \end{proof}
 We remark that the crater of a volcano is a single vertex with a loop, if $(l)$ is inert in $\O$.
@@ -765,7 +773,7 @@ After studying the ordinary connected components of the $l$-isogeny graph $\Gamm
 First, note that all supersingular j-invariants are defined over $\F_{p^2}$, and so we will assume $q = p^2$ for this section.
 
 In the supersingular setting, the endomorphism ring is now non-commutative.
-There still exists a non-commutative analogue of the class group action, but using that structure is significantly harder.
+There still exists a non-commutative analogue of the class group action, but using it is significantly harder.
 Mainly, because the theory of quaternion algebras is more complicated, and its class group structure is less studied.
 \begin{figure}
     \begin{center}
@@ -803,7 +811,7 @@ The connection between those two definitions is then given by the Cheeger-inequa
 \begin{proof}
     See e.g. \cite{cheeger_inequality}.
 \end{proof}
-This inequality only correlates the so-called spectral gap $d - \lambda_2$ with $h(G)$, and does not bound $|\lambda_2|$.
+This inequality only correlates the so-called spectral gap $d - \lambda_2$ with $h(G)$, and does not bound $|\lambda_n|$.
 In many cases, bounds on the spectral gap or expansion ration already suffice to show properties of expanders.
 Because of this, expanders are usually defined as graphs for which only $\lambda_2$ or $h(G)$ are bounded.
 Our definition~\ref{def:expander} is then sometimes called ``two-sided expander''.
@@ -821,7 +829,7 @@ In particular, an expander graph is densely connected, i.e. by deleting a small 
 It is known that the bound $2\sqrt{d - 1}$ is asymptotically optimal, i.e. for sufficiently large $n$, all $d$-regular graphs of $n$ vertices have $\lambda_2 \geq 2\sqrt{d - 1} - \epsilon$.
 In that sense, we can say Ramajuan graphs are graphs with asymptotically optimal expansion properties.
 
-One of the main properties of expander graphs is random walks on them mix rapidly.
+One of the main properties of expander graphs is that random walks on them mix rapidly.
 That is, the final vertex of relatively short random walks is distributed almost uniformly among all vertices.
 \begin{theorem}
     \label{prop:expander_random_walk}
@@ -882,7 +890,7 @@ Furthermore, there are many other applications where a torsion-based approach do
 
 In the ordinary case, the class group action might be also used to compute neighbors in the $l$-isogeny graph, provided we know the endomorphism ring of the start curve.
 However, finding the endomorphism ring is a hard problem in itself, and thus this method is not really practical.
-Furthermore, this does not work in the supersingular setting.
+Furthermore, it does not work in the supersingular setting.
 
 One solution to this problem is given by modular curves, which give a very useful algebraic structure to the $l$-isogeny graph.
 In particular, the existence of a nontrivial $l$-isogeny between curves is an algebraically closed condition, i.e. is given by an algebraic curve.
@@ -957,11 +965,11 @@ This is very similar to the well-known lifting lemma of Deuring, which is about 
         f(\sum T_i X^i, Y v_0, w_0) = \sum_i a_i(T_0, ..., T_n) X^i \in \O_K[X][T_i]
     \end{equation*}
     modulo $\p$.
-    Note that the coefficient $a_j(T_0, ..., T_n)$ of $X^j$ in $(\sum_i T_i X^i)^3$ contains the monomial $T_0^2 T_j$, and 
-    wlog we have chosen the lifts of $A, B$ such that also the coefficient in $f(\sum T_i X^i, Y v, w)$ does.
+    Note that the coefficient of $X^j$ in $(\sum_i T_i X^i)^3$ contains the monomial $T_0^2 T_j$, and 
+    wlog we have chosen the lifts of $A, B$ such that also the coefficient $a_j(T_0, ..., T_n)$ in $f(\sum T_i X^i, Y v, w)$ does.
     Furthermore, $a_j$ is in $\O_K[T_0, ..., T_j]$, i.e. only depends on $T_0, ..., T_j$.
 
-    wlog $u_0 \neq 0$, otherwise we can just move $E'$ in $x$-direction by some element in $\p$, which preserves $\tilde{E}_0' = E'$.
+    wlog $u^{(0)} \neq 0$, otherwise we can just move $E'$ in $x$-direction by any element in $\F_q$.
 
     We know that $u^{(0)}$ is a root of $a_0$ modulo $\p$, and so Lemma~\ref{prop:modified_hensel_lifting} shows that there is a lift $u^{(0)}_0$ of $u^{(0)}$ in some number field $L_0/K$ with $a_0(u^{(0)}_0) = 0$.
     Since $u_0^{(0)} \neq 0$, we see that $a_i(u_0^{(0)}, ..., u_0^{(i - 1)}, T_i)$ contains the monomial $T_i$, and so applying the lemma inductively, we also find lifts $u^{(1)}_0, ..., u^{(n)}_0 \in \O_L/K$ with $a_i(u^{(0)}_0, ..., u^{(i)}_0) = 0$.
@@ -1004,7 +1012,7 @@ since the only $p$-isogenies over a field of characteristic $p$ are the Frobeniu
 
 The modular polynomial is an indispensable tool when doing computations on the isogeny graph.
 In particular, when combined with an algorithm to factor polynomials over $\F_q$, it allows us to compute all the neighbors of a curve $E$ in the $l$-isogeny graph.
-For example Sutherland's supersingular test \cite{sutherland_supersingularity_test} uses modular polynomials for walks in the isogeny graph, and distinguishes ordinary and supersingular curves by the structure of their isogeny graph neighborhoods.
+For example Sutherland's supersingular test (see Section~\ref{sec:sutherlands_supersingularity_test}) uses modular polynomials for walks in the isogeny graph, and distinguishes ordinary and supersingular curves by the structure of their isogeny graph neighborhoods.
 Another example is Shoof's algorithm \cite{shoof_point_counting} for counting $\F_q$-rational points on a curve, which also fundamentally relies on modular polynomials.
 
 Therefore, computing modular polynomials is an important task.

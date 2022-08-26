@@ -59,7 +59,7 @@ In particular, in the ordinary case, the nonconstant isogeny $[p] - \pi$ can sti
 Therefore, to prove supersingularity, different methods are needed.
 Sutherland \cite{sutherland_supersingularity_test} proposed the following method based on isogeny graphs.
 
-Note that $E$ is defined over $\F_{p^2}$ if and only if there is a nontrivial element of norm $p^2$ in $\End(E)$ (either this element or its conjugate must be the $p^2$-th power Frobenius).
+Note that $j(E)$ is in $\F_{p^2}$ if and only if there is a nontrivial element of norm $p^2$ in $\End(E)$ (either this element or its conjugate must be the $p^2$-th power Frobenius).
 Now assume we have an ordinary curve $E$ over $\F_{p^2}$ on the $i$-th lava flow level in the $2$-isogeny volcano.
 Then the curves on the $(i + j)$-th lava flow level have the endomorphism ring $\Z + 2^j\End(E)$ by Prop.~\ref{prop:isogeny_vulcano}.
 Assuming that $\pi \in \Z + 2^j\End(E)$, we then find that
@@ -105,14 +105,15 @@ Hence, this algorithm also plays an important role in isogeny-based cryptography
 Even though the Supersingular Isogeny Diffie-Hellman (SIDH) scheme is broken, we think its ideas are important and serve well to illustrate the basic approach in isogeny-based cryptography.
 Hence, we want to given an overview in this section.
 
-The basic structure of SIDH is, as the name suggests, somewhat similar to the classical Diffie-Hellman key exchange.
+The structure of SIDH is, as the name suggests, somewhat similar to the classical Diffie-Hellman key exchange.
 The basic idea is that both Alice and Bob take a random walk start from a joint curve $E$ in the supersingular $l_A$-resp. $l_B$-isogeny graph, ending at curves $E_A$ and $E_B$.
 Now they exchange these curves, and then take the ``same'' walk on the other curve, i.e. Alice performs the same walk again, but this time starting from $E_B$ and similar for Bob.
 Hence, Alice ends up at a curve $E_{BA}$ and Bob with a curve $E_{AB}$.
 We want that $E_{AB} \cong E_{BA}$, and then $j(E_{AB}) = j(E_{BA})$ can be used as a shared secret key.
 
 However, to achieve this, we need a suitable notion of the ``same'' walk, starting from a different curve.
-The way to achieve this in SIDH is to share some additional information about the isogenies $E \to E_A$ resp. $E \to E_B$.
+In the ordinary case, we could realize the ``same'' walk by a walk given by the same ideal via the class group action.
+In SIDH, the way to do it is to share some additional information about the isogenies $E \to E_A$ resp. $E \to E_B$.
 
 More concretely, Alice's isogeny $\phi_A: E \to E_A$ is determined by a cyclic subgroup of $E[l_A^{e_A}]$, thus has a generator point $A \in E[l_A^{e_A}]$.
 Since $E[l_A^{e_A}] \cong (\Z/l_A^{e_A}\Z)^2$, it has a $(\Z/l_A^{e_A}\Z)$-basis, say $P_A$ and $Q_A$.
@@ -131,7 +132,7 @@ This method is also displayed in Figure~\ref{fig:sidh}.
 \end{figure}
 
 Note that these additional published points $\phi_A(P_B), \phi_A(Q_B), \phi_B(P_A), \phi_B(Q_A)$ make the security assumption required for SIDH somewhat nonstandard.
-In particular, it is not enough to assume that the isogeny path problem is hard, and also if we relax this in an analogous way to the classical Diffie-Hellman assumption (i.e. it is impossible to find $E_{AB}$ given $E_A$ and $E_B$) is not enough.
+In particular, it is not enough to assume that the isogeny path problem is hard, and even if we relax this in an analogous way to the classical Diffie-Hellman assumption (i.e. it is impossible to find $E_{AB}$ given $E_A$ and $E_B$), it does not suffice.
 As it turns out, this additional information indeed decreases the security, as first mentioned by Cristophe Petit \cite{torsion_point_attack}.
 However, it still was a big shock when \cite{sidh_broken} discovered an efficient attack using these torsion points, bringing the complete demise of SIDH.
 This is even more surprising, as an SIDH-based cryptosystem named SIKE \cite{sike} was already considered a promising candidate for post-quantum crypto, and made it into the fourth (and final) round of the NIST post-quantum standardization process.
@@ -186,7 +187,7 @@ The map $e_m(P, \cdot): E[m] \to \mu_m$ obviously cannot be injective by a cardi
 \end{equation*}
 This obviously violates the soundness of system, as an attacker could compute $Q = $ \textbf{Eval}$(\mathrm{ek}, Q) = \psi(Q)$, but then claim $Q'$ to be the result.
 Verification as above will not detect this.
-To make it work, \cite{verifiable_delay_function} proposes to assume that $E/\F_p$ and use the trace map
+To make it work, \cite{verifiable_delay_function} proposes to assume that $E$ is defined over $\F_p$ and use the trace map
 \begin{equation*}
     \mathrm{Tr}: E[m] \to E[m] \cap E(\F_p), \quad P \mapsto P + \pi_E(P)
 \end{equation*}
