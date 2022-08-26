@@ -21,6 +21,9 @@
 \usepackage{enumitem}
 \usepackage[noend]{algpseudocode}
 \usepackage[style=english]{csquotes}
+\usepackage[language=english, backend=biber, style=alphabetic, sorting=nyt]{biblatex}
+
+\addbibresource{../bibliography.bib}
 
 \hypersetup{
     colorlinks,
@@ -109,7 +112,6 @@
 \input{chapter_generating_curves.tex}
 
 \addcontentsline{toc}{chapter}{Bibliography}
-\bibliography{../bibliography}
-\bibliographystyle{plain}
+\printbibliography
 
 \end{document}

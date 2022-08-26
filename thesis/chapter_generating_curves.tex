@@ -440,14 +440,15 @@ All this is considered in the next proposition, which is again phrased using end
     Consider the number $n$ of endomorphism rings $\O$ of ordinary curves defined over $\F_{p^2}$ with $\pi \in \Z + m\O$, where $\pi$ is the $p^2$-Frobenius endomorphism of $\O$.
     Then
     \begin{equation*}
-        \Bigl\lfloor \frac p {m^2} \Bigr\rfloor \leq n \leq \Bigl\lfloor \frac {4p(p + 1)} {m^3} \Bigr\rfloor
+        \Bigl\lfloor \frac p {m^2} \Bigr\rfloor \leq n \leq \Bigl\lfloor \frac {16p^2} {m^3} \Bigr\rfloor
     \end{equation*}
     Furthermore, consider the number $N$ of ordinary j-invariants $j \in \F_{p^2}$ such that $\pi \in \Z + m\End(j)$.
-    Under GRH, we then for $m \leq p^2$ that
+    Under GRH, we have then for $m \leq p^2$ that
     \begin{equation*}
         c_1\left( \frac {p^2} {m^3 \log\log(p)^2} \right) \leq N \leq c_2\left( \frac {p^2\log(p)^2} {m^3} \right)
     \end{equation*}
     where $c_1, c_2 > 0$ are constants.
+    Furthermore, if $m^2 > 4p$, we have that $n = N = 0$.
 \end{prop}
 \begin{proof}
     First, we show the lower bounds.
@@ -463,7 +464,7 @@ All this is considered in the next proposition, which is again phrased using end
     Therefore we see that $\pi \in \Z + m\O_0$.
     Note that each $a$ gives rise to a distinct $\O_0$, and the first lower bound follows.
 
-    To get a lower bound for the number of curves, note that for each $\O_0$, by the class group action, there are exactly $\#\Cl(\O_0)$ such curves.
+    To get a lower bound for the number of curves, note that for each $\O_0$, by the class group action, there are exactly $\#\Cl(\O_0)$ curves with that endomorphism ring.
     Under GRH, Theorem~\ref{prop:class_number_bounds} gives
     \begin{equation*}
         h(D) \geq \frac {\sqrt{|D|}} {(\log\log|D|)^2} \Theta(1)
@@ -484,7 +485,7 @@ All this is considered in the next proposition, which is again phrased using end
     \begin{equation*}
         \Z[\pi] \subseteq \O \subseteq \O_0
     \end{equation*}
-    and so $D := d(\Z[\pi]) = a^2m^2d(\O_0)$.
+    and so $D := d(\Z[\pi]) = a^2m^2d(\O_0)$ for the integer $a = [\O_K : \Z[\pi]] / m$.
     Furthermore, if $t$ is the trace of $\pi$, we find $D = t^2 - 4p^2 = (t - 2p)(t + 2p)$.
     Hence
     \begin{equation*}
@@ -492,19 +493,21 @@ All this is considered in the next proposition, which is again phrased using end
     \end{equation*}
     Since $m$ is odd, we see that $m$ must be coprime to either $t - 2p$ or $t + 2p$ (it does not divide $4p$).
 
-    If $m^2 \divides t + 2p$, then $t \in \{ m^2 - 2p, 2m^2 - 2p, ..., km^2 - 2p \}$ where $k = \lfloor 2p/m^2 \rfloor$.
+    If $m^2 \divides t + 2p$, then $t \in \{ m^2 - 2p, 2m^2 - 2p, ..., km^2 - 2p \}$ where $k = \lfloor 4p/m^2 \rfloor$.
 
-    If $m^2 \divides t - 2p$, then $t \in \{ 2p - (k + 1)m^2, 2p - (k + 2)m^2, ..., 2p - (2k + 1)m^2 \}$.
+    If $m^2 \divides t - 2p$, then $t \in \{ 2p - km^2, 2p - (k - 1)m^2, ..., 2p - m^2 \}$.
     \\
-    In particular, there are at most $2k + 1$ different choices for $t$.
-    For a given $t$, there are now at most
+    In particular, there are at most $2k$ different choices for $t$.
+    This clearly implies that if $m^2 > 4p$, we have $k = 0$ and so $n = N = 0$.
+
+    Otherwise, for a given $t$, there are now at most
     \begin{equation*}
         \sqrt{\frac {|t^2 - 4p^2|} {m^2}} \leq \sqrt{\frac {4p^2} {m^2}} = \frac {2p} m
     \end{equation*}
     choices for $a$, which then uniquely determines $d(\O_0)$.
     The total number of possibilities for $d(\O_0)$ is thus
     \begin{equation*}
-        (2k + 1) \frac {2p} {m} \leq \frac {4p(p + 1)} {m^3}
+        2k \frac {2p} {m} \leq \frac {16p^2} {m^3}
     \end{equation*}
     To bound the number of curves, we again use the class group action and the following bound on the class number of a quadratic imaginary number field.
     Namely, if the discriminant is $D$, have
@@ -514,9 +517,9 @@ All this is considered in the next proposition, which is again phrased using end
     This now gives us the following upper bound on the number of curves
     \begin{align*}
         &\sum_{1 \leq i \leq k} \quad \sum_{a^2 \divides ((im^2 - 2p)^2 - 4p^2)/m^2} h\Biggl( \frac {(im^2 - 2p)^2 - 4p^2} {a^2m^2} \Biggr) \\
-        &+ \sum_{k + 1 \leq i \leq 2k + 1} \quad \sum_{a^2 \divides ((2p - im^2)^2 - 4p^2)/m^2} h\Biggl( \frac {(2p - im^2)^2 - 4p^2} {a^2m^2} \Biggr) \\
-        \leq& O(\log(4p^2/m^2)) \Biggl( \sum_{1 \leq i \leq k} \sqrt{\frac {4p^2 - (im^2 - 2p)^2} {m^2}} \sum_{a^2 \divides ((im^2 - 2p)^2 - 4p^2)/m^2} \frac 1 a \\
-        &+ \sum_{k + 1 \leq i \leq 2k + 1} \sqrt{\frac {4p^2 - (2p - im^2)^2} {m^2}} \sum_{a^2 \divides ((2p - im^2)^2 - 4p^2)/m^2} \frac 1 a \Biggr)
+        &+ \sum_{1 \leq i \leq k} \quad \sum_{a^2 \divides ((2p - im^2)^2 - 4p^2)/m^2} h\Biggl( \frac {(2p - im^2)^2 - 4p^2} {a^2m^2} \Biggr) \\
+        =& 2\sum_{1 \leq i \leq k} \quad \sum_{a^2 \divides ((im^2 - 2p)^2 - 4p^2)/m^2} h\Biggl( \frac {(im^2 - 2p)^2 - 4p^2} {a^2m^2} \Biggr) \\
+        \leq& O(\log(4p^2/m^2)) \sum_{1 \leq i \leq k} \sqrt{\frac {4p^2 - (im^2 - 2p)^2} {m^2}} \sum_{a^2 \divides ((im^2 - 2p)^2 - 4p^2)/m^2} \frac 1 a
     \end{align*}
     Note that
     \begin{align*}
@@ -524,14 +527,12 @@ All this is considered in the next proposition, which is again phrased using end
     \end{align*}
     Thus we can upper bound the previous sum by
     \begin{align*}
-        &O(\log(4p^2/m^2)) \Biggl( \sum_{1 \leq i \leq k} \sqrt{ \frac {4p^2 - (im^2 - 2p)^2} {m^2}} \quad \log\left( \frac {4p^2 - (im^2 - 2p)^2} {m^2} \right) \\
-        &+ \sum_{k + 1 \leq i \leq 2k + 1} \sqrt{ \frac {4p^2 - (2p - im^2)^2} {m^2}} \quad \log\left( \frac {4p^2 - (2p - im^2)^2} {m^2} \right) \Biggr) \\
-        \leq& \frac {O(\log(p/m)^2)} {m} \Biggl( \sum_{1 \leq i \leq k} \sqrt{4p^2 - (im^2 - 2p)^2} + \sum_{k + 1 \leq i \leq 2k + 1} \sqrt{4p^2 - (2p - im^2)^2} \Biggr) \\
-        =& \frac {O(\log(p/m)^2)} {m} \Biggl( \int_0^k \sqrt{4p^2 - (xm^2 - 2p)^2} dx + \int_{k + 1}^{2k + 2} \sqrt{4p^2 - (xm^2 - 2p)^2} dx \Biggr) \\
-        \leq& \frac {O(\log(p/m)^2)} {m} \Biggl( \int_0^k \sqrt{4p^2 - (xm^2 - 2p)^2} dx + \int_{k}^{2k} \sqrt{4p^2 - (xm^2 - 2p)^2} dx + O(p) \Biggr) \\
-        =& \frac {O(\log(p/m)^2)} {m} \Biggl( \frac 1 {m^2} \int_0^{2p} \sqrt{4p^2 - (x - 2p)^2} dx + \frac 1 {m^2} \int_{2p}^{4p } \sqrt{4p^2 - (2p - x)^2} dx + O(p)\Biggr) \\
-        =& \frac {O(\log(p/m)^2)} {m} \Biggl( \frac 1 {m^2} \int_{-2p}^0 \sqrt{4p^2 - x^2} dx + O(p) \Biggr) \\
-        =& \frac {O(\log(p/m)^2)} {m} \Biggl( \frac {4p^2} {m^2} \int_{-1}^0 \sqrt{1 - x^2} \Biggr) = O\left( \frac {p^2\log(p/m)^2} {m^3} \right)
+        &O(\log(4p^2/m^2)) \sum_{1 \leq i \leq k} \sqrt{ \frac {4p^2 - (im^2 - 2p)^2} {m^2}} \quad \log\left( \frac {4p^2 - (im^2 - 2p)^2} {m^2} \right) \\
+        \leq& \frac {O(\log(p/m)^2)} {m} \sum_{1 \leq i \leq k} \sqrt{4p^2 - (im^2 - 2p)^2} \\
+        \leq& \frac {O(\log(p/m)^2)} {m}  \int_0^k \sqrt{4p^2 - (xm^2 - 2p)^2} dx \\
+        =& \frac {O(\log(p/m)^2)} {m} \frac 1 {m^2} \int_0^{2p} \sqrt{4p^2 - (x - 2p)^2} dx \\
+        =& \frac {O(\log(p/m)^2)} {m} \frac 1 {m^2} \int_{-2p}^0 \sqrt{4p^2 - x^2} dx \\
+        =& \frac {O(\log(p/m)^2)} {m} \frac {4p^2} {m^2} \int_{-1}^0 \sqrt{1 - x^2} = O\left( \frac {p^2\log(p/m)^2} {m^3} \right)
     \end{align*}
     This shows the claim.
 \end{proof}
