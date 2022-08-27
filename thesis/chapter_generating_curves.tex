@@ -434,22 +434,21 @@ On the other hand, if we do the same starting from a supersingular curve, this w
 We have already seen that $\log_l(p)$ steps are sufficient, which is also Sutherland's original choice.
 However, this is not optimal, and in our case, we are also interested in how many ordinary curves we will accept if we choose $n$ smaller than the optimal bound.
 In particular, our method can deal with a small number of ordinary roots (e.g. polynomially many), it should just not exponentially exceed the number of supersingular roots.
-All this is considered in the next proposition, which is again phrased using endomorphism rings.
+All this is considered in the next two propositions, which are again phrased in the language of endomorphism rings.
 \begin{prop}
-    \label{prop:counting_fp2_vulcano_levels}
-    Let $p$ be an odd prime and $m \geq 2$ an odd integer coprime to $p$.
+    \label{prop:frobenius_in_nonmaximal_order}
+    Let $p$ be an odd prime and $m \geq 2$ an integer.
     Consider the number $n$ of endomorphism rings $\O$ of ordinary curves defined over $\F_{p^2}$ with $\pi \in \Z + m\O$, where $\pi$ is the $p^2$-Frobenius endomorphism of $\O$.
     Then
     \begin{equation*}
-        \Bigl\lfloor \frac {2p} {m^2} \Bigr\rfloor \leq n \leq \Bigl\lfloor \frac {16p^2} {m^3} \Bigr\rfloor
+        \Bigl\lfloor \frac {2p} {m^2} \Bigr\rfloor \leq n \leq \Bigl\lfloor \frac {2p^2} {m^2} \Bigr\rfloor
     \end{equation*}
     Furthermore, consider the number $N$ of ordinary j-invariants $j \in \F_{p^2}$ such that $\pi \in \Z + m\End(j)$.
     Under GRH, we have then for $m^2 \leq 2p$ that
     \begin{equation*}
-        c_1\left( \frac {p^2} {m^3 \log\log(p)^2} \right) \leq N \leq c_2\left( \frac {p^2\log(p)^2} {m^3} \right)
+        \Theta\left( \frac {p^2} {m^3 \log\log(p)^2} \right) \leq N \leq \Theta\left( \frac {p^3\log(p)^2} {m^3} \right)
     \end{equation*}
-    where $c_1, c_2 > 0$ are constants.
-    Furthermore, if $m^2 > 4p$, we have that $n = N = 0$.
+    Finally, if $m^2 \geq 4p^2$, we have $n = N = 0$.
 \end{prop}
 \begin{proof}
     First, we show the lower bounds.
@@ -480,6 +479,47 @@ All this is considered in the next proposition, which is again phrased using end
     We assume that $p \geq m^2$ when estimating the sum by the integral.
 
     Now to the upper bounds.
+    Consider an imaginary quadratic order $\O$ with $\pi \in \O$.
+    Then clearly $d(\O) \divides d(\Z[\pi]) = t^2 - 4p^2$, where $t$ is the trace of $\pi$.
+    Thus we see that $|d(\O)| \leq 4p^2$.
+    If now $\O = \Z + m\O_0$ for some order $\O_0$, we know that
+    \begin{equation*}
+        d(\O) = [\O : \O_0]^2 d(\O_0) = m^2 d(\O_0)
+    \end{equation*}
+    and so $-4p^2/m^2 \leq d(\O_0) < 0$.
+    Furthermore, only half of the $d \geq -4p^2/m^2$ are congruent to $0, 1$ modulo 4, i.e. are fundamental discriminants.
+    Therefore, there are at most $\lfloor 2p^2/m^2 \rfloor$ different endomorphism rings $\O_0$ with $\pi \in \Z + m\O_0$.
+
+    For a lower bound on the curves, just note that
+    \begin{equation*}
+        \#\{ j \in \F_{p^2} \ | \ \pi \in \Z + m\End(j) \} \leq \sum_{-4p^2/m^2 \leq D < 0} h(D)
+    \end{equation*}
+    Using the bound on the class number from Prop.~\ref{prop:class_number_bounds}, we can bound this by
+    \begin{align*}
+        &\sum_{D = 1}^{\lfloor 4p^2/m^2 \rfloor} \sqrt{D} \log(D)^2 \leq \Theta(\log(p)^2) \int_1^{\lfloor 4p^2/m^2 \rfloor + 1} \sqrt{x} dx \\
+        =& \Theta(\log(p)^2) \int_0^{4p^2/m^2} \sqrt{x} dx = \Theta(\log(p)^2) \frac {4p^2} m \int_0^1 \sqrt{x} dx \\
+        =& \Theta\left( \frac {p^3\log(p)^2} {m^3} \right)
+    \end{align*}
+    This estimate is valid, since $\sqrt{x}$ is increasing and $\sqrt{\lfloor 4p^2/m^2 \rfloor + 1} / \sqrt{4p^2/m^2} \in O(1)$.
+    This shows the claim.
+\end{proof}
+Note that the bound for the number of curves is not very tight.
+In particular, there is a factor of more that $p$ between upper and lower bound.
+In the case that $m = l^e$ is a prime power (this is the case of the levels in an $l$-isogeny volcano), we get a much clearer picture.
+\begin{prop}
+    \label{prop:counting_fp2_vulcano_levels}
+    Let $p$ be an odd prime and $m = l^e$ a prime power with $l \neq 2, p$.
+    Then we have for the numbers $n$ resp. $N$ from the previous proposition~\ref{prop:frobenius_in_nonmaximal_order} the following improved upper bounds
+    \begin{equation*}
+        n \leq \Bigl\lfloor \frac {16p^2} {m^3} \Bigr\rfloor
+    \end{equation*}
+    and
+    \begin{equation*}
+        N \leq \Theta\left( \frac {p^2\log(p)^2} {m^3} \right)
+    \end{equation*}
+    Furthermore, if $m^2 > 4p$, we have that $n = N = 0$.
+\end{prop}
+\begin{proof}
     Consider an endomorphism ring $\O_0$ such that $\O := \Z + m\O_0$ contains the $p^2$-Frobenius $\pi$.
     Then
     \begin{equation*}
@@ -492,6 +532,7 @@ All this is considered in the next proposition, which is again phrased using end
         a^2m^2d(\O_0) = (t - 2p)(t + 2p)
     \end{equation*}
     Since $m$ is odd, we see that $m$ must be coprime to either $t - 2p$ or $t + 2p$ (it does not divide $4p$).
+    Note that here, we use the assumption that $m$ is a prime power.
 
     If $m^2 \divides t + 2p$, then $t \in \{ m^2 - 2p, 2m^2 - 2p, ..., km^2 - 2p \}$ where $k = \lfloor 4p/m^2 \rfloor$.
 
@@ -608,7 +649,7 @@ Hence, we can instead consider the sum of systems
     &\Phi_{2l_i}(u_i, v_i), \Phi_{2l_i}(u_i, w_i), \Phi_{2l_i}(v_i, w_i), \\
     &u_i^{p^2 - 1} - 1, v_i^{p^2 - 1} - 1, w_i^{p^2 - 1} - 1 \rangle 
 \end{align*}
-for distinct primes $l_i$ with $\prod_i l_i \geq \sqrt{p}$.
+for distinct primes $l_i$ with $\prod_i l_i \geq 2p$.
 Note that from these results, our second main result Prop.~\ref{prop:main_result2} follows.
 
 \subsection{A more explicit representation}
@@ -739,7 +780,7 @@ While we cannot explicitly write down those polynomials, we can evaluate them, e
 Hence, there might be some way to find a random root of those (note that they have all $\Theta(p/12)$ supersingular j-invariants and some $o(p)$ ordinary j-invariants as roots).
 
 Nevertheless, we should also mention that the computation of the elimination ideal from \ref{eq:elimination_ideal} is not trivial either.
-The product of the considered primes $l_i$ must be at least $\sqrt{p}$, and so the largest ones are $\Theta(\log(p)/\log\log(p))$.
+The product of the considered primes $l_i$ must be at least $2p$, and so the largest ones are $\Theta(\log(p)/\log\log(p))$.
 In particular, we have to perform elimination in a polynomial ring with polynomially many unknowns.
 Hence, a standard Groebner basis will have exponential runtime.
 However, we only have to eliminate a constant number of variables, namely $u_i$, $v_i$ and $w_i$, so there might be a way to compute a ``partial'' Groebner basis that still yields generators of the elimination ideal.
