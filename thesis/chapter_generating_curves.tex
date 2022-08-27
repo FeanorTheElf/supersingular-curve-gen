@@ -245,16 +245,16 @@ With our new framework, it is now easy to properly lower bound the number of ord
 elements of norm $mp$. 
 The reason is that this is equivalent to there being a solution $x \perp y$ of the Diophantine equation
 \begin{equation*}
-    x^2 + D y^2 = m p
+    x^2 + g y^2 = m p
 \end{equation*}
-where $\End(E) \cong \Z[\sqrt{D}]$, i.e. $d(\End(E)) = 4D$.
-Note that we want a lower bound (we have an upper bound by the degree argument), and so we can ignore the possibilities in which $\End(E)$ is not of this form (i.e. $\End(E) \cong \Z[(1 + \sqrt{D})/2]$).
+where $\End(E) \cong \Z[\sqrt{g}]$, i.e. $D := d(\End(E)) = 4g$.
+Note that we want a lower bound (we have an upper bound by the degree argument), and so we can ignore the possibilities in which $\End(E)$ is not of this form (i.e. $\End(E) \cong \Z[(1 + \sqrt{g})/2]$).
 
 Furthermore, at the moment we content ourselves with a very crude estimate, but note that everything can be made rigorous.
 We do that later with a very similar argument in Prop.~\ref{prop:counting_fp2_vulcano_levels}.
 Neglecting $\log$-factors, we now have
 \begin{align*}
-    &\#\{ j \in \bar{\F}_p \ | \ \Phi_m(j, j^p) = 0 \} \geq \sum_{\substack{\text{$x^2 - Dy^2 = mp$ solvable}\\\text{with $x \perp y$}}} h(4D) \\
+    &\#\{ j \in \bar{\F}_p \ | \ \Phi_m(j, j^p) = 0 \} \geq \sum_{\substack{\text{$x^2 - gy^2 = mp$ solvable}\\\text{with $x \perp y$}}} h(4g) \\
     \geq& \sum_{0 < x < \sqrt{mp}} h(4x^2 - 4m p) \approx \sum_{0 < x < \sqrt{mp}} 2\sqrt{mp - x^2} \\
     \approx& \ 2\int_0^{\sqrt{mp}} \sqrt{mp - x^2} dx = 2mp \int_0^1 \sqrt{1 - x^2} dx \in \Omega(m p)
 \end{align*}
@@ -282,7 +282,7 @@ The main problem is that once we want to determine which endomorphism rings have
 \end{equation*}
 and an appropriate converse.
 
-While the Diophantine equation $x^2 + D y^2 = m$ has been thoroughly studied (see e.g. \cite{cox_primes_of_form}), the best characterization for it being solvable (assuming $m = p$ is prime) involves the so-called Hilbert class polynomial
+While the Diophantine equation $x^2 + \frac D 4 y^2 = m$ has been thoroughly studied (see e.g. \cite{cox_primes_of_form}), the best characterization for it being solvable (assuming $m = p$ is prime) involves the so-called Hilbert class polynomial
 \begin{equation*}
     h_D(x) = \prod_{d(\End(E)) = D} (X - j(E))
 \end{equation*}
@@ -293,6 +293,7 @@ All in all, it seems like the general case is very hard to get a handle on.
 While we are unlikely to get nice provable bounds on the number of ordinary roots in the general situation of $F_{p, m, l^e}$, there are special cases in which this is possible.
 In particular, if we choose $m$ such that there is a simple relationship between $\Phi_m$ and $\Phi_{l^e}$, we can do something.
 One situation in which everything works out is presented next.
+In contrast to most of the other arguments we make in this section, here we argue (almost) solely with the structure of isogeny volcanos.
 \begin{prop}
     Let $l$ be a prime and further $f$ be odd and $e$ be even.
     Then the system
@@ -440,10 +441,10 @@ All this is considered in the next proposition, which is again phrased using end
     Consider the number $n$ of endomorphism rings $\O$ of ordinary curves defined over $\F_{p^2}$ with $\pi \in \Z + m\O$, where $\pi$ is the $p^2$-Frobenius endomorphism of $\O$.
     Then
     \begin{equation*}
-        \Bigl\lfloor \frac p {m^2} \Bigr\rfloor \leq n \leq \Bigl\lfloor \frac {16p^2} {m^3} \Bigr\rfloor
+        \Bigl\lfloor \frac {2p} {m^2} \Bigr\rfloor \leq n \leq \Bigl\lfloor \frac {16p^2} {m^3} \Bigr\rfloor
     \end{equation*}
     Furthermore, consider the number $N$ of ordinary j-invariants $j \in \F_{p^2}$ such that $\pi \in \Z + m\End(j)$.
-    Under GRH, we have then for $m \leq p^2$ that
+    Under GRH, we have then for $m^2 \leq 2p$ that
     \begin{equation*}
         c_1\left( \frac {p^2} {m^3 \log\log(p)^2} \right) \leq N \leq c_2\left( \frac {p^2\log(p)^2} {m^3} \right)
     \end{equation*}
@@ -452,17 +453,16 @@ All this is considered in the next proposition, which is again phrased using end
 \end{prop}
 \begin{proof}
     First, we show the lower bounds.
-    Note that there are $\lfloor p/m^2 \rfloor$ different integers $a$ with $0 < am^2 < p$ (clearly $m^2 \notdivides p$).
-    For each of them, consider $D = 4am^2(am^2 - p)$.
-    Clearly $D$ is a fundamental discriminant, as $D \equiv 0 \mod 4$.
+    Note that there are $\lfloor 2p/m^2 \rfloor$ different integers $a$ with $0 < am^2 < 2p$ (clearly $m^2 \notdivides 2p$).
+    For each of them, consider $g = am^2(am^2 - 2p)$.
     We have
     \begin{equation*}
-        (p - 2am^2)^2 - D \cdot 1^2 = p^2 - 4pam^2 + 4a^2m^4 - 4a^2m^4 + 4pam^2 = p^2
+        (p - am^2)^2 - g \cdot 1^2 = p^2 - 2pam^2 + a^2m^4 - a^2m^4 + 2pam^2 = p^2
     \end{equation*}
-    Thus the imaginary quadratic order $\O$ with discriminant $D$ contains a nontrivial element of norm $p^2$, which must be the Frobenius $\pi$ (or its conjugate).
+    Thus the imaginary quadratic order $\O := \Z[\sqrt{g}]$ with discriminant $D := 4g$ contains a nontrivial element of norm $p^2$, which must be the Frobenius $\pi$ (or its conjugate).
     In particular, the imaginary quadratic order $\O_0$ with discriminant $d := D/m^2$ satisfies $\O = \Z + m\O_0$ as $[\O_0 : \O]^2 = d(\O)/d(\O_0) = m^2$
     Therefore we see that $\pi \in \Z + m\O_0$.
-    Note that each $a$ gives rise to a distinct $\O_0$, and the first lower bound follows.
+    Note that each $a$ gives rise to a distinct $\O_0$, since $d(\O_0) = 4a(am^2 - 2p)$, and the first lower bound follows.
 
     To get a lower bound for the number of curves, note that for each $\O_0$, by the class group action, there are exactly $\#\Cl(\O_0)$ curves with that endomorphism ring.
     Under GRH, Theorem~\ref{prop:class_number_bounds} gives
