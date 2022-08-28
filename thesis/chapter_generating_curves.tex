@@ -539,7 +539,7 @@ In the case that $m = l^e$ is a prime power (this is the case of the levels in a
     If $m^2 \divides t - 2p$, then $t \in \{ 2p - km^2, 2p - (k - 1)m^2, ..., 2p - m^2 \}$.
     \\
     In particular, there are at most $2k$ different choices for $t$.
-    This clearly implies that if $m^2 > 4p$, we have $k = 0$ and so $n = N = 0$.
+    Additionally, it clearly implies that if $m^2 > 4p$, we have $k = 0$ and so $n = N = 0$.
 
     Otherwise, for a given $t$, there are now at most
     \begin{equation*}
@@ -569,8 +569,8 @@ In the case that $m = l^e$ is a prime power (this is the case of the levels in a
     Thus we can upper bound the previous sum by
     \begin{align*}
         &O(\log(4p^2/m^2)) \sum_{1 \leq i \leq k} \sqrt{ \frac {4p^2 - (im^2 - 2p)^2} {m^2}} \quad \log\left( \frac {4p^2 - (im^2 - 2p)^2} {m^2} \right) \\
-        \leq& \frac {O(\log(p/m)^2)} {m} \sum_{1 \leq i \leq k} \sqrt{4p^2 - (im^2 - 2p)^2} \\
-        \leq& \frac {O(\log(p/m)^2)} {m}  \int_0^k \sqrt{4p^2 - (xm^2 - 2p)^2} dx \\
+        =& \frac {O(\log(p/m)^2)} {m} \sum_{1 \leq i \leq k} \sqrt{4p^2 - (im^2 - 2p)^2} \\
+        =& \frac {O(\log(p/m)^2)} {m}  \int_0^k \sqrt{4p^2 - (xm^2 - 2p)^2} dx \\
         =& \frac {O(\log(p/m)^2)} {m} \frac 1 {m^2} \int_0^{2p} \sqrt{4p^2 - (x - 2p)^2} dx \\
         =& \frac {O(\log(p/m)^2)} {m} \frac 1 {m^2} \int_{-2p}^0 \sqrt{4p^2 - x^2} dx \\
         =& \frac {O(\log(p/m)^2)} {m} \frac {4p^2} {m^2} \int_{-1}^0 \sqrt{1 - x^2} = O\left( \frac {p^2\log(p/m)^2} {m^3} \right)
@@ -777,14 +777,14 @@ Hence, we only have to find a random joint root of the univariate polynomials
 \end{equation*}
 for the matrices $A_i$ given by Lemma~\ref{prop:symbolic_elimination}.
 While we cannot explicitly write down those polynomials, we can evaluate them, evaluate their derivates and perform a series of other computations.
-Hence, there might be some way to find a random root of those (note that they have all $\Theta(p/12)$ supersingular j-invariants and some $o(p)$ ordinary j-invariants as roots).
+Hence, there might be some way to find a random root of those (note that they have all $\Theta(p)$ supersingular j-invariants and polylogarithmically many ordinary j-invariants as roots).
 
 Nevertheless, we should also mention that the computation of the elimination ideal from \ref{eq:elimination_ideal} is not trivial either.
 The product of the considered primes $l_i$ must be at least $2p$, and so the largest ones are $\Theta(\log(p)/\log\log(p))$.
 In particular, we have to perform elimination in a polynomial ring with polynomially many unknowns.
 Hence, a standard Groebner basis will have exponential runtime.
 However, we only have to eliminate a constant number of variables, namely $u_i$, $v_i$ and $w_i$, so there might be a way to compute a ``partial'' Groebner basis that still yields generators of the elimination ideal.
-We have not studied this in depth, as some of the other difficulties seem more fundamental.
+We have not studied this in depth, as finding a joint root of the $f_{ij}(x, b_i)$ seems to be a more fundamental problem.
 
 \section{Conclusion}
 In this work, we have seen some polynomial-based approaches to solving a main open problem in the field of isogeny-based cryptography:
