@@ -448,7 +448,6 @@ All this is considered in the next two propositions, which are again phrased in 
     \begin{equation*}
         \Theta\left( \frac {p^2} {m^3 \log\log(p)^2} \right) \leq N \leq \Theta\left( \frac {p^3\log(p)^2} {m^3} \right)
     \end{equation*}
-    Finally, if $m^2 \geq 4p^2$, we have $n = N = 0$.
 \end{prop}
 \begin{proof}
     First, we show the lower bounds.
@@ -505,7 +504,7 @@ All this is considered in the next two propositions, which are again phrased in 
 \end{proof}
 Note that the bound for the number of curves is not very tight.
 In particular, there is a factor of more that $p$ between upper and lower bound.
-In the case that $m = l^e$ is a prime power (this is the case of the levels in an $l$-isogeny volcano), we get a much clearer picture.
+In the case that $m = l^e$ is a prime power (this is the case of the levels in an $l$-isogeny volcano), we get a much clearer picture, which is also displayed in Figure~\ref{fig:number_of_fixed_level_curves}.
 \begin{prop}
     \label{prop:counting_fp2_vulcano_levels}
     Let $p$ be an odd prime and $m = l^e$ a prime power with $l \neq 2, p$.
@@ -577,6 +576,37 @@ In the case that $m = l^e$ is a prime power (this is the case of the levels in a
     \end{align*}
     This shows the claim.
 \end{proof}
+\begin{figure}
+    \begin{center}
+        \begin{tikzpicture}
+            \begin{axis}[
+                width = 0.8\textwidth, 
+                height = 0.4\textheight, 
+                axis lines = middle,
+                xlabel = $p$,
+                ylabel = $N$
+            ]
+                \pgfplotstableread{data.txt}\mydata;
+                \addplot[ 
+                    color = black, 
+                    only marks, 
+                    mark = *, 
+                    mark size = 0.5pt, 
+                ]
+                table[
+                    x expr=\thisrowno{0}, 
+                    y expr=\thisrowno{1}
+                ] {\mydata};
+                \addplot [red, domain=1000:2650] {0.5*x^2/27^3};
+            \end{axis}
+        \end{tikzpicture}
+    \end{center}
+    \caption{
+        \label{fig:number_of_fixed_level_curves} A plot of the number $N$ for $m = 3^3$ and increasing $p$.
+        For reference, we also displayed the function $\frac 1 2 p^2/m^3$ in red.
+        Note that $N$ is the number of curves $E$ with $\pi \in \Z + m\End(E)$, i.e. there are 3 levels beneath $E$ in the 3-isogeny volcano that are defined over $\F_{p^2}$.
+    }
+\end{figure}
 In particular, it follows that we can choose $m = l^r$ with $r = \lceil \frac 1 2 \log_l(p) \rceil$ and can be sure never to accept an ordinary curve as supersingular.
 Furthermore, if we are ok with accepting $O(p)$ ordinary curves as supersingular, we can choose $r = \lceil \frac 1 3 \log_l(p) \rceil$.
 
@@ -779,7 +809,7 @@ for the matrices $A_i$ given by Lemma~\ref{prop:symbolic_elimination}.
 While we cannot explicitly write down those polynomials, we can evaluate them, evaluate their derivates and perform a series of other computations.
 Hence, there might be some way to find a random root of those (note that they have all $\Theta(p)$ supersingular j-invariants and polylogarithmically many ordinary j-invariants as roots).
 
-Nevertheless, we should also mention that the computation of the elimination ideal from \ref{eq:elimination_ideal} is not trivial either.
+Nevertheless, we should also mention that the computation of the elimination ideal from equation~(\ref{eq:elimination_ideal}) is not trivial either.
 The product of the considered primes $l_i$ must be at least $2p$, and so the largest ones are $\Theta(\log(p)/\log\log(p))$.
 In particular, we have to perform elimination in a polynomial ring with polynomially many unknowns.
 Hence, a standard Groebner basis will have exponential runtime.
