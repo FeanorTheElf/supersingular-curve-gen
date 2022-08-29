@@ -293,7 +293,7 @@ All in all, it seems like the general case is very hard to get a handle on.
 While we are unlikely to get nice provable bounds on the number of ordinary roots in the general situation of $F_{p, m, l^e}$, there are special cases in which this is possible.
 In particular, if we choose $m$ such that there is a simple relationship between $\Phi_m$ and $\Phi_{l^e}$, we can do something.
 One situation in which everything works out is presented next.
-In contrast to most of the other arguments we make in this section, here we argue (almost) solely with the structure of isogeny volcanos.
+In contrast to most of the other arguments we make in this section, here we argue (almost) solely with the structure of isogeny volcanoes.
 \begin{prop}
     Let $l$ be a prime and further $f$ be odd and $e$ be even.
     Then the system
@@ -350,7 +350,7 @@ In contrast to most of the other arguments we make in this section, here we argu
     gives a nontrivial endomorphism of $E$ with degree $l^{2f - 2i} \leq l^{2f}$, so we are done.
 
     If $(l)$ is inert in $\O$, the crater only has a single vertex.
-    Since we have $E_R \not\cong E_R^{(p)}$ are both curves in a crater, we see that they must be in different $l$-isogeny volcanos.
+    Since we have $E_R \not\cong E_R^{(p)}$ are both curves in a crater, we see that they must be in different $l$-isogeny volcanoes.
     Hence, this also holds for $E$ and $E^{(p)}$ and there cannot be an $l^f$-isogeny $E \to E^{(p)}$, contradicting our assumption.
 
     Finally, we are left with the case that $(l) = \l^2$ is ramified in $\O$.
@@ -602,7 +602,7 @@ Then the corresponding $l$-isogeny path backtracks, and it is not guaranteed tha
 Hence, we can still get many ordinary curves.
 
 Then condition $u_i \neq u_{i + 2}$ is not algebraically closed, so we cannot write it as a polynomial directly.
-But we can use the structure of the volcanos (in particular, they have at most one cycle), and the fact that $\Phi_m$ characterizes the existence of a \emph{cyclic} isogeny.
+But we can use the structure of the volcanoes (in particular, they have at most one cycle), and the fact that $\Phi_m$ characterizes the existence of a \emph{cyclic} isogeny.
 Hence, consider the polynomial system
 \begin{align*}
     \langle &\Phi_l(x, u_0), \Phi_l(x, v_0), \Phi_l(x, w_0), \\
@@ -785,34 +785,3 @@ In particular, we have to perform elimination in a polynomial ring with polynomi
 Hence, a standard Groebner basis will have exponential runtime.
 However, we only have to eliminate a constant number of variables, namely $u_i$, $v_i$ and $w_i$, so there might be a way to compute a ``partial'' Groebner basis that still yields generators of the elimination ideal.
 We have not studied this in depth, as finding a joint root of the $f_{ij}(x, b_i)$ seems to be a more fundamental problem.
-
-\section{Conclusion}
-In this work, we have seen some polynomial-based approaches to solving a main open problem in the field of isogeny-based cryptography:
-Can we efficiently generate random, hard supersingular curves without revealing the endomorphism ring, or other information that can serve as a trapdoor?
-
-The main focus was an idea of Katherine Stange, which relied on modular polynomials.
-In the general case, its asymptotic success probability (i.e. the probability of finding a supersingular curve) is not so easy to study, since it is closely tied to the structure of the class group in quadratic imaginary orders.
-However, we were able to describe the success probability in special cases, and prove that it is sufficiently high.
-
-Furthermore, we worked on the main problem of the method, namely that one has to work with polynomials of exponential degree.
-We showed how in some cases, one can instead choose to work with polynomial systems in many variables, and presented a similar idea whose system might have an easier structure.
-However, we have also seen that Groebner basis methods to find solutions to these polynomial systems have exponential running time, and so we still cannot compute random supersingular curves efficiently.
-
-As already noted in \cite{base_paper}, there are alternatives to Groebner bases, e.g. \cite{poly_system_solve_algorithm} which can be much faster for sparse polynomial systems.
-It is a question for further research whether these give a significant speedup, or whether we can modify our methods to yield polynomial systems better suited for this solving algorithms.
-
-There is also the question whether there might be some ``square-and-multiply'' algorithm to compute the polynomial $f_{p, l^f, l^e}$, as mentioned as the ``dream approach'' in \cite{base_paper}.
-Of course, this would require new methods to compute information about $\Phi_n$ for exponential $n$.
-
-Another possible direction for future research is to see if we can use reduction theory to instead solve a polynomial system over the complex numbers $\C$.
-In this setting, we might then be able to use numeric techniques, like Newton's method.
-Of course, to transfer a solution over $\C$ back to finite fields, we require that the solution is an algebraic integer, and we need to find a representation that allows computing the reduction modulo $p$.
-However, the former is not a problem at all if the solution is given by a polynomial system.
-Furthermore, we might be able to address the second point by using the LLL algorithm or similar techniques, which can give us the minimal polynomial of the numerical approximation to an algebraic integer, if it has polynomial degree.
-This excludes CM curves, but there are many more non-CM curves with j-invariant in small-degree number fields that reduce to supersingular curves.
-
-Finally, there are also completely different approaches.
-In particular, \cite{base_paper} mentioned one idea based on higher-genus varieties, and an idea trying to use quantum computing.
-For the later, one main challenge is that the classical way of formalizing ``without revealing the endomorphism ring'' does not apply to the quantum setting anymore, as randomization is not given by random bits anymore, but intrinsic to the computation process.
-
-All in all, this is a very interesting and important problem, and it is not yet clear what shape a potential solution might have. 

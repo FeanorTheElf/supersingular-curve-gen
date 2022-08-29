@@ -1,10 +1,10 @@
 
 \begin{abstract}
     It is currently an open problem in isogeny-based cryptography to efficiently compute supersingular Elliptic Curves without revealing their endomorphism ring or other information that might be used as trapdoor.
-    Various ideas have been proposed in \cite{base_paper}, but as presented there, none of them is currently able to solve the problem.
-    In our work, we focus on the second approach from that paper, which is based on root-finding of specialized modular polynomials.
+    Various ideas have been proposed in the literature, but as presented there, none of them is currently able to solve the problem.
+    In our work, we focus on the second approach from \cite{base_paper}, which is based on root-finding of specialized modular polynomials.
     
-    We found a special case in which we can answer an important questions posed in the original work, namely to quantify the probability of the computed curve being supersingular.
+    We found a special case in which we can answer an important question posed in the original work, namely to quantify the probability of the computed curve being supersingular.
     Our case also seems suitable for computations, and its success probability is higher than we expect it to be in the generic case.
     Furthermore, we present a modification of the original scheme, and argue why it might allow more efficient computations.
     However, both of these still suffer from the main problem of the original idea, namely that there is currently no way to efficiently work with the considered polynomial systems.
