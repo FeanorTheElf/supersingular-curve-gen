@@ -528,6 +528,65 @@ In particular, there are $\Omega(p^2/\log(p^2))$ such $D$.
 
 In particular, this shows that it is not enough to bound the number of possible integers $D$ just by considering things modulo $p$, as this will never be better than the above bound.
 
+\section{Division polynomial idea}
+Consider the $n$-th division polynomial
+\begin{equation*}
+    \psi_n := n \sqrt{\prod_{(x, y) \in E[n] \setminus \{ O \}} (X - x)} \in k[E]
+\end{equation*}
+If $n$ is odd, for each $(x, y) \in E[n]$ we also have the point $(x, -y) \in E[n]$, and so the root exists.
+If $n$ is even, this holds for all points $(x, y) \in E[n] \setminus E[2]$.
+However, the x-coordinates of the three points of $E[2] \setminus \{O\}$ multiply to the three roots of $x^3 + Ax + B$, and so the root exists in $k[E]$ since $y^2 = x^3 + Ax + B$.
+
+We instead work with what I call the short division polynomial
+\begin{equation*}
+    \phi_n := n \prod_{(x, y), (x, -y) \in E[n] \setminus E[2]} (X - x) \in k[X]
+\end{equation*}
+which has the advantage that it is univariate.
+We have the recursive representation
+\begin{align*}
+    \phi_0 &= 0 \\
+    \phi_1 &= 1 \\
+    \phi_2 &= 2 \\
+    \phi_3 &= 3x^4 + 6Ax^2 + 12Bx - A^2 \\
+    \phi_4 &= 4x^6 + 20Ax^4 + 80Bx^3 - 20A^2x^2 - 16ABx - 32B^2 - 4A^3 \\
+    \phi_{2m} &= \frac 1 2 \phi_m (\phi_{m + 2} \phi_{m - 1}^2 - \phi_{m - 2} \phi_{m + 1}^2) \\
+    \phi_{2m + 1} &= \begin{cases}
+        \phi_{m + 2} \phi_m^3 (x^3 + Ax + B) - \phi_{m - 1}\phi_{m + 1}^3 & \text{if $m$ is even} \\
+        \phi_{m + 2} \phi_m^3 - \phi_{m - 1} \phi_{m + 1}^3 (x^3 + Ax + B) & \text{if $m$ is odd}
+    \end{cases}
+\end{align*}
+For reference, I include the first short division polynomials here.
+\begin{align*}
+    \phi_5 =& (-256 B^4 - 32 A^3B^2 + A^6) + (-640 AB^3 - 100 A^4B) x \\ 
+        &+ (-240 A^2B^2 - 50 A^5) x^2 + (-1600 B^3 - 80 A^3B) x^3 \\
+        &+ (-1920 AB^2 - 125 A^4) x^4 - 696 A^2B x^5 + (-240 B^2 - 300 A^3) x^6 \\
+        &+ 240 AB x^7 - 105 A^2 x^8 + 380 B x^9 + 62 A x^{10} + 5 x^{12} \\
+    \phi_6 =& (1024 A^2B^4 + 192 A^5B^2 + 6 A^8) + (-12288 B^5 - 512 A^3B^3 \\ 
+        &+ 192 A^6B) x + (-27648 AB^4 - 3072 A^4B^2 + 144 A^7) x^2 \\
+        &+ (-25088 A^2B^3 - 3584 A^5B) x^3 + (-10752 B^4 - 8064 A^3B^2 - 728 A^6) x^4 \\
+        &+ (-32256 AB^3 - 6720 A^4B) x^5 + (-5376 A^2B^2 - 2576 A^5) x^6 \\
+        &+ (-44544 B^3 + 1536 A^3B) x^7 + (-39744 AB^2 - 1884 A^4) x^8 - 9152 A^2B x^9 \\
+        &+ (-5376 B^2 - 2576 A^3) x^{10} - 728 A^2 x^{12} + 1344 B x^{13} \\
+        &+ 144 A x^{14} + 6 x^{16} \\
+    \phi_7 =& (65536 B^8 + 24576 A^3B^6 + 3328 A^6B^4 + 160 A^9B^2 - A^{12}) \\ 
+        &+ (229376 AB^7 + 64512 A^4B^5 + 7168 A^7B^3 + 392 A^{10}B) x \\
+        &+ (544768 A^2B^6 + 96768 A^5B^4 + 3696 A^8B^2 + 196 A^{11}) x^2 \\
+        &+ (-802816 B^7 + 831488 A^3B^5 + 152320 A^6B^3 + 1680 A^9B) x^3 \\
+        &+ (-3039232 AB^6 + 394240 A^4B^4 + 134400 A^7B^2 + 1302 A^{10}) x^4 \\
+        &+ (-3698688 A^2B^5 - 168448 A^5B^3 + 57288 A^8B) x^5 \\
+        &+ (-2809856 B^6 - 2293760 A^3B^4 - 190400 A^6B^2 + 14756 A^9) x^6 \\
+        &+ (-7127040 AB^5 - 1314560 A^4B^3 - 53824 A^7B) x^7 \\
+        &+ (-7069440 A^2B^4 - 831936 A^5B^2 + 15673 A^8) x^8 \\
+        &+ (-1555456 B^5 - 3727360 A^3B^3 - 425712 A^6B) x^9 \\
+        &+ (-3293696 AB^4 - 1192800 A^4B^2 - 42168 A^7) x^{10} \\
+        &+ (-2603776 A^2B^3 - 608160 A^5B) x^{11} \\
+        &+ (-928256 B^4 - 297472 A^3B^2 - 111916 A^6) x^{12} \\
+        &+ (-2132480 AB^3 - 161840 A^4B) x^{13} + (-615360 A^2B^2 - 82264 A^5) x^{14} \\
+        &+ (-829696 B^3 - 31808 A^3B) x^{15} + (-571872 AB^2 - 35231 A^4) x^{16} \\
+        &- 92568 A^2B x^{17} + (-42896 B^2 - 19852 A^3) x^{18} - 112 AB x^{19} \\
+        &- 2954 A^2 x^{20} + 3944 B x^{21} + 308 A x^{22} + 7 x^{24}
+\end{align*}
+
 \section{Generalizations and Modifications}
 
 \subsection{Using divisibility constraints on the crater size}
@@ -994,7 +1053,7 @@ The advantage is that this can be extended to compute kernels of all endomorphis
 \label{sec:numerical_values}
 The minimal polynomial of $\gamma$ is
 \begin{lstlisting}
-    x^220 + 31*x^219 + 13*x^218 + 21*x^217 + 23*x^216 + 9*x^215 
+        x^220 + 31*x^219 + 13*x^218 + 21*x^217 + 23*x^216 + 9*x^215 
     + 2*x^214 + 35*x^212 + 10*x^211 + 29*x^210 + 25*x^209 + 20*x^208 
     + 17*x^207 + 30*x^206 + 5*x^205 + 15*x^204 + 11*x^203 + 10*x^202 
     + 11*x^201 + 32*x^200 + 5*x^199 + 28*x^198 + 7*x^197 + 13*x^196 
