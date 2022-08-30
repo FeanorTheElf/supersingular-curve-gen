@@ -271,6 +271,95 @@ The condition $\O_K = \{ \pm 1 \}$ is very weak, as there are only two quadratic
 These correspond to the Elliptic Curves with j-invariants $0$ and $1728$ (if they are ordinary), and need a special treatment in many cases anyway.
 In \cite{neukirch}, there is also a more general version of this statement without this assumption.
 
+To get the class number explicitly, we use the next lemma.
+\begin{lemma}
+    Let $f := [\O_K : \O] = p^e$ be a prime power.
+    Then $\#(\O/f\O_K) = p^{e - 1}(p - 1)$ and
+    \begin{equation*}
+        \#(\O_K/f\O_K)^* = p^{2e - 2} \begin{cases}
+            (p + 1)(p - 1) & \text{if $(-d_K/p) = -1$} \\
+            p(p - 1) & \text{if $(-d_K/p) = 0$} \\
+            (p - 1)^2 & \text{if $(-d_k/p) = 1$}
+        \end{cases}
+    \end{equation*}
+\end{lemma}
+\begin{proof}
+    Choosing a generator $\alpha$ of $\O_K$, we have as $\Z$-modules that
+    \begin{equation*}
+        \O = \Z \oplus f\alpha\Z \quad \text{and} \quad \mathfrak{f} = f\O_K = f\Z \oplus f\alpha\Z
+    \end{equation*}
+    and so $\O/\mathfrak{f} \cong \Z/f\Z$, hence $\#(\O/\mathfrak{f})^* = \phi(f) = p^{e - 1}(p - 1)$.
+
+    For $(\O_K/f\O_K)^*$, we have
+    \begin{align*}
+        \#(\O_K/\mathfrak{f})^* =& \#\{ (a, b) \in (\Z/p^e\Z)^2 \ | \ a^2 + d_K b^2 \in (\Z/p^e\Z)^* \} \\
+        =& \#\{ (a, b) \in (\Z/p^e\Z)^2 \ | \ a^2 + d_K b^2 \not\equiv 0 \mod p \} \\
+        =& p^{2e - 2} \#\{ (a, b) \in \F_p^2 \ | \ a^2 + d_K b^2 \neq 0 \} \\
+        =& p^{2e - 2} \cdot \begin{cases}
+            p^2 - 1 & \text{if $\left(\frac {-d_K} p \right) = -1$} \\
+            p(p - 1) & \text{if $\left(\frac {-d_K} p \right) = 0$} \\
+            (p - 1)^2 & \text{if $\left(\frac {-d_K} p \right) = 1$}
+        \end{cases}
+    \end{align*}
+    since in the case $(-d_K/p) = 1$, have that $a^2 + d_K b^2 = (a + \delta b)(a - \delta b)$.
+    Hence the change of variables $(a, b) \mapsto (a + \delta b, a - \delta b)$ transforms the set into $(\F_p \setminus \{0\})^2$.
+\end{proof}
+\begin{corollary}
+    For $f = [\O_K : \O]$ we have
+    \begin{equation*}
+        \phi(f) \leq \frac {\#(\O_K/f\O_K)^*} {\#(\O/f\O_K)^*} \leq \psi(f)
+    \end{equation*}
+    where $\phi$ is Euler's totient function and $\psi$ is Dedekind's $\psi$ function.
+\end{corollary}
+\begin{proof}
+    Let $f = \prod_i p_i^{e_i}$ be the prime factorization.
+    We have that
+    \begin{equation*}
+        \O_K/f\O_K \cong \bigoplus_i \O_K/p_i^{e_i}\O_K
+    \end{equation*}
+    and so
+    \begin{equation*}
+        \#(\O_K/f\O_K)^* = \prod_i \#(\O_K/p_i^{e_i}\O_K)^*
+    \end{equation*}
+    is a multiplicative function in $f$.
+    Furthermore, we know that
+    \begin{equation*}
+        \#((\Z + f\O_K)/f\O_K)^* = \phi(f) = p^{e - 1}(p - 1)
+    \end{equation*}
+    is a multiplicative function, and so also the quotient
+    \begin{equation*}
+        \frac {\#(\O_K/f\O_K)^*} {\#((\Z + f\O_K)/f\O_K)^*}
+    \end{equation*}
+    is.
+    By the previous lemma, now find that
+    \begin{equation*}
+        \phi(p^e) \leq \frac {\#(\O_K/p^e\O_K)^*} {\#((\Z + p^e\O_K)/p^e\O_K)^*} \leq \psi(p^e)
+    \end{equation*}
+    and since both $\phi$ and $\psi$ are multiplicative, the claim follows.
+\end{proof}
+By using the known lower bound on $\phi$ resp. the upper bound $\psi(n) \in O(n\log\log(n))$ from \cite{upper_bound_dedekind_psi}, we now find
+\begin{corollary}
+    \label{prop:class_number_unit_fraction}
+    For $f = [\O_K : \O]$ we have
+    \begin{equation*}
+        \Theta\left( \frac {f} {\log\log(f)} \right) \leq \frac {\#(\O_K/f\O_K)^*} {\#(\O/f\O_K)^*} \leq \Theta( f \log\log(f) )
+    \end{equation*}
+\end{corollary}
+Finally, we can also derive a different statement, that will be interesting later.
+\begin{prop}
+    Let $\O_0$ be an orders in a quadratic imaginary number field $K$.
+    For a prime $l$ define $\O := \Z + l\O_0$.
+    \begin{itemize}
+        \item If $\O_0$ is not maximal at $l$ (i.e. $l \divides [\O_K : \O_0]$) then $h(\O) = lh(\O_0)$.
+        \item If $\O_0$ is maximal at $l$ and $l$ is inert in $\O_K$, then $h(\O) = (l + 1)h(\O_0)$.
+        \item If $\O_0$ is maximal at $l$ and $l$ is ramified in $\O_K$, then $h(\O) = lh(\O_0)$.
+        \item If $\O_0$ is maximal at $l$ and $l$ is split in $\O_K$, then $h(\O) = (l - 1)h(\O_0)$.
+    \end{itemize} 
+\end{prop}
+\begin{proof}
+    TODO
+\end{proof}
+
 \subsection{The class group action}
 Now we can come back to the study of Elliptic Curves and their isogeny graphs.
 The class group action which we will define in the following is the most important tool when working with isogeny graphs of ordinary curves.

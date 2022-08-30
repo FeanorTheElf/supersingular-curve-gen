@@ -342,13 +342,13 @@ Since these graphs are not used in our work, we will leave it at this short rema
 
 \section{Modular polynomials}
 If we want to work computationally with isogeny graphs, we need a way to explicitly compute them.
-The simplest way to find the $m$-isogeny neighbors of a curve $E$ is to compute $E[m]$ and find the order-$m$-subgroups.
+The simplest way to find the $m$-isogeny neighbors of a curve $E$ is to compute $E[m]$ and find the cyclic order-$m$-subgroups.
 While this works in many cases, it can happen that the torsion group $E[m]$ only lies in an extension of $\F_q$ of degree $O(m^2)$, in which it is very costly to work.
 Furthermore, there are many other applications where a torsion-based approach does not work at all.
 
-In the ordinary case, the class group action might be also used to compute neighbors in the $l$-isogeny graph, provided we know the endomorphism ring of the start curve.
-However, finding the endomorphism ring is a hard problem in itself, and thus this method is not really practical.
-Furthermore, it does not work in the supersingular setting.
+The class group action is also not a suitable tool, since computing the class group or even the action of an ideal is already difficult.
+For the latter, probably the best approach is to work again with the torsion subgroups, and so we gain nothing.
+Furthermore, we only have the class group action in the ordinary case, but in cryptography, we are primarily interested in the supersingular setting.
 
 One solution to this problem is given by modular curves, which give a very useful algebraic structure to the $l$-isogeny graph.
 In particular, the existence of a non-integer $l$-isogeny between curves is an algebraically closed condition, i.e. is given by an algebraic curve.
@@ -393,13 +393,17 @@ This theory relies on Hensel lifting, and has been explored by \cite{deuring_end
 \begin{lemma}
     \label{prop:modified_hensel_lifting}
     Let $f \in \O_K[X]$ be a polynomial for some number field $K$ with a prime $\p$.
-    If $f(X) \mod \p \in \F_q[X]$ has a root $\alpha$, then $f$ has a root in $\O_L$ that reduces to $\alpha$ modulo a prime over $\p$ for some finite field extension $L/K$.
+    If $f(X) \mod \p \in \F_q[X]$ has a root $\alpha$, then then there is a finite field extension $L/K$, a prime $\p$ of $\O_L$ and some $\alpha_0 \in \O_L$ such that
+    \begin{equation*}
+        f(\alpha_0) = 0 \quad \text{and} \quad \alpha_0 \equiv \alpha \mod \p
+    \end{equation*}
 \end{lemma}
 \begin{proof}
     Follows by Hensel's Lemma.
 \end{proof}
 The next lemma allows us to lift curves connected by an isogeny over $\F_q$ to $\C$.
-This is very similar to the well-known lifting lemma of Deuring, which is about lifting a curve together with an endomorphism.
+This is very similar to the well-known lifting theorem of Deuring, which is about lifting a curve together with an endomorphism.
+Our situation is somewhat simpler, since we can take different lifts for the domain and codomain curves.
 \begin{lemma}
     Let $E$ and $E'$ be curves over $\F_q$ and $\phi: E \to E'$ a cyclic $m$-isogeny.
     Then there exist curves $E_0$, $E_0'$ with j-invariant in $\O_K$ for some number field $K$ with a prime $\p$ over $p = \mathrm{char}(K)$ and an isogeny $\phi_0: E_0 \to E_0'$ such that
@@ -410,7 +414,7 @@ This is very similar to the well-known lifting lemma of Deuring, which is about 
 \end{lemma}
 \begin{proof}
     This proof is somewhat technical, but the basic idea is simple.
-    Having an isogeny $E \to E'$ is equivalent to the fact that the polynomial of the isogeny satisfy the defining equations of $E'$.
+    An isogeny $E \to E'$ is corresponds to polynomials (more precisely, elements of $k[E]$) satisfying the equation of $E'$.
     In other words, we have to lift polynomials over $\F_q$ to a number field such that certain equations are satisfied.
     This however can be done by Hensel's lemma.
     The only difficulty is that we have to lift the correct coefficient in the correct order, to resolve all required dependencies.
@@ -424,17 +428,17 @@ This is very similar to the well-known lifting lemma of Deuring, which is about 
     \end{equation*}
     modulo $\p$.
     Note that the coefficient of $X^j$ in $(\sum_i T_i X^i)^3$ contains the monomial $T_0^2 T_j$, and 
-    wlog we have chosen the lifts of $A, B$ such that also the coefficient $a_j(T_0, ..., T_n)$ in $f(\sum T_i X^i, Y v, w)$ does.
+    Since there are infinitely many lifts of $A$ resp. $B$, we can assume wlog that also the coefficient $a_j(T_0, ..., T_n)$ in $f(\sum T_i X^i, Y v, w)$ does.
     Furthermore, $a_j$ is in $\O_K[T_0, ..., T_j]$, i.e. only depends on $T_0, ..., T_j$.
 
-    wlog $u^{(0)} \neq 0$, otherwise we can just move $E'$ in $x$-direction by any element in $\F_q$.
+    We assume wlog $u^{(0)} \neq 0$, otherwise we can just move $E'$ in $x$-direction by any element in $\F_q$.
 
     We know that $u^{(0)}$ is a root of $a_0$ modulo $\p$, and so Lemma~\ref{prop:modified_hensel_lifting} shows that there is a lift $u^{(0)}_0$ of $u^{(0)}$ in some number field $L_0/K$ with $a_0(u^{(0)}_0) = 0$.
     Since $u_0^{(0)} \neq 0$, we see that $a_i(u_0^{(0)}, ..., u_0^{(i - 1)}, T_i)$ contains the monomial $T_i$, and so applying the lemma inductively, we also find lifts $u^{(1)}_0, ..., u^{(n)}_0 \in \O_L/K$ with $a_i(u^{(0)}_0, ..., u^{(i)}_0) = 0$.
     In other words, we found a lift $u_0$ of $u$ in $\O_L[X]$ such that $f(u_0, Y v_0, w) = 0$.
     Now we can set $\phi_0 = [u_0 : Y v_0 : w_0]: E_0 \to E_0'$ and the claim follows.
 \end{proof}
-Using a little bit more Hensel lifting (don't worry, the ugly part is done), we now can pull down the properties of $\Phi_m$ to finite fields.
+Using a little bit more Hensel lifting, we now can pull down the properties of $\Phi_m$ to finite fields.
 \begin{prop}
     For $m \geq 2$ and Elliptic Curves $E$ and $E'$ over $\F_q$, have $\Phi_m(j(E), j(E')) = 0 \in \F_q$ if and only if there is a cyclic $m$-isogeny $E \to E'$.
 \end{prop}

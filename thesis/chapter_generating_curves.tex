@@ -2,6 +2,7 @@
 In this chapter, we now come to the main question of this work.
 We have always talked about the ``generation of supersingular curves without revealing a trapdoor'', but in fact multiple variants of this problem are conceivable.
 Following \cite{base_paper}, we thus define the following three problems.
+For all of these problems, we are interested in an algorithm that runs in time polynomial in $\log(p)$.
 \begin{problem}[Demonstrating a hard curve]
     Given a prime $p$, compute a supersingular curve $E$ over $\F_{p^2}$ without revealing $\End(E)$.
 \end{problem}
@@ -80,20 +81,30 @@ Hence, the roots of
     \Phi_n(X, X^p)
 \end{equation*}
 should contain a relatively large fraction of supersingular roots over $\F_{p^2}$.
-More concretely, from the OSDIH class group action, see e.g. \cite[Thm~4.3]{chenu_smith}, we can derive the following corollary.
-\begin{corollary}
-    \label{prop:osidh_class_group_action}
-    There are $\Theta(\sqrt{mp})$ supersingular curves $E$ over $\F_{p^2}$ with an $m$-isogeny to $E^{(p)}$.
-\end{corollary}
-Since $\Phi_n(X, X^p)$ has degree $np$, it has in total $np$ roots in $\bar{\F}_p$ (assuming it is separable), which means that the fraction of supersingular roots is still exponentially small.
-Of course, it might be more interesting to find the number of roots over $\F_{p^2}$, but this turns out to be somewhat tricky.
-Another obvious problem with this polynomial is that it has exponential degree, so it is not clear how to compute its roots.
-
-To tackle these two problems, \cite{base_paper} proposed to instead take the polynomial
+This fraction can be increased by taking e.g. a gcd like
 \begin{equation*}
-    f_{p, n, m} = \gcd(\Phi_n(X, X^p), \Phi_m(X, X^p))
+    f_{p, n, m} := \gcd(\Phi_n(X, X^p), \Phi_m(X, X^p))
 \end{equation*}
-The idea to find a root of this is to take a non-square in $\F_p$ and its square root $\delta \in \F_{p^2}$.
+Hence, computing a random root of such a polynomial might give us a hard supersingular curve.
+This idea leads to two main open questions:
+\begin{itemize}
+    \item How large is the fraction of supersingular roots of $\Phi_n(X, X^p)$ resp. of $f_{p, n, m}$?
+    And how large is the fraction if we only consider roots over $\F_{p^2}$?
+
+    In particular, for the method to have any hope of success, we require the fraction to be at least $1/\mathrm{poly}(\log(p))$.
+    
+    \item How can we efficiently compute $f_{p, n, m}$, especially since $p$ and possibly $n$ resp. $m$ are exponentially large?
+    Or can we efficiently find a root in some other way?
+\end{itemize}
+In the following, we try to answer both questions.
+First, we present the special case that $n = l^e$ is a prime power, and describe how this might help with computing a root of $f_{p, n, m}$.
+We then explain how we might be able to use the class group action to find the fraction of supersingular roots.
+Finally, we present our first main result, which answers the first open question for a subset of the $m$ and $n = l^e$.
+Our approaches for an efficient computation also apply to this special case.
+However, we are not able to completely answer the second question, and thus cannot solve the main problem.
+
+In the case that both $n$ and $m$ are small (but $p$ is exponential), \cite{base_paper} presents an approach that can find roots of $f_{p, n, m}$ even though $p$ is exponentially large, so $\Phi_n(X, X^p)$ and $\Phi_n(X, X^p)$ have exponential degree.
+The idea is to take a non-square in $\F_p$ and its square root $\delta \in \F_{p^2}$.
 Then $(a + b\delta)^p = a - b\delta$ and so we can equivalently look for $x, y \in \F_p$ such that
 \begin{equation*}
     \Phi_n(x + \delta y, x - \delta y) = \Phi_m(x + \delta y, x - \delta y) = 0
@@ -102,12 +113,20 @@ Hence, we look for a root in $\F_p$ of the polynomial
 \begin{equation*}
     \mathrm{res}_Y(\Phi_n(X + \delta Y, X - \delta Y), \Phi_m(X + \delta Y, X - \delta Y))
 \end{equation*}
-However, note that a solution to this system will have an endomorphism of degree $nm$.
+Of course, for each such root $x$ we still have to check that
+\begin{equation*}
+    \Phi_n(x + \delta Y, x - \delta Y) \quad \text{and} \quad \Phi_m(x + \delta Y, x - \delta Y)
+\end{equation*}
+also have roots in $\F_p$.
+All of this is possible, since the polynomials in each case have degree polynomial in $n$ resp. $m$.
+
+However, note that the elliptic curve corresponding to a root of $f_{p, n, m}$ will have an endomorphism of degree $nm$.
 If we choose both $n$ and $m$ of size polynomial in $\log(p)$, this means the endomorphism ring has polynomial discriminant, which is a weakness.
 Hence, at least one of $n$ resp. $m$ has to be super-polynomial (or better exponential) in $\log(p)$.
 
 This of course makes it very hard to even write down or compute some properties of $\Phi_n$.
-Hence, we will study a slight modification and focus on the case that $n = l^e$ is a prime power.
+In particular, the above approach does not work anymore.
+We will now study a slight modification and focus on the case that $n = l^e$ is a prime power, in which we can circumvent at least parts of the problem.
 
 \subsection{The prime power case}
 First of all, we describe how the assumption $n = l^e$ might help us to work with $\Phi_n$.
@@ -118,8 +137,15 @@ If we relax this to just any $l^e$-isogeny and note that an $l^e$-isogeny is equ
 \end{equation*}
 In other words, we look for a solution to the polynomial system
 \begin{equation*}
-    F_{p, m, l^e} := \langle \Phi_m(x, y), \Phi_l(x, x_1), ..., \Phi_l(x_{e - 1}, y) \rangle
+    F_{p, m, l^e} := \langle \Phi_m(x, x^p), \Phi_l(x, x_1), ..., \Phi_l(x_{e - 1}, x^p) \rangle
 \end{equation*}
+Of course, we can again take a non-square of $\F_p$ and its root $\delta \in \F_{p^2}$ and write $x_i = y_i + \delta z_i$.
+Hence, we look for a solution in $\F_p$ of the system
+\begin{equation*}
+    \langle \Phi_m(y + \delta z, y - \delta z), \phi_l(y + \delta z, y_1 + \delta z_1), ..., \Phi_l(y_{e - 1} + \delta z_{e - 1}, y - \delta z) \rangle
+\end{equation*}
+This polynomial system is now at least efficiently computable and representable (using a standard, i.e. non-sparse, representation).
+
 The other advantage of this approach is that every supersingular curve $E$ has an $l^e$-isogeny to $E^{(p)}$ if $e \in \Omega(\log_l(p))$.
 This follows from our results on expander graphs.
 More concretely, Theorem~\ref{prop:supersingular_graph_ramajuan} shows that the supersingular $l$-isogeny graph over $\F_{p^2}$ is an $\epsilon$-expander for
@@ -134,13 +160,18 @@ has a nonzero probability of ending in any fixed vertex, by Prop.~\ref{prop:expa
 
 This leaves us with a polynomial system of $O(\log(p))$ unknowns and equations, which at least can be explicitly written down.
 Now we want to study how big the fraction of supersingular roots is.
-To begin with, by our choice of $e = \Theta(\log_l(p))$, we can assume that all supersingular j-invariants are roots of $\Phi_{l^e}(X, X^p)$, and so the number of supersingular roots is $O(\sqrt{mp})$, again by Corollary~\ref{prop:osidh_class_group_action}.
+We use the following corollary from the OSIDH class group action, see e.g. \cite[Thm~4.3]{chenu_smith}.
+\begin{corollary}
+    \label{prop:osidh_class_group_action}
+    There are $\Theta(\sqrt{mp})$ supersingular curves $E$ over $\F_{p^2}$ with an $m$-isogeny to $E^{(p)}$.
+\end{corollary}
+To begin with, by our choice of $e = \Theta(\log_l(p))$, we can assume that all supersingular j-invariants are roots of $\Phi_{l^e}(X, X^p)$, and so the number of supersingular roots is $O(\sqrt{mp})$, by the above Corollary~\ref{prop:osidh_class_group_action}.
 Hence, we want to find instances of $l, e$ and $m$ such that above system has only a small amount of ordinary roots, preferably $o(\sqrt{mp})$. 
 
 \subsection{Studying the number of ordinary roots}
 To estimate the number of ordinary roots, we will of course use the class group action.
 Thus, we need a bound on the class number of quadratic imaginary orders.
-The next theorem puts together some classical results, in particular the famous class number formula.
+The next theorem puts together some classical results, in particular the famous class number formula (see e.g. \cite[Corollary~VII.5.11]{neukirch}).
 \begin{theorem}
     \label{prop:class_number_bounds}
     Let $\O$ be an order in a quadratic imaginary number field with discriminant $D = d(\O)$.
@@ -175,7 +206,11 @@ The next theorem puts together some classical results, in particular the famous 
     \end{equation*}
     where $\mathfrak{f} \leq \O_K$ is the largest ideal contained in $\O$.
     For the conductor $f = [\O_K : \O]$ we know that $d(\O) = f^2 d_K$, and clearly $\mathfrak{f} = f\O_K$.
-    Now $\O/\mathfrak{f} \cong \Z/f\Z$ and so $\#(\O/\mathfrak{f})^* = \phi(f)$.
+    Choosing a generator $\alpha$ of $\O_K$, we have as $\Z$-modules that
+    \begin{equation*}
+        \O = \Z \oplus f\alpha\Z \quad \text{and} \quad \mathfrak{f} = f\O_K = f\Z \oplus f\alpha\Z
+    \end{equation*}
+    and so $\O/\mathfrak{f} \cong \Z/f\Z$, hence $\#(\O/\mathfrak{f})^* = \phi(f)$.
     To find $\#(\O_K/\mathfrak{f})^*$, consider the factorization $f = \prod p_i^{e_i}$.
     Clearly $\O_K/\mathfrak{f} \cong \bigoplus \O_K/(p_i)^{e_i}$, and thus it suffices to consider the case that $f = p^e$ is a prime power.
 
@@ -185,12 +220,14 @@ The next theorem puts together some classical results, in particular the famous 
         =& \#\{ (a, b) \in (\Z/p^e\Z)^2 \ | \ a^2 + d_K b^2 \not\equiv 0 \mod p \} \\
         =& p^{2e - 2} \#\{ (a, b) \in \F_p^2 \ | \ a^2 + d_K b^2 \neq 0 \} \\
         =& p^{2e - 2} \cdot \begin{cases}
-            p^2 - 1 & \text{if $\left(\frac {-d_K} p \right) \in \{ -1, 0 \}$} \\
-            (p - 1)^2 & \text{otherwise}
-        \end{cases} \\
+            p^2 - 1 & \text{if $\left(\frac {-d_K} p \right) = -1$} \\
+            p(p - 1) & \text{if $\left(\frac {-d_K} p \right) = 0$} \\
+            (p - 1)^2 & \text{if $\left(\frac {-d_K} p \right) = 1$}
+        \end{cases} \\\
         =& \begin{cases}
-            f \phi(f) & \text{if $\left(\frac {-d_K} p \right) \in \{ -1, 0 \}$} \\
-            \phi(f)^2 & \text{otherwise}
+            p^{2e} - p^{2e - 2} & \text{if $\left(\frac {-d_K} p \right) = -1$} \\
+            f\phi(f) & \text{if $\left(\frac {-d_K} p \right) = 0$} \\
+            \phi(f)^2 & \text{if $\left(\frac {-d_K} p \right) = 1$}
         \end{cases}
     \end{align*}
     since in the case $(-d_K/p) = 1$, have that $a^2 + d_K b^2 = (a + \delta b)(a - \delta b)$.
