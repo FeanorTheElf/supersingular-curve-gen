@@ -27,6 +27,12 @@ Finally, the most difficult problem is to find a trapdoor-free hash function to 
 An algorithm solving the above problem can then easily be made into a collision-free hash function by prepending it with a secure hash function.
 Note that for most applications, it would already be sufficient if the above problems could be solved only for certain primes $p$. 
 
+Next, we want to present some of the known methods to generate supersingular Elliptic Curves, and discuss why (or why not) they can solve one of the above problems.
+After that, we introduce the idea of Katherine Stange, which is the second proposal of \cite{base_paper}.
+We discuss both the theoretical and implementation issues in detail, and then prove our main result, Prop.~\ref{prop:main_result1}.
+Finally, we present a modified version and prove some results on the associated distribution of supersingular curves, which includes our second main result, Prop.~\ref{prop:main_result2} and an analysis of another case, which however seems less useful for implementations.
+We conclude by giving an idea that might help with performing the computations of our approach efficiently. 
+
 \section{Naive and classical approaches}
 \label{prop:naive_classical_approaches}
 First, we have a look at some simple approaches to the problem, to get a feeling for the challenges.

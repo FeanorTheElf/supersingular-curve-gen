@@ -42,64 +42,7 @@ The stronger interpretation on the other hand would require us to compute genera
 It is an interesting and nontrivial fact that in the supersingular case (which is the one we are interested in), both these problems are equivalent to the isogeny path problem \cite{endomorphism_ring_isogeny_path_equivalent}.
 In other words, if we know $\End(E)$ and $\End(E')$ for supersingular $E$ and $E'$, we can find an isogeny path from $E$ to $E'$.
 
-While it is technically not a cryptosystem, we first want to present Sutherland's supersingularity test.
-It is a clever algorithm based on isogeny graphs, and will be important again later.
-
-\section{Sutherland's supersingularity test}
-\label{sec:sutherlands_supersingularity_test}
-Consider the following problem: Given an Elliptic Curve $E$ over $\F_{p^2}$, determine whether $E$ is supersingular.
-If the j-invariant $j(E) \neq 0, 1728$, one way could be to check whether $[p] = \pm \pi$ for the $p^2$-th power Frobenius endomorphism of $E$.
-To do this, just sample random points $P$ and check whether $[p](P) = \pm \pi(P)$.
-If this is the case for many different $P$, then $E$ is supersingular with high probability
-\footnote{We also want to mention that there are more efficient probabilistic algorithms for supersingularity testing, and the above is only for illustrative purposes.}.
-
-However, this method is only probabilistic and cannot prove that $E$ is supersingular.
-In particular, in the ordinary case, the nonconstant isogeny $[p] - \pi$ can still have separability degree $O(p)$, and thus have an exponentially large kernel.
-
-Therefore, to prove supersingularity, different methods are needed.
-Sutherland \cite{sutherland_supersingularity_test} proposed the following method based on isogeny graphs.
-
-Note that $j(E)$ is in $\F_{p^2}$ if and only if there is a nontrivial element of norm $p^2$ in $\End(E)$ (either this element or its conjugate must be the $p^2$-th power Frobenius).
-Now assume we have an ordinary curve $E$ over $\F_{p^2}$ on the $i$-th lava flow level in the $2$-isogeny volcano.
-Then the curves on the $(i + j)$-th lava flow level have the endomorphism ring $\Z + 2^j\End(E)$ by Prop.~\ref{prop:isogeny_vulcano}.
-Assuming that $\pi \in \Z + 2^j\End(E)$, we then find that
-\begin{equation*}
-    2^{2j} |d(\End(E))| \divides |d(\Z[\pi])| = 4p^2 - \mathrm{Tr}(\pi) \leq 4p^2
-\end{equation*}
-Hence $2^{2j} \leq 4p^2$, and so if
-\footnote{As we will later see, this bound is not optimal. This was first noted by \cite{fp_supersingularity_tests}, and we present the optimal bound in Prop.~\ref{prop:counting_fp2_vulcano_levels}.}
-$j \geq \log_2(p) + 1$, it follows that $\pi \notin \Z + 2^j\End(E)$.
-In other words, if we go down $\log_2(p) + 1$ levels from $E$, we encounter a curve not defined over $\F_{p^2}$.
-On the other hand, the whole supersingular 2-isogeny graph is defined over $\F_{p^2}$, so any path we take ends with a curve defined over $\F_{p^2}$.
-
-The only obstacle to making this into a supersingularity test is that there is no way how we can ``go down'' the lava flow, i.e. we do not know which of the 2-isogenies from $E$ to one of its 2-isogeneous neighbors is the descending one.
-In other words, if we just take any (non-backtracking) path starting from $E$, we might end up going around the crater of the 2-isogeny volcano, and not down the lava flow.
-Sutherland's idea now is to simultaneously take three different (non-backtracking) random walks from $E$, but ensure that they have different second vertices.
-Hence, one of them will go down one step in the lava flow, and since the lava flow consists of trees, continue to go downwards.
-This yields Algorithm~\ref{alg:sutherland_supersingularity_test}.
-\begin{algorithm}
-\caption{\label{alg:sutherland_supersingularity_test} Sutherland's supersingularity test\\
-\textbf{Input:} A j-invariant $j_0$\\
-\textbf{Output:} True if the isomorphism class of curves represented by $j$ is supersingular}
-\begin{algorithmic}[1]
-\State Compute the modular polynomial $\Phi_2$
-\State Set $j_0^{(0)} = j_0^{(1)} = j_0^{(2)} = j_0$
-\State Set $j_1^{(0)}, j_1^{(1)}, j_1^{(2)}$ to the three roots of $\Phi_2(X, j_0)$
-\For{$k \in \{0, 1, 2\}$}
-    \For{$i = 1$ to $\lfloor \log_2(p) \rfloor$}
-        \State Set $j_{i + 1}^{(k)}$ to any root of $\Phi_2(X, j_i^{(k)})$ other than $j_{i - 1}^{(k)}$
-        \If{$j_{i + 1}^{(k)} \notin \F_{p^2}$}
-            \Return False
-        \EndIf
-    \EndFor
-\EndFor
-\State \Return True
-\end{algorithmic}
-\end{algorithm}
-
-Variants of Sutherland's supersingularity test are still the best deterministic general-purpose supersingularity check.
-In particular, they are faster than ideas based on point counting.
-Hence, this algorithm also plays an important role in isogeny-based cryptography, e.g. for key validation.
+After having mentioned it many times already, we now finally present the famous SIDH cryptosystem.
 
 \section{Supersingular Isogeny Diffie-Hellman}
 Even though the Supersingular Isogeny Diffie-Hellman (SIDH) scheme is broken, we think its ideas are important and serve well to illustrate the basic approach in isogeny-based cryptography.
@@ -258,4 +201,63 @@ Hence, anyone who knows the endomorphism ring of the starting curve $E$ from Alg
 
 This is one of several examples why the generation of supersingular curves without revealing a trapdoor would be an important tool for cryptography.
 However, as already mentioned, it is still an open problem to find an algorithm that achieves this.
-In the next chapter, we will now present the progress we made on this problem. 
+In the next chapter, we will then present the progress we made on this problem. 
+
+\section{Sutherland's supersingularity test}
+\label{sec:sutherlands_supersingularity_test}
+While it is technically not a cryptosystem, we finally want to present Sutherland's supersingularity test.
+It is a clever algorithm based on isogeny graphs, and will be important again later.
+
+Consider the following problem: Given an Elliptic Curve $E$ over $\F_{p^2}$, determine whether $E$ is supersingular.
+If the j-invariant $j(E) \neq 0, 1728$, one way could be to check whether $[p] = \pm \pi$ for the $p^2$-th power Frobenius endomorphism of $E$.
+To do this, just sample random points $P$ and check whether $[p](P) = \pm \pi(P)$.
+If this is the case for many different $P$, then $E$ is supersingular with high probability
+\footnote{We also want to mention that there are more efficient probabilistic algorithms for supersingularity testing, and the above is only for illustrative purposes.}.
+
+However, this method is only probabilistic and cannot prove that $E$ is supersingular.
+In particular, in the ordinary case, the nonconstant isogeny $[p] - \pi$ can still have separability degree $O(p)$, and thus have an exponentially large kernel.
+
+Therefore, to prove supersingularity, different methods are needed.
+Sutherland \cite{sutherland_supersingularity_test} proposed the following method based on isogeny graphs.
+
+Note that $j(E)$ is in $\F_{p^2}$ if and only if there is a nontrivial element of norm $p^2$ in $\End(E)$ (either this element or its conjugate must be the $p^2$-th power Frobenius).
+Now assume we have an ordinary curve $E$ over $\F_{p^2}$ on the $i$-th lava flow level in the $2$-isogeny volcano.
+Then the curves on the $(i + j)$-th lava flow level have the endomorphism ring $\Z + 2^j\End(E)$ by Prop.~\ref{prop:isogeny_vulcano}.
+Assuming that $\pi \in \Z + 2^j\End(E)$, we then find that
+\begin{equation*}
+    2^{2j} |d(\End(E))| \divides |d(\Z[\pi])| = 4p^2 - \mathrm{Tr}(\pi) \leq 4p^2
+\end{equation*}
+Hence $2^{2j} \leq 4p^2$, and so if
+\footnote{As we will later see, this bound is not optimal. This was first noted by \cite{fp_supersingularity_tests}, and we present the optimal bound in Prop.~\ref{prop:counting_fp2_vulcano_levels}.}
+$j \geq \log_2(p) + 1$, it follows that $\pi \notin \Z + 2^j\End(E)$.
+In other words, if we go down $\log_2(p) + 1$ levels from $E$, we encounter a curve not defined over $\F_{p^2}$.
+On the other hand, the whole supersingular 2-isogeny graph is defined over $\F_{p^2}$, so any path we take ends with a curve defined over $\F_{p^2}$.
+
+The only obstacle to making this into a supersingularity test is that there is no way how we can ``go down'' the lava flow, i.e. we do not know which of the 2-isogenies from $E$ to one of its 2-isogeneous neighbors is the descending one.
+In other words, if we just take any (non-backtracking) path starting from $E$, we might end up going around the crater of the 2-isogeny volcano, and not down the lava flow.
+Sutherland's idea now is to simultaneously take three different (non-backtracking) random walks from $E$, but ensure that they have different second vertices.
+Hence, one of them will go down one step in the lava flow, and since the lava flow consists of trees, continue to go downwards.
+This yields Algorithm~\ref{alg:sutherland_supersingularity_test}.
+\begin{algorithm}
+\caption{\label{alg:sutherland_supersingularity_test} Sutherland's supersingularity test\\
+\textbf{Input:} A j-invariant $j_0$\\
+\textbf{Output:} True if the isomorphism class of curves represented by $j$ is supersingular}
+\begin{algorithmic}[1]
+\State Compute the modular polynomial $\Phi_2$
+\State Set $j_0^{(0)} = j_0^{(1)} = j_0^{(2)} = j_0$
+\State Set $j_1^{(0)}, j_1^{(1)}, j_1^{(2)}$ to the three roots of $\Phi_2(X, j_0)$
+\For{$k \in \{0, 1, 2\}$}
+    \For{$i = 1$ to $\lfloor \log_2(p) \rfloor$}
+        \State Set $j_{i + 1}^{(k)}$ to any root of $\Phi_2(X, j_i^{(k)})$ other than $j_{i - 1}^{(k)}$
+        \If{$j_{i + 1}^{(k)} \notin \F_{p^2}$}
+            \Return False
+        \EndIf
+    \EndFor
+\EndFor
+\State \Return True
+\end{algorithmic}
+\end{algorithm}
+
+Variants of Sutherland's supersingularity test are still the best deterministic general-purpose supersingularity check.
+In particular, they are faster than ideas based on point counting.
+Hence, this algorithm also plays an important role in isogeny-based cryptography, e.g. for key validation.
