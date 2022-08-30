@@ -451,6 +451,8 @@ Note now that for an isogeny $\phi: E \to E'$, have
 Comparing inseparability degrees, it follows that $\Phi(\pi_E)$ is totally inseparable as endomorphism on $E'$.
 Hence, $E'$ is isomorphic to a curve such that $\Phi(\pi_E)$ becomes the Frobenius endomorphism of that curve.
 Since we only work with isomorphism classes, we assume from now on that $\Phi(\pi_E)$ is the Frobenius of $E'$.
+From now on, we will sometimes talk about the $q$-th power Frobenius of a quadratic imaginary order $\O$ - this just means the non-integer element $\pi \in \O$ of norm $q$, which is unique up to conjugation.
+We can then choose all isomorphisms $\O \cong \End(E)$ such that $\pi$ maps to the Frobenius of $E$.
 
 Now we can prove that ideal multiplication is compatible with chaining of isogenies.
 Note that the condition $p \notdivides d(\O)$ is just equivalent to all curves $E$ with $\End(E) \cong \O$ being ordinary.
@@ -463,7 +465,9 @@ Note that the condition $p \notdivides d(\O)$ is just equivalent to all curves $
     \end{equation*}
 \end{lemma}
 \begin{proof}
-    Write $\pi \in \O$ for the unique element of $\O$ that maps to the Frobenius of $E$ under the maps $\O \overset{\sim}{\longrightarrow} \End(E)$ for all $E$ with $\End(E) \cong \O$.
+    Write $\pi \in \O$ for the Frobenius of $\O$.
+    With that, we mean that $\pi$ is the $q$-th power Frobenius of $\O$, where $q$ is the smallest power of $p$ such that $\O$ has a non-integer element of norm $q$.
+    As mentioned before, $\pi$ maps to the Frobenius endomorphism of each curve $E$ with $\O \cong \End(E)$.
     
     We have $\a = \tilde{\a} (p, \pi)^r$ and $\b = \tilde{\b} (p, \pi)^s$ with $\tilde{\a}, \tilde{\b} \perp (p, \pi)$.
     For $q$ such that $\phi_{E_\a, \tilde{b}}$ is defined over $\F_q$, it is now the case that

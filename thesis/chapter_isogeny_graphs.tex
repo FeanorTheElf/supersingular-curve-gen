@@ -108,6 +108,9 @@ If $\mathrm{char}(k) = p$, then an inseparable isogeny $\psi: E \to E'$ always f
 Note that can also define the operation $\cdot^{(p)}$ on isogenies, by again raising each coefficient in the defining polynomials to the $p$-th power.
 This way, $\cdot^{(p)}$ becomes an endofunctor on the category of Elliptic Curves over $\bar{\F}_p$ and their isogenies.
 
+Sometimes we will mention cyclic isogenies, which are isogenies of cyclic kernel.
+Hence, an isogeny $\phi: E \to E'$ being cyclic is equivalent to the fact that $\phi$ does not factor through $[m]$ for any integer $m \geq 2$.
+
 The final notion we require in this context is the one of the dual isogeny.
 Since the kernel of an isogeny $\psi: E \to E'$ is a subgroup of size $\deg_s(\psi)$, we see that it is contained in $E[\deg(\psi)] = \ker[\deg(\psi)]$.
 Now the previous correspondence shows that $\psi$ factors through through the multiplication map $[\deg(\psi)]$, via an isogeny $\hat{\psi}$
@@ -235,7 +238,7 @@ Mainly, because the theory of quaternion algebras is more complicated, and its c
         \includegraphics[width = 0.5\textwidth]{../example_supersingular.png}
     \end{center}
     \caption{
-        \label{fig:example_supersingular_graph} The supersingular 3-isogeny graph over $\F_{101^2}$.
+        \label{fig:example_supersingular_graph} The supersingular 5-isogeny graph over $\F_{101^2}$.
         The element $\mathrm{z}$ is a generator of $\F_{101^2}$ as in Figure~\ref{fig:example_vulcanos}.
     }
 \end{figure}
@@ -348,7 +351,7 @@ However, finding the endomorphism ring is a hard problem in itself, and thus thi
 Furthermore, it does not work in the supersingular setting.
 
 One solution to this problem is given by modular curves, which give a very useful algebraic structure to the $l$-isogeny graph.
-In particular, the existence of a nontrivial $l$-isogeny between curves is an algebraically closed condition, i.e. is given by an algebraic curve.
+In particular, the existence of a non-integer $l$-isogeny between curves is an algebraically closed condition, i.e. is given by an algebraic curve.
 
 The classical way to study this is by using the theory of modular forms.
 Since this is out of the scope of this work, we refer to \cite[§11]{cox_primes_of_form} for an introduction of the topic.

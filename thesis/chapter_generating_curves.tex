@@ -270,19 +270,19 @@ Similar situations can occur with other polynomial systems, but it is always the
 The next statement shows that this is not a problem, as those ordinary roots are very rare.
 \begin{prop}
     \label{prop:small_endomorphism_rare}
-    For $n > 0$, there are at most $O(n^{3/2}\log(n)^2)$ isomorphism classes of ordinary curves who have a nontrivial endomorphism of degree $n$.
+    For $n > 0$, there are at most $O(n^{3/2}\log(n)^2)$ isomorphism classes of ordinary curves who have a non-integer endomorphism of degree $n$.
 \end{prop}
 \begin{proof}
-    Assume that $\O$ is an imaginary quadratic order with $p \notdivides d(\O)$ that has a nontrivial element $\beta \in \O \setminus \Z$ of norm $n$.
+    Assume that $\O$ is an imaginary quadratic order with $p \notdivides d(\O)$ that has a non-integer element $\beta \in \O \setminus \Z$ of norm $n$.
     The discriminant of the order $\Z[\beta]$ is $d(\Z[\beta]) = \mathrm{Tr}(\beta)^2 - 4\Norm(\beta) \geq -4\Norm(\beta)$.
-    Hence $|d(\O)| \leq 4n$, and we find that the number of isomorphism classes of ordinary curves with a nontrivial $n$-endomorphism is bounded by
+    Hence $|d(\O)| \leq 4n$, and we find that the number of isomorphism classes of ordinary curves with a non-integer $n$-endomorphism is bounded by
     \begin{align*}
         \sum_{\substack{-4n \leq D \leq 0\\\mathclap{\text{$D$ fundamental discriminant}}}} h(D) \leq \sum_{1 \leq D \leq 4n} \sqrt{D}\log(D)^2 \in O(n^{3/2}\log(n)^2)
     \end{align*}
     This shows the claim.
 \end{proof}
 This is now as far as we can go in the general case.
-The main problem is that once we want to determine which endomorphism rings have nontrivial endomorphisms of two different degrees (e.g. $m$ and $l^e$), there is no analogue of the simple statement
+The main problem is that once we want to determine which endomorphism rings have non-integer endomorphisms of two different degrees (e.g. $m$ and $l^e$), there is no analogue of the simple statement
 \begin{equation*}
     \{ d(\O) \ | \ \text{$\O$ has cyclic endomorphism of degree $m$}\} \supseteq \{ 4(m - x^2) \ | \ 0 < x < \sqrt{m} \}
 \end{equation*}
@@ -335,8 +335,8 @@ In contrast to most of the other arguments we make in this section, here we argu
     where $\phi$ is a power-of-$l$ endomorphism of $E_k$.
 
     If we apply this to the $l$-isogeny path $E \to E^{(p)}$ of length $f$, we see that $\phi$ is an $l^{f - 2i}$-endomorphism of $E_i$.
-    However, since $f - 2i$ is odd by assumption, $\deg(\phi)$ is not a square and so $\phi$ is nontrivial.
-    This now gives a nontrivial endomorphism
+    However, since $f - 2i$ is odd by assumption, $\deg(\phi)$ is not a square and so $\phi$ is not an integer.
+    This now gives a non-integer endomorphism
     \begin{equation*}
         E \to E_1 \to ... \to E_i \ \overset{\phi}{\longrightarrow} \ E_i \to E_{i - 1} \to ... \to E
     \end{equation*}
@@ -348,12 +348,12 @@ In contrast to most of the other arguments we make in this section, here we argu
 
     If $(l) = \l_1 \l_2$ is split in $\O$, note that our cyclic $l$-isogeny path $E \to E^{(p)}$ of length $f$ induces a path $E_R \to E_R^{(p)}$ of length $f - 2i$, for some $i \geq 0$.
     Since walking around the crater is given by the action of $\l_1$, we see that $[(p, \pi)] = [\l_1]^{f - 2i}$ in the ideal class group.
-    Thus $\l_1^{2f - 4i}$ is principal ($E_R$ is defined over $\F_{p^2}$, so $[(p, \pi)]^2 = 1$), and its generator gives a nontrivial endomorphism $\phi$ of $\End(E_R)$ of degree $l^{2f - 4i}$.
+    Thus $\l_1^{2f - 4i}$ is principal ($E_R$ is defined over $\F_{p^2}$, so $[(p, \pi)]^2 = 1$), and its generator gives a non-integer endomorphism $\phi$ of $\End(E_R)$ of degree $l^{2f - 4i}$.
     Now
     \begin{equation*}
         E = E_0 \to E_1 \to ... \to E_i = E_R \ \overset{\phi}{\longrightarrow} E_R = E_i \to E_{i - 1} \to ... \to E
     \end{equation*}
-    gives a nontrivial endomorphism of $E$ with degree $l^{2f - 2i} \leq l^{2f}$, so we are done.
+    gives a non-integer endomorphism of $E$ with degree $l^{2f - 2i} \leq l^{2f}$, so we are done.
 
     If $(l)$ is inert in $\O$, the crater only has a single vertex.
     Since we have $E_R \not\cong E_R^{(p)}$ are both curves in a crater, we see that they must be in different $l$-isogeny volcanoes.
@@ -401,7 +401,7 @@ Next, we try to demonstrate this in one example.
     \end{equation*}
     Of those, $0$, $50$, $46$, $9\alpha + 10$ and $44\alpha + 46$ are supersingular, and the other three are ordinary.
     The corresponding $3$-isogeny graphs are displayed in Figure~\ref{fig:example_51}.
-    Note that all ordinary solutions are in a volcano with a curve that has a nontrivial $3$-endomorphism.
+    Note that all ordinary solutions are in a volcano with a curve that has a non-integer $3$-endomorphism.
     \begin{figure}
         \begin{minipage}{0.5\textwidth}
             \centering
@@ -464,7 +464,7 @@ All this is considered in the next two propositions, which are again phrased in 
     \begin{equation*}
         (p - am^2)^2 - g \cdot 1^2 = p^2 - 2pam^2 + a^2m^4 - a^2m^4 + 2pam^2 = p^2
     \end{equation*}
-    Thus the imaginary quadratic order $\O := \Z[\sqrt{g}]$ with discriminant $D := 4g$ contains a nontrivial element of norm $p^2$, which must be the Frobenius $\pi$ (or its conjugate).
+    Thus the imaginary quadratic order $\O := \Z[\sqrt{g}]$ with discriminant $D := 4g$ contains a non-integer element of norm $p^2$, which must be the Frobenius $\pi$ (or its conjugate).
     In particular, the imaginary quadratic order $\O_0$ with discriminant $d := D/m^2$ satisfies $\O = \Z + m\O_0$ as $[\O_0 : \O]^2 = d(\O)/d(\O_0) = m^2$
     Therefore we see that $\pi \in \Z + m\O_0$.
     Note that each $a$ gives rise to a distinct $\O_0$, since $d(\O_0) = 4a(am^2 - 2p)$, and the first lower bound follows.

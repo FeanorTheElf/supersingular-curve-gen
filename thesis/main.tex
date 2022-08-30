@@ -21,7 +21,7 @@
 \usepackage{enumitem}
 \usepackage[noend]{algpseudocode}
 \usepackage[style=english]{csquotes}
-\usepackage[language=english, backend=biber, style=alphabetic, sorting=nyt]{biblatex}
+\usepackage[language=english, backend=biber, style=alphabetic, sorting=nyt, maxbibnames=99]{biblatex}
 
 \addbibresource{../bibliography.bib}
 
@@ -33,6 +33,15 @@
 }
 
 \usetikzlibrary{babel, positioning, shapes.geometric, arrows, arrows.meta}
+
+\DeclareCiteCommand{\fullcite}
+    {\usebibmacro{prenote}}
+    {\usedriver
+        {\defcounter{minnames}{6}%
+        \defcounter{maxnames}{6}}
+        {\thefield{entrytype}}.}
+    {\multicitedelim}
+    {\usebibmacro{postnote}}
 
 \title{Generating supersingular curves with modular polynomials}
 
