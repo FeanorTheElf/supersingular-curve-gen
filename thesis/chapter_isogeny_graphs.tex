@@ -4,24 +4,24 @@ However, since these do not bear directly on our work, and are usually developed
 The reader is referred to the standard work on the subject \cite{arithmetic_elliptic_curves}.
 We also include references to this work for each statement.
 
-\section{Foundations of elliptic curves and isogenies}
+\section{Foundations of Elliptic Curves and Isogenies}
 
 \subsection{Elliptic Curves and the group law}
 Consider a field $k$ with algebraic closure $\bar{k}$.
-An \emph{Elliptic Curve} is a nonsingular projective curve of genus 1 together with a special point $\IdPoint$.
-If the characteristic of $k$ is not 2 or 3, each Elliptic Curve $E$ is isomorphic to a projective plane curve given by an affine equation of the form
+An \emph{elliptic curve} is a nonsingular projective curve of genus 1 together with a special point $\IdPoint$.
+If the characteristic of $k$ is not 2 or 3, each elliptic curve $E$ is isomorphic to a projective plane curve given by an affine equation of the form
 \begin{equation*}
     E: y^2 = x^3 + Ax + B
 \end{equation*}
 such that the special point is the projective point at infinity $\IdPoint = (0 : 1 : 0)$ \cite[Prop.~III.3.1]{arithmetic_elliptic_curves}.
-Furthermore, an isomorphism class of Elliptic Curves is uniquely determined by its j-invariant \cite[Prop.~III.1.4]{arithmetic_elliptic_curves}, defined as
+Furthermore, an isomorphism class of elliptic curves is uniquely determined by its j-invariant \cite[Prop.~III.1.4]{arithmetic_elliptic_curves}, defined as
 \begin{equation*}
     j(E) := -1728 \frac {(4A)^3} {-16(4A^3 + 27B^3)}
 \end{equation*}
-Since isomorphic curves have the same properties in all aspects that matter for this work, we will use the terms Elliptic Curves and isomorphism classes of Elliptic Curves interchangeably from now on.
-In particular, note that whenever we count Elliptic Curves with special properties, we only count isomorphism classes. 
+Since isomorphic curves have the same properties in all aspects that matter for this work, we will use the terms elliptic curves and isomorphism classes of elliptic curves interchangeably from now on.
+In particular, note that whenever we count elliptic curves with special properties, we only count isomorphism classes. 
 
-The reason that makes Elliptic Curves so important is that they are abelian varieties, i.e. become groups in a way compatible with the geometric structure.
+The reason that makes elliptic curves so important is that they are abelian varieties, i.e. become groups in a way compatible with the geometric structure.
 There are different characterizations of this group law, the most explicit being its representation by polynomials.
 More concretely, if the curve is given by an affine equation $y^2 = x^3 + Ax + B$, then the sum of two affine points $P = (x_1 : y_1 : 1)$ and $Q = (x_2 : y_2 : 1)$ is given as
 \begin{equation*}
@@ -47,7 +47,7 @@ and the subgroup of $k$-rational points
     E(k) := \{ P \in E \ | \ \text{$P = (x : y : z)$ for some $x, y, z \in k$} \}
 \end{equation*}
 
-A property of Elliptic Curves that can be used for some slightly exotic cryptographic primitives (like identity-based crypto, or the verifiable delay function we present in Section~\ref{sec:verifiable_delay_function}) is the Weil pairing.
+A property of elliptic curves that can be used for some slightly exotic cryptographic primitives (like identity-based crypto, or the verifiable delay function we present in Section~\ref{sec:verifiable_delay_function}) is the Weil pairing.
 Let $m \geq 2$ be an integer coprime to $p$.
 Then there exists a map, the $m$-th \emph{Weil pairing}
 \begin{equation*}
@@ -62,9 +62,9 @@ It has the following properties (see \cite[Prop.~III.8.1]{arithmetic_elliptic_cu
 \end{itemize}
 
 \subsection{Isogenies}
-An \emph{isogeny} between two Elliptic Curves $E$ and $E'$ is a morphism (in the sense of algebraic geometry) that maps $\IdPoint$ to $\IdPoint$.
+An \emph{isogeny} between two elliptic curves $E$ and $E'$ is a morphism (in the sense of algebraic geometry) that maps $\IdPoint$ to $\IdPoint$.
 The first important result is that an isogeny is automatically a group homomorphism \cite[Thm~III.4.8]{arithmetic_elliptic_curves}.
-The simplest example of an isogeny is the multiplication-by-$m$ map on an Elliptic Curve $E$
+The simplest example of an isogeny is the multiplication-by-$m$ map on an elliptic curve $E$
 \begin{equation*}
     [m]: E \to E, \quad P \mapsto \underbrace{P + ... + P}_{\text{$m$ times}}
 \end{equation*}
@@ -86,7 +86,7 @@ More concretely, up to isomorphism, there is a one to one correspondence
     \{ \text{Pairs $(\psi, E')$ where $\psi: E \to E'$ is a separable isogeny} \}  \ &\to \ \{ \text{Finite subgroups $G \leq E$} \} \\
     (E', \psi) \ &\mapsto \ \ker(\psi)
 \end{align*}
-In particular, for a finite subgroup $G \leq E$ there is a unique (up to isomorphism) Elliptic Curve $E'$ and separable isogeny $\psi: E \to E'$ with kernel $G$.
+In particular, for a finite subgroup $G \leq E$ there is a unique (up to isomorphism) elliptic curve $E'$ and separable isogeny $\psi: E \to E'$ with kernel $G$.
 We also denote $E'$ by $E/G$, as that is the group structure on $E'$ by the isomorphism theorem (morphisms of projective irreducible curves are always surjective).
 
 Furthermore, this correspondence is compatible with the inclusion of finite subgroups as follows.
@@ -104,9 +104,9 @@ If $G_1 \leq G_2 \leq E$ are two finite subgroups, then the unique separable iso
 \end{center}
 commutes.
 An analogous statement also holds for inseparable isogenies.
-If $\mathrm{char}(k) = p$, then an inseparable isogeny $\psi: E \to E'$ always factors through the $p$-th power Frobenius $\pi: E \to E^{(p)}$ (which is of course purely inseparable), where $E^{(p)}$ is the Elliptic Curve with all coefficients of the defining equation raised to the $p$-th power.
+If $\mathrm{char}(k) = p$, then an inseparable isogeny $\psi: E \to E'$ always factors through the $p$-th power Frobenius $\pi: E \to E^{(p)}$ (which is of course purely inseparable), where $E^{(p)}$ is the elliptic curve with all coefficients of the defining equation raised to the $p$-th power.
 Note that can also define the operation $\cdot^{(p)}$ on isogenies, by again raising each coefficient in the defining polynomials to the $p$-th power.
-This way, $\cdot^{(p)}$ becomes an endofunctor on the category of Elliptic Curves over $\bar{\F}_p$ and their isogenies.
+This way, $\cdot^{(p)}$ becomes an endofunctor on the category of elliptic curves over $\bar{\F}_p$ and their isogenies.
 
 Sometimes we will mention cyclic isogenies, which are isogenies of cyclic kernel.
 Hence, an isogeny $\phi: E \to E'$ being cyclic is equivalent to the fact that $\phi$ does not factor through $[m]$ for any integer $m \geq 2$.
@@ -134,7 +134,7 @@ Interestingly, the dual isogeny behaves like an adjoint w.r.t. the Weil pairing,
 for an isogeny $\phi: E \to E'$ and the $m$-th Weil pairing $e_m$ of $E$ resp. $E'$ (see \cite[Prop.~III.8.2]{arithmetic_elliptic_curves}).
 
 \subsection{The endomorphism ring}
-For an Elliptic Curve $E$, we write from now on $\End(E)$ for the set of isogenies $E \to E$.
+For an elliptic curve $E$, we write from now on $\End(E)$ for the set of isogenies $E \to E$.
 Via composition and pointwise addition, this becomes a (possibly noncommutative) unital ring.
 The existence of the multiplication-by-$m$ isogeny implies that there is a ring homomorphism
 \begin{equation*}
@@ -144,7 +144,7 @@ As it turns out, this is always injective \cite[Prop.~III.4.2]{arithmetic_ellipt
 Much more is known about the endomorphism ring, though.
 In particular, there is the following theorem
 \begin{theorem}
-    Let $E$ be an Elliptic Curve over $k$. Then $\End(E)$ is one of the following
+    Let $E$ be an elliptic curve over $k$. Then $\End(E)$ is one of the following
     \begin{itemize}
         \item The ring of integers $\Z$.
         \item An order in a quadratic imaginary number field.
@@ -185,7 +185,7 @@ In particular, this implies that $|\mathrm{Tr}(\pi_E)| \leq 2\sqrt{q}$.
 Furthermore, if $E/\F_q$ is ordinary, the discriminant of the order $\End(E)$ divides the discriminant $d(\Z[\pi_E])$, as $\Z[\pi_E] \subseteq \End(E)$.
 Now it follows that $-4q < d(\End(E)) < 0$ in this case, because $d(\Z[\pi_E]) = \mathrm{Tr}(\pi_E)^2 - 4q$.
 
-Finally, note that in a supersingular Elliptic Curve, we always have $[p] = \epsilon \pi^2$, where now $\pi: E \to E^{(p)}$ the the $p$-th power Frobenius and $\epsilon$ is an automorphisms of $E$.
+Finally, note that in a supersingular elliptic curve, we always have $[p] = \epsilon \pi^2$, where now $\pi: E \to E^{(p)}$ the the $p$-th power Frobenius and $\epsilon$ is an automorphisms of $E$.
 However, it is not too hard to show \cite[Thm~III.10.1]{arithmetic_elliptic_curves} that
 \begin{equation*}
     \#\mathrm{Aut}(E) = \begin{cases}
@@ -200,7 +200,7 @@ In other words, every supersingular curve is isomorphic to a curve over $\F_{p^2
 
 \section{The ordinary isogeny graph}
 
-In cryptography, we are of course not just interested in abstract structure of Elliptic Curves and isogenies, but also in computing with them.
+In cryptography, we are of course not just interested in abstract structure of elliptic curves and isogenies, but also in computing with them.
 A fundamental algorithm based on the Velu formulas allows to compute the curve $E/G$ and the isogeny $E \to E/G$ for a finite subgroup $G \leq E$ in time polynomial in $\#G$.
 However, in the general case, there is no way how one can represent or compute an isogeny of exponentially large degree.
 This is where one can do cryptography, since for smooth-degree isogenies $\psi$, we can factor them into a sequence of small degree isogenies, and evaluate them one after the other.
@@ -209,7 +209,7 @@ However, if this factorization is not known, it seems very hard to evaluate the 
 The underlying structure of this approach (and others) can now be captured by the $l$-isogeny graph $\Gamma_l(\F_q)$, for a prime $l \neq p$.
 For this chapter, and the rest of this work, we assume $p = \mathrm{char}(k) \neq 2, 3$.
 \begin{definition}
-    Denote by $\Gamma_l(k)$ the graph whose vertices are isomorphism classes of Elliptic Curves over $k$, and the edges are the degree $l$ isogenies (again up to isomorphism
+    Denote by $\Gamma_l(k)$ the graph whose vertices are isomorphism classes of elliptic curves over $k$, and the edges are the degree $l$ isogenies (again up to isomorphism
     \footnote{We say two isogenies $\phi, \psi: E \to E'$ are isomorphic, if there are automorphisms $\tau \in \mathrm{Aut}(E)$ and $\rho \in \mathrm{Aut}(E')$ such that $\phi = \rho \circ \psi \circ \tau$.
     Note that $\mathrm{Aut}(E) = \{ \pm 1 \}$ unless $j(E) \in \{ 0, 1728 \}$ (assuming $\mathrm{char}(k) \neq 2, 3$), so this case occurs only at the two vertices with j-invariants $0$ and $1728$.}) 
     between them (with multiplicity).
@@ -220,7 +220,7 @@ Furthermore, the existence of the dual isogeny shows that this graph is undirect
 We also know that if $p \neq 2, 3$ and $l \neq p$, the graph $\Gamma_l(\bar{\F}_p)$ is $(l + 1)$-regular except at the j-invariants $0$ and $1728$, since there are exactly $l + 1$ subgroups of order $l$ in $E[l] \cong (\Z/l\Z)^2$.
 
 Note that when doing computations with this graph, we identify each vertex with the j-invariant of the corresponding curves.
-This makes it easy to work with isomorphism classes of Elliptic Curves.
+This makes it easy to work with isomorphism classes of elliptic curves.
 Furthermore, we observe that $\Gamma_l(\F_q)$ has exactly $q$ vertices, since there are that many j-invariants $j \in \F_q$.
 
 \input{section_ordinary_graphs.tex}
@@ -313,7 +313,7 @@ We also know its size exactly, which directly follows from a classical result on
             2 & \text{if $p \equiv 11 \mod 12$}
         \end{cases}
     \end{equation*}
-    supersingular Elliptic Curves over $\F_{p^2}$.
+    supersingular elliptic curves over $\F_{p^2}$.
 \end{prop}
 For a proof of this statement, see e.g. \cite[Thm~V.4.1]{arithmetic_elliptic_curves}.
 
@@ -362,7 +362,7 @@ The basic result is the following.
     \begin{equation*}
         \Phi_m(X, Y) \in \Z[X, Y]
     \end{equation*}
-    such that for Elliptic Curves $E, E'$ defined over $\C$, there is a cyclic $m$-isogeny $E \to E'$ if and only if $\Phi_m(j(E), j(E')) = 0$.
+    such that for elliptic curves $E, E'$ defined over $\C$, there is a cyclic $m$-isogeny $E \to E'$ if and only if $\Phi_m(j(E), j(E')) = 0$.
 \end{theorem}
 This polynomial is called the \emph{(classical) modular polynomial of level $m$}.
 A proof of this theorem is e.g. given in \cite[Thm~11.18]{cox_primes_of_form}.
@@ -379,7 +379,7 @@ A few corollaries of this theorem can easily be inferred.
 \end{corollary}
 \begin{proof}
     The first statement follows from the existence of the dual isogeny.
-    For the second statement, note that for each Elliptic Curve $E$ over $\C$, the degree of $\Phi_m(X, j(E))$ is the number of curves $E'$ with an $m$-isogeny $E \to E'$, which is equal to the number of cyclic subgroups $G \leq E \cong (\mathbb{R}/\Z)^2$ of size $m$.
+    For the second statement, note that for each elliptic curve $E$ over $\C$, the degree of $\Phi_m(X, j(E))$ is the number of curves $E'$ with an $m$-isogeny $E \to E'$, which is equal to the number of cyclic subgroups $G \leq E \cong (\mathbb{R}/\Z)^2$ of size $m$.
     By the Chinese Remainder theorem, this is a multiplicative function, and for a prime power $m = p^k$, the number is
     \begin{align*}
        &\#\bigl\{ G \leq (\Z/m\Z)^2 \ \bigm| \ \#G = m \bigr\} \\
@@ -421,7 +421,7 @@ Our situation is somewhat simpler, since we can take different lifts for the dom
 
     Consider some arbitrary lift $E_0$ and $E_0'$ of $E$ resp. $E'$ to a number field $K$ such that $j(E_0), j(E_0') \in \O_K$.
     Assume that $E_0'$ is defined by a homogeneous polynomial $f = Y^2Z - X^3 - AXZ^2 - BZ^3 \in \O_K[X, Y, Z]$.
-    Finally, assume\footnote{It is a simple consequence of the geometry of Elliptic Curves that every isogeny is of such a form.} $\phi = [u : Y v : w]$ with polynomials $u, v, w \in \F_q[X]$ and choose an arbitrary lift $v_0, w_0 \in \O_K[X]$ of $v$ resp. $w$.
+    Finally, assume\footnote{It is a simple consequence of the geometry of elliptic curves that every isogeny is of such a form.} $\phi = [u : Y v : w]$ with polynomials $u, v, w \in \F_q[X]$ and choose an arbitrary lift $v_0, w_0 \in \O_K[X]$ of $v$ resp. $w$.
     Hence the coefficients $u^{(0)}, ..., u^{(n)}$ of $u \in \F_q[X]$ are a root of
     \begin{equation*}
         f(\sum T_i X^i, Y v_0, w_0) = \sum_i a_i(T_0, ..., T_n) X^i \in \O_K[X][T_i]
@@ -478,7 +478,7 @@ For example Sutherland's supersingular test (see Section~\ref{sec:sutherlands_su
 Another example is Shoof's algorithm \cite{shoof_point_counting} for counting $\F_q$-rational points on a curve, which also fundamentally relies on modular polynomials.
 
 Therefore, computing modular polynomials is an important task.
-The most classical approach is to mimic to proof of Theorem~\ref{prop:complex_mod_poly}, i.e. view Elliptic Curves as lattices over $\C$ and compute the Fourier coefficients of the $j$-function.
+The most classical approach is to mimic to proof of Theorem~\ref{prop:complex_mod_poly}, i.e. view elliptic curves as lattices over $\C$ and compute the Fourier coefficients of the $j$-function.
 However, one main problem is that the coefficients in the modular polynomial become very large very fast.
 For example, $\Phi_5$ has already the constant coefficient
 \begin{equation*}

@@ -166,6 +166,22 @@ The following statements are special cases of the general theory in \cite[Chapte
     The claim follows.
 \end{proof}
 This lemma is a very useful characterization of invertible ideals.
+We can for example derive a result for the inclusion of two orders.
+\begin{corollary}
+    \label{prop:inclusion_orders_surjection}
+    Consider an inclusion of orders $\O \subseteq \O'$ in $K$.
+    Then there is a surjective morphism of groups
+    \begin{equation*}
+        \Cl(\O) \to \Cl(\O')
+    \end{equation*}
+\end{corollary}
+\begin{proof}
+    Using Lemma~\ref{prop:invertible_ideal_characterization}, we see that the natural surjective morphism
+    \begin{equation*}
+        \bigoplus_{\p \leq \O} K^*/\O_\p^* \to \bigoplus_{\q \leq \O'} K^*/(\O_\q')^*, \quad (a_\p)_\p \mapsto (\a_{\q \cap \O})_\q
+    \end{equation*}
+    induces a map as wanted.
+\end{proof}
 We are now ready for our first description of $\Cl(\O)$.
 \begin{lemma}
     Let $f = [\O_K : \O]$ and assume that $\O_K^* = \{ \pm 1 \}$.
@@ -268,11 +284,12 @@ The expression $\bigoplus_\p R_\p^*/\O_\p^*$ is still somewhat unwieldy, but for
     \end{equation*}
 \end{corollary}
 The condition $\O_K = \{ \pm 1 \}$ is very weak, as there are only two quadratic imaginary number fields such that the ring of integers has more units, namely $K = \Q[\sqrt{-3}]$ and $K = \Q[\sqrt{-1}]$.
-These correspond to the Elliptic Curves with j-invariants $0$ and $1728$ (if they are ordinary), and need a special treatment in many cases anyway.
+These correspond to the elliptic curves with j-invariants $0$ and $1728$ (if they are ordinary), and need a special treatment in many cases anyway.
 In \cite{neukirch}, there is also a more general version of this statement without this assumption.
 
 To get the class number explicitly, we use the next lemma.
 \begin{lemma}
+    \label{prop:class_number_order_unit_fraction_prime_power}
     Let $f := [\O_K : \O] = p^e$ be a prime power.
     Then $\#(\O/f\O_K) = p^{e - 1}(p - 1)$ and
     \begin{equation*}
@@ -304,16 +321,19 @@ To get the class number explicitly, we use the next lemma.
     since in the case $(-d_K/p) = 1$, have that $a^2 + d_K b^2 = (a + \delta b)(a - \delta b)$.
     Hence the change of variables $(a, b) \mapsto (a + \delta b, a - \delta b)$ transforms the set into $(\F_p \setminus \{0\})^2$.
 \end{proof}
-\begin{corollary}
-    For $f = [\O_K : \O]$ we have
+\begin{lemma}
+    \label{prop:class_number_unit_fraction_multiplicative}
+    The function
     \begin{equation*}
-        \phi(f) \leq \frac {\#(\O_K/f\O_K)^*} {\#(\O/f\O_K)^*} \leq \psi(f)
+        f \mapsto \frac {\#(\O_K/f\O_K)^*} {\#((\Z + f\O_K)/f\O_K)^*}
     \end{equation*}
-    where $\phi$ is Euler's totient function and $\psi$ is Dedekind's $\psi$ function.
-\end{corollary}
+    is multiplicative.
+\end{lemma}
 \begin{proof}
+    We have that $\#((\Z + f\O_K)/f\O_K)^* = \#(\Z/f\Z)^* = \phi(f)$ is multiplicative.
+    
     Let $f = \prod_i p_i^{e_i}$ be the prime factorization.
-    We have that
+    Then the Chinese remainder theorem gives
     \begin{equation*}
         \O_K/f\O_K \cong \bigoplus_i \O_K/p_i^{e_i}\O_K
     \end{equation*}
@@ -321,33 +341,28 @@ To get the class number explicitly, we use the next lemma.
     \begin{equation*}
         \#(\O_K/f\O_K)^* = \prod_i \#(\O_K/p_i^{e_i}\O_K)^*
     \end{equation*}
-    is a multiplicative function in $f$.
-    Furthermore, we know that
-    \begin{equation*}
-        \#((\Z + f\O_K)/f\O_K)^* = \phi(f) = p^{e - 1}(p - 1)
-    \end{equation*}
-    is a multiplicative function, and so also the quotient
-    \begin{equation*}
-        \frac {\#(\O_K/f\O_K)^*} {\#((\Z + f\O_K)/f\O_K)^*}
-    \end{equation*}
-    is.
-    By the previous lemma, now find that
-    \begin{equation*}
-        \phi(p^e) \leq \frac {\#(\O_K/p^e\O_K)^*} {\#((\Z + p^e\O_K)/p^e\O_K)^*} \leq \psi(p^e)
-    \end{equation*}
-    and since both $\phi$ and $\psi$ are multiplicative, the claim follows.
+    is also a multiplicative function in $f$.
+    The claim follows.
 \end{proof}
-By using the known lower bound on $\phi$ resp. the upper bound $\psi(n) \in O(n\log\log(n))$ from \cite{upper_bound_dedekind_psi}, we now find
+We can now compare this fraction with other multiplicative functions.
+In particular, we are interested in the Euler totient function $\phi$ and the Dedekind $\psi$ function, defined by
+\begin{equation*}
+    \phi(p^e) = p^{e - 1}(p - 1) \quad \text{and} \quad \psi(p^e) = p^{e - 1}(p + 1)
+\end{equation*}
+Note that by Lemma~\ref{prop:class_number_order_unit_fraction_prime_power}, these lower resp. upper bound our fraction $\frac {\#(\O_K/f\O_K)^*} {\#((\Z + f\O_K)/f\O_K)^*}$ at prime powers.
+By multiplicativity, we thus get the following corollary.
 \begin{corollary}
-    \label{prop:class_number_unit_fraction}
+    \label{prop:unit_fraction_bound}
     For $f = [\O_K : \O]$ we have
     \begin{equation*}
-        \Theta\left( \frac {f} {\log\log(f)} \right) \leq \frac {\#(\O_K/f\O_K)^*} {\#(\O/f\O_K)^*} \leq \Theta( f \log\log(f) )
+        \phi(f) \leq \frac {\#(\O_K/f\O_K)^*} {\#(\O/f\O_K)^*} \leq \psi(f)
     \end{equation*}
+    where $\phi$ is Euler's totient function and $\psi$ is Dedekind's $\psi$ function.
 \end{corollary}
 Finally, we can also derive a different statement, that will be interesting later.
 \begin{prop}
-    Let $\O_0$ be an orders in a quadratic imaginary number field $K$.
+    \label{prop:vulcano_level_class_numbers}
+    Let $\O_0$ be an orders in a quadratic imaginary number field $K$ with $\O_K = \{ \pm 1 \}$.
     For a prime $l$ define $\O := \Z + l\O_0$.
     \begin{itemize}
         \item If $\O_0$ is not maximal at $l$ (i.e. $l \divides [\O_K : \O_0]$) then $h(\O) = lh(\O_0)$.
@@ -357,11 +372,33 @@ Finally, we can also derive a different statement, that will be interesting late
     \end{itemize} 
 \end{prop}
 \begin{proof}
-    TODO
+    Let $f = [\O_K : \O_0] = l^e m$ with $m \perp l$, and set
+    \begin{equation*}
+        M = \frac {\#(\O_K/m\O_K)^*} {\#((\Z + m\O_K)/m\O_K)^*}
+    \end{equation*}
+    Then by Corollary~\ref{prop:class_group_order} we find
+    \begin{equation*}
+        h(\O_0) = h(\O_K) M \frac {\#(\O_K/l^e\O_K)^*} {\#((\Z + l^e\O_K)/l^e\O_K)^*}
+    \end{equation*}
+    and
+    \begin{equation*}
+        h(\O) = h(\O_K) M \frac {\#(\O_K/l^{e + 1}\O_K)^*} {\#((\Z + l^{e + 1}\O_K)/l^{e + 1}\O_K)^*}
+    \end{equation*}
+    Using Lemma~\ref{prop:class_number_order_unit_fraction_prime_power}, it follows that
+    \begin{align*}
+        h(\O) =& h(\O_0) \frac {\#(\O_K/l^{e + 1}\O_K)^* \cdot \#((\Z + l^e\O_K)/l^e\O_K)^*} {\#((\Z + l^{e + 1}\O_K)/l^{e + 1}\O_K)^* \cdot \#(\O_K/l^e\O_K)^*} \\
+        =& h(\O_0) \begin{cases}
+            l & \text{if $e > 0$} \\
+            l + 1 & \text{if $e = 0$ and $l$ is inert in $\O_K$} \\
+            l & \text{if $e = 0$ and $l$ is ramified in $\O_K$} \\
+            l - 1 & \text{if $e = 0$ and $l$ is split in $\O_K$}
+        \end{cases}
+    \end{align*}
+    The claim follows.
 \end{proof}
 
 \subsection{The class group action}
-Now we can come back to the study of Elliptic Curves and their isogeny graphs.
+Now we can come back to the study of elliptic curves and their isogeny graphs.
 The class group action which we will define in the following is the most important tool when working with isogeny graphs of ordinary curves.
 Because of this, it is mentioned in more or less all the literature dealing with the topic.
 For me, it was thus quite surprising that I could nowhere find a precise and relatively elementary proof for the statement in the case of finite fields.
@@ -370,10 +407,10 @@ Most sources cite \cite[Thm~4.5]{class_group_action_waterhouse}, however the sta
 Apart from that, there are many references to the corresponding statement for curves over $\C$, but these ignore some of the subtleties introduced by non-separable isogenies. 
 Therefore, we now present a relatively simple proof of the class group action for ordinary curves defined over a finite field and explicitly handle the non-separable case.
 
-For the whole section, let $E$ and $E'$ be Elliptic Curves defined over a finite field $k = \F_q$ with characteristic $p$.
+For the whole section, let $E$ and $E'$ be elliptic curves defined over a finite field $k = \F_q$ with characteristic $p$.
 We write $\pi_E$ for the $q$-th power Frobenius endomorphism of $E$.
 \begin{definition}
-    For an integral ideal $\a \leq \End(E)$ of an ordinary Elliptic Curve $E$, define the $\a$-torsion
+    For an integral ideal $\a \leq \End(E)$ of an ordinary elliptic curve $E$, define the $\a$-torsion
     \begin{equation*}
         E[\a] := \bigcap_{\alpha \in \a} \ker(\alpha)
     \end{equation*}
@@ -413,7 +450,7 @@ In other words, we choose an arbitrary embedding $\End(E) \to K$ for one ordinar
 From now on, whenever we identify $\End(E)$ with an appropriate subring of $K$, this shall use that embedding.
 It will already be used in the next statement, which describes the relationship of endomorphism rings of isogenous curves more concretely.
 \begin{prop}
-    Let $\phi: E \to E'$ be an isogeny of prime degree $p$ between ordinary Elliptic Curves.
+    Let $\phi: E \to E'$ be an isogeny of prime degree $p$ between ordinary elliptic curves.
     Then (after embedding $\End(E')$ via $\Phi$ and $\End(E)$ into $\End(E) \otimes \Q$) exactly one of the following is the case.
     \begin{itemize}
         \item $\End(E) = \End(E')$ and we call $\phi$ \emph{horizontal}.
@@ -454,7 +491,7 @@ The advantage is that this is defined for all isogenies, not just those of prime
 \end{proof}
 Now we can make a step towards the class group action and present how we assign isogenies to (integral, invertible) ideals of the endomorphism ring.
 \begin{definition}
-    For an ordinary Elliptic Curve $E$ and an integral, invertible ideal
+    For an ordinary elliptic curve $E$ and an integral, invertible ideal
     \footnote{By Prop.~\ref{prop:coprime_ideals_order}, this representation of an ideal $\a$ is well-defined and unique, as $\Norm((p, \pi)) = p \notdivides [\O_{\End(E) \otimes \Q} : \End(E)] \divides d(\End(E))$.}
     $\a = \b(p, \pi_E)^r \leq \End(E)$ with $\b \perp (p, \pi_E)$ define the isogeny
     \begin{equation*}
@@ -467,13 +504,13 @@ The obvious difficulty here is that the ideals are all in the same ring, but sub
 Hence, we need to be able to view an ideal $\a \leq \End(E)$ as an ideal of another endomorphism ring $\End(E')$.
 As it turns out, the endomorphism rings we consider are all isomorphic, and so this works out nicely. 
 \begin{lemma}
-    Let $E$ be an ordinary Elliptic Curve and $\a \leq \End(E)$ an integral, invertible ideal.
+    Let $E$ be an ordinary elliptic curve and $\a \leq \End(E)$ an integral, invertible ideal.
     Then $\End(E) \cong \End(E_\a)$.
     In particular, $\phi_{E, \a}$ is horizontal at every prime $l$.
 \end{lemma}
 \begin{proof}
     Let $\a = \b(p, \pi_E)^r$ with $\b \perp (p, \pi_E)$.
-    We show that $\End(E) \cong \End(E/E[\b])$ and the claim follows, as for any Elliptic Curve $E$, have an isomorphism
+    We show that $\End(E) \cong \End(E/E[\b])$ and the claim follows, as for any elliptic curve $E$, have an isomorphism
     \begin{equation*}
         \End(E) \to \End(E^{(p)}), \quad \alpha \mapsto \alpha^{(p)}
     \end{equation*}
@@ -547,7 +584,7 @@ Now we can prove that ideal multiplication is compatible with chaining of isogen
 Note that the condition $p \notdivides d(\O)$ is just equivalent to all curves $E$ with $\End(E) \cong \O$ being ordinary.
 \begin{lemma}
     Let $\O$ be a quadratic imaginary order with $p \notdivides d(\O)$ and two integral, invertible ideals $\a, \b \leq \O$.
-    Let further $E$ be an Elliptic Curve with $\End(E) \cong \O$.
+    Let further $E$ be an elliptic curve with $\End(E) \cong \O$.
     Identifying $\End(E_\a)$ with $\O$ by the canonical isomorphism $\Phi_{E, \a}: \End(E) \overset{\sim}{\longrightarrow} \End(E_\a)$, we have
     \begin{equation*}
         E_{\a\b} \cong (E_\a)_\b \quad \text{and} \quad \phi_{E, \a\b} = \phi_{E_\a, \b} \circ \phi_{E, \a}
@@ -605,9 +642,9 @@ What we have so far is already enough to establish a monoid action
 \end{equation*}
 where $\mathfrak{I}(\O)$ stands for the monoid of integral invertible ideals of $\O$ and
 \begin{equation*}
-    \Ell(\O) := \{ \text{$E$ isomorphism class of Elliptic Curves over $\bar{\F}_p$} \ | \ \End(E) \cong \O \}
+    \Ell(\O) := \{ \text{$E$ isomorphism class of elliptic curves over $\bar{\F}_p$} \ | \ \End(E) \cong \O \}
 \end{equation*}
-denote the set of isomorphism classes of Elliptic Curves with endomorphism ring $\O$.
+denote the set of isomorphism classes of elliptic curves with endomorphism ring $\O$.
 
 Next, we investigate the torsion of this action, i.e. for which $\a$ we have $\a.E = E$.
 \begin{lemma}
@@ -617,7 +654,7 @@ Next, we investigate the torsion of this action, i.e. for which $\a$ we have $\a
 \begin{proof}
     First, we show the direction $\Leftarrow$.
     By assumption, there are $\alpha, \beta \in \O$ such that $\alpha\a = \beta\b$.
-    Thus $E_{\alpha\a} = E_{\beta\b}$ and it suffices to show that for any Elliptic Curve $E$ and $\alpha \in \End(E)$, have $E_{(\alpha)} \cong E$.
+    Thus $E_{\alpha\a} = E_{\beta\b}$ and it suffices to show that for any elliptic curve $E$ and $\alpha \in \End(E)$, have $E_{(\alpha)} \cong E$.
 
     Write $(\alpha) = (p, \pi)^r \a$ and assume that $E$ is defined over $\F_{p^s}$.
     It follows that $(p, \pi)^s = (\pi)$ and so there is $\alpha' \in \O$, $\alpha' \notin (p, \pi)$ with $(\alpha)(p)^{\lceil r/s \rceil s - r} = (\pi)^{\lceil r/s \rceil} (\alpha')$.
@@ -677,7 +714,7 @@ Since it uses much theory on general abelian varieties, we will present it witho
 For a proof, the reader is referred to the work of Tate \cite{tate}.
 \begin{theorem}[Isogeny theorem]
     \label{prop:isogeny_theorem}
-    Let $E$, $E'$ be Elliptic Curves defined over $\F_q$.
+    Let $E$, $E'$ be elliptic curves defined over $\F_q$.
     Then there is an isogeny $E \to E'$ if and only if $\#E(\F_q) = \#E'(\F_q)$.
 \end{theorem}
 Note that this condition is also equivalent to $\End(E) \otimes \Q \cong \End(E') \otimes \Q$ or that the $q$-th power Frobenius endomorphisms have the same trace. 
@@ -770,7 +807,7 @@ Note that this condition is also equivalent to $\End(E) \otimes \Q \cong \End(E'
     Thus $\ker(\phi) = E[\a]$.
 \end{proof}
 A similar class group action exists in many other cases, since it is really founded in the theory of abelian varieties, see \cite{class_group_action_waterhouse}.
-Notable examples are the CSIDH class group action for supersingular curves defined over $\F_p$ (see \cite{csidh}), its generalization to so-called oriented curves (see \cite{osidh}), and the very classical class group action of Elliptic Curves with complex multiplication (over $\C$).
+Notable examples are the CSIDH class group action for supersingular curves defined over $\F_p$ (see \cite{csidh}), its generalization to so-called oriented curves (see \cite{osidh}), and the very classical class group action of elliptic curves with complex multiplication (over $\C$).
 More concretely, if we consider an order $\O$ in a quadratic imaginary number field and write $\Ell(\O)$ for the set of (isomorphism classes of) curves over $\C$ with endomorphism ring $\O$ (these are said to have \emph{complex multiplication}), then there is a free and transitive class group action
 \begin{equation*}
     \Cl(\O) \times \Ell(\O) \to \Ell(\O), \quad ([\a], E) \to E/E[\a]

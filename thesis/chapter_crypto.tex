@@ -5,14 +5,14 @@ The fundamental idea underlying all those methods is to take a random walk in an
 
 The most general problem that isogeny-based cryptography reduces to, is the \emph{explicit isogeny problem}.
 \begin{problem}
-    Given two Elliptic Curves $E$ and $E'$ isogenous of fixed degree $d$, find a $d$-isogeny $\phi: E \to E'$.
+    Given two elliptic curves $E$ and $E'$ isogenous of fixed degree $d$, find a $d$-isogeny $\phi: E \to E'$.
 \end{problem}
 There are algorithms to compute such an isogeny in time polynomial in $d$, and so we usually are interested in exponentially large degrees $d$.
 However, this raises the question on how to even represent the isogeny $\phi$.
 In most cases, we thus require $d$ to be smooth, in which case we can represent an isogeny of degree $d$ as a sequence of small-degree isogenies.
 This gives us the \emph{smooth isogeny problem}.
 \begin{problem}
-    Given two Elliptic Curves $E$ and $E'$ isogenous of fixed $B$-smooth degree $d$, find a sequence of isogenies
+    Given two elliptic curves $E$ and $E'$ isogenous of fixed $B$-smooth degree $d$, find a sequence of isogenies
     \begin{equation*}
         E \overset{\phi_0}{\longrightarrow} E_1 \overset{\phi_1}{\longrightarrow} \ ... \ \overset{\phi_{n - 1}}{\longrightarrow} E_n \overset{\phi_n}{\longrightarrow} E'
     \end{equation*}
@@ -20,7 +20,7 @@ This gives us the \emph{smooth isogeny problem}.
 \end{problem}
 Finally, if we further restrict the smoothness condition, and require the degree to be a power of a small prime $l$, we arrive at the \emph{isogeny path problem}.
 \begin{problem}
-    Given two Elliptic Curves $E, E'$ in the same connected component of $\Gamma_l(\F_q)$, find a path
+    Given two elliptic curves $E, E'$ in the same connected component of $\Gamma_l(\F_q)$, find a path
     \begin{equation*}
         E \to E_1 \to ... \to E_n \to E'
     \end{equation*}
@@ -33,7 +33,7 @@ Note that many cryptosystems use variants of above problem, e.g. similar to how 
 
 Finally, there is another very important problem, the \emph{endomorphism ring problem}.
 \begin{problem}
-    Given an Elliptic Curve $E$, find the endomorphism ring $\End(E)$.
+    Given an elliptic curve $E$, find the endomorphism ring $\End(E)$.
 \end{problem}
 There are two possible interpretations of this:
 Either we are required to compute the isomorphism type of $\End(E)$, i.e. a description of the ring structure of $\End(E)$.
@@ -147,7 +147,7 @@ Therefore, we get the scheme displayed in Algorithms~\ref{alg:setup_vdf}, \ref{a
     \textbf{Output:} Curves $E$ and $E'$, an evaluation key $\psi: E' \to E$ and a verification key $(P, \hat{\psi}(P))$}
     \begin{algorithmic}[1]
         \State Find distinct primes $p$ and $m$ of size depending on $\lambda$
-        \State Find a random supersingular Elliptic Curve $E$ over $\F_p$
+        \State Find a random supersingular elliptic curve $E$ over $\F_p$
         \State Take a random walk of length $T$ starting from $E$ in the 2-isogeny graph, given by $\hat{\psi}: E \to E'$
         \State Find a random point $P \in E[m]$
         \State Compute $\hat{\psi}(P)$
