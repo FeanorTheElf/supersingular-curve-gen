@@ -31,12 +31,12 @@ Note that for most applications, it would already be sufficient if the above pro
 Next, we want to present some of the known methods to generate supersingular elliptic curves, and discuss why (or why not) they can solve one of the above problems.
 After that, we introduce the idea of Katherine Stange, which is the second proposal of \cite{base_paper}.
 We discuss both the theoretical and implementation issues in detail, and then prove our main result, Prop.~\ref{prop:main_result1}.
-Finally, we present a modified version and prove some results on the associated distribution of supersingular curves, which includes our second main result, Prop.~\ref{prop:main_result2} and an analysis of another case, which however seems less useful for implementations.
-We conclude by giving an idea that might help with performing the computations of our approach efficiently. 
+Finally, we present a modified version and prove some results on the associated distribution of supersingular curves, which includes our second main result, Prop.~\ref{prop:main_result2} and an analysis of another case.
+We conclude by giving an idea that might help with performing the computations that go with our modified approach efficiently. 
 
 \section{Naive and classical approaches}
 \label{prop:naive_classical_approaches}
-First, we have a look at some simple approaches to the problem, to get a feeling for the challenges.
+First, we have a look at some simple or well-known approaches to the problem, to get a feeling for the challenges.
 
 \paragraph{Random Sampling} It is a folklore knowledge that all supersingular curves over $\bar{\F}_p$ have a j-invariant in $\F_{p^2}$, i.e. are isomorphic to a curve defined over $\F_{p^2}$.
 Hence, the most naive approach is to sample random $j \in \F_{p^2}$ and check if they define supersingular curves.
@@ -87,23 +87,27 @@ This fraction can be increased by taking e.g. a gcd like
 \end{equation*}
 Hence, computing a random root of such a polynomial might give us a hard supersingular curve.
 This idea leads to two main open questions:
-\begin{itemize}
-    \item How large is the fraction of supersingular roots of $\Phi_n(X, X^p)$ resp. of $f_{p, n, m}$?
+\begin{question}
+    \label{question:first}
+    How large is the fraction of supersingular roots of $\Phi_n(X, X^p)$ resp. of $f_{p, n, m}$?
     And how large is the fraction if we only consider roots over $\F_{p^2}$?
+\end{question}
+In particular, for the method to have any hope of success, we require the fraction to be at least $1/\mathrm{poly}(\log(p))$.
 
-    In particular, for the method to have any hope of success, we require the fraction to be at least $1/\mathrm{poly}(\log(p))$.
-    
-    \item How can we efficiently compute $f_{p, n, m}$, especially since $p$ and possibly $n$ resp. $m$ are exponentially large?
+The second question is more implementation-oriented. 
+\begin{question}
+    \label{question:second}
+    How can we efficiently compute $f_{p, n, m}$, especially since $p$ and possibly $n$ resp. $m$ are exponentially large?
     Or can we efficiently find a root in some other way?
-\end{itemize}
+\end{question}
 In the following, we try to answer both questions.
 First, we present the special case that $n = l^e$ is a prime power, and describe how this might help with computing a root of $f_{p, n, m}$.
 We then explain how we might be able to use the class group action to find the fraction of supersingular roots.
-Finally, we present our first main result, which answers the first open question for a subset of the $m$ and $n = l^e$.
+Finally, we present our first main result, which answers the $\F_{p^2}$-part of Question~\ref{question:first} for a subset of the $m$ and $n = l^e$.
 Our approaches for an efficient computation also apply to this special case.
-However, we are not able to completely answer the second question, and thus cannot solve the main problem.
+However, we are not able to answer Question~\ref{question:second}, and only provide some hints and ideas how one might handle certain difficulties.
 
-In the case that both $n$ and $m$ are small (but $p$ is exponential), \cite{base_paper} presents an approach that can find roots of $f_{p, n, m}$ even though $p$ is exponentially large, so $\Phi_n(X, X^p)$ and $\Phi_n(X, X^p)$ have exponential degree.
+In the case that both $n$ and $m$ are small (i.e. polynomial in $\log(p)$), \cite{base_paper} presents an approach that can find roots of $f_{p, n, m}$ even though $p$ is exponentially large, so $\Phi_n(X, X^p)$ and $\Phi_n(X, X^p)$ have exponential degree.
 The idea is to take a non-square in $\F_p$ and its square root $\delta \in \F_{p^2}$.
 Then $(a + b\delta)^p = a - b\delta$ and so we can equivalently look for $x, y \in \F_p$ such that
 \begin{equation*}
@@ -522,7 +526,7 @@ All this is considered in the next two propositions, which are again phrased in 
     Furthermore, only half of the $d \geq -4p^2/m^2$ are congruent to $0, 1$ modulo 4, i.e. are fundamental discriminants.
     Therefore, there are at most $\lfloor 2p^2/m^2 \rfloor$ different endomorphism rings $\O_0$ with $\pi \in \Z + m\O_0$.
 
-    For a lower bound on the curves, just note that
+    For an upper bound on the number of curves, just note that
     \begin{equation*}
         \#\{ j \in \F_{p^2} \ | \ \pi \in \Z + m\End(j) \} \leq \sum_{-4p^2/m^2 \leq D < 0} h(D)
     \end{equation*}
@@ -547,7 +551,7 @@ In the case that $m = l^e$ is a prime power (this is the case of the levels in a
     \end{equation*}
     and
     \begin{equation*}
-        N \leq \Theta\left( \frac {p^2\log(p)^2} {m^3} \right)
+        N \leq \Theta\left( \frac {p^2\log(p)^3} {m^3} \right)
     \end{equation*}
     Furthermore, if $m^2 > 4p$, we have that $n = N = 0$.
 \end{prop}
@@ -585,14 +589,14 @@ In the case that $m = l^e$ is a prime power (this is the case of the levels in a
     To bound the number of curves, we again use the class group action and the following bound on the class number of a quadratic imaginary number field.
     Namely, if the discriminant is $D$, have
     \begin{equation*}
-        h(D) \leq \sqrt{|D|}\log(|D|) O(1)
+        h(D) \leq \sqrt{|D|}(\log|D|)^2 O(1)
     \end{equation*}
     This now gives us the following upper bound on the number of curves
     \begin{align*}
         &\sum_{1 \leq i \leq k} \quad \sum_{a^2 \divides ((im^2 - 2p)^2 - 4p^2)/m^2} h\Biggl( \frac {(im^2 - 2p)^2 - 4p^2} {a^2m^2} \Biggr) \\
         &+ \sum_{1 \leq i \leq k} \quad \sum_{a^2 \divides ((2p - im^2)^2 - 4p^2)/m^2} h\Biggl( \frac {(2p - im^2)^2 - 4p^2} {a^2m^2} \Biggr) \\
         =& 2\sum_{1 \leq i \leq k} \quad \sum_{a^2 \divides ((im^2 - 2p)^2 - 4p^2)/m^2} h\Biggl( \frac {(im^2 - 2p)^2 - 4p^2} {a^2m^2} \Biggr) \\
-        \leq& O(\log(4p^2/m^2)) \sum_{1 \leq i \leq k} \sqrt{\frac {4p^2 - (im^2 - 2p)^2} {m^2}} \sum_{a^2 \divides ((im^2 - 2p)^2 - 4p^2)/m^2} \frac 1 a
+        \leq& O(\log(4p^2/m^2)^2) \sum_{1 \leq i \leq k} \sqrt{\frac {4p^2 - (im^2 - 2p)^2} {m^2}} \sum_{a^2 \divides ((im^2 - 2p)^2 - 4p^2)/m^2} \frac 1 a
     \end{align*}
     Note that
     \begin{align*}
@@ -600,15 +604,48 @@ In the case that $m = l^e$ is a prime power (this is the case of the levels in a
     \end{align*}
     Thus we can upper bound the previous sum by
     \begin{align*}
-        &O(\log(4p^2/m^2)) \sum_{1 \leq i \leq k} \sqrt{ \frac {4p^2 - (im^2 - 2p)^2} {m^2}} \quad \log\left( \frac {4p^2 - (im^2 - 2p)^2} {m^2} \right) \\
-        =& \frac {O(\log(p/m)^2)} {m} \sum_{1 \leq i \leq k} \sqrt{4p^2 - (im^2 - 2p)^2} \\
-        =& \frac {O(\log(p/m)^2)} {m}  \int_0^k \sqrt{4p^2 - (xm^2 - 2p)^2} dx \\
-        =& \frac {O(\log(p/m)^2)} {m} \frac 1 {m^2} \int_0^{2p} \sqrt{4p^2 - (x - 2p)^2} dx \\
-        =& \frac {O(\log(p/m)^2)} {m} \frac 1 {m^2} \int_{-2p}^0 \sqrt{4p^2 - x^2} dx \\
-        =& \frac {O(\log(p/m)^2)} {m} \frac {4p^2} {m^2} \int_{-1}^0 \sqrt{1 - x^2} = O\left( \frac {p^2\log(p/m)^2} {m^3} \right)
+        &O(\log(4p^2/m^2)^2) \sum_{1 \leq i \leq k} \sqrt{ \frac {4p^2 - (im^2 - 2p)^2} {m^2}} \quad \log\left( \frac {4p^2 - (im^2 - 2p)^2} {m^2} \right) \\
+        =& \frac {O(\log(p/m)^3)} {m} \sum_{1 \leq i \leq k} \sqrt{4p^2 - (im^2 - 2p)^2} \\
+        =& \frac {O(\log(p/m)^3)} {m}  \int_0^k \sqrt{4p^2 - (xm^2 - 2p)^2} dx \\
+        =& \frac {O(\log(p/m)^3)} {m} \frac 1 {m^2} \int_0^{2p} \sqrt{4p^2 - (x - 2p)^2} dx \\
+        =& \frac {O(\log(p/m)^3)} {m} \frac 1 {m^2} \int_{-2p}^0 \sqrt{4p^2 - x^2} dx \\
+        =& \frac {O(\log(p/m)^3)} {m} \frac {4p^2} {m^2} \int_{-1}^0 \sqrt{1 - x^2} = O\left( \frac {p^2\log(p/m)^3} {m^3} \right)
     \end{align*}
     This shows the claim.
 \end{proof}
+This bound is quite tight, and we see that $N \approx p^2/m^3$ up to log-factors.
+The distribution of the curves is also displayed in Figure~\ref{fig:number_of_fixed_level_curves}.
+\begin{figure}
+    \begin{center}
+        \begin{tikzpicture}
+            \begin{axis}[
+                width = 0.8\textwidth, 
+                height = 0.4\textheight, 
+                axis lines = middle,
+                xlabel = $p$,
+                ylabel = $N$
+            ]
+                \pgfplotstableread{data.txt}\mydata;
+                \addplot[ 
+                    color = black, 
+                    only marks, 
+                    mark = *, 
+                    mark size = 0.5pt, 
+                ]
+                table[
+                    x expr=\thisrowno{0}, 
+                    y expr=\thisrowno{1}
+                ] {\mydata};
+                \addplot [red, domain=1000:2650] {0.5*x^2/27^3};
+            \end{axis}
+        \end{tikzpicture}
+    \end{center}
+    \caption{
+        \label{fig:number_of_fixed_level_curves} A plot of the number $N$ for $m = 3^3$ and increasing $p$.
+        For reference, we also displayed the function $\frac 1 2 p^2/m^3$ in red.
+        Note that $N$ is the number of curves $E$ with $\pi \in \Z + m\End(E)$, i.e. there are 3 levels beneath $E$ in the 3-isogeny volcano that are defined over $\F_{p^2}$.
+    }
+\end{figure}
 In particular, it follows that we can choose $m = l^r$ with $r = \lceil \frac 1 2 \log_l(p) \rceil$ and can be sure never to accept an ordinary curve as supersingular.
 Furthermore, if we are ok with accepting $O(p)$ ordinary curves as supersingular, we can choose $r = \lceil \frac 1 3 \log_l(p) \rceil$.
 
@@ -811,7 +848,7 @@ for the matrices $A_i$ given by Lemma~\ref{prop:symbolic_elimination}.
 While we cannot explicitly write down those polynomials, we can evaluate them, evaluate their derivates and perform a series of other computations.
 Hence, there might be some way to find a random root of those (note that they have all $\Theta(p)$ supersingular j-invariants and polylogarithmically many ordinary j-invariants as roots).
 
-Nevertheless, we should also mention that the computation of the elimination ideal from \ref{eq:elimination_ideal} is not trivial either.
+Nevertheless, we should also mention that the computation of the elimination ideal from equation~(\ref{eq:elimination_ideal}) is not trivial either.
 The product of the considered primes $l_i$ must be at least $2p$, and so the largest ones are $\Theta(\log(p)/\log\log(p))$.
 In particular, we have to perform elimination in a polynomial ring with polynomially many unknowns.
 Hence, a standard Groebner basis will have exponential runtime.

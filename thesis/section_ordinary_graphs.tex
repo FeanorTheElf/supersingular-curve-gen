@@ -291,7 +291,7 @@ To get the class number explicitly, we use the next lemma.
 \begin{lemma}
     \label{prop:class_number_order_unit_fraction_prime_power}
     Let $f := [\O_K : \O] = p^e$ be a prime power.
-    Then $\#(\O/f\O_K) = p^{e - 1}(p - 1)$ and
+    Then $\#(\O/f\O_K)^* = p^{e - 1}(p - 1)$ and
     \begin{equation*}
         \#(\O_K/f\O_K)^* = p^{2e - 2} \begin{cases}
             (p + 1)(p - 1) & \text{if $(-d_K/p) = -1$} \\
@@ -303,13 +303,13 @@ To get the class number explicitly, we use the next lemma.
 \begin{proof}
     Choosing a generator $\alpha$ of $\O_K$, we have as $\Z$-modules that
     \begin{equation*}
-        \O = \Z \oplus f\alpha\Z \quad \text{and} \quad \mathfrak{f} = f\O_K = f\Z \oplus f\alpha\Z
+        \O = \Z \oplus f\alpha\Z \quad \text{and} \quad f\O_K = f\Z \oplus f\alpha\Z
     \end{equation*}
-    and so $\O/\mathfrak{f} \cong \Z/f\Z$, hence $\#(\O/\mathfrak{f})^* = \phi(f) = p^{e - 1}(p - 1)$.
+    and so $\O/f\O_K \cong \Z/f\Z$, hence $\#(\O/f\O_K)^* = \phi(f) = p^{e - 1}(p - 1)$.
 
     For $(\O_K/f\O_K)^*$, we have
     \begin{align*}
-        \#(\O_K/\mathfrak{f})^* =& \#\{ (a, b) \in (\Z/p^e\Z)^2 \ | \ a^2 + d_K b^2 \in (\Z/p^e\Z)^* \} \\
+        \#(\O_K/f\O_K)^* =& \#\{ (a, b) \in (\Z/p^e\Z)^2 \ | \ a^2 + d_K b^2 \in (\Z/p^e\Z)^* \} \\
         =& \#\{ (a, b) \in (\Z/p^e\Z)^2 \ | \ a^2 + d_K b^2 \not\equiv 0 \mod p \} \\
         =& p^{2e - 2} \#\{ (a, b) \in \F_p^2 \ | \ a^2 + d_K b^2 \neq 0 \} \\
         =& p^{2e - 2} \cdot \begin{cases}
@@ -325,14 +325,13 @@ To get the class number explicitly, we use the next lemma.
     \label{prop:class_number_unit_fraction_multiplicative}
     The function
     \begin{equation*}
-        f \mapsto \frac {\#(\O_K/f\O_K)^*} {\#((\Z + f\O_K)/f\O_K)^*}
+        \Z_{\geq 1} \to \Z_{\geq 1}, \quad f \mapsto \frac {\#(\O_K/f\O_K)^*} {\#((\Z + f\O_K)/f\O_K)^*}
     \end{equation*}
     is multiplicative.
 \end{lemma}
 \begin{proof}
-    We have that $\#((\Z + f\O_K)/f\O_K)^* = \#(\Z/f\Z)^* = \phi(f)$ is multiplicative.
-    
-    Let $f = \prod_i p_i^{e_i}$ be the prime factorization.
+    We have that $\#((\Z + f\O_K)/f\O_K)^* = \#(\Z/f\Z)^* = \phi(f)$, which is clearly multiplicative.
+    Now let $f = \prod_i p_i^{e_i}$ be the prime factorization.
     Then the Chinese remainder theorem gives
     \begin{equation*}
         \O_K/f\O_K \cong \bigoplus_i \O_K/p_i^{e_i}\O_K
@@ -362,7 +361,7 @@ By multiplicativity, we thus get the following corollary.
 Finally, we can also derive a different statement, that will be interesting later.
 \begin{prop}
     \label{prop:vulcano_level_class_numbers}
-    Let $\O_0$ be an orders in a quadratic imaginary number field $K$ with $\O_K = \{ \pm 1 \}$.
+    Let $\O_0$ be an order in a quadratic imaginary number field $K$ with $\O_K = \{ \pm 1 \}$.
     For a prime $l$ define $\O := \Z + l\O_0$.
     \begin{itemize}
         \item If $\O_0$ is not maximal at $l$ (i.e. $l \divides [\O_K : \O_0]$) then $h(\O) = lh(\O_0)$.
@@ -849,11 +848,11 @@ The term ``volcano'' was introduced by \cite{isogeny_vulcano}, after Kohel had m
     \end{itemize} 
 \end{theorem}
 \begin{proof}
-    This follows from the class group action and the description of the class group of quadratic imaginary orders (Corollary~\ref{prop:class_group_order}).
+    This follows from the class group action and the description of the class group of quadratic imaginary orders (Corollary~\ref{prop:class_group_order} and Prop.~\ref{prop:vulcano_level_class_numbers}).
     For the remaining details, we refer the reader to Kohel's thesis \cite[Prop.~23]{kohel}.
 \end{proof}
-We remark that the crater of a volcano is a single vertex with a loop, if $(l)$ is inert in $\O$.
-Furthermore, the crater consists of two connected vertices, if $(l)$ is ramified in $\O$, and is either a vertex with double loop or a cycle, if $(l)$ splits.
+We remark that the crater of a volcano is a single vertex without a loop, if $(l)$ is inert in $\O$.
+Furthermore, the crater consists of two connected vertices (or a vertex with a loop), if $(l)$ is ramified in $\O$, and is either a vertex with double loop or a cycle, if $(l)$ splits.
 \begin{figure}
     \begin{minipage}{0.5\textwidth}
         \includegraphics[width = \textwidth]{../example_odd_crater_fp.png}
@@ -870,5 +869,6 @@ Furthermore, the crater consists of two connected vertices, if $(l)$ is ramified
     \caption{
         \label{fig:example_vulcanos} Examples of different 2-and 3-isogeny volcanoes in $\F_{101^2}$. 
         The value $\mathrm{z}$ is the generator of $\F_{101^2}$ with minimal polynomial $x^2 + 97x + 2$.
+        All of the volcanoes are examples where the prime 2 resp. 3 splits in $\O_K$ into two non-principal ideals.
     }
 \end{figure}
