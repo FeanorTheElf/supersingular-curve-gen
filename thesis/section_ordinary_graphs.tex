@@ -179,19 +179,29 @@ We are now ready for our first description of $\Cl(\O)$.
 \begin{proof}
     This proof is taken with some modifications from \cite[Prop.~I.12.11]{neukirch}.
 
-    First, we show that every ideal class $[\a] \in \Cl(\O_K)$ has an integral representative of norm coprime to $f$.
-    Let $m \divides \Norm(\a)$ be maximal such that $m \divides f^e$ for some $e$.
-    Then there is an element
+    First, we show that the map
     \begin{equation*}
-        \alpha \in \a^{-1} \setminus \bigcup_{p \divides m} p\a^{-1}
+        g: \Cl(\O) \to \Cl(\O_K)
     \end{equation*}
-    and we see that $\Norm(\alpha\a) = \Norm(\alpha)\Norm(a) \divides \Norm(\a^-1)$, thus is coprime to $f$.
-    Furthermore, $\alpha \in \a^{-1}$, so $\alpha^{-1}\a$ is integral.
-    This shows our claim, and so by Corollary~\ref{prop:generators_in_order} that the natural map
+    induced by the map (by Lemma~\ref{prop:invertible_ideal_characterization})
     \begin{equation*}
-        \Cl(\O) \to \Cl(\O_K), \quad [\a] \to [\a\O_K]
+        \bigoplus_{\p} K^*/\O_\p^* \to \bigoplus_\q K^*/(\O_K)_\q^*, \quad (a_\p)_\p \mapsto (a_{\q \cap \O})_\q
     \end{equation*}
     is surjective.
+
+    Consider a prime $\p \leq \O$ over a prime number $p$.
+    There are at most two primes in $\O_K$ over $p$, hence there are at most two primes over $\p$.
+    Now consider a (fractional) ideal $\a$ of $\O_K$.
+    For a given prime $\p$ of $\O$, we can ensure by multiplication of elements in $K^*$ that the valuations $v_{\q}(\a) = v_{\q'}(\a)$ are equal, where $\q, \q'$ are the two primes of $\O_K$ over $\p$ (this makes sense, as $(\O_K)_\q$ is a discrete valuation ring).
+    Hence, we have that $\a(\O_K)_\q = p(\O_K)_\q$ and $\a(\O_K)_{\q'} = p(\O_K)_{\q'}$.
+    
+    Now consider the fractional, invertible ideal $\a'$ of $\O$ with $\a'\O_\p = p^{v_\q(\a)}\O_\p$ (by Lemma~\ref{prop:invertible_ideal_characterization}), where $\q$ is an ideal over $\p$, and both $\p$ resp. $\q$ are primes over the prime number $p$.
+    Doing this for all finitely many primes $\q$ with $\a(\O_K)_\q \neq (1)$, we see that
+    \begin{equation*}
+        \a'(\O_K)_\q = \a(\O_K)_\q
+    \end{equation*}
+    for all primes $\q$ of $\O_K$.
+    In other words, the ideal class $[\a']$ is a preimage of $[\a]$ under $g$.
 
     Next, note that the isomorphism $\iota: \bigoplus_\p K^*/\O_\p^* \to \mathfrak{I}(\O)$ induces a map
     \begin{equation*}
