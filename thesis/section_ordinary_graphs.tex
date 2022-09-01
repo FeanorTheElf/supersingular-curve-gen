@@ -177,7 +177,7 @@ We are now ready for our first description of $\Cl(\O)$.
     where $R_\p$ is the localization of $\O_K$ at the multiplicative set $\O \setminus \p$.
 \end{lemma}
 \begin{proof}
-    This proof is taken with some modifications from \cite[Prop.~I.12.11]{neukirch}.
+    This proof is inspired by \cite[Prop.~I.12.11]{neukirch}, but we have completely rewritten it to avoid the heavy use of homological algebra.
 
     First, we show that the map
     \begin{equation*}
@@ -192,7 +192,8 @@ We are now ready for our first description of $\Cl(\O)$.
     Consider a prime $\p \leq \O$ over a prime number $p$.
     There are at most two primes in $\O_K$ over $p$, hence there are at most two primes over $\p$.
     Now consider a (fractional) ideal $\a$ of $\O_K$.
-    For a given prime $\p$ of $\O$, we can ensure by multiplication of elements in $K^*$ that the valuations $v_{\q}(\a) = v_{\q'}(\a)$ are equal, where $\q, \q'$ are the two primes of $\O_K$ over $\p$ (this makes sense, as $(\O_K)_\q$ is a discrete valuation ring).
+    For a given prime $\p$ of $\O$, we multiply $\a$ by $\beta \in K^*$ such that the valuations $v_{\q}(\beta\a) = v_{\q'}(\beta\a)$ are equal, where $\q, \q'$ are the two primes of $\O_K$ over $\p$ (this makes sense, as $(\O_K)_\q$ is a discrete valuation ring).
+    Since $[\a] = [\beta\a]$ in the class group $\Cl(\O_K)$, we assume wlog that $\a = \beta\a$.
     Hence, we have that $\a(\O_K)_\q = p(\O_K)_\q$ and $\a(\O_K)_{\q'} = p(\O_K)_{\q'}$.
     
     Now consider the fractional, invertible ideal $\a'$ of $\O$ with $\a'\O_\p = p^{v_\q(\a)}\O_\p$ (by Lemma~\ref{prop:invertible_ideal_characterization}), where $\q$ is an ideal over $\p$, and both $\p$ resp. $\q$ are primes over the prime number $p$.
