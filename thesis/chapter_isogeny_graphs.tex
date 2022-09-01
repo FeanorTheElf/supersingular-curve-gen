@@ -48,7 +48,7 @@ and the subgroup of $k$-rational points
 \end{equation*}
 
 A property of elliptic curves that can be used for some slightly exotic cryptographic primitives (like identity-based crypto, or the verifiable delay function we present in Section~\ref{sec:verifiable_delay_function}) is the Weil pairing.
-Let $m \geq 2$ be an integer coprime to $p$.
+Let $m \geq 2$ be an integer (coprime to $p = \mathrm{char}(k)$ if $\mathrm{char}(k) \neq 0$).
 Then there exists a map, the $m$-th \emph{Weil pairing}
 \begin{equation*}
     e_m: E[m] \times E[m] \to \mu_m
@@ -109,7 +109,7 @@ Note that can also define the operation $\cdot^{(p)}$ on isogenies, by again rai
 This way, $\cdot^{(p)}$ becomes an endofunctor on the category of elliptic curves over $\bar{\F}_p$ and their isogenies.
 
 Sometimes we will mention cyclic isogenies, which are isogenies of cyclic kernel.
-Hence, an isogeny $\phi: E \to E'$ being cyclic is equivalent to the fact that $\phi$ does not factor through $[m]$ for any integer $m \geq 2$.
+Hence, for an isogeny $\phi: E \to E'$, being cyclic is equivalent to the fact that $\phi$ does not factor through $[m]$ for any integer $m \geq 2$.
 
 The final notion we require in this context is the one of the dual isogeny.
 Since the kernel of an isogeny $\psi: E \to E'$ is a subgroup of size $\deg_s(\psi)$, we see that it is contained in $E[\deg(\psi)] = \ker[\deg(\psi)]$.
@@ -289,12 +289,12 @@ In that sense, we can say Ramajuan graphs are graphs with asymptotically optimal
 
 One of the main properties of expander graphs is that random walks on them mix rapidly.
 That is, the final vertex of relatively short random walks is distributed almost uniformly among all vertices.
-\begin{theorem}
+\begin{prop}
     \label{prop:expander_random_walk}
     Let $G = (V, E)$ be a $d$-regular $\epsilon$-expander graph and $v \in V$ a vertex.
     Then the distribution of the final vertex of a random walk starting from $v$ of length $t$ is close to uniform, in particular, the $\ell_2$-statistical distance is bounded by $(1 - \epsilon)^t$.
-\end{theorem}
-For a proof of this theorem, see e.g. Theorem~3.3 in this excellent survey on expander graphs \cite{expander_survey}.
+\end{prop}
+For a proof of this proposition, see e.g. Theorem~3.3 in this excellent survey on expander graphs \cite{expander_survey}.
 Note that expander graphs used in cryptography are usually of exponential size, so this theorem says that a random walk of polynomial length already reaches all vertices of the graph.
 
 Now we come to the anticipated result, that supersingular isogeny graphs are expander graphs.
@@ -414,7 +414,7 @@ Our situation is somewhat simpler, since we can take different lifts for the dom
 \end{lemma}
 \begin{proof}
     This proof is somewhat technical, but the basic idea is simple.
-    An isogeny $E \to E'$ is corresponds to polynomials (more precisely, elements of $k[E]$) satisfying the equation of $E'$.
+    An isogeny $E \to E'$ corresponds to polynomials (more precisely, elements of $k[E]$) satisfying the equation of $E'$.
     In other words, we have to lift polynomials over $\F_q$ to a number field such that certain equations are satisfied.
     This however can be done by Hensel's lemma.
     The only difficulty is that we have to lift the correct coefficient in the correct order, to resolve all required dependencies.
@@ -424,17 +424,18 @@ Our situation is somewhat simpler, since we can take different lifts for the dom
     Finally, assume\footnote{It is a simple consequence of the geometry of elliptic curves that every isogeny is of such a form.} $\phi = [u : Y v : w]$ with polynomials $u, v, w \in \F_q[X]$ and choose an arbitrary lift $v_0, w_0 \in \O_K[X]$ of $v$ resp. $w$.
     Hence the coefficients $u^{(0)}, ..., u^{(n)}$ of $u \in \F_q[X]$ are a root of
     \begin{equation*}
-        f(\sum T_i X^i, Y v_0, w_0) = \sum_i a_i(T_0, ..., T_n) X^i \in \O_K[X][T_i]
+        f(\sum T_i X^i, Y v_0, w_0) = \sum_i a_i(T_0, ..., T_n) X^i \in \O_K[X][T_0, ..., T_n]
     \end{equation*}
     modulo $\p$.
     Note that the coefficient of $X^j$ in $(\sum_i T_i X^i)^3$ contains the monomial $T_0^2 T_j$, and 
     Since there are infinitely many lifts of $A$ resp. $B$, we can assume wlog that also the coefficient $a_j(T_0, ..., T_n)$ in $f(\sum T_i X^i, Y v, w)$ does.
     Furthermore, $a_j$ is in $\O_K[T_0, ..., T_j]$, i.e. only depends on $T_0, ..., T_j$.
 
-    We assume wlog $u^{(0)} \neq 0$, otherwise we can just move $E'$ in $x$-direction by any element in $\F_q$.
+    We assume wlog $u^{(0)} \neq 0$, otherwise we can move $E'$ in $x$-direction by any element in $\F_q$.
 
     We know that $u^{(0)}$ is a root of $a_0$ modulo $\p$, and so Lemma~\ref{prop:modified_hensel_lifting} shows that there is a lift $u^{(0)}_0$ of $u^{(0)}$ in some number field $L_0/K$ with $a_0(u^{(0)}_0) = 0$.
-    Since $u_0^{(0)} \neq 0$, we see that $a_i(u_0^{(0)}, ..., u_0^{(i - 1)}, T_i)$ contains the monomial $T_i$, and so applying the lemma inductively, we also find lifts $u^{(1)}_0, ..., u^{(n)}_0 \in \O_L/K$ with $a_i(u^{(0)}_0, ..., u^{(i)}_0) = 0$.
+    We now proceed by induction.
+    Since $u_0^{(0)} \neq 0$, we see that $a_i(u_0^{(0)}, ..., u_0^{(i - 1)}, T_i)$ contains the monomial $T_i$, and so applying the lemma again, we also find lifts $u^{(1)}_0, ..., u^{(n)}_0 \in \O_L/K$ with $a_i(u^{(0)}_0, ..., u^{(i)}_0) = 0$.
     In other words, we found a lift $u_0$ of $u$ in $\O_L[X]$ such that $f(u_0, Y v_0, w) = 0$.
     Now we can set $\phi_0 = [u_0 : Y v_0 : w_0]: E_0 \to E_0'$ and the claim follows.
 \end{proof}
@@ -458,11 +459,9 @@ Using a little bit more Hensel lifting, we now can pull down the properties of $
     \begin{equation*}
         \Phi_m(x, y) \equiv 0 \mod \p \quad \text{and} \quad x \equiv j(E), \ y \equiv j(E') \mod \p
     \end{equation*}
-    Now we can again use Lemma~\ref{prop:modified_hensel_lifting} to find $x'$ in the completion $K_\p$ such that $x' \equiv x \mod \p$ and $\Phi_m(x', y) = 0 \in K_\p$.
-    Since $x'$ is a root of $\Phi_m(X, y)$, it is algebraic and thus an algebraic integer.
-    So there is a number field $K'$ with a prime $\p'$ over $\p$ such that $x', y \in K'$ and $x' \equiv j(E)$, $y \equiv j(E')$ modulo $\p'$.
-    In particular, there are curves $E$, $E'$ over $K'$ with j-invariants $x'$ resp. $y$, and thus by Prop.~\ref{prop:complex_mod_poly}, there is a cyclic $m$-isogeny $E \to E'$.
-    Therefore, there is also an $m$-isogeny between the curves $\tilde{E}$ and $\tilde{E}'$, which are the reductions of $E$ resp. $E'$ modulo $\p'$.
+    Now we can again use Lemma~\ref{prop:modified_hensel_lifting} to find a number field $L/K$, a prime $\q$ over $\p$ and $x' \in \O_L$ such that $x' \equiv x \mod \q$ and $\Phi_m(x', y) = 0 \in K_\p$.
+    In particular, there are curves $E$, $E'$ over $L$ with j-invariants $x'$ resp. $y$, and thus by Prop.~\ref{prop:complex_mod_poly}, there is a cyclic $m$-isogeny $E \to E'$.
+    Therefore, there is also an $m$-isogeny between the curves $\tilde{E}$ and $\tilde{E}'$, which are the reductions of $E$ resp. $E'$ modulo $\q$.
 \end{proof}
 Some properties however cannot be transferred to the finite field case.
 For example, in the finite field case, $\Phi_m$ might not be irreducible anymore.
@@ -475,7 +474,7 @@ since the only $p$-isogenies over a field of characteristic $p$ are the Frobeniu
 The modular polynomial is an indispensable tool when doing computations on the isogeny graph.
 In particular, when combined with an algorithm to factor polynomials over $\F_q$, it allows us to compute all the neighbors of a curve $E$ in the $l$-isogeny graph.
 For example Sutherland's supersingular test (see Section~\ref{sec:sutherlands_supersingularity_test}) uses modular polynomials for walks in the isogeny graph, and distinguishes ordinary and supersingular curves by the structure of their isogeny graph neighborhoods.
-Another example is Shoof's algorithm \cite{shoof_point_counting} for counting $\F_q$-rational points on a curve, which also fundamentally relies on modular polynomials.
+Another example is Shoof's algorithm \cite{shoof_point_counting} for counting $\F_q$-rational points on a curve, which also relies on modular polynomials.
 
 Therefore, computing modular polynomials is an important task.
 The most classical approach is to mimic to proof of Theorem~\ref{prop:complex_mod_poly}, i.e. view elliptic curves as lattices over $\C$ and compute the Fourier coefficients of the $j$-function.

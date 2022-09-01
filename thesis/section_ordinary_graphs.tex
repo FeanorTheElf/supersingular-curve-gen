@@ -9,6 +9,7 @@ What we will mainly do in this section is to show that ideal $\a \leq \O$ with n
 Furthermore, we will study the structure of the class group of $\O$.
 First, we state a version of the Chinese remainder theorem.
 \begin{lemma}
+    \label{prop:chinese_remainder_theorem_variant}
     Let $\a$ be a nonzero ideal of $\O$. Then
     \begin{equation*}
         \O/\a \cong \bigoplus_\p \O_\p/\a\O_\p
@@ -37,7 +38,7 @@ In the Dedekind ring $\O_K$ this is multiplicative, in the order $\O$, it is (in
 Since multiplication of ideals can be expressed by the product of their generators, we get the following corollary.
 \begin{corollary}
     \label{prop:generators_in_order}
-    Let $\a \leq \O_K$ be an ideal with $\Norm(\a) \perp [\O_K : \O]$. Then $\a$ has a set of generators in $\O$.
+    An ideal $\a \leq \O_K$ of norm $\Norm(\a) \perp [\O_K : \O]$ has a set of generators in $\O$.
 \end{corollary}
 \begin{prop}
     \label{prop:prime_coprime_localization_same}
@@ -119,9 +120,9 @@ The following statements are special cases of the general theory in \cite[Chapte
     This proof is taken with some modifications from \cite[Prop.~I.12.9]{neukirch}.
 
     First, we show that for an invertible ideal $\a = (a_1, ..., a_n)$ have that $\a\O_\p$ is principal.
-    By assumption, have $\a\b = (1)$ with $\b = (b_1, ..., b_m)$ and so have $1 = \sum a_i b_i c_i$ with $c_i \in \O$.
+    By assumption, we have $\a\b = (1)$ with $\b = (b_1, ..., b_m)$ and so $1 = \sum a_i b_i c_i$ with $c_i \in \O$.
     Clearly, $1 \notin \p\O_\p$ and thus one $a_i b_i c_i \notin \p\O_\p$, so $a_i b_i c_i \in \O_\p^*$ is a unit.
-    Therefore, we find that $\a\O_\p = a_i\O_\p$, because for all $x \in \a\O_\p$, have then $x b_i c_i \in \a\b = \O_\p$, so
+    Therefore, we find that $\a\O_\p = a_i\O_\p$, because for all $x \in \a\O_\p$, have then $x b_i c_i \in \a\b\O_\p = \O_\p$, so
     \begin{equation*}
         x = a_i \underbrace{x b_i c_i}_{\in \O_\p} (\underbrace{a_ib_ic_i}_{\in\O_\p^*})^{-1} \in a_i \O_\p
     \end{equation*}
@@ -129,7 +130,7 @@ The following statements are special cases of the general theory in \cite[Chapte
     \begin{equation*}
         \iota^{-1}: \mathfrak{I}(\O) \to \bigoplus_\p K^*/\O_\p^*
     \end{equation*}
-    that maps an ideal $\a$ to the class of generators of $\a\O_\p$.
+    that maps an ideal $\a$ to the equivalence class of any generator of $\a\O_\p$.
     
     Clearly, it is injective, since if $\a\O_\p \neq \b\O_\p$ for any prime $\p$, then $\a \neq \b$.
 
@@ -166,22 +167,6 @@ The following statements are special cases of the general theory in \cite[Chapte
     The claim follows.
 \end{proof}
 This lemma is a very useful characterization of invertible ideals.
-We can for example derive a result for the inclusion of two orders.
-\begin{corollary}
-    \label{prop:inclusion_orders_surjection}
-    Consider an inclusion of orders $\O \subseteq \O'$ in $K$.
-    Then there is a surjective morphism of groups
-    \begin{equation*}
-        \Cl(\O) \to \Cl(\O')
-    \end{equation*}
-\end{corollary}
-\begin{proof}
-    Using Lemma~\ref{prop:invertible_ideal_characterization}, we see that the natural surjective morphism
-    \begin{equation*}
-        \bigoplus_{\p \leq \O} K^*/\O_\p^* \to \bigoplus_{\q \leq \O'} K^*/(\O_\q')^*, \quad (a_\p)_\p \mapsto (\a_{\q \cap \O})_\q
-    \end{equation*}
-    induces a map as wanted.
-\end{proof}
 We are now ready for our first description of $\Cl(\O)$.
 \begin{lemma}
     Let $f = [\O_K : \O]$ and assume that $\O_K^* = \{ \pm 1 \}$.
@@ -189,14 +174,18 @@ We are now ready for our first description of $\Cl(\O)$.
     \begin{equation*}
         1 \ \to \ \bigoplus_\p R_\p^*/\O_\p^* \overset{f}{\longrightarrow} \Cl(\O) \overset{g}{\longrightarrow} \Cl(\O_K) \ \to \ 1
     \end{equation*}
-    where $\Cl(\O)$ is the ideal class group of $\O$, i.e. the group of invertible, fractional ideals modulo principal ideals and $R_\p$ is the localization of $\O_K$ at the multiplicative set $\O \setminus \p$.
+    where $R_\p$ is the localization of $\O_K$ at the multiplicative set $\O \setminus \p$.
 \end{lemma}
 \begin{proof}
     This proof is taken with some modifications from \cite[Prop.~I.12.11]{neukirch}.
 
     First, we show that every ideal class $[\a] \in \Cl(\O_K)$ has an integral representative of norm coprime to $f$.
     Let $m \divides \Norm(\a)$ be maximal such that $m \divides f^e$ for some $e$.
-    Then there is an element $\alpha \in m\a^{-1}$, and we see that $\Norm(\alpha^{-1}\a) \divides \Norm(\a)/m$, thus is coprime to $f$.
+    Then there is an element
+    \begin{equation*}
+        \alpha \in \a^{-1} \setminus \bigcup_{p \divides m} p\a^{-1}
+    \end{equation*}
+    and we see that $\Norm(\alpha\a) = \Norm(\alpha)\Norm(a) \divides \Norm(\a^-1)$, thus is coprime to $f$.
     Furthermore, $\alpha \in \a^{-1}$, so $\alpha^{-1}\a$ is integral.
     This shows our claim, and so by Corollary~\ref{prop:generators_in_order} that the natural map
     \begin{equation*}
@@ -206,34 +195,36 @@ We are now ready for our first description of $\Cl(\O)$.
 
     Next, note that the isomorphism $\iota: \bigoplus_\p K^*/\O_\p^* \to \mathfrak{I}(\O)$ induces a map
     \begin{equation*}
-        \bigoplus_\p R_\p^*/\O_\p^* \to \Cl(\O)
+        f: \bigoplus_\p R_\p^*/\O_\p^* \to \Cl(\O)
     \end{equation*}
     where $R_\p$ is the localization of $\O_K$ at the multiplicative subset $\O \setminus \p$.
 
     It is injective, as for an element $a = (a_\p)_\p$ in the kernel, have that $\iota(a) = (\alpha)$.
     However, then $(a_\p) = (\alpha)$ in $\O_\p$.
     Hence, $a_\p = \alpha\epsilon$ for $\epsilon \in \O_\p^*$ and we can assume that the representatives $a_\p \in R_\p^*$ are chosen such that $a_\p = \alpha$.
-    This implies that $\alpha \in \O \cap \bigcap_\p R_\p^* = \O_K^*$, and by the assumption $\O_K^* = \{ \pm 1 \}$, have then $\alpha = \pm 1$.
-    The claim follows.
+    This implies that $\alpha \in \bigcap_\p R_\p^* \subseteq \O_K^*$, and by the assumption $\O_K^* = \{ \pm 1 \}$, have then $\alpha = \pm 1$.
+    Hence $(a_\p)_\p = 1 = (1)_\p$.
 
     Now it is only left to show that the sequence is exact at $\Cl(\O)$.
 
     For $a = (a_\p)_\p \in \bigoplus_\p R_\p^*/\O_\p^*$, we know that
     \begin{equation*}
-        \iota(a)R_\p = \iota(a)\O_\p R_\p = a_\p R_\p = R_\p
+        \iota(a)(\O_K)_\q = \iota(a) \O_{\q \cap \O} R_{\q \cap \O} (\O_K)_\q = a_{\q \cap \O} R_{\q \cap \O} (\O_K)_\q = R_{\q \cap \O} (\O_K)_\q = (\O_K)_\q
     \end{equation*}
-    and so $\mathrm{im}(f) \subseteq \ker(g)$.
+    so $g(f(a))(\O_K)_\q = (1)$ for all primes $\q$, and finally $f(a) \in \ker(g)$.
     Now we show the converse.
 
-    Let $\a \leq \O$ be integral and invertible with $\a\O_K = (\alpha)$.
+    Let $\a \leq \O$ be integral and invertible in the kernel of $g$, i.e. $\a(\O_K)_\q = \alpha(\O_K)_\q$ for a fixed $\alpha \in K^*$ and all primes $\q$ of $\O_K$.
     Since $[\frac 1 \alpha \a] = [\a]$ are in the same ideal class, we can assume wlog that $\alpha = 1$.
 
     Let $a = (a_\p)_\p = \iota^{-1}(\a)$.
-    Then
+    Then for all primes $\p \leq \O$ and $\q \leq \O_K$ over $\p$, we have
     \begin{equation*}
-        a_\p R_\p = a_\p\O_\p R_\p = \iota(a)R_\p = \a R_\p = \alpha R_\p = R_\p
+        a_\p (\O_K)_\q = a_\p \O_\p (\O_K)_\q = \iota(a) (\O_K)_\q = \a (\O_K)_\q = \alpha (\O_K)_\q = (\O_K)_\q
     \end{equation*}
-    This clearly implies that $a_\p \in R_\p^*$ and so $\a \in \mathrm{im}(f)$.
+    This clearly implies that $a_\p \in (\O_K)_\q^*$.
+    Since $\a$ is integral, we see that $a_\p \in \O_\p \subseteq R_\p$ and so $a_\p \in R_\p \cap \bigcap_{\q \supseteq \p} (\O_K)_\q^* = R_\p^*$.
+    Therefore $\a \in \mathrm{im}(f)$ and we are done.
 \end{proof}
 The expression $\bigoplus_\p R_\p^*/\O_\p^*$ is still somewhat unwieldy, but fortunately, it has the following nice form.
 \begin{lemma}
@@ -248,7 +239,7 @@ The expression $\bigoplus_\p R_\p^*/\O_\p^*$ is still somewhat unwieldy, but for
     
     Note that for each prime $\p \leq \O$ containing $f\O_K$ have a finite, positive number of primes $\q \leq \O_K$ with $\q \cap \O = \p$.
     There is at least one, as $\p\O_K$ is contained in a prime, and the number is finite, as $f\O_K$ factors into finitely many primes in the Dedekind ring $\O_K$.
-    Hence, we have by the Chinese remainder theorem
+    Hence, we have by the Chinese remainder theorem (Lemma~\ref{prop:chinese_remainder_theorem_variant})
     \begin{equation*}
         (\O/f\O_K)^* \cong \bigoplus_{\p \supseteq f\O_K} (\O_\p/f\O_K\O_\p)^* = \bigoplus_{\p \supseteq f\O_K} (\O_\p/fR_\p)^*
     \end{equation*}
@@ -361,7 +352,7 @@ By multiplicativity, we thus get the following corollary.
 Finally, we can also derive a different statement, that will be interesting later.
 \begin{prop}
     \label{prop:vulcano_level_class_numbers}
-    Let $\O_0$ be an order in a quadratic imaginary number field $K$ with $\O_K = \{ \pm 1 \}$.
+    Let $\O_0$ be an order in a quadratic imaginary number field $K$ with $\O_K^* = \{ \pm 1 \}$.
     For a prime $l$ define $\O := \Z + l\O_0$.
     \begin{itemize}
         \item If $\O_0$ is not maximal at $l$ (i.e. $l \divides [\O_K : \O_0]$) then $h(\O) = lh(\O_0)$.
@@ -576,8 +567,7 @@ Note now that for an isogeny $\phi: E \to E'$, have
 Comparing inseparability degrees, it follows that $\Phi(\pi_E)$ is totally inseparable as endomorphism on $E'$.
 Hence, $E'$ is isomorphic to a curve such that $\Phi(\pi_E)$ becomes the Frobenius endomorphism of that curve.
 Since we only work with isomorphism classes, we assume from now on that $\Phi(\pi_E)$ is the Frobenius of $E'$.
-From now on, we will sometimes talk about the $q$-th power Frobenius of a quadratic imaginary order $\O$ - this just means the non-integer element $\pi \in \O$ of norm $q$, which is unique up to conjugation.
-We can then choose all isomorphisms $\O \cong \End(E)$ such that $\pi$ maps to the Frobenius of $E$.
+Hence, we can talk about the $q$-th power Frobenius of an imaginary quadratic order $\O$ - we then mean the unique element that maps to the $q$-th power Frobenius $\pi_E$ of any curve $E$ with $\End(E) \cong \O$, under the chosen canonical isomorphism $\O \overset{\sim}{\longrightarrow} \End(E)$.
 
 Now we can prove that ideal multiplication is compatible with chaining of isogenies.
 Note that the condition $p \notdivides d(\O)$ is just equivalent to all curves $E$ with $\End(E) \cong \O$ being ordinary.
@@ -674,7 +664,7 @@ Next, we investigate the torsion of this action, i.e. for which $\a$ we have $\a
     Thus we see that $E_{(\alpha)} \cong E_{(\alpha')}$ and can assume wlog that $\alpha = \alpha' \notin (p, \pi)$.
 
     By Lemma~\ref{prop:inseparable_iff_frobenius_ideal}, we now see that $\alpha$ is separable, and so clearly $\ker(\alpha) = E[(\alpha)]$.
-    Since $\alpha: E \to E$ is the separable isogeny on $E$ with kernel $E[(\alpha)]$, we see that $E_{(\alpha)} = E/E[(\alpha)] \cong E$.
+    Since $\alpha: E \to E$ is the separable isogeny on $E$ with kernel $E[(\alpha)]$, it follows that $E_{(\alpha)} = E/E[(\alpha)] \cong E$.
 
     Now we consider the other direction $\Rightarrow$.
     Again, write $\a = \tilde{\a}(p, \pi)^r$ and assume that $E$ is defined over $\F_{p^s}$.

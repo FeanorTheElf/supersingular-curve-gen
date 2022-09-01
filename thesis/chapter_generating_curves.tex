@@ -57,12 +57,12 @@ Hence, it is only efficient when generating curves with very small endomorphism 
 This is clearly a weakness, as small endomorphism rings can be computed efficiently, for example by an exhaustive search of all low-degree isogenies.
 
 \paragraph{Polynomial with supersingular roots} An idea that is more similar to what we will do next, is to use the following theorem \cite[Thm~V.4.1]{arithmetic_elliptic_curves}.
-\begin{theorem}
+\begin{prop}
     Let $p$ be an odd prime and $m = (p - 1)/2$. Then the elliptic curve given by $y^2 = x(x - 1)(x - \lambda)$ over $\F_q$ is supersingular, if and only if
     \begin{equation*}
         H_p(\lambda) := \sum_{i = 0}^m {m \choose i}^2 \lambda^i = 0
     \end{equation*}
-\end{theorem}
+\end{prop}
 In other words, we just have to find a random root of the polynomial $H_p(X)$, which then gives rise to a random supersingular curve.
 The obvious problem here is again that $p$ is exponential in the input size $\log(p)$, thus the polynomial $H_p(X)$ also has exponential degree, and it is not clear if we can find a random root efficiently.
 
@@ -89,21 +89,20 @@ Hence, computing a random root of such a polynomial might give us a hard supersi
 This idea leads to two main open questions:
 \begin{question}
     \label{question:first}
-    How large is the fraction of supersingular roots of $\Phi_n(X, X^p)$ resp. of $f_{p, n, m}$?
-    And how large is the fraction if we only consider roots over $\F_{p^2}$?
+    How large is the fraction of supersingular roots of $\Phi_m(X, X^p)$ resp. $f_{p, n, m}$ among all roots in $\F_{p^2}$?
 \end{question}
 In particular, for the method to have any hope of success, we require the fraction to be at least $1/\mathrm{poly}(\log(p))$.
 
 The second question is more implementation-oriented. 
 \begin{question}
     \label{question:second}
-    How can we efficiently compute $f_{p, n, m}$, especially since $p$ and possibly $n$ resp. $m$ are exponentially large?
+    How can we efficiently compute $f_{p, n, m}$, especially if $n$ resp. $m$ are exponentially large?
     Or can we efficiently find a root in some other way?
 \end{question}
 In the following, we try to answer both questions.
 First, we present the special case that $n = l^e$ is a prime power, and describe how this might help with computing a root of $f_{p, n, m}$.
 We then explain how we might be able to use the class group action to find the fraction of supersingular roots.
-Finally, we present our first main result, which answers the $\F_{p^2}$-part of Question~\ref{question:first} for a subset of the $m$ and $n = l^e$.
+Finally, we present our first main result, which answers Question~\ref{question:first} for a subset of the $m$ and $n = l^e$.
 Our approaches for an efficient computation also apply to this special case.
 However, we are not able to answer Question~\ref{question:second}, and only provide some hints and ideas how one might handle certain difficulties.
 
@@ -125,7 +124,7 @@ also have roots in $\F_p$.
 All of this is possible, since the polynomials in each case have degree polynomial in $n$ resp. $m$.
 
 However, note that the elliptic curve corresponding to a root of $f_{p, n, m}$ will have an endomorphism of degree $nm$.
-If we choose both $n$ and $m$ of size polynomial in $\log(p)$, this means the endomorphism ring has polynomial discriminant, which is a weakness.
+If we choose both $n$ and $m$ of size polynomially large in $\log(p)$, this means the endomorphism ring has polynomial discriminant, which is a weakness.
 Hence, at least one of $n$ resp. $m$ has to be super-polynomial (or better exponential) in $\log(p)$.
 
 This of course makes it very hard to even write down or compute some properties of $\Phi_n$.
@@ -146,7 +145,7 @@ In other words, we look for a solution to the polynomial system
 Of course, we can again take a non-square of $\F_p$ and its root $\delta \in \F_{p^2}$ and write $x_i = y_i + \delta z_i$.
 Hence, we look for a solution in $\F_p$ of the system
 \begin{equation*}
-    \langle \Phi_m(y + \delta z, y - \delta z), \phi_l(y + \delta z, y_1 + \delta z_1), ..., \Phi_l(y_{e - 1} + \delta z_{e - 1}, y - \delta z) \rangle
+    \langle \Phi_m(y + \delta z, y - \delta z), \Phi_l(y + \delta z, y_1 + \delta z_1), ..., \Phi_l(y_{e - 1} + \delta z_{e - 1}, y - \delta z) \rangle
 \end{equation*}
 This polynomial system is now at least efficiently computable and representable (using a standard, i.e. non-sparse, representation).
 
@@ -220,18 +219,20 @@ Now let us come back to our estimate of the number of ordinary roots of $f_{p, m
 First, we now explain why instead of (isomorphism classes of) curves it suffices to count endomorphism rings.
 
 Whenever we have two ordinary curves $E$ and $E'$ with same endomorphism ring $\O$ in a quadratic imaginary number field $K$, then by the class group action, there is $\a \leq \O$ with $[\a].E = E'$.
-Let now $\O_0$ be the order with conductor $[\O_K : \O] / l^e$, where $e$ is maximal.
-Now Corollary~\ref{prop:inclusion_orders_surjection} shows that we can find a sequence of ideals $(\a_i)_i$ with $\a_i \leq \Z + l^i\O_0$ and $[\a_{i + 1}] \mapsto [\a_i]$ (under the surjection of Corollary~\ref{prop:inclusion_orders_surjection}) such that $\a_e = \a$.
+Denote by
+\begin{equation*}
+    \Ell(\O) := \{ \text{$E$ elliptic curve} \ | \ \End(E) \cong \O \}
+\end{equation*}
+the set of elliptic curves with endomorphism ring $\O$.
+Now the subgraph $G$ of $\Gamma_l(\F_q)$ induced by all the connected components of curves in $\Ell(\O)$ is a collection of isomorphic volcanoes.
+The reason for this is the volcano structure theorem, Theorem~\ref{prop:isogeny_vulcano}, from which it follows that the structure of a volcano is determined just by the endomorphism ring of the curves on its crater.
 
-Now this gives us a graph automorphism of the $l$-isogeny subgraph induced by the set of curves 
+Now consider the map
 \begin{equation*}
-    \Ell^+(\O_0) := \{ \text{$E$ elliptic curve} \ | \ \text{$\End(E) \cong \Z + l^i\O_0$ for some $i$} \}
+    \Ell(\O) \to \Ell(\O), \quad E \mapsto [\a].E
 \end{equation*}
-given by
-\begin{equation*}
-    \Ell^+(\O_0) \to \Ell^+(\O_0), \quad E \mapsto [\a_i].E
-\end{equation*}
-This is not just a graph automorphism (i.e. preserves the graph structure), but also preserves Frobenius conjugates and the property of being defined over $\F_p$.
+It is not hard to see that this extends to a graph automorphism of $G$, again by the volcano structure.
+However, it will then be not just a graph automorphism (i.e. preserves the graph structure), but also preserves Frobenius conjugates and the property of being defined over $\F_p$.
 The latter follows, since being defined over $\F_p$ is a property of the endomorphism ring, namely equivalent to the ideal $(p, \pi)$ being principal.
 
 Since our approach only uses properties of the $l$-isogeny graph and Frobenius conjugates, this means that if $E$ and $E'$ have the same endomorphism ring, it holds
@@ -403,7 +404,7 @@ In contrast to most of the other arguments we make in this section, here we argu
 \end{proof}
 By choosing $e = \Theta(\log_l(p))$, we have $\Theta(\sqrt{l^fp})$ supersingular roots of above system.
 Thus, this theorem shows that the fraction of supersingular roots is not just noticeable, i.e. $1/\mathrm{poly}(\log(p))$, but even exponentially large.
-In particular, this proves our main result Prop.~\ref{prop:main_result1}.
+In particular, this proves our main result Prop.~\ref{prop:main_result1} and answers Question~\ref{question:first} in the considered case.
 Furthermore an algorithm that is able to efficiently compute a random root of $F_{p, l^f, l^e}$ over $\F_{p^2}$ can be used to generate a random supersingular curve with very high probability.
 We expect that this will not reveal a trapdoor, i.e. information about the endomorphism ring.
 
@@ -506,10 +507,10 @@ All this is considered in the next two propositions, which are again phrased in 
     \end{equation*}
     Hence, the total number of curves is lower bounded by
     \begin{align*}
-        &\Theta(1) \sum_{1 \leq a \leq \lfloor p/m^2 \rfloor} h(4a(am^2 - p)) \geq \Theta(1) \sum_{1 \leq a \leq \lfloor p/m^2 \rceil} \frac {\sqrt{4a|am^2 - p|}} {(\log\log|4a(am^2 - p)|)^2} \\
-        =& \Theta(1) m \sum_{1 \leq a \leq \lfloor p/m^2 \rfloor} \frac {\sqrt{a} \sqrt{p/m^2 - a}} {(\log(\log(4) + \log(am^2) + \log(p - am^2)))^2} \\
-        \geq& \Theta(1) \frac {m} {(\log(\log(4) + 2\log(p/2)))^2} \sum_{1 \leq a \leq \lfloor p/m^2 \rfloor} \sqrt{a} \sqrt{p/m^2 - a} \\
-        =& \Theta(1) \frac {m} {\log\log(p)^2} \int_0^{p/m^2} \sqrt{a} \sqrt{p/m^2 - a} \ da \\
+        &\Theta(1) \sum_{1 \leq a \leq \lfloor 2p/m^2 \rfloor} h(4a(am^2 - 2p)) \geq \Theta(1) \sum_{1 \leq a \leq \lfloor 2p/m^2 \rceil} \frac {\sqrt{4a|am^2 - 2p|}} {(\log\log|4a(am^2 - 2p)|)^2} \\
+        =& \Theta(1) m \sum_{1 \leq a \leq \lfloor 2p/m^2 \rfloor} \frac {\sqrt{a} \sqrt{2p/m^2 - a}} {(\log(\log(4) + \log(am^2) + \log(2p - am^2)))^2} \\
+        \geq& \Theta(1) \frac {m} {(\log(\log(4) + 2\log(p)))^2} \sum_{1 \leq a \leq \lfloor 2p/m^2 \rfloor} \sqrt{a} \sqrt{2p/m^2 - a} \\
+        =& \Theta(1) \frac {m} {\log\log(p)^2} \int_0^{2p/m^2} \sqrt{a} \sqrt{2p/m^2 - a} \ da \\
         =& \Theta(1) \frac {p^2} {m^3 \log\log(p)^2} \int_0^1 \sqrt{x(1 - x)} dx = \Theta\left( \frac {p^2} {m^3 \log\log(p)^2} \right)
     \end{align*}
     We assume that $p \geq m^2$ when estimating the sum by the integral.
@@ -643,7 +644,7 @@ The distribution of the curves is also displayed in Figure~\ref{fig:number_of_fi
     \caption{
         \label{fig:number_of_fixed_level_curves} A plot of the number $N$ for $m = 3^3$ and increasing $p$.
         For reference, we also displayed the function $\frac 1 2 p^2/m^3$ in red.
-        Note that $N$ is the number of curves $E$ with $\pi \in \Z + m\End(E)$, i.e. there are 3 levels beneath $E$ in the 3-isogeny volcano that are defined over $\F_{p^2}$.
+        Note that $N$ is the number of curves $E$ with $\pi \in \Z + m\End(E)$, i.e. there are 3 levels defined over $\F_{p^2}$ beneath $E$ in the 3-isogeny volcano.
     }
 \end{figure}
 In particular, it follows that we can choose $m = l^r$ with $r = \lceil \frac 1 2 \log_l(p) \rceil$ and can be sure never to accept an ordinary curve as supersingular.
