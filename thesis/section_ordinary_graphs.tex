@@ -167,6 +167,60 @@ The following statements are special cases of the general theory in \cite[Chapte
     The claim follows.
 \end{proof}
 This lemma is a very useful characterization of invertible ideals.
+\begin{lemma}
+    \label{prop:class_group_map_surjective}
+    The map
+    \begin{equation*}
+        \Cl(\O) \to \Cl(\O_K)
+    \end{equation*}
+    induced by the map
+    \begin{equation*}
+        \bigoplus_{\p} K^*/\O_\p^* \to \bigoplus_\q K^*/(\O_K)_\q^*, \quad (a_\p)_\p \mapsto (a_{\q \cap \O})_\q
+    \end{equation*}
+    and Lemma~\ref{prop:invertible_ideal_characterization} is surjective.
+\end{lemma}
+\begin{proof}
+    Consider the set $S$ of primes $\p \leq \O$ such that $\Norm(\p) \not\perp d(\O)$.
+    Our proof will explicitly consider what happens at a prime $\q \leq \O_K$ over a prime $\p \in O$.
+    We then use that there are only finitely many such primes, and construct a preimage locally at those.
+    Finally, we remark that at all other primes, the claim is trivial, as $\O$ and $\O_K$ look the same at $\q$ (see Prop.~\ref{prop:coprime_ideals_order}).
+
+    For a prime $\p \in S$, let now $\q_1, ..., \q_r$ be the primes over $\p$ in $\O_K$.
+    Then there is
+    \begin{equation*}
+        \beta_i^{(\p)} \in \q_i \setminus \Bigl( \q_i^2 \cup \bigcup_{\q} \q \Bigr)
+    \end{equation*}
+    where $\q$ runs over all finitely many primes of $\O_K$ which lie over some prime in $S$.
+    This is possible, since $(\O_K)_{\q_i}$ is a PID.
+
+    Now we have that
+    \begin{equation*}
+        v_{\q_i}(\beta_i) = 1 \quad \text{and} \quad v_{\q}(\beta_i) = 0
+    \end{equation*}
+    Hence, for any fractional, invertible ideal $\a$ of $\O'$ we can multiply it by the $\beta_i^{(\p)}$ to achieve that
+    \begin{equation*}
+        v_{\q_i}(\a) = v_{\q_j}(\a) \quad \text{whenever $\q_i$ and $\q_j$ lie over the same prime $\p \in S$}
+    \end{equation*}
+    Furthermore, we can achieve that
+    \begin{equation*}
+        e_{\q} \divides v_{\q}(\a) \quad \text{where $e_\q$ is the ramification degree of $\q$ over $\Q$}
+    \end{equation*}
+    Note that this is trivial for all primes $\q$ except those over a prime in $S$, as the others have norm coprime to $d(\O)$, so coprime to $d(\O_K)$ and are thus unramified, i.e. $e_\q = 1$.
+
+    Now by Lemma~\ref{prop:invertible_ideal_characterization}, we find an invertible, fractional ideal $\b$ of $\O$ with
+    \begin{equation*}
+        \b\O_\p = p^{v_\q(\a)/e_\q}\O_\p \quad \text{where $\q$ is a prime of $\O_K$ over $\p \in S$, over a prime number $p$}
+    \end{equation*}
+    and (by Lemma~\ref{prop:prime_coprime_localization_same})
+    \begin{equation*}
+        \b\O_\p = \a(\O_K)_\p \quad \text{where $\q$ is a prime of $\O_K$ over a prime $\p \notin S$}
+    \end{equation*}
+    Now we clearly have
+    \begin{equation*}
+        \b(\O_K)_\q = \a(\O_K)_\q
+    \end{equation*}
+    for all primes $\q$ of $\O_K$, thus $[\b]$ maps to $[\a]$ under $\Cl(\O) \to \Cl(\O_K)$.
+\end{proof}
 We are now ready for our first description of $\Cl(\O)$.
 \begin{lemma}
     Let $f = [\O_K : \O]$ and assume that $\O_K^* = \{ \pm 1 \}$.
@@ -179,30 +233,11 @@ We are now ready for our first description of $\Cl(\O)$.
 \begin{proof}
     This proof is inspired by \cite[Prop.~I.12.11]{neukirch}, but we have completely rewritten it to avoid the heavy use of homological algebra.
 
-    First, we show that the map
+    First, note that we have already shown the surjectivity of the map
     \begin{equation*}
         g: \Cl(\O) \to \Cl(\O_K)
     \end{equation*}
-    induced by the map (by Lemma~\ref{prop:invertible_ideal_characterization})
-    \begin{equation*}
-        \bigoplus_{\p} K^*/\O_\p^* \to \bigoplus_\q K^*/(\O_K)_\q^*, \quad (a_\p)_\p \mapsto (a_{\q \cap \O})_\q
-    \end{equation*}
-    is surjective.
-
-    Consider a prime $\p \leq \O$ over a prime number $p$.
-    There are at most two primes in $\O_K$ over $p$, hence there are at most two primes over $\p$.
-    Now consider a (fractional) ideal $\a$ of $\O_K$.
-    For a given prime $\p$ of $\O$, we multiply $\a$ by $\beta \in K^*$ such that the valuations $v_{\q}(\beta\a) = v_{\q'}(\beta\a)$ are equal, where $\q, \q'$ are the two primes of $\O_K$ over $\p$ (this makes sense, as $(\O_K)_\q$ is a discrete valuation ring).
-    Since $[\a] = [\beta\a]$ in the class group $\Cl(\O_K)$, we assume wlog that $\a = \beta\a$.
-    Hence, we have that $\a(\O_K)_\q = p(\O_K)_\q$ and $\a(\O_K)_{\q'} = p(\O_K)_{\q'}$.
-    
-    Now consider the fractional, invertible ideal $\a'$ of $\O$ with $\a'\O_\p = p^{v_\q(\a)}\O_\p$ (by Lemma~\ref{prop:invertible_ideal_characterization}), where $\q$ is an ideal over $\p$, and both $\p$ resp. $\q$ are primes over the prime number $p$.
-    Doing this for all finitely many primes $\q$ with $\a(\O_K)_\q \neq (1)$, we see that
-    \begin{equation*}
-        \a'(\O_K)_\q = \a(\O_K)_\q
-    \end{equation*}
-    for all primes $\q$ of $\O_K$.
-    In other words, the ideal class $[\a']$ is a preimage of $[\a]$ under $g$.
+    in Lemma~\ref{prop:class_group_map_surjective}.
 
     Next, note that the isomorphism $\iota: \bigoplus_\p K^*/\O_\p^* \to \mathfrak{I}(\O)$ induces a map
     \begin{equation*}
